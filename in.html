@@ -265,7 +265,7 @@ td input[type="number"] {
         async function init() {
             try {
                 // product 파일 로드
-                const productResponse = await fetch('/local/path/to/product.xlsx');
+                const productResponse = await fetch('https://asdddsa182.github.io/AshGray/product.xlsx');
                 const productArrayBuffer = await productResponse.arrayBuffer();
                 const productWorkbook = new ExcelJS.Workbook();
                 await productWorkbook.xlsx.load(productArrayBuffer);
@@ -292,7 +292,7 @@ td input[type="number"] {
                 }
 
                 // inqury 파일 로드 (기존 로직)
-                const inquryResponse = await fetch('/inqury.xlsx');
+                const inquryResponse = await fetch('https://asdddsa182.github.io/AshGray/inqury.xlsx');
                 const inquryArrayBuffer = await inquryResponse.arrayBuffer();
                 inquryWorkbook = new ExcelJS.Workbook();
                 await inquryWorkbook.xlsx.load(inquryArrayBuffer);
