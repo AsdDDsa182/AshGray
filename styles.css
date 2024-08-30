@@ -245,7 +245,7 @@ td input[type="number"]:focus {
     justify-content: center; /* 중앙 정렬 */
     gap: 10px; /* 버튼 간격 설정 */
     margin-top: 20px; /* 위쪽 여백 설정 */
-    margin: 5px;
+    margin: 10px;
 }
 
 /* 가격 숨기기 버튼 스타일 */
