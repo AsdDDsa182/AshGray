@@ -257,7 +257,7 @@ function addTableRow() {
     const noteCell = newRow.insertCell(5);
     const noteInput = document.createElement('input');
     noteInput.type = 'text';
-    noteInput.placeholder = '비고 입력';
+    noteInput.placeholder = '    ';
     noteCell.appendChild(noteInput);
 
     // 삭제 버튼 추가
@@ -475,7 +475,7 @@ function addManualEntryRow() {
     const productInput = document.createElement('input');
     productInput.type = 'text';
     productInput.className = 'product-cell';
-    productInput.placeholder = '제품명';
+    productInput.placeholder = '    ';
     productCell.appendChild(productInput);
 
     // 단가 입력 필드
@@ -519,7 +519,7 @@ function addManualEntryRow() {
     const noteCell = newRow.insertCell(5);
     const noteInput = document.createElement('input');
     noteInput.type = 'text';
-    noteInput.placeholder = '비고';
+    noteInput.placeholder = '    ';
     noteCell.appendChild(noteInput);
 
     // 삭제 버튼 추가
