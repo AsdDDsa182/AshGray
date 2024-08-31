@@ -540,7 +540,7 @@ td input[type="number"]:focus {
 
     /* 고객 이름 입력 필드 스타일 */
     #customerName {
-        width: 95%;
+        width: 94%;
         padding: 10px 10px;
         font-size: 14px;
     }
