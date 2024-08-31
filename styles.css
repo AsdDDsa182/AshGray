@@ -63,10 +63,11 @@ h1 {
 /* 비활성화된 버튼 스타일 */
 .action-button:disabled, .select-button:disabled {
     background-color: #bdc3c7;
-    cursor: not-allowed;
+    cursor: not-allowed !important; /* 커서를 강제로 금지 표시로 변경 */
     transform: none;
     box-shadow: none;
 }
+
 
 /* 사용자 정의 선택 영역 스타일 */
 .custom-select {
