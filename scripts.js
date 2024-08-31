@@ -110,6 +110,13 @@ document.getElementById('addButton').addEventListener('click', addTableRow);
 document.getElementById('exportExcelButton').addEventListener('click', exportToExcel);
 document.getElementById('togglePriceButton').addEventListener('click', togglePrices);
 
+// 새로운 이벤트 리스너 추가
+document.getElementById('loadExcelButton').addEventListener('click', function() {
+    document.getElementById('fileInput').click();
+});
+
+document.getElementById('fileInput').addEventListener('change', loadExcelFile);
+
 // 회사 선택 옵션 토글 함수
 function toggleCompanyOptions() {
     const companyOptions = document.getElementById('companyOptions');
@@ -540,6 +547,121 @@ function updatePriceFromUnitPrice(row) {
 
     const totalPrice = unitPrice * quantity;
     priceInput.value = isNaN(totalPrice) ? '' : formatNumber(totalPrice);
+}
+
+
+// 엑셀 파일 불러오기 함수
+async function loadExcelFile(event) {
+    try {
+        const file = event.target.files[0];
+        if (!file) {
+            console.error('파일이 선택되지 않았습니다.');
+            return;
+        }
+
+        const reader = new FileReader();
+
+        reader.onload = async function(e) {
+            try {
+                const data = new Uint8Array(e.target.result);
+                const workbook = new ExcelJS.Workbook();
+                await workbook.xlsx.load(data);
+
+                const worksheet = workbook.getWorksheet(1);
+
+                // 견적 날짜와 고객 이름 설정
+                const dateCell = worksheet.getCell('A3').value;
+                const [year, month, day] = dateCell.split('-');
+                document.getElementById('quoteYear').value = year;
+                document.getElementById('quoteMonth').value = month;
+                document.getElementById('quoteDay').value = day;
+                document.getElementById('customerName').value = worksheet.getCell('A4').value;
+
+                // 기존 테이블 내용 삭제
+                const tableBody = document.querySelector('#dataTable tbody');
+                tableBody.innerHTML = '';
+
+                // 제품 데이터 추가
+                for (let rowNumber = 18; rowNumber <= worksheet.rowCount; rowNumber++) {
+                    const row = worksheet.getRow(rowNumber);
+                    if (!row.getCell(1).value) break;  // 빈 행이면 중단
+
+                    const newRow = tableBody.insertRow();
+                    
+                    // 구분(번호) 추가
+                    newRow.insertCell(0).textContent = row.getCell(1).value;
+
+                    // 제품명 입력 필드
+                    const productInput = document.createElement('input');
+                    productInput.type = 'text';
+                    productInput.value = row.getCell(3).value;
+                    productInput.className = 'product-cell';
+                    newRow.insertCell(1).appendChild(productInput);
+
+                    // 단가 입력 필드
+                    const unitPriceInput = document.createElement('input');
+                    unitPriceInput.type = 'text';
+                    unitPriceInput.value = formatNumber(row.getCell(6).value);
+                    unitPriceInput.className = 'price-cell';
+                    unitPriceInput.oninput = function() {
+                        this.value = formatNumber(this.value.replace(/[^0-9]/g, ''));
+                        updatePriceFromUnitPrice(newRow);
+                    };
+                    newRow.insertCell(2).appendChild(unitPriceInput);
+
+                    // 수량 입력 필드
+                    const quantityInput = document.createElement('input');
+                    quantityInput.type = 'number';
+                    quantityInput.value = row.getCell(8).value;
+                    quantityInput.oninput = function() {
+                        updatePriceFromUnitPrice(newRow);
+                    };
+                    newRow.insertCell(3).appendChild(quantityInput);
+
+                    // 가격 입력 필드
+                    const priceInput = document.createElement('input');
+                    priceInput.type = 'text';
+                    priceInput.value = formatNumber(row.getCell(9).value);
+                    priceInput.className = 'price-cell';
+                    priceInput.oninput = function() {
+                        this.value = formatNumber(this.value.replace(/[^0-9]/g, ''));
+                    };
+                    newRow.insertCell(4).appendChild(priceInput);
+
+                    // 비고 입력 필드
+                    const noteInput = document.createElement('input');
+                    noteInput.type = 'text';
+                    noteInput.value = row.getCell(11).value;
+                    newRow.insertCell(5).appendChild(noteInput);
+
+                    // 삭제 버튼 추가
+                    const deleteButton = document.createElement('button');
+                    deleteButton.textContent = '삭제';
+                    deleteButton.onclick = function() {
+                        tableBody.removeChild(newRow);
+                        updateProductCount();
+                    };
+                    newRow.insertCell(6).appendChild(deleteButton);
+                }
+
+                updateProductCount();
+                alert('엑셀 파일이 성공적으로 불러와졌습니다.');
+            } catch (error) {
+                console.error('엑셀 파일 처리 중 오류 발생:', error);
+                alert('엑셀 파일 처리 중 오류가 발생했습니다.');
+            }
+        };
+
+        reader.onerror = function(error) {
+            console.error('파일 읽기 오류:', error);
+            alert('파일을 읽는 중 오류가 발생했습니다.');
+        };
+
+        reader.readAsArrayBuffer(file);
+    } catch (error) {
+        console.error('엑셀 파일 로드 중 오류 발생:', error);
+        alert('엑셀 파일을 로드하는 중 오류가 발생했습니다.');
+    }
 }
 
 
