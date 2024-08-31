@@ -166,6 +166,7 @@ function selectProduct(product) {
     document.getElementById('productSelectButton').textContent = product; // 버튼 텍스트 변경
     document.getElementById('productOptions').style.display = 'none'; // 옵션 숨기기
     document.getElementById('addButton').disabled = false; // 추가 버튼 활성화
+    document.getElementById('addButton').style.cursor = ''; // 기본 커서로 복원
 }
 
 // 회사 선택 초기화 함수
@@ -177,6 +178,7 @@ function resetCompanySelection() {
     document.getElementById('productSelectButton').textContent = '- 제품 선택 -'; // 버튼 텍스트 초기화
     selectedProduct = ''; // 선택된 제품 초기화
     document.getElementById('addButton').disabled = true; // 추가 버튼 비활성화
+    document.getElementById('addButton').style.cursor = 'not-allowed'; // 금지 커서로 변경
 }
 
 // 제품 선택 초기화 함수
@@ -185,6 +187,7 @@ function resetProductSelection() {
     document.getElementById('productSelectButton').textContent = '- 제품 선택 -'; // 버튼 텍스트 초기화
     document.getElementById('productOptions').style.display = 'none'; // 옵션 숨기기
     document.getElementById('addButton').disabled = true; // 추가 버튼 비활성화
+    document.getElementById('addButton').style.cursor = 'not-allowed'; // 금지 커서로 변경
 }
 
 // 제품 추가 함수
@@ -226,6 +229,7 @@ function addTableRow() {
     quantityInput.min = '0';
     quantityInput.value = '1';
     quantityInput.oninput = function() {
+        this.value = this.value.replace(/[^0-9]/g, ''); // 숫자만 입력 가능하도록 설정
         updatePriceFromUnitPrice(newRow); // 수량 변경 시 가격 업데이트
     };
     quantityCell.appendChild(quantityInput);
@@ -262,7 +266,8 @@ function addTableRow() {
     // 상태 초기화
     document.getElementById('productSelectButton').textContent = '- 제품 선택 -';
     selectedProduct = '';
-    document.getElementById('addButton').disabled = true;
+    document.getElementById('addButton').disabled = true; // 추가 버튼 비활성화
+    document.getElementById('addButton').style.cursor = 'not-allowed'; // 금지 커서로 변경
 
     // 가격 숨김 설정 시 입력 필드 비활성화
     if (pricesHidden) {
@@ -471,7 +476,7 @@ function addManualEntryRow() {
     const unitPriceInput = document.createElement('input');
     unitPriceInput.type = 'text';
     unitPriceInput.className = 'price-cell';
-    unitPriceInput.placeholder = '단가';
+    unitPriceInput.placeholder = '    ';
     unitPriceInput.oninput = function() {
         this.value = this.value.replace(/[^0-9]/g, ''); // 숫자만 입력 가능
         this.value = formatNumber(this.value.replace(/,/g, ''));
@@ -484,8 +489,9 @@ function addManualEntryRow() {
     const quantityInput = document.createElement('input');
     quantityInput.type = 'number';
     quantityInput.min = '0';
-    quantityInput.placeholder = '수량';
+    quantityInput.placeholder = '    ';
     quantityInput.oninput = function() {
+        this.value = this.value.replace(/[^0-9]/g, ''); // 숫자만 입력 가능하도록 설정
         updatePriceFromUnitPrice(newRow);
     };
     quantityCell.appendChild(quantityInput);
@@ -495,7 +501,7 @@ function addManualEntryRow() {
     const priceInput = document.createElement('input');
     priceInput.type = 'text';
     priceInput.className = 'price-cell';
-    priceInput.placeholder = '가격';
+    priceInput.placeholder = '    ';
     priceInput.oninput = function() {
         this.value = this.value.replace(/[^0-9]/g, ''); // 숫자만 입력 가능
         this.value = formatNumber(this.value.replace(/,/g, ''));
