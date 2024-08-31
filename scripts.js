@@ -83,6 +83,7 @@ async function init() {
 
         // 회사 선택 옵션 초기화
         const companyOptions = document.getElementById('companyOptions');
+        companyOptions.innerHTML = '<div class="default-option" onclick="resetCompanySelection()">- 회사 선택 -</div>';
         for (let company in companies) {
             const option = document.createElement('div');
             option.textContent = company;
@@ -147,13 +148,13 @@ function toggleProductOptions() {
 
 // 회사 선택 시 처리 함수
 function selectCompany(company) {
-    selectedCompany = company; // 선택된 회사 저장
-    document.getElementById('companySelectButton').textContent = company; // 버튼 텍스트 변경
-    document.getElementById('companyOptions').style.display = 'none'; // 옵션 숨기기
+    selectedCompany = company;
+    document.getElementById('companySelectButton').textContent = company;
+    document.getElementById('companyOptions').style.display = 'none';
 
     // 제품 선택 옵션 초기화
     const productOptions = document.getElementById('productOptions');
-    productOptions.innerHTML = '<div onclick="resetProductSelection()">- 제품 선택 -</div>';
+    productOptions.innerHTML = '<div class="default-option" onclick="resetProductSelection()">- 제품 선택 -</div>';
     for (let product in companies[company]) {
         const option = document.createElement('div');
         option.textContent = product;
@@ -161,10 +162,10 @@ function selectCompany(company) {
         productOptions.appendChild(option);
     }
 
-    document.getElementById('productSelectButton').disabled = false; // 제품 선택 버튼 활성화
-    document.getElementById('productSelectButton').textContent = '- 제품 선택 -'; // 버튼 텍스트 초기화
-    selectedProduct = ''; // 선택된 제품 초기화
-    document.getElementById('addButton').disabled = true; // 추가 버튼 비활성화
+    document.getElementById('productSelectButton').disabled = false;
+    document.getElementById('productSelectButton').textContent = '- 제품 선택 -';
+    selectedProduct = '';
+    document.getElementById('addButton').disabled = true;
 }
 
 // 제품 선택 시 처리 함수
@@ -178,23 +179,27 @@ function selectProduct(product) {
 
 // 회사 선택 초기화 함수
 function resetCompanySelection() {
-    selectedCompany = ''; // 선택된 회사 초기화
-    document.getElementById('companySelectButton').textContent = '- 회사 선택 -'; // 버튼 텍스트 초기화
-    document.getElementById('companyOptions').style.display = 'none'; // 옵션 숨기기
-    document.getElementById('productSelectButton').disabled = true; // 제품 선택 버튼 비활성화
-    document.getElementById('productSelectButton').textContent = '- 제품 선택 -'; // 버튼 텍스트 초기화
-    selectedProduct = ''; // 선택된 제품 초기화
-    document.getElementById('addButton').disabled = true; // 추가 버튼 비활성화
-    document.getElementById('addButton').style.cursor = 'not-allowed'; // 금지 커서로 변경
+    selectedCompany = '';
+    document.getElementById('companySelectButton').textContent = '- 회사 선택 -';
+    document.getElementById('companyOptions').style.display = 'none';
+    document.getElementById('productSelectButton').disabled = true;
+    document.getElementById('productSelectButton').textContent = '- 제품 선택 -';
+    selectedProduct = '';
+    document.getElementById('addButton').disabled = true;
+    document.getElementById('addButton').style.cursor = 'not-allowed';
+    
+    // 제품 선택 옵션 초기화
+    const productOptions = document.getElementById('productOptions');
+    productOptions.innerHTML = '<div class="default-option" onclick="resetProductSelection()">- 제품 선택 -</div>';
 }
 
 // 제품 선택 초기화 함수
 function resetProductSelection() {
-    selectedProduct = ''; // 선택된 제품 초기화
-    document.getElementById('productSelectButton').textContent = '- 제품 선택 -'; // 버튼 텍스트 초기화
-    document.getElementById('productOptions').style.display = 'none'; // 옵션 숨기기
-    document.getElementById('addButton').disabled = true; // 추가 버튼 비활성화
-    document.getElementById('addButton').style.cursor = 'not-allowed'; // 금지 커서로 변경
+    selectedProduct = '';
+    document.getElementById('productSelectButton').textContent = '- 제품 선택 -';
+    document.getElementById('productOptions').style.display = 'none';
+    document.getElementById('addButton').disabled = true;
+    document.getElementById('addButton').style.cursor = 'not-allowed';
 }
 
 // 제품 추가 함수
