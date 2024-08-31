@@ -210,11 +210,12 @@ function addTableRow() {
     const unitPriceCell = newRow.insertCell(2);
     const unitPriceInput = document.createElement('input');
     unitPriceInput.type = 'text';
-    unitPriceInput.value = formatNumber(unitPrice); // 숫자 포맷 적용
+    unitPriceInput.value = formatNumber(unitPrice);
     unitPriceInput.className = 'price-cell';
     unitPriceInput.oninput = function() {
+        this.value = this.value.replace(/[^0-9]/g, ''); // 숫자만 입력 가능
         this.value = formatNumber(this.value.replace(/,/g, '')); // 입력 시 포맷 적용
-        updatePriceFromUnitPrice(newRow); // 가격 업데이트
+        updatePriceFromUnitPrice(newRow);
     };
     unitPriceCell.appendChild(unitPriceInput);
 
@@ -229,13 +230,14 @@ function addTableRow() {
     };
     quantityCell.appendChild(quantityInput);
 
-    // 가격 입력 필드 추가 (수정 가능하게 변경)
+    // 가격 입력 필드 추가
     const priceCell = newRow.insertCell(4);
     const priceInput = document.createElement('input');
     priceInput.type = 'text';
-    priceInput.value = formatNumber(unitPrice * quantityInput.value); // 초기 가격 계산
+    priceInput.value = formatNumber(unitPrice * quantityInput.value);
     priceInput.className = 'price-cell';
     priceInput.oninput = function() {
+        this.value = this.value.replace(/[^0-9]/g, ''); // 숫자만 입력 가능
         this.value = formatNumber(this.value.replace(/,/g, '')); // 입력 시 포맷 적용
     };
     priceCell.appendChild(priceInput);
@@ -441,6 +443,101 @@ async function exportToExcel() {
         alert('엑셀 파일 생성에 실패했습니다.');
     }
 }
+
+
+// 직접 입력 버튼
+// 이벤트 리스너 추가
+document.getElementById('manualEntryButton').addEventListener('click', addManualEntryRow);
+
+// 직접 입력 행 추가 함수
+function addManualEntryRow() {
+    const tableBody = document.querySelector('#dataTable tbody');
+    const newRow = tableBody.insertRow();
+
+    // 각 셀 생성 및 내용 추가
+    const indexCell = newRow.insertCell(0);
+    indexCell.textContent = ++productCount; // 제품 번호
+
+    // 제품명 입력 필드
+    const productCell = newRow.insertCell(1);
+    const productInput = document.createElement('input');
+    productInput.type = 'text';
+    productInput.className = 'product-cell';
+    productInput.placeholder = '제품명';
+    productCell.appendChild(productInput);
+
+    // 단가 입력 필드
+    const unitPriceCell = newRow.insertCell(2);
+    const unitPriceInput = document.createElement('input');
+    unitPriceInput.type = 'text';
+    unitPriceInput.className = 'price-cell';
+    unitPriceInput.placeholder = '단가';
+    unitPriceInput.oninput = function() {
+        this.value = this.value.replace(/[^0-9]/g, ''); // 숫자만 입력 가능
+        this.value = formatNumber(this.value.replace(/,/g, ''));
+        updatePriceFromUnitPrice(newRow);
+    };
+    unitPriceCell.appendChild(unitPriceInput);
+
+    // 수량 입력 필드
+    const quantityCell = newRow.insertCell(3);
+    const quantityInput = document.createElement('input');
+    quantityInput.type = 'number';
+    quantityInput.min = '0';
+    quantityInput.placeholder = '수량';
+    quantityInput.oninput = function() {
+        updatePriceFromUnitPrice(newRow);
+    };
+    quantityCell.appendChild(quantityInput);
+
+    // 가격 입력 필드
+    const priceCell = newRow.insertCell(4);
+    const priceInput = document.createElement('input');
+    priceInput.type = 'text';
+    priceInput.className = 'price-cell';
+    priceInput.placeholder = '가격';
+    priceInput.oninput = function() {
+        this.value = this.value.replace(/[^0-9]/g, ''); // 숫자만 입력 가능
+        this.value = formatNumber(this.value.replace(/,/g, ''));
+    };
+    priceCell.appendChild(priceInput);
+
+    // 비고 입력 필드
+    const noteCell = newRow.insertCell(5);
+    const noteInput = document.createElement('input');
+    noteInput.type = 'text';
+    noteInput.placeholder = '비고';
+    noteCell.appendChild(noteInput);
+
+    // 삭제 버튼 추가
+    const deleteCell = newRow.insertCell(6);
+    const deleteButton = document.createElement('button');
+    deleteButton.textContent = '삭제';
+    deleteButton.onclick = function() {
+        tableBody.removeChild(newRow);
+        updateProductCount();
+    };
+    deleteCell.appendChild(deleteButton);
+
+    // 가격 숨김 설정 시 입력 필드 비활성화
+    if (pricesHidden) {
+        unitPriceInput.disabled = true;
+        priceInput.disabled = true;
+    }
+}
+
+// updatePriceFromUnitPrice 함수 수정 (NaN 처리 추가)
+function updatePriceFromUnitPrice(row) {
+    const unitPrice = parseFloat(row.cells[2].querySelector('input').value.replace(/,/g, '')) || 0;
+    const quantity = parseInt(row.cells[3].querySelector('input').value) || 0;
+    const priceInput = row.cells[4].querySelector('input');
+
+    const totalPrice = unitPrice * quantity;
+    priceInput.value = isNaN(totalPrice) ? '' : formatNumber(totalPrice);
+}
+
+
+
 
 
 // 페이지 로드 시 초기화 함수 호출
