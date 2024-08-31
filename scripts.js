@@ -146,7 +146,6 @@ function toggleProductOptions() {
     }
 }
 
-// 회사 선택 시 처리 함수
 function selectCompany(company) {
     selectedCompany = company;
     document.getElementById('companySelectButton').textContent = company;
@@ -155,10 +154,17 @@ function selectCompany(company) {
     // 제품 선택 옵션 초기화
     const productOptions = document.getElementById('productOptions');
     productOptions.innerHTML = '<div class="default-option" onclick="resetProductSelection()">- 제품 선택 -</div>';
+    
     for (let product in companies[company]) {
         const option = document.createElement('div');
         option.textContent = product;
         option.onclick = () => selectProduct(product);
+        
+        // 이미 추가된 제품인지 확인하고 클래스 추가
+        if (isProductAlreadyAdded(product)) {
+            option.classList.add('already-added');
+        }
+        
         productOptions.appendChild(option);
     }
 
@@ -166,6 +172,24 @@ function selectCompany(company) {
     document.getElementById('productSelectButton').textContent = '- 제품 선택 -';
     selectedProduct = '';
     document.getElementById('addButton').disabled = true;
+}
+
+
+// 제품이 이미 추가되었는지 확인하는 함수
+function isProductAlreadyAdded(productName) {
+    const rows = document.querySelectorAll('#dataTable tbody tr');
+    for (let row of rows) {
+        if (row.cells[1].querySelector('input').value === productName) {
+            return true;
+        }
+    }
+    return false;
+}
+
+function updateProductDropdown() {
+    if (selectedCompany) {
+        selectCompany(selectedCompany); // 현재 선택된 회사의 제품 목록을 다시 생성
+    }
 }
 
 // 제품 선택 시 처리 함수
@@ -204,20 +228,60 @@ function resetProductSelection() {
 
 // 제품 추가 함수
 function addTableRow() {
-    const unitPrice = companies[selectedCompany][selectedProduct]; // 선택된 제품의 단가 가져오기
+    const productName = selectedProduct;
+    const unitPrice = companies[selectedCompany][selectedProduct];
+    const tableBody = document.querySelector('#dataTable tbody');
 
-    const tableBody = document.querySelector('#dataTable tbody'); // 테이블 본문 가져오기
-    const newRow = tableBody.insertRow(); // 새로운 행 추가
+    // 이미 존재하는 제품인지 확인
+    const existingRow = findExistingProductRow(productName);
+
+    if (existingRow) {
+        // 이미 존재하는 제품이면 수량만 증가
+        updateExistingRow(existingRow);
+    } else {
+        // 새로운 제품이면 새 행 추가
+        addNewRow(tableBody, productName, unitPrice);
+    }
+
+    // 상태 초기화
+    resetProductSelection();
+    updateProductCount();
+    // 함수의 마지막에 다음 줄 추가
+    updateProductDropdown();
+}
+
+// 기존 제품 행 찾기
+function findExistingProductRow(productName) {
+    const rows = document.querySelectorAll('#dataTable tbody tr');
+    for (let row of rows) {
+        if (row.cells[1].querySelector('input').value === productName) {
+            return row;
+        }
+    }
+    return null;
+}
+
+// 기존 행 업데이트
+function updateExistingRow(row) {
+    const quantityInput = row.cells[3].querySelector('input');
+    const currentQuantity = parseInt(quantityInput.value) || 0;
+    quantityInput.value = currentQuantity + 1;
+    updatePriceFromUnitPrice(row);
+}
+
+// 새 행 추가
+function addNewRow(tableBody, productName, unitPrice) {
+    const newRow = tableBody.insertRow();
 
     // 각 셀 생성 및 내용 추가
     const indexCell = newRow.insertCell(0);
-    indexCell.textContent = ++productCount; // 제품 번호
+    indexCell.textContent = ++productCount;
 
-    // 제품 입력 필드 추가 (수정 가능하게 변경)
+    // 제품 입력 필드 추가
     const productCell = newRow.insertCell(1);
     const productInput = document.createElement('input');
     productInput.type = 'text';
-    productInput.value = selectedProduct; // 선택된 제품명 설정
+    productInput.value = productName;
     productInput.className = 'product-cell';
     productCell.appendChild(productInput);
 
@@ -228,8 +292,8 @@ function addTableRow() {
     unitPriceInput.value = formatNumber(unitPrice);
     unitPriceInput.className = 'price-cell';
     unitPriceInput.oninput = function() {
-        this.value = this.value.replace(/[^0-9]/g, ''); // 숫자만 입력 가능
-        this.value = formatNumber(this.value.replace(/,/g, '')); // 입력 시 포맷 적용
+        this.value = this.value.replace(/[^0-9]/g, '');
+        this.value = formatNumber(this.value.replace(/,/g, ''));
         updatePriceFromUnitPrice(newRow);
     };
     unitPriceCell.appendChild(unitPriceInput);
@@ -241,8 +305,8 @@ function addTableRow() {
     quantityInput.min = '0';
     quantityInput.value = '1';
     quantityInput.oninput = function() {
-        this.value = this.value.replace(/[^0-9]/g, ''); // 숫자만 입력 가능하도록 설정
-        updatePriceFromUnitPrice(newRow); // 수량 변경 시 가격 업데이트
+        this.value = this.value.replace(/[^0-9]/g, '');
+        updatePriceFromUnitPrice(newRow);
     };
     quantityCell.appendChild(quantityInput);
 
@@ -250,11 +314,11 @@ function addTableRow() {
     const priceCell = newRow.insertCell(4);
     const priceInput = document.createElement('input');
     priceInput.type = 'text';
-    priceInput.value = formatNumber(unitPrice * quantityInput.value);
+    priceInput.value = formatNumber(unitPrice);
     priceInput.className = 'price-cell';
     priceInput.oninput = function() {
-        this.value = this.value.replace(/[^0-9]/g, ''); // 숫자만 입력 가능
-        this.value = formatNumber(this.value.replace(/,/g, '')); // 입력 시 포맷 적용
+        this.value = this.value.replace(/[^0-9]/g, '');
+        this.value = formatNumber(this.value.replace(/,/g, ''));
     };
     priceCell.appendChild(priceInput);
 
@@ -270,16 +334,11 @@ function addTableRow() {
     const deleteButton = document.createElement('button');
     deleteButton.textContent = '삭제';
     deleteButton.onclick = function() {
-        tableBody.removeChild(newRow); // 행 삭제
-        updateProductCount(); // 제품 개수 업데이트
+        tableBody.removeChild(newRow);
+        updateProductCount();
+        updateProductDropdown(); // 이 줄을 추가
     };
     deleteCell.appendChild(deleteButton);
-
-    // 상태 초기화
-    document.getElementById('productSelectButton').textContent = '- 제품 선택 -';
-    selectedProduct = '';
-    document.getElementById('addButton').disabled = true; // 추가 버튼 비활성화
-    document.getElementById('addButton').style.cursor = 'not-allowed'; // 금지 커서로 변경
 
     // 가격 숨김 설정 시 입력 필드 비활성화
     if (pricesHidden) {
@@ -288,6 +347,14 @@ function addTableRow() {
         unitPriceInput.value = '';
         priceInput.value = '';
     }
+}
+
+// 제품 선택 초기화 함수
+function resetProductSelection() {
+    document.getElementById('productSelectButton').textContent = '- 제품 선택 -';
+    selectedProduct = '';
+    document.getElementById('addButton').disabled = true;
+    document.getElementById('addButton').style.cursor = 'not-allowed';
 }
 
 
