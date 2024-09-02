@@ -454,6 +454,9 @@ async function exportToExcel() {
         const customerName = document.getElementById('customerName').value;
         worksheet.getCell('A4').value = customerName;
 
+        const writerPhone = document.getElementById('writerPhone').value;
+        worksheet.getCell('H7').value = writerPhone;
+
         let totalAmount = 0; // 총 금액 초기화
 
         // 테이블 데이터를 엑셀 워크시트에 추가
@@ -648,6 +651,10 @@ async function loadExcelFile(event) {
                 document.getElementById('quoteMonth').value = month;
                 document.getElementById('quoteDay').value = day;
                 document.getElementById('customerName').value = worksheet.getCell('A4').value;
+
+                // 전화번호 불러오기
+                const writerPhone = worksheet.getCell('H7').value;
+                document.getElementById('writerPhone').value = writerPhone || '';
 
                 // 기존 테이블 내용 삭제
                 const tableBody = document.querySelector('#dataTable tbody');
