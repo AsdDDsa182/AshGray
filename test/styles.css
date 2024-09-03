@@ -1775,11 +1775,13 @@ body.no-scroll {
 
 
 
+
+
 /* Best Services 섹션 스타일 */
 #best-services {
     position: relative;
     width: 100%;
-    height: 300vh; /* 전체 스크롤 높이 설정 */
+    height: 400vh; /* 전체 스크롤 높이 설정 */
 }
 
 #best-services .scroll-container {
@@ -1791,21 +1793,18 @@ body.no-scroll {
     z-index: -4;
 }
 
-#best-services #canvas-container {
+#image-container {
     position: absolute;
     width: 100%;
     height: 100%;
     z-index: 1;
 }
 
-#best-services-canvas {
+#image-container img {
     position: absolute;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    object-position: center;
+    opacity: 0;
+    transition: opacity 0.5s ease, transform 0.5s ease;
+    transform: translateY(100%) scale(0.8);
 }
 
 #best-services .content-wrapper {
@@ -1823,8 +1822,8 @@ body.no-scroll {
 #best-services .scroll-content {
     width: 80%;
     bottom: 200px;
-    opacity: 1; /* 초기 불투명도 설정 */
-    transition: opacity 0.5s ease; /* 페이드 아웃 효과를 위한 트랜지션 */
+    opacity: 0; /* 초기 불투명도 설정 */
+    transition: opacity 0.5s ease; /* 페이드 인 효과를 위한 트랜지션 */
 }
 
 #best-services .scroll-content h1,
@@ -1850,20 +1849,6 @@ body.no-scroll {
     margin: 0 auto;
     text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
 }
-
-/* 반응형 디자인을 위한 미디어 쿼리 */
-@media (max-width: 768px) {
-    #best-services .scroll-content h1 {
-        font-size: 2.5em;
-    }
-
-    #best-services .scroll-content p {
-        font-size: 1.2em;
-    }
-}
-
-
-
 
 /* 스크롤 인디케이터2 스타일 */
 .scroll-indicator2 {
@@ -2354,7 +2339,7 @@ body.no-scroll {
     position: relative;
     cursor: pointer;
     border-radius: 10px;
-    overflow: hidden;
+    overflow: visible; /* 스크롤을 숨기지 않도록 수정 */
     transition: transform 0.3s ease;
 }
 
