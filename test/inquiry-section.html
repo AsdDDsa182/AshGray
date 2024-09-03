@@ -1,0 +1,121 @@
+
+<div module="board_writePackage_6">
+
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>견적서 작성</title>
+    <!-- CSS 파일 연결 -->
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <section class="inquiry-section">
+        <div class="container">
+            <div class="info-content">
+                <h2>온라인 문의</h2>
+                <div class="info-grid">
+                    <div class="info-item">
+                        <i class="fas fa-clock"></i>
+                        <h3>전문 피트니스 메이커</h3>
+                        <p>다양한 경험과 노하우로 처음부터 끝까지 설계해드립니다.</p>
+                    </div>
+                    <div class="info-item">
+                        <i class="fas fa-user-cog"></i>
+                        <h3>고객 맞춤형 솔루션</h3>
+                        <p>귀하의 요구사항에 맞는 최적의 솔루션 제안드립니다.</p>
+                    </div>
+                    <div class="info-item">
+                        <i class="fas fa-dollar-sign"></i>
+                        <h3>업계 최고의 서비스</h3>
+                        <p>최고의 서비스와 합리적인 가격, 그리고 품질을 보장합니다.</p>
+                    </div>
+                    <div class="info-item">
+                        <i class="fas fa-headset"></i>
+                        <h3>365일 고객 지원</h3>
+                        <p>언제든지 문의주시면 신속하게 응답해드립니다.</p>
+                    </div>
+                </div>
+            </div>
+    
+            <div class="inquiry-form">
+                <div module="board_writePackage_1002">
+                    </div>
+    
+                    <h3 class="inquiry-type-title">문의 유형</h3>
+                    <div class="category-buttons">
+                        <button class="category-button active">구입 견적 문의</button>
+                        <button class="category-button">렌탈 견적 문의</button>
+                        <button class="category-button">비즈니스 제휴 문의</button>
+                        <button class="category-button">A/S 문의</button>
+                        <button class="category-button">일반 문의</button>
+                        <button class="category-button">기타</button>
+                    </div>
+    
+                    <div module="board_write_1002">
+                        <form id="boardWriteForm" action="{$form_action}" method="post">
+                            <div class="ec-base-table typeWrite">
+                                <table>
+                                    <tbody>
+                                        <tr style="display: none;">
+                                            <th scope="row" class="RW">제목</th>
+                                            <td>
+                                                <input type="text" name="subject" id="auto_subject" value="">
+                                                {$form.board_category}
+                                                <span class="ec-base-label">{$form.notice}</span>
+                                                <span class="ec-base-label">{$form.is_post}</span>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row">이름</th>
+                                            <td>
+                                                <input type="text" name="writer" id="writer" placeholder="이름을 적어주세요." required>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row">전화번호</th>
+                                            <td>
+                                                <input type="tel" name="phone" id="phone" placeholder="전화번호를 입력해주세요." required>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row">이메일 주소</th>
+                                            <td>
+                                                <input type="email" name="email" id="email" placeholder="이메일주소를 입력해주세요." required>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row">내용</th>
+                                            <td>
+                                                <textarea name="content" id="board_content" placeholder="내용을 입력해주세요." required></textarea>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+    
+                            <div class="privacy-agreement">
+                                <div class="checkbox-wrapper">
+                                    <input type="checkbox" id="privacy-consent" required>
+                                    <label for="privacy-consent">개인정보 수집 및 이용 동의</label>
+                                </div>
+                                <ul>
+                                    <li><strong>수집 항목:</strong> 이름, 이메일, 연락처, 문의 내용</li>
+                                    <li><strong>수집 목적:</strong> 문의 내용 등록, 확인, 답변</li>
+                                    <li><strong>보유 기간:</strong> 1년</li>
+                                </ul>
+                            </div>
+    
+                            <div class="ec-base-button">
+                                <button type="submit" class="btnSubmitFix sizeM">Send</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <script src="script.js"></script>
+</body>
+</html>
