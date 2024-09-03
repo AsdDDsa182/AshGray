@@ -977,339 +977,339 @@ document.querySelectorAll('.service-box').forEach(box => {
 
 
 
-// // Best Services 섹션
-// // 캔버스 요소를 가져옵니다.
-// const bestServicesCanvas = document.getElementById("best-services-canvas");
-// // 캔버스의 2D 렌더링 컨텍스트를 가져옵니다.
-// const bestServicesContext = bestServicesCanvas.getContext("2d");
-
-// // 총 프레임 수를 설정합니다.
-// const totalFrames = 199;
-// // 현재 프레임에 해당하는 이미지 URL을 생성하는 함수입니다.
-// const generateFrameUrl = index => (
-//     `https://www.apple.com/105/media/us/apple-vision-pro/2024/6e1432b2-fe09-4113-a1af-f20987bcfeee/anim/360/small/${index.toString().padStart(4, '0')}.jpg`
-// );
-
-// // 캔버스 크기를 컨테이너에 맞게 설정하는 함수
-// function adjustCanvasSize() {
-//     const containerElement = document.getElementById('canvas-container');
-//     bestServicesCanvas.width = containerElement.clientWidth;
-//     bestServicesCanvas.height = containerElement.clientHeight;
-// }
-
-// // 이미지를 캔버스에 맞게 그리는 함수 (밝기 조절 추가)
-// function renderImageWithProps(ctx, img, x, y, w, h, offsetX = 0.5, offsetY = 0.5, brightness = 1) {
-//     if (arguments.length === 2) {
-//         x = y = 0;
-//         w = ctx.canvas.width;
-//         h = ctx.canvas.height;
-//     }
-
-//     offsetX = typeof offsetX === 'number' ? offsetX : 0.5;
-//     offsetY = typeof offsetY === 'number' ? offsetY : 0.5;
-
-//     if (offsetX < 0) offsetX = 0;
-//     if (offsetY < 0) offsetY = 0;
-//     if (offsetX > 1) offsetX = 1;
-//     if (offsetY > 1) offsetY = 1;
-
-//     var imageWidth = img.width,
-//         imageHeight = img.height,
-//         scaleRatio = Math.min(w / imageWidth, h / imageHeight),
-//         newWidth = imageWidth * scaleRatio,
-//         newHeight = imageHeight * scaleRatio,
-//         cropX, cropY, cropWidth, cropHeight, aspectRatio = 1;
-
-//     if (newWidth < w) aspectRatio = w / newWidth;
-//     if (Math.abs(aspectRatio - 1) < 1e-14 && newHeight < h) aspectRatio = h / newHeight;
-//     newWidth *= aspectRatio;
-//     newHeight *= aspectRatio;
-
-//     cropWidth = imageWidth / (newWidth / w);
-//     cropHeight = imageHeight / (newHeight / h);
-//     cropX = (imageWidth - cropWidth) * offsetX;
-//     cropY = (imageHeight - cropHeight) * offsetY;
-
-//     if (cropX < 0) cropX = 0;
-//     if (cropY < 0) cropY = 0;
-//     if (cropWidth > imageWidth) cropWidth = imageWidth;
-//     if (cropHeight > imageHeight) cropHeight = imageHeight;
-
-//     ctx.drawImage(img, cropX, cropY, cropWidth, cropHeight, x, y, w, h);
-
-//     // 밝기 조절
-//     if (brightness !== undefined) {
-//         ctx.globalCompositeOperation = 'source-atop';
-//         ctx.fillStyle = `rgba(0, 0, 0, ${1 - brightness})`;
-//         ctx.fillRect(x, y, w, h);
-//         ctx.globalCompositeOperation = 'source-over';
-//     }
-// }
-
-// // 모든 프레임 이미지를 미리 로드하는 함수입니다.
-// const preloadFrameImages = () => {
-//     for (let i = 1; i < totalFrames; i++) {
-//         const img = new Image();
-//         img.src = generateFrameUrl(i);
-//     }
-// };
-
-// // 첫 번째 프레임 이미지를 로드합니다.
-// const firstFrameImage = new Image();
-// firstFrameImage.src = generateFrameUrl(1);
-// firstFrameImage.onload = function() {
-//     adjustCanvasSize();
-//     renderImageWithProps(bestServicesContext, firstFrameImage, 0, 0, bestServicesCanvas.width, bestServicesCanvas.height, 0.5, 0.5, 0.2); // 시작 시 20% 밝기
-// };
-
-// // 특정 인덱스의 이미지로 캔버스를 업데이트하는 함수입니다.
-// const updateFrameImage = (index, brightness) => {
-//     firstFrameImage.src = generateFrameUrl(index);
-//     firstFrameImage.onload = function() {
-//         bestServicesContext.clearRect(0, 0, bestServicesCanvas.width, bestServicesCanvas.height);
-//         renderImageWithProps(bestServicesContext, firstFrameImage, 0, 0, bestServicesCanvas.width, bestServicesCanvas.height, 0.5, 0.5, brightness);
-//     };
-// };
-
-// // Best Services 섹션의 텍스트 애니메이션 대상 요소를 선택합니다.
-// const scrollSections = document.querySelectorAll('#best-services .scroll-content');
-
-// // 텍스트 애니메이션의 시작 지점을 정의합니다 (0부터 1 사이의 값)
-// const sectionStartPositions = [0.75];
-
-// // 스크롤 이벤트 리스너를 추가합니다.
-// window.addEventListener('scroll', () => {
-//     const scrollY = window.pageYOffset;
-//     const animationSection = document.getElementById('best-services');
-//     const sectionTopOffset = animationSection.offsetTop;
-//     const scrollAmount = scrollY - sectionTopOffset;
-//     const sectionHeight = animationSection.offsetHeight;
-//     // 스크롤 양을 줄이기 위해 분모를 줄입니다.
-//     const scrollFraction = Math.max(0, Math.min(1, scrollAmount / (sectionHeight / 1.3))); // 값이 작아지면 이미지가 더 빨리 진행됨
-
-//     // 이미지 프레임 업데이트
-//     const frameIndex = Math.min(totalFrames - 1, Math.floor(scrollFraction * totalFrames));
-    
-//     // 이미지 밝기 조절
-//     let currentBrightness;
-//     if (scrollFraction < 0.1) {
-//         // 시작 부분: 20%에서 100%로 밝아짐
-//         currentBrightness = 0.2 + (scrollFraction / 0.2) * 0.8;
-//     } else if (scrollFraction > 0.75) {
-//         // 끝 부분: 100%에서 20%로 어두워짐
-//         const endProgress = (scrollFraction - 0.75) / 0.25;
-//         currentBrightness = 1 - (endProgress * 0.8);
-//     } else {
-//         // 중간 부분: 100% 밝기 유지
-//         currentBrightness = 1;
-//     }
-
-//     // Best Services 섹션 텍스트 애니메이션
-//     scrollSections.forEach((section, index) => {
-//         const startFraction = sectionStartPositions[index];
-//         const endFraction = index < sectionStartPositions.length - 1 ? sectionStartPositions[index + 1] : 1;
-        
-//         const sectionProgress = (scrollFraction - startFraction) / (endFraction - startFraction);
-        
-//         let opacity, translateY;
-        
-//         // 각 섹션을 100개의 단계로 나눕니다.
-//         const stepCount = 100;
-//         const currentStep = Math.floor(sectionProgress * stepCount);
-        
-//         const fadeInEnd = 30;
-
-//         if (currentStep < fadeInEnd) {
-//             // 페이드 인
-//             opacity = currentStep / fadeInEnd;
-//             translateY = 30 * (1 - (currentStep / fadeInEnd));
-//         } else {
-//             // 완전히 보이는 상태
-//             opacity = 1;
-//             translateY = 0;
-//         }
-
-//         // 소수점 둘째자리까지 사용하여 변화 표현
-//         section.style.opacity = opacity.toFixed(2);
-//         section.style.transform = `translateY(${translateY.toFixed(2)}px)`;
-//     });
-
-//     // 이미지 프레임 업데이트
-//     requestAnimationFrame(() => updateFrameImage(frameIndex + 1, currentBrightness));
-// });
-
-// // 윈도우 리사이즈 이벤트 리스너
-// window.addEventListener('resize', () => {
-//     adjustCanvasSize();
-//     renderImageWithProps(bestServicesContext, firstFrameImage, 0, 0, bestServicesCanvas.width, bestServicesCanvas.height, 0.5, 0.5, 0.2); // 리사이즈 시에도 20% 밝기 유지
-// });
-
-// // 초기 설정
-// adjustCanvasSize();
-// preloadFrameImages();
-
-
-
-
-
-
-
-
 // Best Services 섹션
-const bestServicesSection = document.getElementById('best-services');
-const imageContainer = document.getElementById('image-container');
-const scrollContent = document.getElementById('best-services-content');
-const scrollIndicator2 = document.querySelector('.scroll-indicator2');
+// 캔버스 요소를 가져옵니다.
+const bestServicesCanvas = document.getElementById("best-services-canvas");
+// 캔버스의 2D 렌더링 컨텍스트를 가져옵니다.
+const bestServicesContext = bestServicesCanvas.getContext("2d");
 
-const imageSources = [
-    'https://picsum.photos/id/1018/1600/800',
-    'https://picsum.photos/id/1015/1600/800',
-    'https://picsum.photos/id/1019/1600/800',
-    'https://picsum.photos/id/1021/1600/800',
-    'https://picsum.photos/id/1023/1600/800',
-    'https://picsum.photos/id/1024/1600/800',
-    'https://picsum.photos/id/1025/1600/800',
-    'https://picsum.photos/id/1026/1600/800',
-    'https://picsum.photos/id/1027/1600/800',
-    'https://picsum.photos/id/1028/1600/800'
-];
+// 총 프레임 수를 설정합니다.
+const totalFrames = 199;
+// 현재 프레임에 해당하는 이미지 URL을 생성하는 함수입니다.
+const generateFrameUrl = index => (
+    `https://www.apple.com/105/media/us/apple-vision-pro/2024/6e1432b2-fe09-4113-a1af-f20987bcfeee/anim/360/small/${index.toString().padStart(4, '0')}.jpg`
+);
 
-function createImageSet(index) {
-    const baseUrl = imageSources[index];
-    return {
-        src: baseUrl,
-        srcset: `${baseUrl} 1600w, 
-                 ${baseUrl.replace('1600/800', '1024/512')} 1024w, 
-                 ${baseUrl.replace('1600/800', '640/320')} 640w`,
-    };
+// 캔버스 크기를 컨테이너에 맞게 설정하는 함수
+function adjustCanvasSize() {
+    const containerElement = document.getElementById('canvas-container');
+    bestServicesCanvas.width = containerElement.clientWidth;
+    bestServicesCanvas.height = containerElement.clientHeight;
 }
 
-const imageInfos = {
-    pc: imageSources.map((_, i) => ({
-        ...createImageSet(i),
-        x: '50%',
-        y: '10%',
-        scale: 1
-    })),
-    tablet: imageSources.map((_, i) => ({
-        ...createImageSet(i),
-        x: '50%',
-        y: '10%',
-        scale: 0.8
-    })),
-    mobile: imageSources.map((_, i) => ({
-        ...createImageSet(i),
-        x: '50%',
-        y: '10%',
-        scale: 0.6
-    }))
-};
+// 이미지를 캔버스에 맞게 그리는 함수 (밝기 조절 추가)
+function renderImageWithProps(ctx, img, x, y, w, h, offsetX = 0.5, offsetY = 0.5, brightness = 1) {
+    if (arguments.length === 2) {
+        x = y = 0;
+        w = ctx.canvas.width;
+        h = ctx.canvas.height;
+    }
 
-function getDeviceType() {
-    const width = window.innerWidth;
-    if (width >= 1024) return 'pc';
-    if (width >= 768) return 'tablet';
-    return 'mobile';
+    offsetX = typeof offsetX === 'number' ? offsetX : 0.5;
+    offsetY = typeof offsetY === 'number' ? offsetY : 0.5;
+
+    if (offsetX < 0) offsetX = 0;
+    if (offsetY < 0) offsetY = 0;
+    if (offsetX > 1) offsetX = 1;
+    if (offsetY > 1) offsetY = 1;
+
+    var imageWidth = img.width,
+        imageHeight = img.height,
+        scaleRatio = Math.min(w / imageWidth, h / imageHeight),
+        newWidth = imageWidth * scaleRatio,
+        newHeight = imageHeight * scaleRatio,
+        cropX, cropY, cropWidth, cropHeight, aspectRatio = 1;
+
+    if (newWidth < w) aspectRatio = w / newWidth;
+    if (Math.abs(aspectRatio - 1) < 1e-14 && newHeight < h) aspectRatio = h / newHeight;
+    newWidth *= aspectRatio;
+    newHeight *= aspectRatio;
+
+    cropWidth = imageWidth / (newWidth / w);
+    cropHeight = imageHeight / (newHeight / h);
+    cropX = (imageWidth - cropWidth) * offsetX;
+    cropY = (imageHeight - cropHeight) * offsetY;
+
+    if (cropX < 0) cropX = 0;
+    if (cropY < 0) cropY = 0;
+    if (cropWidth > imageWidth) cropWidth = imageWidth;
+    if (cropHeight > imageHeight) cropHeight = imageHeight;
+
+    ctx.drawImage(img, cropX, cropY, cropWidth, cropHeight, x, y, w, h);
+
+    // 밝기 조절
+    if (brightness !== undefined) {
+        ctx.globalCompositeOperation = 'source-atop';
+        ctx.fillStyle = `rgba(0, 0, 0, ${1 - brightness})`;
+        ctx.fillRect(x, y, w, h);
+        ctx.globalCompositeOperation = 'source-over';
+    }
 }
 
-const preloadAndPositionImages = () => {
-    const deviceType = getDeviceType();
-    imageContainer.innerHTML = '';
-    imageInfos[deviceType].forEach((info, index) => {
+// 모든 프레임 이미지를 미리 로드하는 함수입니다.
+const preloadFrameImages = () => {
+    for (let i = 1; i < totalFrames; i++) {
         const img = new Image();
-        img.src = info.src;
-        img.style.opacity = '0';
-        img.style.transform = `translate(-50%, 100%) scale(${info.scale})`;
-        img.style.left = info.x;
-        img.style.top = info.y;
-        img.style.boxShadow = '0 60px 60px rgba(0,0,0,0.20), 0 20px 20px rgba(0,0,0,0.80)';
-        img.style.borderRadius = '10px';
-        img.style.position = 'absolute';
-        img.style.filter = 'brightness(1)';
-        imageContainer.appendChild(img);
-    });
+        img.src = generateFrameUrl(i);
+    }
 };
 
+// 첫 번째 프레임 이미지를 로드합니다.
+const firstFrameImage = new Image();
+firstFrameImage.src = generateFrameUrl(1);
+firstFrameImage.onload = function() {
+    adjustCanvasSize();
+    renderImageWithProps(bestServicesContext, firstFrameImage, 0, 0, bestServicesCanvas.width, bestServicesCanvas.height, 0.5, 0.5, 0.2); // 시작 시 20% 밝기
+};
+
+// 특정 인덱스의 이미지로 캔버스를 업데이트하는 함수입니다.
+const updateFrameImage = (index, brightness) => {
+    firstFrameImage.src = generateFrameUrl(index);
+    firstFrameImage.onload = function() {
+        bestServicesContext.clearRect(0, 0, bestServicesCanvas.width, bestServicesCanvas.height);
+        renderImageWithProps(bestServicesContext, firstFrameImage, 0, 0, bestServicesCanvas.width, bestServicesCanvas.height, 0.5, 0.5, brightness);
+    };
+};
+
+// Best Services 섹션의 텍스트 애니메이션 대상 요소를 선택합니다.
+const scrollSections = document.querySelectorAll('#best-services .scroll-content');
+
+// 텍스트 애니메이션의 시작 지점을 정의합니다 (0부터 1 사이의 값)
+const sectionStartPositions = [0.75];
+
+// 스크롤 이벤트 리스너를 추가합니다.
 window.addEventListener('scroll', () => {
     const scrollY = window.pageYOffset;
-    const sectionTop = bestServicesSection.offsetTop;
-    const scrollAmount = scrollY - sectionTop;
-    const sectionHeight = bestServicesSection.offsetHeight;
-    const scrollFraction = Math.max(0, Math.min(1, scrollAmount / (sectionHeight - window.innerHeight)));
+    const animationSection = document.getElementById('best-services');
+    const sectionTopOffset = animationSection.offsetTop;
+    const scrollAmount = scrollY - sectionTopOffset;
+    const sectionHeight = animationSection.offsetHeight;
+    // 스크롤 양을 줄이기 위해 분모를 줄입니다.
+    const scrollFraction = Math.max(0, Math.min(1, scrollAmount / (sectionHeight / 1.3))); // 값이 작아지면 이미지가 더 빨리 진행됨
 
-    const images = imageContainer.querySelectorAll('img');
-    const deviceType = getDeviceType();
-    const totalImages = images.length;
+    // 이미지 프레임 업데이트
+    const frameIndex = Math.min(totalFrames - 1, Math.floor(scrollFraction * totalFrames));
+    
+    // 이미지 밝기 조절
+    let currentBrightness;
+    if (scrollFraction < 0.1) {
+        // 시작 부분: 20%에서 100%로 밝아짐
+        currentBrightness = 0.2 + (scrollFraction / 0.2) * 0.8;
+    } else if (scrollFraction > 0.75) {
+        // 끝 부분: 100%에서 20%로 어두워짐
+        const endProgress = (scrollFraction - 0.75) / 0.25;
+        currentBrightness = 1 - (endProgress * 0.8);
+    } else {
+        // 중간 부분: 100% 밝기 유지
+        currentBrightness = 1;
+    }
 
-    // 전체 애니메이션 구간을 0.8로 설정
-    const totalAnimationRange = 0.8;
-    // 각 이미지에 할당될 스크롤 범위
-    const rangePerImage = totalAnimationRange / totalImages;
-    // 텍스트 시작 지점을 0.9로 설정 (이미지와 텍스트 사이 간격 증가)
-    const textStart = 0.9;
-
-    images.forEach((img, index) => {
-        let opacity, yOffset, brightness;
+    // Best Services 섹션 텍스트 애니메이션
+    scrollSections.forEach((section, index) => {
+        const startFraction = sectionStartPositions[index];
+        const endFraction = index < sectionStartPositions.length - 1 ? sectionStartPositions[index + 1] : 1;
         
-        const imageStart = index * rangePerImage;
-        const imageEnd = imageStart + (rangePerImage * 0.6); // 페이드인 구간을 60%로 조정
-        const imagePause = imageStart + rangePerImage; // 각 이미지의 전체 구간
+        const sectionProgress = (scrollFraction - startFraction) / (endFraction - startFraction);
+        
+        let opacity, translateY;
+        
+        // 각 섹션을 100개의 단계로 나눕니다.
+        const stepCount = 100;
+        const currentStep = Math.floor(sectionProgress * stepCount);
+        
+        const fadeInEnd = 30;
 
-        if (scrollFraction <= totalAnimationRange) {
-            if (scrollFraction < imageStart) {
-                // 이미지가 아직 나타나지 않음
-                opacity = 0;
-                yOffset = 100;
-            } else if (scrollFraction < imageEnd) {
-                // 이미지 페이드 인
-                const imageProgress = (scrollFraction - imageStart) / (imageEnd - imageStart);
-                opacity = imageProgress;
-                yOffset = (1 - imageProgress) * 100;
-            } else if (scrollFraction < imagePause) {
-                // 이미지가 완전히 나타나고 잠시 멈춤
-                opacity = 1;
-                yOffset = 0;
-            } else {
-                // 다음 이미지로 넘어갈 준비
-                opacity = 1;
-                yOffset = 0;
-            }
-            brightness = 1; // 이미지 나타나는 동안 밝기 유지
+        if (currentStep < fadeInEnd) {
+            // 페이드 인
+            opacity = currentStep / fadeInEnd;
+            translateY = 30 * (1 - (currentStep / fadeInEnd));
         } else {
-            // 모든 이미지 표시 및 어둡게 만들기
+            // 완전히 보이는 상태
             opacity = 1;
-            yOffset = 0;
-            brightness = Math.max(0.2, 1 - (scrollFraction - totalAnimationRange) * 4);
+            translateY = 0;
         }
 
-        img.style.opacity = opacity.toFixed(2);
-        img.style.transform = `translate(-50%, ${yOffset}%) scale(${imageInfos[deviceType][index].scale})`;
-        img.style.filter = `brightness(${brightness.toFixed(2)})`;
+        // 소수점 둘째자리까지 사용하여 변화 표현
+        section.style.opacity = opacity.toFixed(2);
+        section.style.transform = `translateY(${translateY.toFixed(2)}px)`;
     });
 
-    // 텍스트 콘텐츠 애니메이션
-    if (scrollFraction > textStart) {
-        const textOpacity = Math.min(1, (scrollFraction - textStart) * 10);
-        scrollContent.style.opacity = textOpacity.toFixed(2);
-    } else {
-        scrollContent.style.opacity = '0';
-    }
-
-    // 스크롤 인디케이터2 제어
-    if (scrollIndicator2) {
-        if (scrollFraction >= 0.05) {
-            scrollIndicator2.classList.add('hide');
-        } else {
-            scrollIndicator2.classList.remove('hide');
-        }
-    }
+    // 이미지 프레임 업데이트
+    requestAnimationFrame(() => updateFrameImage(frameIndex + 1, currentBrightness));
 });
 
 // 윈도우 리사이즈 이벤트 리스너
-window.addEventListener('resize', preloadAndPositionImages);
+window.addEventListener('resize', () => {
+    adjustCanvasSize();
+    renderImageWithProps(bestServicesContext, firstFrameImage, 0, 0, bestServicesCanvas.width, bestServicesCanvas.height, 0.5, 0.5, 0.2); // 리사이즈 시에도 20% 밝기 유지
+});
 
 // 초기 설정
-preloadAndPositionImages();
+adjustCanvasSize();
+preloadFrameImages();
+
+
+
+
+
+
+
+
+// // Best Services 섹션
+// const bestServicesSection = document.getElementById('best-services');
+// const imageContainer = document.getElementById('image-container');
+// const scrollContent = document.getElementById('best-services-content');
+// const scrollIndicator2 = document.querySelector('.scroll-indicator2');
+
+// const imageSources = [
+//     'https://picsum.photos/id/1018/1600/800',
+//     'https://picsum.photos/id/1015/1600/800',
+//     'https://picsum.photos/id/1019/1600/800',
+//     'https://picsum.photos/id/1021/1600/800',
+//     'https://picsum.photos/id/1023/1600/800',
+//     'https://picsum.photos/id/1024/1600/800',
+//     'https://picsum.photos/id/1025/1600/800',
+//     'https://picsum.photos/id/1026/1600/800',
+//     'https://picsum.photos/id/1027/1600/800',
+//     'https://picsum.photos/id/1028/1600/800'
+// ];
+
+// function createImageSet(index) {
+//     const baseUrl = imageSources[index];
+//     return {
+//         src: baseUrl,
+//         srcset: `${baseUrl} 1600w, 
+//                  ${baseUrl.replace('1600/800', '1024/512')} 1024w, 
+//                  ${baseUrl.replace('1600/800', '640/320')} 640w`,
+//     };
+// }
+
+// const imageInfos = {
+//     pc: imageSources.map((_, i) => ({
+//         ...createImageSet(i),
+//         x: '50%',
+//         y: '10%',
+//         scale: 1
+//     })),
+//     tablet: imageSources.map((_, i) => ({
+//         ...createImageSet(i),
+//         x: '50%',
+//         y: '10%',
+//         scale: 0.8
+//     })),
+//     mobile: imageSources.map((_, i) => ({
+//         ...createImageSet(i),
+//         x: '50%',
+//         y: '10%',
+//         scale: 0.6
+//     }))
+// };
+
+// function getDeviceType() {
+//     const width = window.innerWidth;
+//     if (width >= 1024) return 'pc';
+//     if (width >= 768) return 'tablet';
+//     return 'mobile';
+// }
+
+// const preloadAndPositionImages = () => {
+//     const deviceType = getDeviceType();
+//     imageContainer.innerHTML = '';
+//     imageInfos[deviceType].forEach((info, index) => {
+//         const img = new Image();
+//         img.src = info.src;
+//         img.style.opacity = '0';
+//         img.style.transform = `translate(-50%, 100%) scale(${info.scale})`;
+//         img.style.left = info.x;
+//         img.style.top = info.y;
+//         img.style.boxShadow = '0 60px 60px rgba(0,0,0,0.20), 0 20px 20px rgba(0,0,0,0.80)';
+//         img.style.borderRadius = '10px';
+//         img.style.position = 'absolute';
+//         img.style.filter = 'brightness(1)';
+//         imageContainer.appendChild(img);
+//     });
+// };
+
+// window.addEventListener('scroll', () => {
+//     const scrollY = window.pageYOffset;
+//     const sectionTop = bestServicesSection.offsetTop;
+//     const scrollAmount = scrollY - sectionTop;
+//     const sectionHeight = bestServicesSection.offsetHeight;
+//     const scrollFraction = Math.max(0, Math.min(1, scrollAmount / (sectionHeight - window.innerHeight)));
+
+//     const images = imageContainer.querySelectorAll('img');
+//     const deviceType = getDeviceType();
+//     const totalImages = images.length;
+
+//     // 전체 애니메이션 구간을 0.8로 설정
+//     const totalAnimationRange = 0.8;
+//     // 각 이미지에 할당될 스크롤 범위
+//     const rangePerImage = totalAnimationRange / totalImages;
+//     // 텍스트 시작 지점을 0.9로 설정 (이미지와 텍스트 사이 간격 증가)
+//     const textStart = 0.9;
+
+//     images.forEach((img, index) => {
+//         let opacity, yOffset, brightness;
+        
+//         const imageStart = index * rangePerImage;
+//         const imageEnd = imageStart + (rangePerImage * 0.6); // 페이드인 구간을 60%로 조정
+//         const imagePause = imageStart + rangePerImage; // 각 이미지의 전체 구간
+
+//         if (scrollFraction <= totalAnimationRange) {
+//             if (scrollFraction < imageStart) {
+//                 // 이미지가 아직 나타나지 않음
+//                 opacity = 0;
+//                 yOffset = 100;
+//             } else if (scrollFraction < imageEnd) {
+//                 // 이미지 페이드 인
+//                 const imageProgress = (scrollFraction - imageStart) / (imageEnd - imageStart);
+//                 opacity = imageProgress;
+//                 yOffset = (1 - imageProgress) * 100;
+//             } else if (scrollFraction < imagePause) {
+//                 // 이미지가 완전히 나타나고 잠시 멈춤
+//                 opacity = 1;
+//                 yOffset = 0;
+//             } else {
+//                 // 다음 이미지로 넘어갈 준비
+//                 opacity = 1;
+//                 yOffset = 0;
+//             }
+//             brightness = 1; // 이미지 나타나는 동안 밝기 유지
+//         } else {
+//             // 모든 이미지 표시 및 어둡게 만들기
+//             opacity = 1;
+//             yOffset = 0;
+//             brightness = Math.max(0.2, 1 - (scrollFraction - totalAnimationRange) * 4);
+//         }
+
+//         img.style.opacity = opacity.toFixed(2);
+//         img.style.transform = `translate(-50%, ${yOffset}%) scale(${imageInfos[deviceType][index].scale})`;
+//         img.style.filter = `brightness(${brightness.toFixed(2)})`;
+//     });
+
+//     // 텍스트 콘텐츠 애니메이션
+//     if (scrollFraction > textStart) {
+//         const textOpacity = Math.min(1, (scrollFraction - textStart) * 10);
+//         scrollContent.style.opacity = textOpacity.toFixed(2);
+//     } else {
+//         scrollContent.style.opacity = '0';
+//     }
+
+//     // 스크롤 인디케이터2 제어
+//     if (scrollIndicator2) {
+//         if (scrollFraction >= 0.05) {
+//             scrollIndicator2.classList.add('hide');
+//         } else {
+//             scrollIndicator2.classList.remove('hide');
+//         }
+//     }
+// });
+
+// // 윈도우 리사이즈 이벤트 리스너
+// window.addEventListener('resize', preloadAndPositionImages);
+
+// // 초기 설정
+// preloadAndPositionImages();
 
 
 
