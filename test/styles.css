@@ -1991,7 +1991,7 @@ body.no-scroll {
     justify-content: center;
     align-items: center;
     min-height: 100%; /* 최소 높이 설정 */
-    margin-top: 0px;
+    margin-top: -220px;
 }
 
 /* 컨테이너 스타일 */
