@@ -1,21 +1,27 @@
 // 전역 변수 선언
-let inquryWorkbook; // 엑셀 작업을 위한 워크북 객체
 let companies = {}; // 회사와 제품 정보를 저장할 객체
 let productCount = 0; // 테이블에 추가된 제품의 개수를 추적
 let pricesHidden = false; // 가격 숨김 여부를 추적
 let selectedCompany = ''; // 선택된 회사 이름
 let selectedProduct = ''; // 선택된 제품 이름
 
-// 연도, 월, 일 드롭다운 초기화 함수
-function initDateFields() {
-    const yearSelect = document.getElementById('quoteYear'); // 연도 선택 필드
-    const monthSelect = document.getElementById('quoteMonth'); // 월 선택 필드
-    const daySelect = document.getElementById('quoteDay'); // 일 선택 필드
+// 페이지 초기화 함수
+async function init() {
+    initDateFields();
+    await loadCompaniesAndProducts();
+    setupEventListeners();
+    console.log("초기화 완료");
+}
 
-    // 현재 연도 구하기
+// 날짜 필드 초기화 함수
+function initDateFields() {
+    const yearSelect = document.getElementById('quoteYear');
+    const monthSelect = document.getElementById('quoteMonth');
+    const daySelect = document.getElementById('quoteDay');
+
     const currentYear = new Date().getFullYear();
 
-    // 연도 드롭다운 초기화 (현재 연도부터 100년 전까지)
+    // 연도 옵션 추가
     for (let year = currentYear; year >= currentYear - 100; year--) {
         const option = document.createElement('option');
         option.value = year;
@@ -23,38 +29,34 @@ function initDateFields() {
         yearSelect.appendChild(option);
     }
 
-    // 월 드롭다운 초기화
+    // 월 옵션 추가
     for (let month = 1; month <= 12; month++) {
         const option = document.createElement('option');
-        option.value = month;
+        option.value = month.toString().padStart(2, '0');
         option.textContent = month;
         monthSelect.appendChild(option);
     }
 
-    // 일 드롭다운 초기화
-    updateDayOptions();
-
-    // 월 선택 변경 시 일자 업데이트
-    monthSelect.addEventListener('change', updateDayOptions);
-    yearSelect.addEventListener('change', updateDayOptions);
-
-    // 선택된 연도와 월에 맞는 일자 옵션을 업데이트하는 함수
-    function updateDayOptions() {
+    // 일 옵션 업데이트 함수
+    function updateDays() {
         const year = parseInt(yearSelect.value);
         const month = parseInt(monthSelect.value);
-
-        // 해당 연도와 월의 마지막 날짜 구하기
         const daysInMonth = new Date(year, month, 0).getDate();
-        daySelect.innerHTML = ''; // 기존 옵션 초기화
 
-        // 일자 드롭다운에 옵션 추가
+        daySelect.innerHTML = '';
         for (let day = 1; day <= daysInMonth; day++) {
             const option = document.createElement('option');
-            option.value = day;
+            option.value = day.toString().padStart(2, '0');
             option.textContent = day;
             daySelect.appendChild(option);
         }
     }
+
+    yearSelect.addEventListener('change', updateDays);
+    monthSelect.addEventListener('change', updateDays);
+
+    // 초기 일 옵션 설정
+    updateDays();
 }
 
 // GitHub 이미지 URL을 raw 콘텐츠 URL로 변환하는 함수
@@ -72,86 +74,69 @@ function processGitHubImageUrl(url) {
     return url;
 }
 
-// 페이지 초기화 함수
-async function init() {
-    initDateFields(); // 날짜 입력 필드 초기화
-
+// 회사 및 제품 데이터 로드 함수
+async function loadCompaniesAndProducts() {
     try {
-        // 제품 데이터 로드 및 초기화
-        const productResponse = await fetch('https://asdddsa182.github.io/AshGray/product.xlsx');
-        const productArrayBuffer = await productResponse.arrayBuffer();
-        const productWorkbook = new ExcelJS.Workbook();
-        await productWorkbook.xlsx.load(productArrayBuffer);
+        const response = await fetch('https://asdddsa182.github.io/AshGray/product.xlsx');
+        const arrayBuffer = await response.arrayBuffer();
+        const workbook = new ExcelJS.Workbook();
+        await workbook.xlsx.load(arrayBuffer);
 
-        productWorkbook.eachSheet((worksheet, sheetId) => {
+        const companyOptions = document.getElementById('companyOptions');
+        companyOptions.innerHTML = '<div class="default-option" onclick="resetCompanySelection()">- 회사 선택 -</div>';
+
+        workbook.eachSheet((worksheet, sheetId) => {
             const companyName = worksheet.name;
             companies[companyName] = {};
-        
+
+            const option = document.createElement('div');
+            option.textContent = companyName;
+            option.onclick = () => selectCompany(companyName);
+            companyOptions.appendChild(option);
+
             worksheet.eachRow((row, rowNumber) => {
-                if (rowNumber > 1) { // 첫 번째 행(헤더)는 제외
-                    const product = row.getCell(1).value; // 제품명
-                    const price = row.getCell(2).value; // 가격
-                    let imageUrl = row.getCell(3).value; // 이미지 URL
+                if (rowNumber > 1) {
+                    const product = row.getCell(1).value;
+                    const price = row.getCell(2).value;
+                    let imageUrl = row.getCell(3).value;
                     
-                    // imageUrl이 객체인 경우 text 속성을 사용
                     if (typeof imageUrl === 'object' && imageUrl !== null) {
                         imageUrl = imageUrl.text || '';
                     }
                     
-                    // URL 처리
                     imageUrl = processGitHubImageUrl(imageUrl);
                     
                     companies[companyName][product] = { price, imageUrl };
-                    console.log(`제품 로드: ${product}, 가격: ${price}, 이미지 URL: ${imageUrl}`);
                 }
             });
         });
-        
-        console.log("로드된 제품 데이터:", companies);
 
-        // 회사 선택 옵션 초기화
-        const companyOptions = document.getElementById('companyOptions');
-        companyOptions.innerHTML = '<div class="default-option" onclick="resetCompanySelection()">- 회사 선택 -</div>';
-        for (let company in companies) {
-            const option = document.createElement('div');
-            option.textContent = company;
-            option.onclick = () => selectCompany(company);
-            companyOptions.appendChild(option);
-        }
-
-        // 문의서 데이터 로드
-        const inquryResponse = await fetch('https://asdddsa182.github.io/AshGray/inqury.xlsx');
-        const inquryArrayBuffer = await inquryResponse.arrayBuffer();
-        inquryWorkbook = new ExcelJS.Workbook();
-        await inquryWorkbook.xlsx.load(inquryArrayBuffer);
-
-        console.log("초기화 완료");
+        console.log("회사 및 제품 데이터 로드 완료");
     } catch (error) {
-        console.error('초기화 중 오류 발생:', error);
+        console.error('회사 및 제품 데이터 로드 중 오류 발생:', error);
         alert('데이터 로드 중 오류가 발생했습니다.');
     }
 }
 
-// 버튼 클릭 이벤트 리스너 추가
-document.getElementById('companySelectButton').addEventListener('click', toggleCompanyOptions);
-document.getElementById('productSelectButton').addEventListener('click', toggleProductOptions);
-document.getElementById('addButton').addEventListener('click', addTableRow);
-document.getElementById('exportExcelButton').addEventListener('click', exportToExcel);
-document.getElementById('togglePriceButton').addEventListener('click', togglePrices);
-
-// 새로운 이벤트 리스너 추가
-document.getElementById('loadExcelButton').addEventListener('click', function() {
-    document.getElementById('fileInput').click();
-});
-
-document.getElementById('fileInput').addEventListener('change', loadExcelFile);
+// 이벤트 리스너 설정 함수
+function setupEventListeners() {
+    document.getElementById('companySelectButton').addEventListener('click', toggleCompanyOptions);
+    document.getElementById('productSelectButton').addEventListener('click', toggleProductOptions);
+    document.getElementById('addButton').addEventListener('click', addTableRow);
+    document.getElementById('exportExcelButton').addEventListener('click', exportToExcel);
+    document.getElementById('togglePriceButton').addEventListener('click', togglePrices);
+    document.getElementById('loadExcelButton').addEventListener('click', function() {
+        document.getElementById('fileInput').click();
+    });
+    document.getElementById('fileInput').addEventListener('change', loadZipFile);
+    document.getElementById('manualEntryButton').addEventListener('click', addManualEntryRow);
+}
 
 // 회사 선택 옵션 토글 함수
 function toggleCompanyOptions() {
     const companyOptions = document.getElementById('companyOptions');
     const productOptions = document.getElementById('productOptions');
     
-    // 회사 선택 옵션 보이기/숨기기
     if (companyOptions.style.display === 'block') {
         companyOptions.style.display = 'none';
     } else {
@@ -165,7 +150,6 @@ function toggleProductOptions() {
     const companyOptions = document.getElementById('companyOptions');
     const productOptions = document.getElementById('productOptions');
     
-    // 제품 선택 옵션 보이기/숨기기
     if (productOptions.style.display === 'block') {
         productOptions.style.display = 'none';
     } else {
@@ -180,7 +164,6 @@ function selectCompany(company) {
     document.getElementById('companySelectButton').textContent = company;
     document.getElementById('companyOptions').style.display = 'none';
 
-    // 제품 선택 옵션 초기화
     const productOptions = document.getElementById('productOptions');
     productOptions.innerHTML = '<div class="default-option" onclick="resetProductSelection()">- 제품 선택 -</div>';
     
@@ -189,7 +172,6 @@ function selectCompany(company) {
         option.textContent = product;
         option.onclick = () => selectProduct(product);
         
-        // 이미 추가된 제품인지 확인하고 클래스 추가
         if (isProductAlreadyAdded(product)) {
             option.classList.add('already-added');
         }
@@ -217,17 +199,17 @@ function isProductAlreadyAdded(productName) {
 // 제품 드롭다운 업데이트 함수
 function updateProductDropdown() {
     if (selectedCompany) {
-        selectCompany(selectedCompany); // 현재 선택된 회사의 제품 목록을 다시 생성
+        selectCompany(selectedCompany);
     }
 }
 
 // 제품 선택 시 처리 함수
 function selectProduct(product) {
-    selectedProduct = product; // 선택된 제품 저장
-    document.getElementById('productSelectButton').textContent = product; // 버튼 텍스트 변경
-    document.getElementById('productOptions').style.display = 'none'; // 옵션 숨기기
-    document.getElementById('addButton').disabled = false; // 추가 버튼 활성화
-    document.getElementById('addButton').style.cursor = ''; // 기본 커서로 복원
+    selectedProduct = product;
+    document.getElementById('productSelectButton').textContent = product;
+    document.getElementById('productOptions').style.display = 'none';
+    document.getElementById('addButton').disabled = false;
+    document.getElementById('addButton').style.cursor = '';
 }
 
 // 회사 선택 초기화 함수
@@ -241,7 +223,6 @@ function resetCompanySelection() {
     document.getElementById('addButton').disabled = true;
     document.getElementById('addButton').style.cursor = 'not-allowed';
     
-    // 제품 선택 옵션 초기화
     const productOptions = document.getElementById('productOptions');
     productOptions.innerHTML = '<div class="default-option" onclick="resetProductSelection()">- 제품 선택 -</div>';
 }
@@ -255,26 +236,21 @@ function resetProductSelection() {
     document.getElementById('addButton').style.cursor = 'not-allowed';
 }
 
-
 // 제품 추가 함수
 function addTableRow() {
     const productName = selectedProduct;
     const productInfo = companies[selectedCompany][selectedProduct];
-    console.log("선택된 제품 정보:", productInfo); // 디버깅용
+    console.log("선택된 제품 정보:", productInfo);
     const tableBody = document.querySelector('#dataTable tbody');
 
-    // 이미 존재하는 제품인지 확인
     const existingRow = findExistingProductRow(productName);
 
     if (existingRow) {
-        // 이미 존재하는 제품이면 수량만 증가
         updateExistingRow(existingRow);
     } else {
-        // 새로운 제품이면 새 행 추가
         addNewRow(tableBody, productName, productInfo.price, productInfo.imageUrl);
     }
 
-    // 상태 초기화
     resetProductSelection();
     updateProductCount();
     updateProductDropdown();
@@ -299,16 +275,13 @@ function updateExistingRow(row) {
     updatePriceFromUnitPrice(row);
 }
 
-// 새 행 추가
+// 새 행 추가 함수
 function addNewRow(tableBody, productName, unitPrice, imageUrl) {
-    console.log("addNewRow - 제품명:", productName, "단가:", unitPrice, "이미지 URL:", imageUrl); // 디버깅용
     const newRow = tableBody.insertRow();
 
-    // 각 셀 생성 및 내용 추가
     const indexCell = newRow.insertCell(0);
     indexCell.textContent = ++productCount;
 
-    // 제품 입력 필드 추가
     const productCell = newRow.insertCell(1);
     const productInput = document.createElement('input');
     productInput.type = 'text';
@@ -316,12 +289,149 @@ function addNewRow(tableBody, productName, unitPrice, imageUrl) {
     productInput.className = 'product-cell';
     productCell.appendChild(productInput);
 
-    // 단가 입력 필드 추가
     const unitPriceCell = newRow.insertCell(2);
     const unitPriceInput = document.createElement('input');
     unitPriceInput.type = 'text';
     unitPriceInput.value = formatNumber(unitPrice);
     unitPriceInput.className = 'price-cell';
+    unitPriceInput.oninput = function () {
+        this.value = this.value.replace(/[^0-9]/g, '');
+        this.value = formatNumber(this.value.replace(/,/g, ''));
+        updatePriceFromUnitPrice(newRow);
+    };
+    unitPriceCell.appendChild(unitPriceInput);
+
+    const quantityCell = newRow.insertCell(3);
+    const quantityInput = document.createElement('input');
+    quantityInput.type = 'number';
+    quantityInput.min = '0';
+    quantityInput.value = '1';
+    quantityInput.oninput = function () {
+        this.value = this.value.replace(/[^0-9]/g, '');
+        updatePriceFromUnitPrice(newRow);
+    };
+    quantityCell.appendChild(quantityInput);
+
+    const priceCell = newRow.insertCell(4);
+    const priceInput = document.createElement('input');
+    priceInput.type = 'text';
+    priceInput.value = formatNumber(unitPrice);
+    priceInput.className = 'price-cell';
+    priceInput.oninput = function () {
+        this.value = this.value.replace(/[^0-9]/g, '');
+        this.value = formatNumber(this.value.replace(/,/g, ''));
+    };
+    priceCell.appendChild(priceInput);
+
+    const noteCell = newRow.insertCell(5);
+    const noteInput = document.createElement('input');
+    noteInput.type = 'text';
+    noteInput.placeholder = '    ';
+    noteCell.appendChild(noteInput);
+
+    const previewCell = newRow.insertCell(6);
+    const buttonContainer = document.createElement('div');
+    buttonContainer.className = 'preview-buttons';
+
+    const buttonRow = document.createElement('div');
+    buttonRow.className = 'button-row';
+
+    const increaseButton = document.createElement('button');
+    increaseButton.textContent = '+';
+    increaseButton.className = 'increase-button';
+    buttonRow.appendChild(increaseButton);
+
+    const decreaseButton = document.createElement('button');
+    decreaseButton.textContent = '-';
+    decreaseButton.className = 'decrease-button';
+    buttonRow.appendChild(decreaseButton);
+
+    const previewButton = document.createElement('button');
+    previewButton.textContent = '미리보기';
+    previewButton.className = 'preview-button';
+
+    let currentImageUrl = imageUrl || '';
+    newRow.setAttribute('data-image-url', currentImageUrl);
+
+    if (currentImageUrl) {
+        previewButton.onclick = function () {
+            showImagePreview(currentImageUrl);
+        };
+        previewButton.disabled = false;
+    } else {
+        previewButton.disabled = true;
+    }
+
+    buttonContainer.appendChild(buttonRow);
+    buttonContainer.appendChild(previewButton);
+    previewCell.appendChild(buttonContainer);
+
+    increaseButton.onclick = function () {
+        const fileInput = document.createElement('input');
+        fileInput.type = 'file';
+        fileInput.accept = 'image/*';
+        fileInput.onchange = function (event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    currentImageUrl = e.target.result;
+                    previewButton.onclick = () => showImagePreview(currentImageUrl);
+                    previewButton.disabled = false;
+                    newRow.setAttribute('data-image-url', currentImageUrl);
+                };
+                reader.readAsDataURL(file);
+            }
+        };
+        fileInput.click();
+    };
+
+    decreaseButton.onclick = function () {
+        currentImageUrl = '';
+        previewButton.onclick = null;
+        previewButton.disabled = true;
+        newRow.removeAttribute('data-image-url');
+    };
+
+    const deleteCell = newRow.insertCell(7);
+    const deleteButton = document.createElement('button');
+    deleteButton.textContent = '삭제';
+    deleteButton.className = 'delete-button';
+    deleteButton.onclick = function () {
+        tableBody.removeChild(newRow);
+        updateProductCount();
+        updateProductDropdown();
+    };
+    deleteCell.appendChild(deleteButton);
+
+    if (pricesHidden) {
+        unitPriceInput.disabled = true;
+        priceInput.disabled = true;
+        unitPriceInput.value = '';
+        priceInput.value = '';
+    }
+}
+
+// 직접 입력 행 추가 함수
+function addManualEntryRow() {
+    const tableBody = document.querySelector('#dataTable tbody');
+    const newRow = tableBody.insertRow();
+
+    const indexCell = newRow.insertCell(0);
+    indexCell.textContent = ++productCount;
+
+    const productCell = newRow.insertCell(1);
+    const productInput = document.createElement('input');
+    productInput.type = 'text';
+    productInput.className = 'product-cell';
+    productInput.placeholder = '    ';
+    productCell.appendChild(productInput);
+
+    const unitPriceCell = newRow.insertCell(2);
+    const unitPriceInput = document.createElement('input');
+    unitPriceInput.type = 'text';
+    unitPriceInput.className = 'price-cell';
+    unitPriceInput.placeholder = '    ';
     unitPriceInput.oninput = function() {
         this.value = this.value.replace(/[^0-9]/g, '');
         this.value = formatNumber(this.value.replace(/,/g, ''));
@@ -329,77 +439,112 @@ function addNewRow(tableBody, productName, unitPrice, imageUrl) {
     };
     unitPriceCell.appendChild(unitPriceInput);
 
-    // 수량 입력 필드 추가
     const quantityCell = newRow.insertCell(3);
     const quantityInput = document.createElement('input');
     quantityInput.type = 'number';
     quantityInput.min = '0';
-    quantityInput.value = '1';
+    quantityInput.placeholder = '    ';
     quantityInput.oninput = function() {
         this.value = this.value.replace(/[^0-9]/g, '');
         updatePriceFromUnitPrice(newRow);
     };
     quantityCell.appendChild(quantityInput);
 
-// 가격 입력 필드 추가
-const priceCell = newRow.insertCell(4);
-const priceInput = document.createElement('input');
-priceInput.type = 'text';
-priceInput.value = formatNumber(unitPrice);
-priceInput.className = 'price-cell';
-priceInput.oninput = function() {
-    this.value = this.value.replace(/[^0-9]/g, '');
-    this.value = formatNumber(this.value.replace(/,/g, ''));
-};
-priceCell.appendChild(priceInput);
+    const priceCell = newRow.insertCell(4);
+    const priceInput = document.createElement('input');
+    priceInput.type = 'text';
+    priceInput.className = 'price-cell';
+    priceInput.placeholder = '    ';
+    priceInput.oninput = function() {
+        this.value = this.value.replace(/[^0-9]/g, '');
+        this.value = formatNumber(this.value.replace(/,/g, ''));
+    };
+    priceCell.appendChild(priceInput);
 
-// 비고 입력 필드 추가
-const noteCell = newRow.insertCell(5);
-const noteInput = document.createElement('input');
-noteInput.type = 'text';
-noteInput.placeholder = '    ';
-noteCell.appendChild(noteInput);
+    const noteCell = newRow.insertCell(5);
+    const noteInput = document.createElement('input');
+    noteInput.type = 'text';
+    noteInput.placeholder = '    ';
+    noteCell.appendChild(noteInput);
 
-    // 미리보기 버튼 추가
     const previewCell = newRow.insertCell(6);
+    const buttonContainer = document.createElement('div');
+    buttonContainer.className = 'preview-buttons';
+
+    const buttonRow = document.createElement('div');
+    buttonRow.className = 'button-row';
+
+    const increaseButton = document.createElement('button');
+    increaseButton.textContent = '+';
+    increaseButton.className = 'increase-button';
+    buttonRow.appendChild(increaseButton);
+
+    const decreaseButton = document.createElement('button');
+    decreaseButton.textContent = '-';
+    decreaseButton.className = 'decrease-button';
+    buttonRow.appendChild(decreaseButton);
+
     const previewButton = document.createElement('button');
     previewButton.textContent = '미리보기';
     previewButton.className = 'preview-button';
-    if (imageUrl && imageUrl.trim() !== '') {
-        previewButton.onclick = () => showImagePreview(imageUrl);
-        previewButton.disabled = false;
-    } else {
+    previewButton.disabled = true;
+
+    buttonContainer.appendChild(buttonRow);
+    buttonContainer.appendChild(previewButton);
+    previewCell.appendChild(buttonContainer);
+
+    let currentImageUrl = '';
+
+    increaseButton.onclick = function() {
+        const fileInput = document.createElement('input');
+        fileInput.type = 'file';
+        fileInput.accept = 'image/*';
+        fileInput.onchange = function(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    currentImageUrl = e.target.result;
+                    previewButton.onclick = () => showImagePreview(currentImageUrl);
+                    previewButton.disabled = false;
+                    newRow.setAttribute('data-image-url', currentImageUrl);
+                };
+                reader.readAsDataURL(file);
+            }
+        };
+        fileInput.click();
+    };
+
+    decreaseButton.onclick = function() {
+        currentImageUrl = '';
+        previewButton.onclick = null;
         previewButton.disabled = true;
-        previewButton.style.opacity = '0.5';
+        newRow.removeAttribute('data-image-url');
+    };
+
+    const deleteCell = newRow.insertCell(7);
+    const deleteButton = document.createElement('button');
+    deleteButton.textContent = '삭제';
+    deleteButton.className = 'delete-button';
+    deleteButton.onclick = function() {
+        tableBody.removeChild(newRow);
+        updateProductCount();
+    };
+    deleteCell.appendChild(deleteButton);
+
+    if (pricesHidden) {
+        unitPriceInput.disabled = true;
+        priceInput.disabled = true;
     }
-    previewCell.appendChild(previewButton);
 
-// 삭제 버튼 추가
-const deleteCell = newRow.insertCell(7);
-const deleteButton = document.createElement('button');
-deleteButton.textContent = '삭제';
-deleteButton.className = 'delete-button';
-deleteButton.onclick = function() {
-    tableBody.removeChild(newRow);
-    updateProductCount();
-    updateProductDropdown();
-};
-deleteCell.appendChild(deleteButton);
-
-// 가격 숨김 설정 시 입력 필드 비활성화
-if (pricesHidden) {
-    unitPriceInput.disabled = true;
-    priceInput.disabled = true;
-    unitPriceInput.value = '';
-    priceInput.value = '';
-}
+    newRow.setAttribute('data-image-url', currentImageUrl);
 }
 
-// 이미지 미리보기 함수
+// 모달 관련 코드 수정
 function showImagePreview(imageUrl) {
     const modal = document.getElementById('imageModal');
     const modalImg = document.getElementById('modalImage');
-    console.log("미리보기 시도 URL:", imageUrl); // 디버깅용
+    console.log("미리보기 시도 URL:", imageUrl);
     
     if (imageUrl && imageUrl.trim() !== '') {
         modalImg.onload = function() {
@@ -417,8 +562,6 @@ function showImagePreview(imageUrl) {
     }
 }
 
-
-
 // 모달 닫기 기능 추가
 const modal = document.getElementById('imageModal');
 const span = document.getElementsByClassName("close")[0];
@@ -426,12 +569,41 @@ span.onclick = function() {
     modal.style.display = "none";
 }
 
+// 모달 외부 클릭 시 닫기
+window.onclick = function(event) {
+    if (event.target == modal) {
+        modal.style.display = "none";
+    }
+}
+
+// 페이지 로드 시 초기화 함수 호출
+window.onload = function() {
+    init();
+    setupModalEvents();
+};
+
+// 모달 이벤트 설정 함수
+function setupModalEvents() {
+    const modal = document.getElementById('imageModal');
+    const span = document.getElementsByClassName("close")[0];
+    
+    span.onclick = function() {
+        modal.style.display = "none";
+    }
+
+    window.onclick = function(event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+    }
+}
+
 // 제품 개수 업데이트 함수
 function updateProductCount() {
     const rows = document.querySelectorAll('#dataTable tbody tr');
     productCount = 0;
     rows.forEach((row, index) => {
-        row.cells[0].textContent = ++productCount; // 제품 번호 갱신
+        row.cells[0].textContent = ++productCount;
     });
 }
 
@@ -441,8 +613,8 @@ function updatePriceFromUnitPrice(row) {
     const quantity = parseInt(row.cells[3].querySelector('input').value) || 0;
     const priceInput = row.cells[4].querySelector('input');
 
-    const totalPrice = unitPrice * quantity; // 총 가격 계산
-    priceInput.value = formatNumber(totalPrice); // 포맷 적용 후 총 가격 설정
+    const totalPrice = unitPrice * quantity;
+    priceInput.value = formatNumber(totalPrice);
 }
 
 // 숫자를 세 자리마다 콤마로 포맷하는 함수
@@ -457,45 +629,40 @@ function togglePrices() {
     const priceElements = document.querySelectorAll('td:nth-child(5) input');
     const button = document.getElementById('togglePriceButton');
 
-    pricesHidden = !pricesHidden; // 가격 숨김 여부 토글
+    pricesHidden = !pricesHidden;
 
     unitPriceElements.forEach(element => {
         if (pricesHidden) {
-            element.setAttribute('data-current-value', element.value); // 현재 값 저장
-            element.disabled = true; // 비활성화
+            element.setAttribute('data-current-value', element.value);
+            element.disabled = true;
             element.value = '';
-            element.style.backgroundColor = '#e9ecef'; // 배경색 변경
-            element.style.color = '#e9ecef'; // 글자색 변경
+            element.style.backgroundColor = '#e9ecef';
+            element.style.color = '#e9ecef';
         } else {
-            element.disabled = false; // 활성화
-            element.value = element.getAttribute('data-current-value'); // 저장된 값 복원
-            element.style.backgroundColor = ''; // 배경색 원래대로
-            element.style.color = ''; // 글자색 원래대로
+            element.disabled = false;
+            element.value = element.getAttribute('data-current-value');
+            element.style.backgroundColor = '';
+            element.style.color = '';
         }
     });
 
     priceElements.forEach(element => {
         if (pricesHidden) {
-            element.setAttribute('data-current-value', element.value); // 현재 값 저장
-            element.disabled = true; // 비활성화
+            element.setAttribute('data-current-value', element.value);
+            element.disabled = true;
             element.value = '';
-            element.style.backgroundColor = '#e9ecef'; // 배경색 변경
-            element.style.color = '#e9ecef'; // 글자색 변경
+            element.style.backgroundColor = '#e9ecef';
+            element.style.color = '#e9ecef';
         } else {
-            element.disabled = false; // 활성화
-            element.value = element.getAttribute('data-current-value'); // 저장된 값 복원
-            element.style.backgroundColor = ''; // 배경색 원래대로
-            element.style.color = ''; // 글자색 원래대로
+            element.disabled = false;
+            element.value = element.getAttribute('data-current-value');
+            element.style.backgroundColor = '';
+            element.style.color = '';
         }
     });
 
-    button.textContent = pricesHidden ? '가격 보이기' : '가격 숨기기'; // 버튼 텍스트 변경
+    button.textContent = pricesHidden ? '가격 보이기' : '가격 숨기기';
 }
-
-
-
-
-
 
 // 이미지 파일을 ZIP에 추가하는 함수
 async function downloadImageToZip(zip, imageUrl, fileName) {
@@ -504,13 +671,11 @@ async function downloadImageToZip(zip, imageUrl, fileName) {
     zip.file(fileName, blob);
 }
 
-// 엑셀로 내보내기 함수
+// 견적서로 내보내기 함수
 async function exportToExcel() {
     try {
-        // ZIP 파일 생성
         const zip = new JSZip();
 
-        // 엑셀 파일 데이터 로드
         const response = await fetch('/inqury.xlsx');
         const arrayBuffer = await response.arrayBuffer();
         const workbook = new ExcelJS.Workbook();
@@ -521,7 +686,6 @@ async function exportToExcel() {
         const startRow = 18;
         const endRow = 150;
 
-        // 워크시트의 열 너비 설정
         worksheet.columns.forEach((column, index) => {
             const col = worksheet.getColumn(index + 1);
             if (col.width) {
@@ -529,7 +693,6 @@ async function exportToExcel() {
             }
         });
 
-        // 견적 날짜와 고객 이름 설정
         const quoteDate = `${document.getElementById('quoteYear').value}-${document.getElementById('quoteMonth').value}-${document.getElementById('quoteDay').value}`;
         worksheet.getCell('A3').value = quoteDate;
 
@@ -539,53 +702,46 @@ async function exportToExcel() {
         const writerPhone = document.getElementById('writerPhone').value;
         worksheet.getCell('H7').value = writerPhone;
 
-        let totalAmount = 0; // 총 금액 초기화
+        let totalAmount = 0;
 
-        // 이미지 다운로드 및 ZIP 파일에 추가를 위한 프로미스 배열
         const imageDownloadPromises = [];
 
-        // 테이블 데이터를 엑셀 워크시트에 추가
         tableRows.forEach((row, index) => {
             const rowIndex = startRow + index;
 
-            worksheet.getCell(`A${rowIndex}`).value = index + 1; // 제품 번호
-            worksheet.getCell(`C${rowIndex}`).value = row.cells[1].querySelector('input').value; // 제품명 입력 필드의 값 가져오기
+            worksheet.getCell(`A${rowIndex}`).value = index + 1;
+            worksheet.getCell(`C${rowIndex}`).value = row.cells[1].querySelector('input').value;
 
-            if (!pricesHidden) { // 가격이 숨겨지지 않은 경우
+            if (!pricesHidden) {
                 const unitPrice = parseFloat(row.cells[2].querySelector('input').value.replace(/,/g, '')) || 0;
                 const price = parseFloat(row.cells[4].querySelector('input').value.replace(/,/g, '')) || 0;
 
-                worksheet.getCell(`F${rowIndex}`).value = unitPrice; // 단가 설정
-                worksheet.getCell(`I${rowIndex}`).value = price; // 가격 설정
+                worksheet.getCell(`F${rowIndex}`).value = unitPrice;
+                worksheet.getCell(`I${rowIndex}`).value = price;
 
-                totalAmount += price; // 총 금액 누적
+                totalAmount += price;
             } else {
                 worksheet.getCell(`F${rowIndex}`).value = " ";
                 worksheet.getCell(`I${rowIndex}`).value = " ";
             }
 
-            worksheet.getCell(`H${rowIndex}`).value = parseInt(row.cells[3].querySelector('input').value) || 0; // 수량 설정
-            worksheet.getCell(`K${rowIndex}`).value = row.cells[5].querySelector('input').value; // 비고 설정
+            worksheet.getCell(`H${rowIndex}`).value = parseInt(row.cells[3].querySelector('input').value) || 0;
+            worksheet.getCell(`K${rowIndex}`).value = row.cells[5].querySelector('input').value;
 
-            // 셀 정렬 설정
             ['A', 'C', 'F', 'H', 'I', 'K'].forEach(col => {
                 worksheet.getCell(`${col}${rowIndex}`).alignment = { vertical: 'middle', horizontal: 'center' };
             });
 
-            // 이미지 다운로드 및 ZIP 파일에 추가
-            const productName = row.cells[1].querySelector('input').value;
-            const imageUrl = companies[selectedCompany]?.[productName]?.imageUrl;
-            if (imageUrl) {
-                const fileName = `${productName}.png`; // 저장할 이미지 파일 이름
-                const downloadPromise = downloadImageToZip(zip, imageUrl, fileName); // 이미지 다운로드 및 ZIP에 추가 함수 호출
-                imageDownloadPromises.push(downloadPromise); // 프로미스를 배열에 추가
+            const finalImageUrl = row.getAttribute('data-image-url');
+            if (finalImageUrl) {
+                const fileName = `${worksheet.getCell(`C${rowIndex}`).value}.png`;
+                const downloadPromise = downloadImageToZip(zip, finalImageUrl, fileName);
+                imageDownloadPromises.push(downloadPromise);
             }
         });
 
-        // 모든 이미지 다운로드가 완료될 때까지 대기
         await Promise.all(imageDownloadPromises);
 
-        // 부가세와 총 금액 계산
         if (!pricesHidden) {
             const vat = totalAmount * 0.1;
             worksheet.getCell('F12').value = totalAmount;
@@ -598,7 +754,6 @@ async function exportToExcel() {
             worksheet.getCell('F12').value = " ";
         }
 
-        // 불필요한 행 삭제
         let rowsToDelete = [];
         for (let i = startRow; i <= endRow; i++) {
             const checkCell = worksheet.getCell(`A${i}`);
@@ -611,11 +766,9 @@ async function exportToExcel() {
             worksheet.spliceRows(rowNumber, 1);
         });
 
-        // 엑셀 파일을 ZIP에 추가
         const excelBuffer = await workbook.xlsx.writeBuffer();
         zip.file(`${customerName || '일반'}_고객_견적서.xlsx`, excelBuffer);
 
-        // ZIP 파일 생성 및 다운로드
         zip.generateAsync({ type: 'blob' }).then(function (content) {
             const zipFileName = `${customerName || '일반'}_고객_자료.zip`;
             const zipBlob = new Blob([content], { type: 'application/zip' });
@@ -633,241 +786,252 @@ async function exportToExcel() {
     }
 }
 
-
-
-
-
-// 직접 입력 버튼 이벤트 리스너 추가
-document.getElementById('manualEntryButton').addEventListener('click', addManualEntryRow);
-
-// 직접 입력 행 추가 함수
-function addManualEntryRow() {
-    const tableBody = document.querySelector('#dataTable tbody');
-    const newRow = tableBody.insertRow();
-
-    // 각 셀 생성 및 내용 추가
-    const indexCell = newRow.insertCell(0);
-    indexCell.textContent = ++productCount; // 제품 번호
-
-    // 제품명 입력 필드
-    const productCell = newRow.insertCell(1);
-    const productInput = document.createElement('input');
-    productInput.type = 'text';
-    productInput.className = 'product-cell';
-    productInput.placeholder = '    ';
-    productCell.appendChild(productInput);
-
-    // 단가 입력 필드
-    const unitPriceCell = newRow.insertCell(2);
-    const unitPriceInput = document.createElement('input');
-    unitPriceInput.type = 'text';
-    unitPriceInput.className = 'price-cell';
-    unitPriceInput.placeholder = '    ';
-    unitPriceInput.oninput = function() {
-        this.value = this.value.replace(/[^0-9]/g, ''); // 숫자만 입력 가능
-        this.value = formatNumber(this.value.replace(/,/g, ''));
-        updatePriceFromUnitPrice(newRow);
-    };
-    unitPriceCell.appendChild(unitPriceInput);
-
-    // 수량 입력 필드
-    const quantityCell = newRow.insertCell(3);
-    const quantityInput = document.createElement('input');
-    quantityInput.type = 'number';
-    quantityInput.min = '0';
-    quantityInput.placeholder = '    ';
-    quantityInput.oninput = function() {
-        this.value = this.value.replace(/[^0-9]/g, ''); // 숫자만 입력 가능하도록 설정
-        updatePriceFromUnitPrice(newRow);
-    };
-    quantityCell.appendChild(quantityInput);
-
-// 가격 입력 필드
-const priceCell = newRow.insertCell(4);
-const priceInput = document.createElement('input');
-priceInput.type = 'text';
-priceInput.className = 'price-cell';
-priceInput.placeholder = '    ';
-priceInput.oninput = function() {
-    this.value = this.value.replace(/[^0-9]/g, ''); // 숫자만 입력 가능
-    this.value = formatNumber(this.value.replace(/,/g, ''));
-};
-priceCell.appendChild(priceInput);
-
-// 비고 입력 필드
-const noteCell = newRow.insertCell(5);
-const noteInput = document.createElement('input');
-noteInput.type = 'text';
-noteInput.placeholder = '    ';
-noteCell.appendChild(noteInput);
-
-// 미리보기 버튼 추가 (직접 입력의 경우 비활성화)
-const previewCell = newRow.insertCell(6);
-const previewButton = document.createElement('button');
-previewButton.textContent = '미리보기';
-previewButton.className = 'preview-button';
-previewButton.disabled = true;
-previewButton.style.opacity = '0.5';
-previewCell.appendChild(previewButton);
-
-// 삭제 버튼 추가
-const deleteCell = newRow.insertCell(7);
-const deleteButton = document.createElement('button');
-deleteButton.textContent = '삭제';
-deleteButton.className = 'delete-button';
-deleteButton.onclick = function() {
-    tableBody.removeChild(newRow);
-    updateProductCount();
-};
-deleteCell.appendChild(deleteButton);
-
-// 가격 숨김 설정 시 입력 필드 비활성화
-if (pricesHidden) {
-    unitPriceInput.disabled = true;
-    priceInput.disabled = true;
-}
-}
-
-// 엑셀 파일 불러오기 함수
-async function loadExcelFile(event) {
-try {
-    const file = event.target.files[0];
-    if (!file) {
-        console.error('파일이 선택되지 않았습니다.');
-        return;
-    }
-
-    const reader = new FileReader();
-
-    reader.onload = async function(e) {
-        try {
-            const data = new Uint8Array(e.target.result);
-            const workbook = new ExcelJS.Workbook();
-            await workbook.xlsx.load(data);
-
-            const worksheet = workbook.getWorksheet(1);
-
-            // 견적 날짜와 고객 이름 설정
-            const dateCell = worksheet.getCell('A3').value;
-            const [year, month, day] = dateCell.split('-');
-            document.getElementById('quoteYear').value = year;
-            document.getElementById('quoteMonth').value = month;
-            document.getElementById('quoteDay').value = day;
-            document.getElementById('customerName').value = worksheet.getCell('A4').value;
-
-            // 전화번호 불러오기
-            const writerPhone = worksheet.getCell('H7').value;
-            document.getElementById('writerPhone').value = writerPhone || '';
-
-            // 기존 테이블 내용 삭제
-            const tableBody = document.querySelector('#dataTable tbody');
-            tableBody.innerHTML = '';
-
-            // 제품 데이터 추가
-            for (let rowNumber = 18; rowNumber <= worksheet.rowCount; rowNumber++) {
-                const row = worksheet.getRow(rowNumber);
-                if (!row.getCell(1).value) break;  // 빈 행이면 중단
-
-                const newRow = tableBody.insertRow();
-                
-                // 구분(번호) 추가
-                newRow.insertCell(0).textContent = row.getCell(1).value;
-
-                // 제품명 입력 필드
-                const productInput = document.createElement('input');
-                productInput.type = 'text';
-                productInput.value = row.getCell(3).value;
-                productInput.className = 'product-cell';
-                newRow.insertCell(1).appendChild(productInput);
-
-                // 단가 입력 필드
-                const unitPriceInput = document.createElement('input');
-                unitPriceInput.type = 'text';
-                unitPriceInput.value = formatNumber(row.getCell(6).value);
-                unitPriceInput.className = 'price-cell';
-                unitPriceInput.oninput = function() {
-                    this.value = formatNumber(this.value.replace(/[^0-9]/g, ''));
-                    updatePriceFromUnitPrice(newRow);
-                };
-                newRow.insertCell(2).appendChild(unitPriceInput);
-
-                // 수량 입력 필드
-                const quantityInput = document.createElement('input');
-                quantityInput.type = 'number';
-                quantityInput.value = row.getCell(8).value;
-                quantityInput.oninput = function() {
-                    updatePriceFromUnitPrice(newRow);
-                };
-                newRow.insertCell(3).appendChild(quantityInput);
-
-                // 가격 입력 필드
-                const priceInput = document.createElement('input');
-                priceInput.type = 'text';
-                priceInput.value = formatNumber(row.getCell(9).value);
-                priceInput.className = 'price-cell';
-                priceInput.oninput = function() {
-                    this.value = formatNumber(this.value.replace(/[^0-9]/g, ''));
-                };
-                newRow.insertCell(4).appendChild(priceInput);
-
-                // 비고 입력 필드
-                const noteInput = document.createElement('input');
-                noteInput.type = 'text';
-                noteInput.value = row.getCell(11).value;
-                newRow.insertCell(5).appendChild(noteInput);
-
-                // 미리보기 버튼 (비활성화 상태로 추가)
-                const previewButton = document.createElement('button');
-                previewButton.textContent = '미리보기';
-                previewButton.className = 'preview-button';
-                previewButton.disabled = true;
-                newRow.insertCell(6).appendChild(previewButton);
-
-                // 삭제 버튼 추가
-                const deleteButton = document.createElement('button');
-                deleteButton.textContent = '삭제';
-                deleteButton.className = 'delete-button';
-                deleteButton.onclick = function() {
-                    tableBody.removeChild(newRow);
-                    updateProductCount();
-                };
-                newRow.insertCell(7).appendChild(deleteButton);
-            }
-
-            updateProductCount();
-            alert('엑셀 파일이 성공적으로 불러와졌습니다.');
-        } catch (error) {
-            console.error('엑셀 파일 처리 중 오류 발생:', error);
-            alert('엑셀 파일 처리 중 오류가 발생했습니다.');
+// ZIP 파일 로드 함수
+async function loadZipFile(event) {
+    try {
+        const fileInput = event.target;
+        const file = fileInput.files[0];
+        if (!file) {
+            console.error('파일이 선택되지 않았습니다.');
+            return;
         }
-    };
 
-    reader.onerror = function(error) {
-        console.error('파일 읽기 오류:', error);
-        alert('파일을 읽는 중 오류가 발생했습니다.');
-    };
+        const reader = new FileReader();
+        reader.onload = async function(e) {
+            try {
+                const zip = await JSZip.loadAsync(e.target.result);
+                
+                // Excel 파일 찾기 및 처리
+                let workbook;
+                let excelFileName;
+                for (let filename of Object.keys(zip.files)) {
+                    if (filename.endsWith('.xlsx')) {
+                        excelFileName = filename;
+                        const excelFile = await zip.file(filename).async('arraybuffer');
+                        workbook = new ExcelJS.Workbook();
+                        await workbook.xlsx.load(excelFile);
+                        break;
+                    }
+                }
 
-    reader.readAsArrayBuffer(file);
-} catch (error) {
-    console.error('엑셀 파일 로드 중 오류 발생:', error);
-    alert('엑셀 파일을 로드하는 중 오류가 발생했습니다.');
+                if (!workbook) {
+                    throw new Error('ZIP 파일 내에 Excel 파일이 없습니다.');
+                }
+
+                const worksheet = workbook.getWorksheet(1);
+
+                // 견적 날짜 설정
+                const dateCell = worksheet.getCell('A3').value;
+                if (dateCell) {
+                    const [year, month, day] = dateCell.split('-');
+                    document.getElementById('quoteYear').value = year;
+                    document.getElementById('quoteMonth').value = month;
+                    document.getElementById('quoteDay').value = day;
+                }
+
+                // 고객 이름 설정
+                const customerName = worksheet.getCell('A4').value;
+                if (customerName) {
+                    document.getElementById('customerName').value = customerName;
+                }
+
+                // 전화번호 설정
+                const writerPhone = worksheet.getCell('H7').value;
+                if (writerPhone) {
+                    document.getElementById('writerPhone').value = writerPhone;
+                }
+
+                // 기존 테이블 내용 삭제
+                const tableBody = document.querySelector('#dataTable tbody');
+                tableBody.innerHTML = '';
+
+                // 제품 데이터 추가
+                for (let rowNumber = 18; rowNumber <= worksheet.rowCount; rowNumber++) {
+                    const row = worksheet.getRow(rowNumber);
+                    if (!row.getCell(1).value) break;  // 빈 행이면 중단
+
+                    const newRow = tableBody.insertRow();
+                    
+                    // 구분(번호) 추가
+                    newRow.insertCell(0).textContent = row.getCell(1).value;
+
+                    // 제품명 입력 필드
+                    const productInput = document.createElement('input');
+                    productInput.type = 'text';
+                    productInput.value = row.getCell(3).value;
+                    productInput.className = 'product-cell';
+                    newRow.insertCell(1).appendChild(productInput);
+
+                    // 단가 입력 필드
+                    const unitPriceInput = document.createElement('input');
+                    unitPriceInput.type = 'text';
+                    unitPriceInput.value = formatNumber(row.getCell(6).value);
+                    unitPriceInput.className = 'price-cell';
+                    unitPriceInput.oninput = function() {
+                        this.value = formatNumber(this.value.replace(/[^0-9]/g, ''));
+                        updatePriceFromUnitPrice(newRow);
+                    };
+                    newRow.insertCell(2).appendChild(unitPriceInput);
+
+                    // 수량 입력 필드
+                    const quantityInput = document.createElement('input');
+                    quantityInput.type = 'number';
+                    quantityInput.value = row.getCell(8).value;
+                    quantityInput.oninput = function() {
+                        updatePriceFromUnitPrice(newRow);
+                    };
+                    newRow.insertCell(3).appendChild(quantityInput);
+
+                    // 가격 입력 필드
+                    const priceInput = document.createElement('input');
+                    priceInput.type = 'text';
+                    priceInput.value = formatNumber(row.getCell(9).value);
+                    priceInput.className = 'price-cell';
+                    priceInput.oninput = function() {
+                        this.value = formatNumber(this.value.replace(/[^0-9]/g, ''));
+                    };
+                    newRow.insertCell(4).appendChild(priceInput);
+
+                    // 비고 입력 필드
+                    const noteInput = document.createElement('input');
+                    noteInput.type = 'text';
+                    noteInput.value = row.getCell(11).value;
+                    newRow.insertCell(5).appendChild(noteInput);
+
+                    // 이미지 미리보기 버튼 추가
+                    const previewCell = newRow.insertCell(6);
+                    const buttonContainer = document.createElement('div');
+                    buttonContainer.className = 'preview-buttons';
+
+                    const buttonRow = document.createElement('div');
+                    buttonRow.className = 'button-row';
+
+                    const increaseButton = document.createElement('button');
+                    increaseButton.textContent = '+';
+                    increaseButton.className = 'increase-button';
+                    buttonRow.appendChild(increaseButton);
+
+                    const decreaseButton = document.createElement('button');
+                    decreaseButton.textContent = '-';
+                    decreaseButton.className = 'decrease-button';
+                    buttonRow.appendChild(decreaseButton);
+
+                    const previewButton = document.createElement('button');
+                    previewButton.textContent = '미리보기';
+                    previewButton.className = 'preview-button';
+                    previewButton.disabled = true;
+
+                    buttonContainer.appendChild(buttonRow);
+                    buttonContainer.appendChild(previewButton);
+                    previewCell.appendChild(buttonContainer);
+
+                    // 이미지 파일 찾기 및 설정
+                    const productName = productInput.value;
+                    const imageFiles = Object.keys(zip.files).filter(filename => 
+                        filename.toLowerCase().includes(productName.toLowerCase()) && 
+                        /\.(png|jpg|jpeg|gif)$/i.test(filename)
+                    );
+
+                    if (imageFiles.length > 0) {
+                        const imageFile = zip.file(imageFiles[0]);
+                        if (imageFile) {
+                            try {
+                                const content = await imageFile.async('base64');
+                                const imageUrl = `data:image/${imageFiles[0].split('.').pop()};base64,${content}`;
+                                newRow.setAttribute('data-image-url', imageUrl);
+                                previewButton.disabled = false;
+                                previewButton.onclick = () => showImagePreview(imageUrl);
+                            } catch (imageError) {
+                                console.error('이미지 처리 중 오류:', imageError);
+                            }
+                        }
+                    }
+
+                    // + 버튼 클릭 시 이미지 업로드
+                    increaseButton.onclick = function() {
+                        const fileInput = document.createElement('input');
+                        fileInput.type = 'file';
+                        fileInput.accept = 'image/*';
+                        fileInput.onchange = function(event) {
+                            const file = event.target.files[0];
+                            if (file) {
+                                const reader = new FileReader();
+                                reader.onload = function(e) {
+                                    const imageUrl = e.target.result;
+                                    newRow.setAttribute('data-image-url', imageUrl);
+                                    previewButton.disabled = false;
+                                    previewButton.onclick = () => showImagePreview(imageUrl);
+                                };
+                                reader.readAsDataURL(file);
+                            }
+                        };
+                        fileInput.click();
+                    };
+
+                    // - 버튼 클릭 시 이미지 삭제
+                    decreaseButton.onclick = function() {
+                        newRow.removeAttribute('data-image-url');
+                        previewButton.disabled = true;
+                        previewButton.onclick = null;
+                    };
+
+                    // 삭제 버튼 추가
+                    const deleteCell = newRow.insertCell(7);
+                    const deleteButton = document.createElement('button');
+                    deleteButton.textContent = '삭제';
+                    deleteButton.className = 'delete-button';
+                    deleteButton.onclick = function() {
+                        tableBody.removeChild(newRow);
+                        updateProductCount();
+                    };
+                    deleteCell.appendChild(deleteButton);
+                }
+
+                updateProductCount();
+                alert('ZIP 파일이 성공적으로 불러와졌습니다.');
+            } catch (error) {
+                console.error('ZIP 파일 처리 중 오류 발생:', error);
+                alert('ZIP 파일 처리 중 오류가 발생했습니다: ' + error.message);
+            }
+        };
+
+        reader.onerror = function(error) {
+            console.error('파일 읽기 오류:', error);
+            alert('파일을 읽는 중 오류가 발생했습니다.');
+        };
+
+        reader.readAsArrayBuffer(file);
+
+        // 파일 입력 필드 초기화
+        fileInput.value = '';
+    } catch (error) {
+        console.error('ZIP 파일 로드 중 오류 발생:', error);
+        alert('ZIP 파일을 로드하는 중 오류가 발생했습니다.');
+    }
 }
-}
 
-// 확대 방지 스크립트
-document.addEventListener('gesturestart', function(e) {
-    e.preventDefault();
-});
+// 이벤트 리스너 설정 함수 내부 또는 다른 적절한 위치에서
+document.getElementById('fileInput').accept = '.zip';
 
-document.addEventListener('touchmove', function(e) {
-    if (e.scale !== 1) {
+// 입력 필드에 대한 확대 방지
+document.addEventListener('focus', function(e) {
+    if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') {
+        e.target.setAttribute('readonly', '');
+        setTimeout(function() {
+            e.target.removeAttribute('readonly');
+        }, 100);
+    }
+}, true);
+
+// 더블 탭 확대 방지
+let lastTouchEnd = 0;
+document.addEventListener('touchend', function(e) {
+    const now = (new Date()).getTime();
+    if (now - lastTouchEnd <= 300) {
         e.preventDefault();
     }
-}, { passive: false });
-
-document.addEventListener('dblclick', function(e) {
-    e.preventDefault();
-});
+    lastTouchEnd = now;
+}, false);
 
 // 페이지 로드 시 초기화 함수 호출
 window.onload = init;

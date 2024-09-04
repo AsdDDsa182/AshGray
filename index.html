@@ -2,7 +2,7 @@
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
     <!-- 화면을 이미지로 캡처하기 위한 라이브러리 -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.3.2/html2canvas.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.7.1/jszip.min.js"></script>
@@ -87,16 +87,19 @@
                 <tbody></tbody>
             </table>
         </div>
+
     
         <!-- 기능 버튼 영역 -->
         <div class="button-container">
             <!-- 가격 숨기기 버튼 -->
             <button id="togglePriceButton" class="action-button">가격 숨기기</button>
             <!-- 엑셀로 내보내기 버튼 -->
-            <button id="exportExcelButton" class="action-button">엑셀로 내보내기</button>
+            <button id="exportExcelButton" class="action-button">견적서 내보내기</button>
             <!-- 새로운 파일 업로드 입력 필드와 버튼 추가 -->
-            <input type="file" id="fileInput" accept=".xlsx" style="display: none;">
-            <button id="loadExcelButton" class="action-button">엑셀 불러오기</button>
+            <input type="file" id="fileInput" accept=".zip" style="display: none;">
+            <button id="loadExcelButton">견적서 불러오기 (ZIP)</button>
+
+
         </div>
     </div>
 
