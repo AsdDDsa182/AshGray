@@ -10,10 +10,6 @@
     <!-- 외부 스타일시트 연결 -->
     <link rel="stylesheet" href="styles.css">
 </head>
-<div id="imageModal" class="modal">
-    <span class="close">&times;</span>
-    <img class="modal-content" id="modalImage">
-</div>
 <body>
     <!-- 전체 컨테이너 -->
     <div class="container">
@@ -98,7 +94,17 @@
             <!-- 새로운 파일 업로드 입력 필드와 버튼 추가 -->
             <input type="file" id="fileInput" accept=".zip" style="display: none;">
             <button id="loadExcelButton">견적서 불러오기 (ZIP)</button>
-
+            <div id="imageModal" class="modal">
+                <div class="modal-overlay">
+                    <div class="modal-container">
+                        <span class="close">&times;</span>
+                        <div class="modal-content">
+                            <img id="modalImage" src="" alt="제품 이미지">
+                            <div id="modalProductName"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
         </div>
     </div>

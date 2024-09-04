@@ -7,9 +7,10 @@ let selectedProduct = ''; // 선택된 제품 이름
 
 // 페이지 초기화 함수
 async function init() {
-    initDateFields();
-    await loadCompaniesAndProducts();
-    setupEventListeners();
+    initDateFields(); // 날짜 필드 초기화
+    await loadCompaniesAndProducts(); // 회사 및 제품 데이터 로드
+    setupEventListeners(); // 이벤트 리스너 설정
+    setupModalEvents(); // 모달 이벤트 설정
     console.log("초기화 완료");
 }
 
@@ -355,7 +356,7 @@ function addNewRow(tableBody, productName, unitPrice, imageUrl) {
 
     if (currentImageUrl) {
         previewButton.onclick = function () {
-            showImagePreview(currentImageUrl);
+            showImagePreview(currentImageUrl, productName);
         };
         previewButton.disabled = false;
     } else {
@@ -376,7 +377,7 @@ function addNewRow(tableBody, productName, unitPrice, imageUrl) {
                 const reader = new FileReader();
                 reader.onload = function (e) {
                     currentImageUrl = e.target.result;
-                    previewButton.onclick = () => showImagePreview(currentImageUrl);
+                    previewButton.onclick = () => showImagePreview(currentImageUrl, productName);
                     previewButton.disabled = false;
                     newRow.setAttribute('data-image-url', currentImageUrl);
                 };
@@ -505,7 +506,7 @@ function addManualEntryRow() {
                 const reader = new FileReader();
                 reader.onload = function(e) {
                     currentImageUrl = e.target.result;
-                    previewButton.onclick = () => showImagePreview(currentImageUrl);
+                    previewButton.onclick = () => showImagePreview(currentImageUrl, productInput.value);
                     previewButton.disabled = false;
                     newRow.setAttribute('data-image-url', currentImageUrl);
                 };
@@ -541,14 +542,15 @@ function addManualEntryRow() {
 }
 
 // 모달 관련 코드 수정
-function showImagePreview(imageUrl) {
+function showImagePreview(imageUrl, productName) {
     const modal = document.getElementById('imageModal');
     const modalImg = document.getElementById('modalImage');
+    const modalProductName = document.getElementById('modalProductName');
     console.log("미리보기 시도 URL:", imageUrl);
     
     if (imageUrl && imageUrl.trim() !== '') {
         modalImg.onload = function() {
-            modal.style.display = "block";
+            modal.style.display = "flex";
             console.log("이미지 로드 성공");
         };
         modalImg.onerror = function() {
@@ -556,44 +558,31 @@ function showImagePreview(imageUrl) {
             alert('이미지를 불러올 수 없습니다.');
         };
         modalImg.src = imageUrl;
+        modalProductName.textContent = productName || '제품명 없음';
     } else {
         console.log("이미지 URL이 없거나 유효하지 않습니다.");
         alert('이미지를 찾을 수 없습니다.');
     }
 }
 
-// 모달 닫기 기능 추가
-const modal = document.getElementById('imageModal');
-const span = document.getElementsByClassName("close")[0];
-span.onclick = function() {
+// 모달 닫기 함수
+function closeModal() {
+    const modal = document.getElementById('imageModal');
     modal.style.display = "none";
 }
-
-// 모달 외부 클릭 시 닫기
-window.onclick = function(event) {
-    if (event.target == modal) {
-        modal.style.display = "none";
-    }
-}
-
-// 페이지 로드 시 초기화 함수 호출
-window.onload = function() {
-    init();
-    setupModalEvents();
-};
 
 // 모달 이벤트 설정 함수
 function setupModalEvents() {
     const modal = document.getElementById('imageModal');
     const span = document.getElementsByClassName("close")[0];
     
-    span.onclick = function() {
-        modal.style.display = "none";
-    }
+    // 닫기 버튼 클릭 시 모달 닫기
+    span.onclick = closeModal;
 
+    // 모달 외부 클릭 시 모달 닫기
     window.onclick = function(event) {
         if (event.target == modal) {
-            modal.style.display = "none";
+            closeModal();
         }
     }
 }
@@ -940,7 +929,7 @@ async function loadZipFile(event) {
                                 const imageUrl = `data:image/${imageFiles[0].split('.').pop()};base64,${content}`;
                                 newRow.setAttribute('data-image-url', imageUrl);
                                 previewButton.disabled = false;
-                                previewButton.onclick = () => showImagePreview(imageUrl);
+                                previewButton.onclick = () => showImagePreview(imageUrl, productName);
                             } catch (imageError) {
                                 console.error('이미지 처리 중 오류:', imageError);
                             }
@@ -960,7 +949,7 @@ async function loadZipFile(event) {
                                     const imageUrl = e.target.result;
                                     newRow.setAttribute('data-image-url', imageUrl);
                                     previewButton.disabled = false;
-                                    previewButton.onclick = () => showImagePreview(imageUrl);
+                                    previewButton.onclick = () => showImagePreview(imageUrl, productName);
                                 };
                                 reader.readAsDataURL(file);
                             }

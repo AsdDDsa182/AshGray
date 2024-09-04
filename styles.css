@@ -351,6 +351,7 @@ td input[type="number"]:focus {
 
 /* 견적서로 내보내기 버튼 스타일 */
 #exportExcelButton {
+    margin-top: 40px;
     background-color: #2ecc71;
     color: white;
 }
@@ -426,6 +427,39 @@ td input[type="number"]:focus {
     outline: none;
     border-color: #3498db;
     background-color: #ffffff;
+}
+
+/* 모바일 화면을 위한 미디어 쿼리 */
+@media (max-width: 768px) {
+    .button-container {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    #togglePriceButton,
+    #exportExcelButton,
+    #loadExcelButton {
+        width: 100%;
+        margin-bottom: 10px;
+    }
+
+    /* 가격 숨기기 버튼 아래 구분선 추가 */
+    #togglePriceButton {
+        position: relative;
+        padding-bottom: 20px; /* 버튼 내부 아래쪽 여백 */
+        margin-bottom: 30px; /* 버튼 아래 외부 여백 증가 */
+    }
+
+    #togglePriceButton::after {
+        content: '';
+        position: absolute;
+        bottom: -33px; /* 구분선 위치를 아래로 이동 */
+        left: 10%;
+        width: 80%;
+        height: 6px;
+        border-radius: 4px;
+        background-color: #e0e0e0; /* 구분선 색상 */
+    }
 }
 
 /* 삭제 버튼 스타일 */
@@ -511,7 +545,6 @@ td input[type="number"]:focus {
     opacity: 0.5;
 }
 
-/* 모달 스타일 */
 .modal {
     display: none;
     position: fixed;
@@ -524,22 +557,75 @@ td input[type="number"]:focus {
     background-color: rgba(0,0,0,0.9);
 }
 
+.modal-overlay {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-container {
+    position: relative;
+    max-width: 90%;
+    max-height: 90%;
+    background-color: transparent;
+}
+
 .modal-content {
-    margin: auto;
-    display: block;
-    width: 80%;
-    max-width: 700px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#modalImage {
+    max-width: 100%;
+    max-height: 80vh;
+    object-fit: contain;
+}
+
+#modalProductName {
+    color: white;
+    font-size: 18px;
+    margin-top: 20px;
+    text-align: center;
+    max-width: 100%;
+    word-wrap: break-word;
 }
 
 .close {
     position: absolute;
-    top: 15px;
-    right: 35px;
+    top: -60px;
+    right: 0px;
     color: #f1f1f1;
     font-size: 40px;
     font-weight: bold;
     cursor: pointer;
 }
+
+@media screen and (max-width: 700px) {
+    .modal-container {
+        max-width: 95%;
+    }
+
+    #modalImage {
+        max-height: 70vh;
+    }
+
+    #modalProductName {
+        font-size: 16px;
+    }
+
+    .close {
+        top: -40px;
+        right: 0px;
+        font-size: 30px;
+    }
+}
+
+
+
+
 
 /* PC 화면 레이아웃 */
 @media (min-width: 769px) {
