@@ -255,6 +255,7 @@ function resetProductSelection() {
     document.getElementById('addButton').style.cursor = 'not-allowed';
 }
 
+
 // 제품 추가 함수
 function addTableRow() {
     const productName = selectedProduct;
@@ -340,24 +341,24 @@ function addNewRow(tableBody, productName, unitPrice, imageUrl) {
     };
     quantityCell.appendChild(quantityInput);
 
-    // 가격 입력 필드 추가
-    const priceCell = newRow.insertCell(4);
-    const priceInput = document.createElement('input');
-    priceInput.type = 'text';
-    priceInput.value = formatNumber(unitPrice);
-    priceInput.className = 'price-cell';
-    priceInput.oninput = function() {
-        this.value = this.value.replace(/[^0-9]/g, '');
-        this.value = formatNumber(this.value.replace(/,/g, ''));
-    };
-    priceCell.appendChild(priceInput);
+// 가격 입력 필드 추가
+const priceCell = newRow.insertCell(4);
+const priceInput = document.createElement('input');
+priceInput.type = 'text';
+priceInput.value = formatNumber(unitPrice);
+priceInput.className = 'price-cell';
+priceInput.oninput = function() {
+    this.value = this.value.replace(/[^0-9]/g, '');
+    this.value = formatNumber(this.value.replace(/,/g, ''));
+};
+priceCell.appendChild(priceInput);
 
-    // 비고 입력 필드 추가
-    const noteCell = newRow.insertCell(5);
-    const noteInput = document.createElement('input');
-    noteInput.type = 'text';
-    noteInput.placeholder = '    ';
-    noteCell.appendChild(noteInput);
+// 비고 입력 필드 추가
+const noteCell = newRow.insertCell(5);
+const noteInput = document.createElement('input');
+noteInput.type = 'text';
+noteInput.placeholder = '    ';
+noteCell.appendChild(noteInput);
 
     // 미리보기 버튼 추가
     const previewCell = newRow.insertCell(6);
@@ -373,25 +374,25 @@ function addNewRow(tableBody, productName, unitPrice, imageUrl) {
     }
     previewCell.appendChild(previewButton);
 
-    // 삭제 버튼 추가
-    const deleteCell = newRow.insertCell(7);
-    const deleteButton = document.createElement('button');
-    deleteButton.textContent = '삭제';
-    deleteButton.className = 'delete-button';
-    deleteButton.onclick = function() {
-        tableBody.removeChild(newRow);
-        updateProductCount();
-        updateProductDropdown();
-    };
-    deleteCell.appendChild(deleteButton);
+// 삭제 버튼 추가
+const deleteCell = newRow.insertCell(7);
+const deleteButton = document.createElement('button');
+deleteButton.textContent = '삭제';
+deleteButton.className = 'delete-button';
+deleteButton.onclick = function() {
+    tableBody.removeChild(newRow);
+    updateProductCount();
+    updateProductDropdown();
+};
+deleteCell.appendChild(deleteButton);
 
-    // 가격 숨김 설정 시 입력 필드 비활성화
-    if (pricesHidden) {
-        unitPriceInput.disabled = true;
-        priceInput.disabled = true;
-        unitPriceInput.value = '';
-        priceInput.value = '';
-    }
+// 가격 숨김 설정 시 입력 필드 비활성화
+if (pricesHidden) {
+    unitPriceInput.disabled = true;
+    priceInput.disabled = true;
+    unitPriceInput.value = '';
+    priceInput.value = '';
+}
 }
 
 // 이미지 미리보기 함수
@@ -415,6 +416,8 @@ function showImagePreview(imageUrl) {
         alert('이미지를 찾을 수 없습니다.');
     }
 }
+
+
 
 // 모달 닫기 기능 추가
 const modal = document.getElementById('imageModal');
@@ -488,6 +491,11 @@ function togglePrices() {
 
     button.textContent = pricesHidden ? '가격 보이기' : '가격 숨기기'; // 버튼 텍스트 변경
 }
+
+
+
+
+
 
 // 이미지 파일을 ZIP에 추가하는 함수
 async function downloadImageToZip(zip, imageUrl, fileName) {
@@ -625,6 +633,10 @@ async function exportToExcel() {
     }
 }
 
+
+
+
+
 // 직접 입력 버튼 이벤트 리스너 추가
 document.getElementById('manualEntryButton').addEventListener('click', addManualEntryRow);
 
@@ -670,176 +682,176 @@ function addManualEntryRow() {
     };
     quantityCell.appendChild(quantityInput);
 
-    // 가격 입력 필드
-    const priceCell = newRow.insertCell(4);
-    const priceInput = document.createElement('input');
-    priceInput.type = 'text';
-    priceInput.className = 'price-cell';
-    priceInput.placeholder = '    ';
-    priceInput.oninput = function() {
-        this.value = this.value.replace(/[^0-9]/g, ''); // 숫자만 입력 가능
-        this.value = formatNumber(this.value.replace(/,/g, ''));
-    };
-    priceCell.appendChild(priceInput);
+// 가격 입력 필드
+const priceCell = newRow.insertCell(4);
+const priceInput = document.createElement('input');
+priceInput.type = 'text';
+priceInput.className = 'price-cell';
+priceInput.placeholder = '    ';
+priceInput.oninput = function() {
+    this.value = this.value.replace(/[^0-9]/g, ''); // 숫자만 입력 가능
+    this.value = formatNumber(this.value.replace(/,/g, ''));
+};
+priceCell.appendChild(priceInput);
 
-    // 비고 입력 필드
-    const noteCell = newRow.insertCell(5);
-    const noteInput = document.createElement('input');
-    noteInput.type = 'text';
-    noteInput.placeholder = '    ';
-    noteCell.appendChild(noteInput);
+// 비고 입력 필드
+const noteCell = newRow.insertCell(5);
+const noteInput = document.createElement('input');
+noteInput.type = 'text';
+noteInput.placeholder = '    ';
+noteCell.appendChild(noteInput);
 
-    // 미리보기 버튼 추가 (직접 입력의 경우 비활성화)
-    const previewCell = newRow.insertCell(6);
-    const previewButton = document.createElement('button');
-    previewButton.textContent = '미리보기';
-    previewButton.className = 'preview-button';
-    previewButton.disabled = true;
-    previewButton.style.opacity = '0.5';
-    previewCell.appendChild(previewButton);
+// 미리보기 버튼 추가 (직접 입력의 경우 비활성화)
+const previewCell = newRow.insertCell(6);
+const previewButton = document.createElement('button');
+previewButton.textContent = '미리보기';
+previewButton.className = 'preview-button';
+previewButton.disabled = true;
+previewButton.style.opacity = '0.5';
+previewCell.appendChild(previewButton);
 
-    // 삭제 버튼 추가
-    const deleteCell = newRow.insertCell(7);
-    const deleteButton = document.createElement('button');
-    deleteButton.textContent = '삭제';
-    deleteButton.className = 'delete-button';
-    deleteButton.onclick = function() {
-        tableBody.removeChild(newRow);
-        updateProductCount();
-    };
-    deleteCell.appendChild(deleteButton);
+// 삭제 버튼 추가
+const deleteCell = newRow.insertCell(7);
+const deleteButton = document.createElement('button');
+deleteButton.textContent = '삭제';
+deleteButton.className = 'delete-button';
+deleteButton.onclick = function() {
+    tableBody.removeChild(newRow);
+    updateProductCount();
+};
+deleteCell.appendChild(deleteButton);
 
-    // 가격 숨김 설정 시 입력 필드 비활성화
-    if (pricesHidden) {
-        unitPriceInput.disabled = true;
-        priceInput.disabled = true;
-    }
+// 가격 숨김 설정 시 입력 필드 비활성화
+if (pricesHidden) {
+    unitPriceInput.disabled = true;
+    priceInput.disabled = true;
+}
 }
 
 // 엑셀 파일 불러오기 함수
 async function loadExcelFile(event) {
-    try {
-        const file = event.target.files[0];
-        if (!file) {
-            console.error('파일이 선택되지 않았습니다.');
-            return;
-        }
-
-        const reader = new FileReader();
-
-        reader.onload = async function(e) {
-            try {
-                const data = new Uint8Array(e.target.result);
-                const workbook = new ExcelJS.Workbook();
-                await workbook.xlsx.load(data);
-
-                const worksheet = workbook.getWorksheet(1);
-
-                // 견적 날짜와 고객 이름 설정
-                const dateCell = worksheet.getCell('A3').value;
-                const [year, month, day] = dateCell.split('-');
-                document.getElementById('quoteYear').value = year;
-                document.getElementById('quoteMonth').value = month;
-                document.getElementById('quoteDay').value = day;
-                document.getElementById('customerName').value = worksheet.getCell('A4').value;
-
-                // 전화번호 불러오기
-                const writerPhone = worksheet.getCell('H7').value;
-                document.getElementById('writerPhone').value = writerPhone || '';
-
-                // 기존 테이블 내용 삭제
-                const tableBody = document.querySelector('#dataTable tbody');
-                tableBody.innerHTML = '';
-
-                // 제품 데이터 추가
-                for (let rowNumber = 18; rowNumber <= worksheet.rowCount; rowNumber++) {
-                    const row = worksheet.getRow(rowNumber);
-                    if (!row.getCell(1).value) break;  // 빈 행이면 중단
-
-                    const newRow = tableBody.insertRow();
-                    
-                    // 구분(번호) 추가
-                    newRow.insertCell(0).textContent = row.getCell(1).value;
-
-                    // 제품명 입력 필드
-                    const productInput = document.createElement('input');
-                    productInput.type = 'text';
-                    productInput.value = row.getCell(3).value;
-                    productInput.className = 'product-cell';
-                    newRow.insertCell(1).appendChild(productInput);
-
-                    // 단가 입력 필드
-                    const unitPriceInput = document.createElement('input');
-                    unitPriceInput.type = 'text';
-                    unitPriceInput.value = formatNumber(row.getCell(6).value);
-                    unitPriceInput.className = 'price-cell';
-                    unitPriceInput.oninput = function() {
-                        this.value = formatNumber(this.value.replace(/[^0-9]/g, ''));
-                        updatePriceFromUnitPrice(newRow);
-                    };
-                    newRow.insertCell(2).appendChild(unitPriceInput);
-
-                    // 수량 입력 필드
-                    const quantityInput = document.createElement('input');
-                    quantityInput.type = 'number';
-                    quantityInput.value = row.getCell(8).value;
-                    quantityInput.oninput = function() {
-                        updatePriceFromUnitPrice(newRow);
-                    };
-                    newRow.insertCell(3).appendChild(quantityInput);
-
-                    // 가격 입력 필드
-                    const priceInput = document.createElement('input');
-                    priceInput.type = 'text';
-                    priceInput.value = formatNumber(row.getCell(9).value);
-                    priceInput.className = 'price-cell';
-                    priceInput.oninput = function() {
-                        this.value = formatNumber(this.value.replace(/[^0-9]/g, ''));
-                    };
-                    newRow.insertCell(4).appendChild(priceInput);
-
-                    // 비고 입력 필드
-                    const noteInput = document.createElement('input');
-                    noteInput.type = 'text';
-                    noteInput.value = row.getCell(11).value;
-                    newRow.insertCell(5).appendChild(noteInput);
-
-                    // 미리보기 버튼 (비활성화 상태로 추가)
-                    const previewButton = document.createElement('button');
-                    previewButton.textContent = '미리보기';
-                    previewButton.className = 'preview-button';
-                    previewButton.disabled = true;
-                    newRow.insertCell(6).appendChild(previewButton);
-
-                    // 삭제 버튼 추가
-                    const deleteButton = document.createElement('button');
-                    deleteButton.textContent = '삭제';
-                    deleteButton.className = 'delete-button';
-                    deleteButton.onclick = function() {
-                        tableBody.removeChild(newRow);
-                        updateProductCount();
-                    };
-                    newRow.insertCell(7).appendChild(deleteButton);
-                }
-
-                updateProductCount();
-                alert('엑셀 파일이 성공적으로 불러와졌습니다.');
-            } catch (error) {
-                console.error('엑셀 파일 처리 중 오류 발생:', error);
-                alert('엑셀 파일 처리 중 오류가 발생했습니다.');
-            }
-        };
-
-        reader.onerror = function(error) {
-            console.error('파일 읽기 오류:', error);
-            alert('파일을 읽는 중 오류가 발생했습니다.');
-        };
-
-        reader.readAsArrayBuffer(file);
-    } catch (error) {
-        console.error('엑셀 파일 로드 중 오류 발생:', error);
-        alert('엑셀 파일을 로드하는 중 오류가 발생했습니다.');
+try {
+    const file = event.target.files[0];
+    if (!file) {
+        console.error('파일이 선택되지 않았습니다.');
+        return;
     }
+
+    const reader = new FileReader();
+
+    reader.onload = async function(e) {
+        try {
+            const data = new Uint8Array(e.target.result);
+            const workbook = new ExcelJS.Workbook();
+            await workbook.xlsx.load(data);
+
+            const worksheet = workbook.getWorksheet(1);
+
+            // 견적 날짜와 고객 이름 설정
+            const dateCell = worksheet.getCell('A3').value;
+            const [year, month, day] = dateCell.split('-');
+            document.getElementById('quoteYear').value = year;
+            document.getElementById('quoteMonth').value = month;
+            document.getElementById('quoteDay').value = day;
+            document.getElementById('customerName').value = worksheet.getCell('A4').value;
+
+            // 전화번호 불러오기
+            const writerPhone = worksheet.getCell('H7').value;
+            document.getElementById('writerPhone').value = writerPhone || '';
+
+            // 기존 테이블 내용 삭제
+            const tableBody = document.querySelector('#dataTable tbody');
+            tableBody.innerHTML = '';
+
+            // 제품 데이터 추가
+            for (let rowNumber = 18; rowNumber <= worksheet.rowCount; rowNumber++) {
+                const row = worksheet.getRow(rowNumber);
+                if (!row.getCell(1).value) break;  // 빈 행이면 중단
+
+                const newRow = tableBody.insertRow();
+                
+                // 구분(번호) 추가
+                newRow.insertCell(0).textContent = row.getCell(1).value;
+
+                // 제품명 입력 필드
+                const productInput = document.createElement('input');
+                productInput.type = 'text';
+                productInput.value = row.getCell(3).value;
+                productInput.className = 'product-cell';
+                newRow.insertCell(1).appendChild(productInput);
+
+                // 단가 입력 필드
+                const unitPriceInput = document.createElement('input');
+                unitPriceInput.type = 'text';
+                unitPriceInput.value = formatNumber(row.getCell(6).value);
+                unitPriceInput.className = 'price-cell';
+                unitPriceInput.oninput = function() {
+                    this.value = formatNumber(this.value.replace(/[^0-9]/g, ''));
+                    updatePriceFromUnitPrice(newRow);
+                };
+                newRow.insertCell(2).appendChild(unitPriceInput);
+
+                // 수량 입력 필드
+                const quantityInput = document.createElement('input');
+                quantityInput.type = 'number';
+                quantityInput.value = row.getCell(8).value;
+                quantityInput.oninput = function() {
+                    updatePriceFromUnitPrice(newRow);
+                };
+                newRow.insertCell(3).appendChild(quantityInput);
+
+                // 가격 입력 필드
+                const priceInput = document.createElement('input');
+                priceInput.type = 'text';
+                priceInput.value = formatNumber(row.getCell(9).value);
+                priceInput.className = 'price-cell';
+                priceInput.oninput = function() {
+                    this.value = formatNumber(this.value.replace(/[^0-9]/g, ''));
+                };
+                newRow.insertCell(4).appendChild(priceInput);
+
+                // 비고 입력 필드
+                const noteInput = document.createElement('input');
+                noteInput.type = 'text';
+                noteInput.value = row.getCell(11).value;
+                newRow.insertCell(5).appendChild(noteInput);
+
+                // 미리보기 버튼 (비활성화 상태로 추가)
+                const previewButton = document.createElement('button');
+                previewButton.textContent = '미리보기';
+                previewButton.className = 'preview-button';
+                previewButton.disabled = true;
+                newRow.insertCell(6).appendChild(previewButton);
+
+                // 삭제 버튼 추가
+                const deleteButton = document.createElement('button');
+                deleteButton.textContent = '삭제';
+                deleteButton.className = 'delete-button';
+                deleteButton.onclick = function() {
+                    tableBody.removeChild(newRow);
+                    updateProductCount();
+                };
+                newRow.insertCell(7).appendChild(deleteButton);
+            }
+
+            updateProductCount();
+            alert('엑셀 파일이 성공적으로 불러와졌습니다.');
+        } catch (error) {
+            console.error('엑셀 파일 처리 중 오류 발생:', error);
+            alert('엑셀 파일 처리 중 오류가 발생했습니다.');
+        }
+    };
+
+    reader.onerror = function(error) {
+        console.error('파일 읽기 오류:', error);
+        alert('파일을 읽는 중 오류가 발생했습니다.');
+    };
+
+    reader.readAsArrayBuffer(file);
+} catch (error) {
+    console.error('엑셀 파일 로드 중 오류 발생:', error);
+    alert('엑셀 파일을 로드하는 중 오류가 발생했습니다.');
+}
 }
 
 // 확대 방지 스크립트
