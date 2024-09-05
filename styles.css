@@ -433,7 +433,7 @@ td input[type="number"]:focus {
 
     /* 견적서로 내보내기 버튼 스타일 */
     #exportExcelButton {
-        margin-top: 40px;
+        margin-top: 20px;
         background-color: #2ecc71;
         color: white;
     }
