@@ -3,26 +3,33 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-    <!-- 화면을 이미지로 캡처하기 위한 라이브러리 -->
+    <title>견적서 작성</title>
+    
+    <!-- 외부 라이브러리 스크립트 -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.3.2/html2canvas.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.7.1/jszip.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-    <title>견적서 작성</title>
-    <!-- 외부 스타일시트 연결 -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/exceljs/4.3.0/exceljs.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.23/jspdf.plugin.autotable.min.js"></script>
+    
+    <!-- 스타일시트 및 사용자 정의 스크립트 -->
     <link rel="stylesheet" href="styles.css">
+    <script src="background-animation.js"></script>
 </head>
-<script src="background-animation.js"></script>
 <body>
+    <!-- 애니메이션 배경 캔버스 -->
     <canvas id="backgroundCanvas"></canvas>
-    <!-- 견적서 작성 컨테이너 -->
+
+    <!-- 견적서 작성 섹션 -->
     <div class="container quote-container">
-        <!-- 회사 로고 추가 -->
+        <!-- 회사 로고 및 페이지 제목 -->
         <img src="logo.png" alt="회사 로고" class="company-logo">
-        <!-- 페이지 제목 -->
         <h1>견적서 작성</h1>
 
-        <!-- 견적 연도와 고객 이름 입력 영역 -->
+        <!-- 견적 정보 입력 폼 -->
         <div class="form-row">
+            <!-- 견적 날짜 선택 -->
             <div>
                 <label for="quoteYear">견적 날짜</label>
                 <div class="date-inputs">
@@ -31,10 +38,12 @@
                     <select id="quoteDay" name="quoteDay"></select>
                 </div>
             </div>
+            <!-- 고객 이름 입력 -->
             <div>
                 <label for="customerName">고객 이름</label>
                 <input type="text" id="customerName" name="customerName">
             </div>
+            <!-- 견적 작성자 전화번호 입력 -->
             <div>
                 <label for="writerPhone">견적 작성자 전화번호</label>
                 <input type="tel" id="writerPhone" name="writerPhone" placeholder="">
@@ -43,36 +52,30 @@
         
         <!-- 회사 및 제품 선택 영역 -->
         <div class="form-group">
-            <!-- 회사 선택 버튼 -->
+            <!-- 회사 선택 드롭다운 -->
             <div class="custom-select">
                 <button class="select-button" id="companySelectButton">- 회사 선택 -</button>
                 <div class="select-options" id="companyOptions">
-                    <!-- 회사 선택 초기화 옵션 -->
                     <div onclick="resetCompanySelection()">- 회사 선택 -</div>
                 </div>
             </div>
-            <!-- 제품 선택 버튼 -->
+            <!-- 제품 선택 드롭다운 -->
             <div class="custom-select">
                 <button class="select-button" id="productSelectButton" disabled>- 제품 선택 -</button>
                 <div class="select-options" id="productOptions">
-                    <!-- 제품 선택 초기화 옵션 -->
                     <div onclick="resetProductSelection()">- 제품 선택 -</div>
                 </div>
             </div>
-
-            <!-- 제품 추가 버튼 -->
+            <!-- 제품 추가 및 직접 입력 버튼 -->
             <button id="addButton" class="action-button" disabled>추가</button>
-
-            <!-- 직접 입력 버튼 추가 -->
             <button id="manualEntryButton" class="action-button">직접 입력</button>
         </div>
     
-        <!-- 데이터 테이블 영역 -->
+        <!-- 제품 데이터 테이블 -->
         <div class="table-container">
             <table id="dataTable">
                 <thead>
                     <tr>
-                        <!-- 테이블 헤더 -->
                         <th>구분</th>
                         <th>제품명</th>
                         <th>단가</th>
@@ -103,17 +106,14 @@
             </div>
         </div>
 
-        <!-- 기능 버튼 영역 -->
+        <!-- 견적서 내보내기/불러오기 버튼 -->
         <div class="button-container">
-            <!-- 가격 숨기기 버튼 -->
-            <!-- <button id="togglePriceButton" class="action-button">가격 숨기기</button> -->
-            <!-- 엑셀로 내보내기 버튼 -->
             <button id="exportExcelButton" class="action-button">견적서 내보내기 (ZIP)</button>
-            <!-- 새로운 파일 업로드 입력 필드와 버튼 추가 -->
             <input type="file" id="fileInput" accept=".zip" style="display: none;">
             <button id="loadExcelButton">견적서 불러오기 (ZIP)</button>
         </div>
 
+        <!-- 이미지 미리보기 모달 -->
         <div id="imageModal" class="modal">
             <div class="modal-overlay">
                 <div class="modal-container">
@@ -127,7 +127,7 @@
         </div>
     </div>
 
-    <!-- 새로운 별도 컨테이너: 고무블럭 수량 계산기 -->
+    <!-- 고무블럭 수량 계산기 -->
     <div class="container rubber-block-calculator">
         <h2>고무블럭 수량 계산기</h2>
         <p>고무블럭 크기: 1장 (500mm x 500mm)</p>
@@ -154,7 +154,7 @@
         <div id="calculationResult" class="calculation-result"></div>
     </div>
 
-    <!-- 새로운 에버롤 수량 계산기 -->
+    <!-- 에버롤 수량 계산기 -->
     <div class="container everoll-calculator">
         <h2>에버롤 수량 계산기</h2>
         <p>에버롤 크기: 1롤 (너비 1m x 길이 10m)</p>
@@ -181,11 +181,7 @@
         <div id="everollCalculationResult" class="calculation-result"></div>
     </div>
 
-    <!-- 엑셀 파일 생성 및 PDF 출력 라이브러리 -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/exceljs/4.3.0/exceljs.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.23/jspdf.plugin.autotable.min.js"></script>
-    <!-- 사용자 정의 스크립트 파일 -->
+    <!-- 사용자 정의 스크립트 -->
     <script src="scripts.js"></script>
 </body>
 </html>
