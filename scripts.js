@@ -741,18 +741,23 @@ async function exportToExcel() {
             if (imageKey && imageDataStore[imageKey]) {
                 const imageInfo = imageDataStore[imageKey];
                 const imagePromise = fetch(imageInfo.data)
-                    .then(res => res.blob())
-                    .then(blob => {
-                        zip.file(imageInfo.name, blob, {binary: true});
-                    })
-                    .catch(error => {
-                        console.error('이미지 처리 중 오류 발생:', error);
-                        return fetch(imageInfo.data)
-                            .then(res => res.blob())
-                            .then(blob => {
-                                zip.file(imageInfo.name, blob, {binary: true});
-                            });
-                    });
+                .then(res => res.blob())
+                .then(blob => {
+                    const productName = row.cells[1].querySelector('input').value; // 제품명 가져오기
+                    const imageName = `${productName}.png`; // 제품명으로 이미지 이름 설정
+                    zip.file(imageName, blob, {binary: true});
+                })
+                .catch(error => {
+                    console.error('이미지 처리 중 오류 발생:', error);
+                    return fetch(imageInfo.data)
+                        .then(res => res.blob())
+                        .then(blob => {
+                            const productName = row.cells[1].querySelector('input').value; // 제품명 가져오기
+                            const imageName = `${productName}.png`; // 제품명으로 이미지 이름 설정
+                            zip.file(imageName, blob, {binary: true});
+                        });
+                });
+            
                 imagePromises.push(imagePromise);
             }
         });
