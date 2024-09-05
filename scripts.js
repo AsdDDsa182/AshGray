@@ -11,7 +11,21 @@ async function init() {
     await loadCompaniesAndProducts(); // 회사 및 제품 데이터 로드
     setupEventListeners(); // 이벤트 리스너 설정
     setupModalEvents(); // 모달 이벤트 설정
+    updateTotalAmountVisibility(); // 페이지 로드 시 총액 섹션의 표시 여부 초기화
     console.log("초기화 완료");
+}
+
+// 총액 섹션의 표시 여부를 업데이트하는 함수
+function updateTotalAmountVisibility() {
+    const tableBody = document.querySelector('#dataTable tbody');
+    const totalAmountSection = document.getElementById('totalAmountSection');
+
+    // 테이블에 행이 있는지 확인
+    if (tableBody.children.length === 0) {
+        totalAmountSection.style.display = 'none'; // 행이 없으면 총액 섹션 숨김
+    } else {
+        totalAmountSection.style.display = 'block'; // 행이 있으면 총액 섹션 보이기
+    }
 }
 
 // 날짜 필드 초기화 함수
@@ -131,6 +145,10 @@ function setupEventListeners() {
     });
     document.getElementById('fileInput').addEventListener('change', loadZipFile);
     document.getElementById('manualEntryButton').addEventListener('click', addManualEntryRow);
+    document.querySelector('#dataTable tbody').addEventListener('input', () => {
+        updateTotalAmount();
+        updateTotalAmountVisibility(); // 총액 섹션의 표시 여부를 업데이트
+    });
 }
 
 // 회사 선택 옵션 토글 함수
@@ -255,6 +273,8 @@ function addTableRow() {
     resetProductSelection();
     updateProductCount();
     updateProductDropdown();
+    updateTotalAmount(); // 총액 업데이트 함수 호출
+    updateTotalAmountVisibility(); // 총액 섹션의 표시 여부를 업데이트
 }
 
 // 기존 제품 행 찾기
@@ -398,10 +418,12 @@ function addNewRow(tableBody, productName, unitPrice, imageUrl) {
     const deleteButton = document.createElement('button');
     deleteButton.textContent = '삭제';
     deleteButton.className = 'delete-button';
-    deleteButton.onclick = function () {
+    deleteButton.onclick = function() {
         tableBody.removeChild(newRow);
         updateProductCount();
         updateProductDropdown();
+        updateTotalAmount(); // 총액 업데이트 함수 호출
+        updateTotalAmountVisibility(); // 총액 섹션의 표시 여부를 업데이트
     };
     deleteCell.appendChild(deleteButton);
 
@@ -413,7 +435,8 @@ function addNewRow(tableBody, productName, unitPrice, imageUrl) {
     }
 }
 
-// 직접 입력 행 추가 함수
+updateTotalAmount();
+
 function addManualEntryRow() {
     const tableBody = document.querySelector('#dataTable tbody');
     const newRow = tableBody.insertRow();
@@ -436,7 +459,8 @@ function addManualEntryRow() {
     unitPriceInput.oninput = function() {
         this.value = this.value.replace(/[^0-9]/g, '');
         this.value = formatNumber(this.value.replace(/,/g, ''));
-        updatePriceFromUnitPrice(newRow);
+        updatePriceFromUnitPrice(newRow); // 단가가 입력될 때마다 업데이트
+        updateTotalAmount(); // 총액 업데이트 함수 호출
     };
     unitPriceCell.appendChild(unitPriceInput);
 
@@ -447,7 +471,8 @@ function addManualEntryRow() {
     quantityInput.placeholder = '    ';
     quantityInput.oninput = function() {
         this.value = this.value.replace(/[^0-9]/g, '');
-        updatePriceFromUnitPrice(newRow);
+        updatePriceFromUnitPrice(newRow); // 수량이 입력될 때마다 업데이트
+        updateTotalAmount(); // 총액 업데이트 함수 호출
     };
     quantityCell.appendChild(quantityInput);
 
@@ -459,6 +484,7 @@ function addManualEntryRow() {
     priceInput.oninput = function() {
         this.value = this.value.replace(/[^0-9]/g, '');
         this.value = formatNumber(this.value.replace(/,/g, ''));
+        updateTotalAmount(); // 총액 업데이트 함수 호출
     };
     priceCell.appendChild(priceInput);
 
@@ -530,6 +556,8 @@ function addManualEntryRow() {
     deleteButton.onclick = function() {
         tableBody.removeChild(newRow);
         updateProductCount();
+        updateTotalAmount(); // 총액 업데이트 함수 호출
+        updateTotalAmountVisibility(); // 총액 섹션의 표시 여부를 업데이트
     };
     deleteCell.appendChild(deleteButton);
 
@@ -539,7 +567,12 @@ function addManualEntryRow() {
     }
 
     newRow.setAttribute('data-image-url', currentImageUrl);
+    
+    updateTotalAmountVisibility(); // 직접 입력으로 추가 시에도 총액 부분이 등장하도록 합니다.
 }
+
+
+updateTotalAmount();
 
 // 모달 관련 코드 수정
 function showImagePreview(imageUrl, productName) {
@@ -972,6 +1005,8 @@ async function loadZipFile(event) {
                     deleteButton.onclick = function() {
                         tableBody.removeChild(newRow);
                         updateProductCount();
+                        updateTotalAmount(); // 총액 업데이트 함수 호출
+                        updateTotalAmountVisibility(); // 총액 섹션의 표시 여부를 업데이트
                     };
                     deleteCell.appendChild(deleteButton);
                 }
@@ -1024,3 +1059,116 @@ document.addEventListener('touchend', function(e) {
 
 // 페이지 로드 시 초기화 함수 호출
 window.onload = init;
+
+// 고무블럭 수량 계산기 기능
+document.addEventListener('DOMContentLoaded', function() {
+    const calculateButton = document.getElementById('calculateBlocks');
+    const areaWidthInput = document.getElementById('areaWidth');
+    const areaLengthInput = document.getElementById('areaLength');
+    const unitSelect = document.getElementById('unitSelect');
+    const calculationResult = document.getElementById('calculationResult');
+
+    calculateButton.addEventListener('click', calculateRubberBlocks);
+
+    function calculateRubberBlocks() {
+        const width = parseFloat(areaWidthInput.value);
+        const length = parseFloat(areaLengthInput.value);
+        const unit = unitSelect.value;
+
+        if (isNaN(width) || isNaN(length) || width <= 0 || length <= 0) {
+            calculationResult.textContent = '올바른 값을 입력해주세요.';
+            return;
+        }
+
+        const widthInMeters = convertToMeters(width, unit);
+        const lengthInMeters = convertToMeters(length, unit);
+
+        const areaInSquareMeters = widthInMeters * lengthInMeters;
+        const blockSizeInSquareMeters = 0.5 * 0.5; // 50cm x 50cm = 0.25 m²
+        const numberOfBlocks = Math.ceil(areaInSquareMeters / blockSizeInSquareMeters);
+
+        calculationResult.textContent = `필요한 고무블럭 수량: ${numberOfBlocks}개`;
+    }
+
+    function convertToMeters(value, unit) {
+        switch (unit) {
+            case 'm': return value;
+            case 'cm': return value / 100;
+            case 'mm': return value / 1000;
+            case 'km': return value * 1000;
+            default: return value;
+        }
+    }
+});
+
+// 기존 코드 유지
+
+// 에버롤 수량 계산기 기능
+document.addEventListener('DOMContentLoaded', function() {
+    const calculateButton = document.getElementById('calculateBlocks');
+    const areaWidthInput = document.getElementById('areaWidth');
+    const areaLengthInput = document.getElementById('areaLength');
+    const unitSelect = document.getElementById('unitSelect');
+    const calculationResult = document.getElementById('calculationResult');
+
+    const calculateEverollButton = document.getElementById('calculateEveroll');
+    const everollAreaWidthInput = document.getElementById('everollAreaWidth');
+    const everollAreaLengthInput = document.getElementById('everollAreaLength');
+    const everollUnitSelect = document.getElementById('everollUnitSelect');
+    const everollCalculationResult = document.getElementById('everollCalculationResult');
+
+    calculateButton.addEventListener('click', calculateRubberBlocks);
+    calculateEverollButton.addEventListener('click', calculateEverollRolls);
+
+    function calculateRubberBlocks() {
+        // 기존 고무블럭 계산 로직 유지
+    }
+
+    function calculateEverollRolls() {
+        const width = parseFloat(everollAreaWidthInput.value);
+        const length = parseFloat(everollAreaLengthInput.value);
+        const unit = everollUnitSelect.value;
+
+        if (isNaN(width) || isNaN(length) || width <= 0 || length <= 0) {
+            everollCalculationResult.textContent = '올바른 값을 입력해주세요.';
+            return;
+        }
+
+        const widthInMeters = convertToMeters(width, unit);
+        const lengthInMeters = convertToMeters(length, unit);
+
+        const areaInSquareMeters = widthInMeters * lengthInMeters;
+        const rollSizeInSquareMeters = 1 * 10; // 1m x 10m = 10 m²
+        const numberOfRolls = Math.ceil(areaInSquareMeters / rollSizeInSquareMeters);
+
+        everollCalculationResult.textContent = `필요한 에버롤 수량: ${numberOfRolls}개`;
+    }
+
+    function convertToMeters(value, unit) {
+        switch (unit) {
+            case 'm': return value;
+            case 'cm': return value / 100;
+            case 'mm': return value / 1000;
+            case 'km': return value * 1000;
+            default: return value;
+        }
+    }
+});
+
+function updateTotalAmount() {
+    const rows = document.querySelectorAll('#dataTable tbody tr');
+    let totalAmount = 0;
+
+    rows.forEach(row => {
+        const price = parseFloat(row.cells[4].querySelector('input').value.replace(/,/g, '')) || 0;
+        totalAmount += price;
+    });
+
+    const vatAmount = totalAmount * 0.1;
+    const totalWithVAT = totalAmount + vatAmount;
+
+    document.getElementById('totalAmountWithoutVAT').textContent = formatNumber(totalAmount) + ' 원';
+    document.getElementById('vatAmount').textContent = formatNumber(vatAmount) + ' 원';
+    document.getElementById('totalAmountWithVAT').textContent = formatNumber(totalWithVAT) + ' 원';
+}
+
