@@ -253,6 +253,27 @@ td input[type="number"]:focus {
     border-color: #3498db;
 }
 
+#dataTable {
+    width: 100%;
+    table-layout: fixed;
+    border-collapse: collapse;
+}
+
+#dataTable th,
+#dataTable td {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    padding: 8px;
+    border: 1px solid #ddd;
+}
+
+#dataTable input {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 5px;
+}
+
 /* 폼 그룹 스타일 */
 /**************************************
  * 폼 요소들을 그룹화하는 컨테이너 스타일
