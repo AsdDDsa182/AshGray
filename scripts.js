@@ -38,7 +38,7 @@ function initDateFields() {
     const currentYear = new Date().getFullYear();
 
     // 연도 옵션 추가
-    for (let year = currentYear; year >= currentYear - 100; year--) {
+    for (let year = currentYear; year >= currentYear - 10; year--) {
         const option = document.createElement('option');
         option.value = year;
         option.textContent = year;
