@@ -383,9 +383,15 @@ function addTableRow() {
         previewButton.className = 'preview-button';
 
         let currentImageUrl = productInfo.imageUrl || '';
-        newRow.setAttribute('data-image-url', currentImageUrl);
-
+        
         if (currentImageUrl) {
+            const imageKey = 'image_' + Date.now();
+            imageDataStore[imageKey] = {
+                data: currentImageUrl,
+                name: `${productName}.png`,
+                type: 'image/png'
+            };
+            newRow.setAttribute('data-image-key', imageKey);
             previewButton.onclick = function () {
                 showImagePreview(currentImageUrl, productName);
             };
@@ -421,7 +427,6 @@ function addTableRow() {
                         newRow.setAttribute('data-image-key', imageKey);
                         previewButton.onclick = () => showImagePreview(imageUrl, productName);
                         previewButton.disabled = false;
-                        newRow.setAttribute('data-image-url', imageUrl);
                     };
                     reader.readAsDataURL(file);
                 }
@@ -430,11 +435,9 @@ function addTableRow() {
         };
 
         decreaseButton.onclick = function() {
-            currentImageUrl = '';
+            newRow.removeAttribute('data-image-key');
             previewButton.onclick = null;
             previewButton.disabled = true;
-            newRow.removeAttribute('data-image-url');
-            newRow.removeAttribute('data-image-key');
         };
 
         const deleteCell = newRow.insertCell(7);
@@ -799,6 +802,15 @@ async function exportToExcel() {
                     .then(res => res.blob())
                     .then(blob => {
                         zip.file(imageInfo.name, blob, {binary: true});
+                    })
+                    .catch(error => {
+                        console.error('이미지 처리 중 오류 발생:', error);
+                        // 외부 URL인 경우 직접 다운로드 시도
+                        return fetch(imageInfo.data)
+                            .then(res => res.blob())
+                            .then(blob => {
+                                zip.file(imageInfo.name, blob, {binary: true});
+                            });
                     });
                 imagePromises.push(imagePromise);
             }
