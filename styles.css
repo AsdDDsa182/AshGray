@@ -774,7 +774,6 @@ td input[type="number"]:focus {
 /* 고무블럭 수량 계산기 전체 컨테이너 스타일 */
 .rubber-block-calculator {
     width: 100%;
-    max-width: 1000px;
     padding: 30px;
     background: #ffffff;
     border-radius: 12px;
