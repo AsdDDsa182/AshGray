@@ -292,73 +292,84 @@ function resetProductSelection() {
  * 이미 존재하는 제품의 경우 수량만 증가시킵니다.
  **************************************/
 function addTableRow() {
+    const productName = selectedProduct;
+    const productInfo = companies[selectedCompany][selectedProduct];
+    console.log("선택된 제품 정보:", productInfo);
     const tableBody = document.querySelector('#dataTable tbody');
-    const newRow = tableBody.insertRow();
 
-    const data = {
-        index: ++productCount,
-        product: selectedProduct,
-        unitPrice: formatNumber(companies[selectedCompany][selectedProduct].price),
-        quantity: 1,
-        price: formatNumber(companies[selectedCompany][selectedProduct].price),
-        note: '',
-        imageUrl: companies[selectedCompany][selectedProduct].imageUrl || ''
-    };
+    const existingRow = findExistingProductRow(productName);
 
-    ['index', 'product', 'unitPrice', 'quantity', 'price', 'note', 'preview', 'delete'].forEach((column, index) => {
-        const cell = newRow.insertCell();
-        
-        switch(column) {
-            case 'index':
-                cell.textContent = data.index;
-                break;
-            case 'product':
-            case 'unitPrice':
-            case 'quantity':
-            case 'price':
-            case 'note':
-                const input = document.createElement('input');
-                input.type = column === 'quantity' ? 'number' : 'text';
-                input.value = data[column];
-                input.className = `${column}-input`;
-                if (column === 'unitPrice' || column === 'price') {
-                    input.className += ' price-cell';
-                }
-                if (column === 'quantity') {
-                    input.min = '0';
-                    input.oninput = function() {
+    if (existingRow) {
+        updateExistingRow(existingRow);
+    } else {
+        const newRow = tableBody.insertRow();
+
+        // 새 행에 셀 추가 (인덱스, 제품명, 단가, 수량, 가격, 비고, 미리보기, 삭제 버튼)
+        const cells = ['index', 'product', 'unitPrice', 'quantity', 'price', 'note', 'preview', 'delete'];
+        cells.forEach((cellType, index) => {
+            const cell = newRow.insertCell(index);
+            switch (cellType) {
+                case 'index':
+                    cell.textContent = ++productCount;
+                    break;
+                case 'product':
+                    const productInput = createInput('text', productName, 'product-cell');
+                    cell.appendChild(productInput);
+                    break;
+                case 'unitPrice':
+                    const unitPriceInput = createInput('text', formatNumber(productInfo.price), 'price-cell');
+                    unitPriceInput.oninput = function () {
+                        this.value = formatNumber(this.value.replace(/[^0-9]/g, ''));
+                        updatePriceFromUnitPrice(newRow);
+                    };
+                    cell.appendChild(unitPriceInput);
+                    break;
+                case 'quantity':
+                    const quantityInput = createInput('number', '1', '', { min: '0' });
+                    quantityInput.oninput = function () {
                         this.value = this.value.replace(/[^0-9]/g, '');
                         updatePriceFromUnitPrice(newRow);
                     };
-                }
-                cell.appendChild(input);
-                break;
-            case 'preview':
-                cell.appendChild(createPreviewButtons(data.product, data.imageUrl));
-                break;
-            case 'delete':
-                const deleteButton = document.createElement('button');
-                deleteButton.textContent = '삭제';
-                deleteButton.className = 'delete-button';
-                deleteButton.onclick = function() {
-                    tableBody.removeChild(newRow);
-                    updateProductCount();
-                    updateProductDropdown();
-                    updateTotalAmount();
-                    updateTotalAmountVisibility();
-                };
-                cell.appendChild(deleteButton);
-                break;
-        }
-    });
+                    cell.appendChild(quantityInput);
+                    break;
+                case 'price':
+                    const priceInput = createInput('text', formatNumber(productInfo.price), 'price-cell');
+                    priceInput.oninput = function () {
+                        this.value = formatNumber(this.value.replace(/[^0-9]/g, ''));
+                    };
+                    cell.appendChild(priceInput);
+                    break;
+                case 'note':
+                    cell.appendChild(createInput('text', '', '', { placeholder: '    ' }));
+                    break;
+                case 'preview':
+                    cell.appendChild(createPreviewButtons(productName, productInfo.imageUrl));
+                    break;
+                case 'delete':
+                    const deleteButton = document.createElement('button');
+                    deleteButton.textContent = '삭제';
+                    deleteButton.className = 'delete-button';
+                    deleteButton.onclick = function() {
+                        tableBody.removeChild(newRow);
+                        updateProductCount();
+                        updateProductDropdown();
+                        updateTotalAmount();
+                        updateTotalAmountVisibility();
+                    };
+                    cell.appendChild(deleteButton);
+                    break;
+            }
+        });
 
-    if (pricesHidden) {
-        newRow.cells[2].querySelector('input').disabled = true;
-        newRow.cells[4].querySelector('input').disabled = true;
-        newRow.cells[2].querySelector('input').value = '';
-        newRow.cells[4].querySelector('input').value = '';
+        if (pricesHidden) {
+            newRow.cells[2].querySelector('input').disabled = true;
+            newRow.cells[4].querySelector('input').disabled = true;
+            newRow.cells[2].querySelector('input').value = '';
+            newRow.cells[4].querySelector('input').value = '';
+        }
     }
 
+    resetProductSelection();
     updateProductCount();
     updateProductDropdown();
     updateTotalAmount();
