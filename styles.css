@@ -1138,7 +1138,7 @@ td input[type="number"]:focus {
     align-items: center;
     padding: 12px 20px; /* 패딩 조정 */
     font-weight: 600; /* 텍스트 가중치를 더 부드럽게 */
-    font-size: 15px;
+    font-size: 14px;
     color: #333; /* 더 중립적인 색상 사용 */
     border-bottom: 1px solid #eee;
 }
@@ -1165,7 +1165,7 @@ td input[type="number"]:focus {
 /* 반응형 디자인을 위한 미디어 쿼리 */
 @media (max-width: 768px) {
     .total-row {
-        font-size: 14px;
+        font-size: 12px;
         padding: 10px 15px; /* 모바일 환경에서의 패딩 조정 */
     }
 }
