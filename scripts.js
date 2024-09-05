@@ -1194,3 +1194,56 @@ async function downloadImageToZip(zip, imageUrl, fileName) {
 // 이 스크립트의 마지막 부분입니다.
 // 페이지 로드 시 초기화 함수를 호출합니다.
 window.onload = init;
+
+
+
+    const canvas = document.getElementById('animatedBackground');
+    const ctx = canvas.getContext('2d');
+
+    // 캔버스 크기를 전체 화면으로 설정
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+    const wave = {
+        y: canvas.height / 2,
+        length: 0.01,
+        amplitude: 100,
+        frequency: 0.02
+    };
+
+    let increment = wave.frequency;
+
+    function animate() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        ctx.beginPath();
+        ctx.moveTo(0, canvas.height / 2);
+
+        // 그리드를 그리면서 물결 모양을 추가
+        for (let i = 0; i < canvas.width; i++) {
+            ctx.lineTo(
+                i,
+                wave.y + Math.sin(i * wave.length + increment) * wave.amplitude * Math.sin(increment)
+            );
+        }
+
+        ctx.strokeStyle = '#00ffff';
+        ctx.stroke();
+
+        increment += wave.frequency;
+        requestAnimationFrame(animate);
+    }
+
+    animate();
+
+    // 화면 크기가 변경되면 캔버스 크기 재조정
+    window.addEventListener('resize', () => {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+        wave.y = canvas.height / 2;
+    });
+
+
+
+
+    
