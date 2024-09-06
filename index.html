@@ -181,6 +181,54 @@
         <div id="everollCalculationResult" class="calculation-result"></div>
     </div>
 
+    <div class="dumbbell-plate-calculator">
+        <h2>덤벨과 플레이트 kg 계산기</h2>
+        <p>무게와 개수를 입력하여 총 무게와 가격을 계산합니다.</p>
+        <p>여러 무게를 한 번에 입력하려면 쉼표(,)로 구분하세요. 예: 1,3,5,10,15</p>
+        
+        <div class="calculator-inputs">
+            <div>
+                <label for="itemWeights">무게 (kg):</label>
+                <input type="text" id="itemWeights" placeholder="예: 1,3,5,10,15">
+            </div>
+            <div>
+                <label for="itemCount">개수:</label>
+                <input type="number" id="itemCount" min="1" value="1">
+            </div>
+            <div>
+                <button id="addItems">추가</button>
+            </div>
+        </div>
+        
+        <div class="table-container">
+            <table id="itemList">
+                <thead>
+                    <tr>
+                        <th>무게 (Kg)</th>
+                        <th>개수</th>
+                        <th>총 무게 (Kg)</th>
+                        <th>삭제</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- 항목들이 여기에 추가됩니다 -->
+                </tbody>
+            </table>
+        </div>
+        
+        <div class="price-input">
+            <label for="pricePerKg">1kg당 가격 (원):</label>
+            <input type="number" id="pricePerKg" min="0" step="100">
+        </div>
+        
+        <div class="button-container">
+            <button id="calculateTotal">총 무게 및 가격 계산</button>
+            <button id="togglePairCalculation">한 쌍으로 계산하기</button>
+        </div>
+        
+        <div id="totalResult" class="calculation-result"></div>
+    </div>
+
     <!-- 사용자 정의 스크립트 -->
     <script src="scripts.js"></script>
 </body>

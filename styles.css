@@ -202,7 +202,8 @@ th {
     background-color: #f8f9fa;
     color: #2c3e50;
     font-weight: 600;
-    text-transform: uppercase;
+    /* 이 줄을 제거하거나 주석 처리하세요 */
+    /* text-transform: uppercase; */
     font-size: 14px;
     letter-spacing: 0.05em;
 }
@@ -1284,4 +1285,286 @@ td input[type="number"]:focus {
     width: 100%;
     height: 100%;
     z-index: -1;
+}
+
+
+
+
+
+
+
+
+
+/* 덤벨과 플레이트 kg 계산기의 전체 스타일 */
+.dumbbell-plate-calculator {
+    width: 100%; /* 전체 너비 사용 */
+    max-width: 1060px; 
+    padding: 30px;
+    background: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    margin: 20px auto;
+    box-sizing: border-box;
+}
+
+/* 계산기 제목 스타일 */
+.dumbbell-plate-calculator h2 {
+    color: #333333;
+    font-size: 24px;
+    font-weight: 600;
+    margin-bottom: 15px;
+}
+
+/* 설명 문구 스타일 */
+.dumbbell-plate-calculator p {
+    color: #666666;
+    font-size: 14px;
+    margin-bottom: 20px;
+}
+
+/* 입력 필드 영역 스타일 */
+.dumbbell-plate-calculator .calculator-inputs {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: 20px;
+    margin-bottom: 20px;
+}
+
+/* 개별 입력 필드 컨테이너 스타일 */
+.dumbbell-plate-calculator .calculator-inputs > div {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+/* 무게 입력 필드 스타일 */
+.dumbbell-plate-calculator .calculator-inputs > div:nth-child(1) {
+    flex: 0 0 45%;
+}
+
+/* 개수 입력 필드 스타일 */
+.dumbbell-plate-calculator .calculator-inputs > div:nth-child(2) {
+    flex: 0 0 20%;
+}
+
+/* 추가 버튼 컨테이너 스타일 */
+.dumbbell-plate-calculator .calculator-inputs > div:last-child {
+    flex: 0 0 25%;
+}
+
+/* 라벨 스타일 */
+.dumbbell-plate-calculator .calculator-inputs label,
+.dumbbell-plate-calculator .price-input label {
+    display: block;
+    margin-bottom: 5px;
+    color: #333333;
+    font-size: 14px;
+    font-weight: 500;
+    text-align: left;
+}
+
+/* 입력 필드 스타일 */
+.dumbbell-plate-calculator .calculator-inputs input[type="text"],
+.dumbbell-plate-calculator .calculator-inputs input[type="number"],
+.dumbbell-plate-calculator .price-input input[type="number"] {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #cccccc;
+    border-radius: 4px;
+    font-size: 14px;
+    color: #333333;
+    box-sizing: border-box;
+}
+
+/* 입력 필드 포커스 스타일 */
+.dumbbell-plate-calculator .calculator-inputs input:focus,
+.dumbbell-plate-calculator .price-input input:focus {
+    outline: none;
+    border-color: #3498db;
+    box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2);
+}
+
+/* 버튼 공통 스타일 */
+.dumbbell-plate-calculator #addItems,
+.dumbbell-plate-calculator #calculateTotal,
+.dumbbell-plate-calculator #togglePairCalculation {
+    width: 100%;
+    padding: 10px 20px;
+    background-color: #3498db;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+/* 추가 버튼 특정 스타일 */
+.dumbbell-plate-calculator #addItems {
+    margin-top: 24px;
+    height: 38px;
+}
+
+/* 버튼 호버 효과 */
+.dumbbell-plate-calculator #addItems:hover,
+.dumbbell-plate-calculator #calculateTotal:hover,
+.dumbbell-plate-calculator #togglePairCalculation:hover {
+    background-color: #2980b9;
+}
+
+/* '한 쌍으로 계산하기' 버튼 활성화 상태 */
+.dumbbell-plate-calculator #togglePairCalculation.active {
+    background-color: #27ae60;
+}
+
+.dumbbell-plate-calculator #togglePairCalculation.active:hover {
+    background-color: #219d54;
+}
+
+/* 테이블 컨테이너 스타일 */
+.table-container {
+    width: 100%;
+    overflow-x: auto;
+    margin-top: 20px;
+}
+
+/* 테이블 스타일 */
+.dumbbell-plate-calculator #itemList {
+    width: 100%;
+    min-width: 500px;
+    border-collapse: collapse;
+}
+
+/* 테이블 셀 스타일 */
+.dumbbell-plate-calculator #itemList th,
+.dumbbell-plate-calculator #itemList td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: center;
+    white-space: nowrap;
+}
+
+/* 테이블 헤더 스타일 */
+.dumbbell-plate-calculator #itemList th {
+    background-color: #f2f2f2;
+    font-weight: bold;
+}
+
+/* 가격 입력 영역과 버튼 컨테이너 스타일 */
+.dumbbell-plate-calculator .price-input,
+.dumbbell-plate-calculator .button-container {
+    width: 100%;
+    max-width: 1000px; /* 최대 너비를 800px로 증가 */
+    margin: 20px auto;
+}
+
+/* 버튼 컨테이너 스타일 */
+.dumbbell-plate-calculator .button-container {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+/* 계산 결과 표시 영역 스타일 */
+.dumbbell-plate-calculator .calculation-result {
+    margin-top: 20px;
+    padding: 15px;
+    background-color: #f0f8ff;
+    border: 1px solid #b0d4ff;
+    border-radius: 4px;
+    font-size: 18px;
+    color: #333333;
+    text-align: center;
+}
+
+.dumbbell-plate-calculator p {
+    color: #666666;
+    font-size: 14px;
+    margin-bottom: 20px;
+}
+
+
+/* 반응형 디자인: 태블릿 및 모바일 화면 */
+@media (max-width: 768px) {
+
+    .dumbbell-plate-calculator p {
+        font-size: 16px; /* 폰트 크기를 12px로 줄임 */
+        line-height: 1.4; /* 줄 간격 조정 */
+        margin-bottom: 15px; /* 아래 여백 조정 */
+    }
+
+    .dumbbell-plate-calculator {
+        width: 100%;
+        padding: 15px;
+    }
+
+    .dumbbell-plate-calculator .calculator-inputs {
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .dumbbell-plate-calculator .calculator-inputs > div {
+        width: 100%;
+        flex: 1 1 auto;
+    }
+
+    .dumbbell-plate-calculator .calculator-inputs input[type="text"],
+    .dumbbell-plate-calculator .calculator-inputs input[type="number"],
+    .dumbbell-plate-calculator .price-input input[type="number"] {
+        font-size: 16px;
+    }
+
+    .dumbbell-plate-calculator #addItems,
+    .dumbbell-plate-calculator #calculateTotal,
+    .dumbbell-plate-calculator #togglePairCalculation {
+        padding: 12px;
+        font-size: 16px;
+        margin-top: 10px;
+        height: auto;
+    }
+
+    .dumbbell-plate-calculator .calculation-result {
+        font-size: 16px;
+        padding: 12px;
+    }
+
+    .dumbbell-plate-calculator #itemList {
+        font-size: 14px;
+    }
+
+    .dumbbell-plate-calculator .price-input,
+    .dumbbell-plate-calculator .button-container {
+        max-width: 100%;
+    }
+}
+
+/* 반응형 디자인: 매우 작은 화면 */
+@media (max-width: 320px) {
+
+    .dumbbell-plate-calculator p {
+        font-size: 11px; /* 폰트 크기를 11px로 더 줄임 */
+        line-height: 1.3; /* 줄 간격 추가 조정 */
+    }
+
+    .dumbbell-plate-calculator {
+        width: 92%;
+        padding: 10px;
+    }
+
+    .dumbbell-plate-calculator .calculator-inputs input[type="text"],
+    .dumbbell-plate-calculator .calculator-inputs input[type="number"],
+    .dumbbell-plate-calculator .price-input input[type="number"],
+    .dumbbell-plate-calculator #addItems,
+    .dumbbell-plate-calculator #calculateTotal,
+    .dumbbell-plate-calculator #togglePairCalculation {
+        font-size: 14px;
+    }
+
+    .dumbbell-plate-calculator #itemList {
+        font-size: 12px;
+    }
 }

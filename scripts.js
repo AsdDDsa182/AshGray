@@ -1199,3 +1199,114 @@ async function downloadImageToZip(zip, imageUrl, fileName) {
 // 이 스크립트의 마지막 부분입니다.
 // 페이지 로드 시 초기화 함수를 호출합니다.
 window.onload = init;
+
+
+
+// 덤벨과 플레이트 kg 계산기 기능
+document.addEventListener('DOMContentLoaded', function() {
+    const itemWeightsInput = document.getElementById('itemWeights');
+    const itemCountInput = document.getElementById('itemCount');
+    const addItemsButton = document.getElementById('addItems');
+    const itemList = document.getElementById('itemList').getElementsByTagName('tbody')[0];
+    const pricePerKgInput = document.getElementById('pricePerKg');
+    const calculateTotalButton = document.getElementById('calculateTotal');
+    const togglePairCalculationButton = document.getElementById('togglePairCalculation');
+    const totalResult = document.getElementById('totalResult');
+
+    let items = [];
+    let isPairCalculation = false;
+
+    addItemsButton.addEventListener('click', addItems);
+    calculateTotalButton.addEventListener('click', calculateTotal);
+    togglePairCalculationButton.addEventListener('click', togglePairCalculation);
+
+    function addItems() {
+        const weightsInput = itemWeightsInput.value.trim();
+        const count = parseInt(itemCountInput.value);
+
+        if (!weightsInput || isNaN(count) || count < 1) {
+            alert('올바른 무게와 개수를 입력해주세요.');
+            return;
+        }
+
+        const weights = weightsInput.split(',').map(w => parseFloat(w.trim())).filter(w => !isNaN(w) && w > 0);
+        
+        if (weights.length === 0) {
+            alert('올바른 무게를 입력해주세요.');
+            return;
+        }
+
+        weights.forEach(weight => {
+            const totalWeight = isPairCalculation ? weight * count * 2 : weight * count;
+            items.push({ weight, count, totalWeight });
+        });
+
+        updateItemList();
+        clearInputs();
+    }
+
+    function updateItemList() {
+        itemList.innerHTML = '';
+        items.forEach((item, index) => {
+            const row = itemList.insertRow();
+            row.innerHTML = `
+                <td>${item.weight} Kg</td>
+                <td>${item.count}${isPairCalculation ? ' (x2)' : ''}</td>
+                <td>${item.totalWeight.toFixed(1)} Kg</td>
+                <td><button onclick="removeItem(${index})">삭제</button></td>
+            `;
+        });
+    }
+
+    function clearInputs() {
+        itemWeightsInput.value = '';
+        itemCountInput.value = '1';
+    }
+
+    function calculateTotal() {
+        const pricePerKg = parseFloat(pricePerKgInput.value);
+    
+        if (isNaN(pricePerKg) || pricePerKg < 0) {
+            alert('올바른 1kg당 가격을 입력해주세요.');
+            return;
+        }
+    
+        let totalWeight = 0;
+        let totalPrice = 0;
+    
+        items.forEach(item => {
+            totalWeight += item.totalWeight;
+            totalPrice += item.totalWeight * pricePerKg;
+        });
+    
+        totalResult.innerHTML = `
+            <p>총 무게: ${totalWeight.toFixed(1)} Kg</p>
+            <p>총 가격: ${totalPrice.toFixed(0)} 원</p>
+        `;
+    }
+
+    function togglePairCalculation() {
+        isPairCalculation = !isPairCalculation;
+        togglePairCalculationButton.classList.toggle('active');
+        
+        if (isPairCalculation) {
+            togglePairCalculationButton.textContent = '한 쌍으로 계산하기 (활성화됨)';
+        } else {
+            togglePairCalculationButton.textContent = '한 쌍으로 계산하기';
+        }
+
+        // 기존 항목들의 총 무게를 재계산
+        items = items.map(item => ({
+            ...item,
+            totalWeight: isPairCalculation ? item.weight * item.count * 2 : item.weight * item.count
+        }));
+
+        updateItemList();
+    }
+
+    // 전역 스코프에 removeItem 함수 추가
+    window.removeItem = function(index) {
+        items.splice(index, 1);
+        updateItemList();
+    }
+});
