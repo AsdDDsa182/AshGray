@@ -189,6 +189,9 @@ function displaySearchResults(products) {
         span.textContent = `${product.name} (${product.company})`;
         div.appendChild(span);
 
+        const magnifyButtonContainer = document.createElement('div');
+        magnifyButtonContainer.className = 'magnify-button-container';
+
         const magnifyButton = document.createElement('button');
         magnifyButton.className = 'magnify-button';
         magnifyButton.textContent = '🔍';
@@ -200,14 +203,46 @@ function displaySearchResults(products) {
                 alert('이미지가 없습니다.');
             }
         };
-        div.appendChild(magnifyButton);
 
-        div.onclick = () => selectProductFromSearch(product);
+        magnifyButtonContainer.appendChild(magnifyButton);
+        div.appendChild(magnifyButtonContainer);
+
+        div.onclick = (event) => {
+            if (!event.target.closest('.magnify-button-container')) {
+                selectProductFromSearch(product);
+            }
+        };
         searchResults.appendChild(div);
     });
 
     searchResults.style.display = 'block';
 }
+
+// 문서 전체의 클릭 이벤트 리스너 수정
+document.addEventListener('click', function(e) {
+    const searchResults = document.getElementById('searchResults');
+    const searchInput = document.getElementById('productSearchInput');
+    const imageModal = document.getElementById('imageModal');
+    
+    // 검색 결과, 검색 입력 필드, 이미지 모달 외의 영역을 클릭했을 때만 드롭다운 메뉴를 닫습니다.
+    if (!searchResults.contains(e.target) && 
+        e.target !== searchInput && 
+        !imageModal.contains(e.target) &&
+        !e.target.classList.contains('magnify-button')) {
+        searchResults.style.display = 'none';
+    }
+});
+
+// init 함수나 DOM 로드 이벤트에서 이 함수를 호출해야 합니다.
+setupModalEvents();
+
+// 검색 입력 필드 클릭 시 드롭다운 다시 표시
+document.getElementById('productSearchInput').addEventListener('click', function(e) {
+    const searchResults = document.getElementById('searchResults');
+    if (this.value.trim() !== '') {
+        searchResults.style.display = 'block';
+    }
+});
 
 // 검색 결과에서 제품 선택 함수
 function selectProductFromSearch(product) {
@@ -743,13 +778,16 @@ function setupModalEvents() {
     const modal = document.getElementById('imageModal');
     const span = document.getElementsByClassName("close")[0];
     
-    span.onclick = closeModal;
+    span.onclick = (event) => {
+        event.stopPropagation(); // 이벤트 전파를 중지합니다.
+        closeModal();
+    };
 
-    window.onclick = function(event) {
-        if (event.target == modal) {
+    modal.onclick = (event) => {
+        if (event.target === modal) {
             closeModal();
         }
-    }
+    };
 }
 
 // 제품 개수 업데이트 함수

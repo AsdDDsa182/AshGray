@@ -1617,6 +1617,8 @@ td input[type="number"]:focus {
 
 
 
+
+
 .search-container {
     position: relative;
     margin-bottom: 10px;
@@ -1662,11 +1664,35 @@ td input[type="number"]:focus {
     text-align: left;
 }
 
+.magnify-button-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #ddd;
+    padding: 4px;
+    border-radius: 6px;
+    background-color: #f9f9f9;
+    cursor: pointer;
+    margin-left: 8px;
+    transition: background-color 0.3s ease;
+    width: 32px;
+    min-width: 32px;
+}
+
+.magnify-button-container:hover {
+    background-color: #e6e6e6;
+}
+
 .magnify-button {
     background: none;
     border: none;
     cursor: pointer;
     font-size: 18px;
     color: #3498db;
-    padding: 0 5px;
+    padding: 0;
+    margin: 0;
+}
+
+.magnify-button:hover {
+    color: #2980b9;
 }
