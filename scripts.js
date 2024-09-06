@@ -1451,7 +1451,7 @@ document.addEventListener('DOMContentLoaded', function() {
         if (isPairCalculation) {
             togglePairCalculationButton.textContent = '한 쌍으로 계산하기 (활성화됨)';
         } else {
-            togglePairCalculationButton.textContent = '한 쌍으로 계산하기';
+            togglePairCalculationButton.textContent = '한 쌍으로 계산하기 (비활성화 됨)';
         }
 
         // 기존 항목들의 총 무게를 재계산
