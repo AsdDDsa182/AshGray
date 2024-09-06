@@ -1292,9 +1292,6 @@ td input[type="number"]:focus {
 
 
 
-
-
-
 /* 덤벨과 플레이트 kg 계산기의 전체 스타일 */
 .dumbbell-plate-calculator {
     width: 100%; /* 전체 너비 사용 */
@@ -1368,8 +1365,7 @@ td input[type="number"]:focus {
 
 /* 입력 필드 스타일 */
 .dumbbell-plate-calculator .calculator-inputs input[type="text"],
-.dumbbell-plate-calculator .calculator-inputs input[type="number"],
-.dumbbell-plate-calculator .price-input input[type="number"] {
+.dumbbell-plate-calculator .price-input input[type="text"] {
     width: 100%;
     padding: 10px;
     border: 1px solid #cccccc;
@@ -1458,7 +1454,7 @@ td input[type="number"]:focus {
 .dumbbell-plate-calculator .price-input,
 .dumbbell-plate-calculator .button-container {
     width: 100%;
-    max-width: 1000px; /* 최대 너비를 800px로 증가 */
+    max-width: 1000px;
     margin: 20px auto;
 }
 
@@ -1481,20 +1477,12 @@ td input[type="number"]:focus {
     text-align: center;
 }
 
-.dumbbell-plate-calculator p {
-    color: #666666;
-    font-size: 14px;
-    margin-bottom: 20px;
-}
-
-
 /* 반응형 디자인: 태블릿 및 모바일 화면 */
 @media (max-width: 768px) {
-
     .dumbbell-plate-calculator p {
-        font-size: 16px; /* 폰트 크기를 12px로 줄임 */
-        line-height: 1.4; /* 줄 간격 조정 */
-        margin-bottom: 15px; /* 아래 여백 조정 */
+        font-size: 16px;
+        line-height: 1.4;
+        margin-bottom: 15px;
     }
 
     .dumbbell-plate-calculator {
@@ -1513,8 +1501,7 @@ td input[type="number"]:focus {
     }
 
     .dumbbell-plate-calculator .calculator-inputs input[type="text"],
-    .dumbbell-plate-calculator .calculator-inputs input[type="number"],
-    .dumbbell-plate-calculator .price-input input[type="number"] {
+    .dumbbell-plate-calculator .price-input input[type="text"] {
         font-size: 16px;
     }
 
@@ -1544,10 +1531,9 @@ td input[type="number"]:focus {
 
 /* 반응형 디자인: 매우 작은 화면 */
 @media (max-width: 320px) {
-
     .dumbbell-plate-calculator p {
-        font-size: 11px; /* 폰트 크기를 11px로 더 줄임 */
-        line-height: 1.3; /* 줄 간격 추가 조정 */
+        font-size: 11px;
+        line-height: 1.3;
     }
 
     .dumbbell-plate-calculator {
@@ -1556,8 +1542,7 @@ td input[type="number"]:focus {
     }
 
     .dumbbell-plate-calculator .calculator-inputs input[type="text"],
-    .dumbbell-plate-calculator .calculator-inputs input[type="number"],
-    .dumbbell-plate-calculator .price-input input[type="number"],
+    .dumbbell-plate-calculator .price-input input[type="text"],
     .dumbbell-plate-calculator #addItems,
     .dumbbell-plate-calculator #calculateTotal,
     .dumbbell-plate-calculator #togglePairCalculation {
@@ -1568,6 +1553,10 @@ td input[type="number"]:focus {
         font-size: 12px;
     }
 }
+
+
+
+
 
 
 

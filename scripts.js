@@ -1391,6 +1391,21 @@ document.addEventListener('DOMContentLoaded', function() {
     calculateTotalButton.addEventListener('click', calculateTotal);
     togglePairCalculationButton.addEventListener('click', togglePairCalculation);
 
+    // 천 단위 구분자를 추가하는 함수
+    function numberWithCommas(x) {
+        return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    }
+
+    // 'pricePerKg' 필드의 입력 이벤트 리스너
+    pricePerKgInput.addEventListener('input', function () {
+        const rawValue = this.value.replace(/,/g, ''); // 쉼표 제거
+        if (!isNaN(rawValue) && rawValue !== '') { // 숫자인지 확인
+            this.value = numberWithCommas(rawValue); // 천 단위 구분자를 추가하여 다시 설정
+        } else {
+            this.value = ''; // 숫자가 아니면 빈 값으로 설정
+        }
+    });
+
     function addItems() {
         const weightsInput = itemWeightsInput.value.trim();
         const count = parseInt(itemCountInput.value);
@@ -1435,7 +1450,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function calculateTotal() {
-        const pricePerKg = parseFloat(pricePerKgInput.value);
+        const pricePerKg = parseFloat(pricePerKgInput.value.replace(/,/g, '')); // 쉼표 제거 후 숫자 변환
     
         if (isNaN(pricePerKg) || pricePerKg < 0) {
             alert('올바른 1kg당 가격을 입력해주세요.');
@@ -1452,7 +1467,7 @@ document.addEventListener('DOMContentLoaded', function() {
     
         totalResult.innerHTML = `
             <p>총 무게: ${totalWeight.toFixed(1)} Kg</p>
-            <p>총 가격: ${totalPrice.toFixed(0)} 원</p>
+            <p>총 가격: ${numberWithCommas(totalPrice.toFixed(0))} 원</p>
         `;
     }
 
