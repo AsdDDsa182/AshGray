@@ -1693,6 +1693,16 @@ td input[type="number"]:focus {
     margin: 0;
 }
 
-.magnify-button:hover {
-    color: #2980b9;
+.magnify-button-container.no-image {
+    background-color: #f0f0f0;
+    border-color: #ccc;
+}
+
+.magnify-button-container.no-image .magnify-button {
+    color: #999;
+    cursor: not-allowed;
+}
+
+.magnify-button-container.no-image:hover {
+    background-color: #f0f0f0;
 }

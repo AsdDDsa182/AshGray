@@ -194,15 +194,21 @@ function displaySearchResults(products) {
 
         const magnifyButton = document.createElement('button');
         magnifyButton.className = 'magnify-button';
-        magnifyButton.textContent = '🔍';
-        magnifyButton.onclick = (event) => {
-            event.stopPropagation();
-            if (product.imageUrl) {
+        
+        if (product.imageUrl) {
+            magnifyButton.textContent = '🔍';
+            magnifyButton.onclick = (event) => {
+                event.stopPropagation();
                 showImagePreview(product.imageUrl, product.name);
-            } else {
-                alert('이미지가 없습니다.');
-            }
-        };
+            };
+        } else {
+            magnifyButton.textContent = '🚫';
+            magnifyButtonContainer.classList.add('no-image');
+            magnifyButton.onclick = (event) => {
+                event.stopPropagation();
+                alert('이 제품은 이미지가 없습니다.');
+            };
+        }
 
         magnifyButtonContainer.appendChild(magnifyButton);
         div.appendChild(magnifyButtonContainer);
@@ -310,35 +316,41 @@ function selectCompany(company) {
     
     for (let product in companies[company]) {
         const option = document.createElement('div');
-        option.style.display = 'flex'; // 내부 요소를 가로로 정렬
-        option.style.alignItems = 'center'; // 수직 가운데 정렬
-        option.style.justifyContent = 'space-between'; // 양 끝으로 정렬
+        option.style.display = 'flex';
+        option.style.alignItems = 'center';
+        option.style.justifyContent = 'space-between';
 
         const productName = document.createElement('span');
         productName.textContent = product; 
-        productName.style.flexGrow = '1'; // 제품명이 가능한 공간을 차지하도록 설정
-        productName.style.textAlign = 'left'; // 텍스트를 왼쪽에 정렬
+        productName.style.flexGrow = '1';
+        productName.style.textAlign = 'left';
 
         const magnifyButtonContainer = document.createElement('div');
         magnifyButtonContainer.className = 'magnify-button-container';
         magnifyButtonContainer.style.display = 'flex';
         magnifyButtonContainer.style.alignItems = 'center';
-        magnifyButtonContainer.style.width = '32px'; // 박스의 가로 크기 설정
-        magnifyButtonContainer.style.minWidth = '32px'; // 최소 가로 크기 설정
-        magnifyButtonContainer.style.padding = '4px'; // 패딩 조정
+        magnifyButtonContainer.style.width = '32px';
+        magnifyButtonContainer.style.minWidth = '32px';
+        magnifyButtonContainer.style.padding = '4px';
 
         const magnifyButton = document.createElement('button');
-        magnifyButton.textContent = '🔍'; 
         magnifyButton.className = 'magnify-button';
-        magnifyButton.onclick = (event) => {
-            event.stopPropagation();
-            const selectedProductInfo = companies[company][product];
-            if (selectedProductInfo && selectedProductInfo.imageUrl) {
+
+        const selectedProductInfo = companies[company][product];
+        if (selectedProductInfo && selectedProductInfo.imageUrl) {
+            magnifyButton.textContent = '🔍';
+            magnifyButton.onclick = (event) => {
+                event.stopPropagation();
                 showImagePreview(selectedProductInfo.imageUrl, product);
-            } else {
-                alert('이미지가 없습니다.');
-            }
-        };
+            };
+        } else {
+            magnifyButton.textContent = '🚫';
+            magnifyButtonContainer.classList.add('no-image');
+            magnifyButton.onclick = (event) => {
+                event.stopPropagation();
+                alert('이 제품은 이미지가 없습니다.');
+            };
+        }
 
         magnifyButtonContainer.appendChild(magnifyButton);
 
