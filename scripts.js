@@ -177,7 +177,6 @@ function toggleProductOptions() {
     }
 }
 
-// 회사 선택 함수
 function selectCompany(company) {
     selectedCompany = company;
     document.getElementById('companySelectButton').textContent = company;
@@ -188,13 +187,46 @@ function selectCompany(company) {
     
     for (let product in companies[company]) {
         const option = document.createElement('div');
-        option.textContent = product;
+        option.style.display = 'flex'; // 내부 요소를 가로로 정렬
+        option.style.alignItems = 'center'; // 수직 가운데 정렬
+        option.style.justifyContent = 'space-between'; // 양 끝으로 정렬
+
+        const productName = document.createElement('span');
+        productName.textContent = product; 
+        productName.style.flexGrow = '1'; // 제품명이 가능한 공간을 차지하도록 설정
+        productName.style.textAlign = 'left'; // 텍스트를 왼쪽에 정렬
+
+        const magnifyButtonContainer = document.createElement('div');
+        magnifyButtonContainer.className = 'magnify-button-container';
+        magnifyButtonContainer.style.display = 'flex';
+        magnifyButtonContainer.style.alignItems = 'center';
+        magnifyButtonContainer.style.width = '32px'; // 박스의 가로 크기 설정
+        magnifyButtonContainer.style.minWidth = '32px'; // 최소 가로 크기 설정
+        magnifyButtonContainer.style.padding = '4px'; // 패딩 조정
+
+        const magnifyButton = document.createElement('button');
+        magnifyButton.textContent = '🔍'; 
+        magnifyButton.className = 'magnify-button';
+        magnifyButton.onclick = (event) => {
+            event.stopPropagation();
+            const selectedProductInfo = companies[company][product];
+            if (selectedProductInfo && selectedProductInfo.imageUrl) {
+                showImagePreview(selectedProductInfo.imageUrl, product);
+            } else {
+                alert('이미지가 없습니다.');
+            }
+        };
+
+        magnifyButtonContainer.appendChild(magnifyButton);
+
+        option.appendChild(productName); 
+        option.appendChild(magnifyButtonContainer);
         option.onclick = () => selectProduct(product);
-        
+
         if (isProductAlreadyAdded(product)) {
             option.classList.add('already-added');
         }
-        
+
         productOptions.appendChild(option);
     }
 
@@ -203,6 +235,7 @@ function selectCompany(company) {
     selectedProduct = '';
     document.getElementById('addButton').disabled = true;
 }
+
 
 // 제품이 이미 추가되었는지 확인하는 함수
 function isProductAlreadyAdded(productName) {
