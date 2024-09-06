@@ -59,12 +59,20 @@
                     <div onclick="resetCompanySelection()">- 회사 선택 -</div>
                 </div>
             </div>
+
+            
             <!-- 제품 선택 드롭다운 -->
             <div class="custom-select">
                 <button class="select-button" id="productSelectButton" disabled>- 제품 선택 -</button>
                 <div class="select-options" id="productOptions">
                     <div onclick="resetProductSelection()">- 제품 선택 -</div>
                 </div>
+            </div>
+
+                <!-- 새로운 검색 입력 필드 추가 -->
+            <div class="search-container">
+                <input type="text" id="productSearchInput" placeholder="제품명 검색...">
+                <div id="searchResults" class="search-results"></div>
             </div>
             
             <!-- 제품 추가 및 직접 입력 버튼 -->

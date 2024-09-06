@@ -5,6 +5,7 @@ let pricesHidden = false; // 가격 숨김 여부를 추적
 let selectedCompany = ''; // 선택된 회사 이름
 let selectedProduct = ''; // 선택된 제품 이름
 let imageDataStore = {}; // 이미지 데이터를 저장할 객체
+let allProducts = []; // 모든 제품을 저장할 배열
 
 // 페이지 초기화 함수
 async function init() {
@@ -13,6 +14,7 @@ async function init() {
     setupEventListeners(); // 이벤트 리스너 설정
     setupModalEvents(); // 모달 이벤트 설정
     updateTotalAmountVisibility(); // 페이지 로드 시 총액 섹션의 표시 여부 초기화
+    initializeSearch();
     console.log("초기화 완료");
 }
 
@@ -132,6 +134,92 @@ async function loadCompaniesAndProducts() {
         console.error('회사 및 제품 데이터 로드 중 오류 발생:', error);
         alert('데이터 로드 중 오류가 발생했습니다.');
     }
+        // 함수의 마지막 부분, console.log("회사 및 제품 데이터 로드 완료"); 바로 위에 다음 코드를 추가합니다.
+        Object.keys(companies).forEach(companyName => {
+            Object.entries(companies[companyName]).forEach(([productName, productInfo]) => {
+                allProducts.push({
+                    name: productName,
+                    company: companyName,
+                    ...productInfo
+                });
+            });
+        });
+    
+        initializeSearch(); // 검색 기능 초기화 함수 호출
+    
+        console.log("회사 및 제품 데이터 로드 완료");
+}
+
+// 검색 기능 초기화 함수
+function initializeSearch() {
+    const searchInput = document.getElementById('productSearchInput');
+    const searchResults = document.getElementById('searchResults');
+
+    searchInput.addEventListener('input', function() {
+        const searchTerm = this.value.toLowerCase();
+        const filteredProducts = allProducts.filter(product => 
+            product.name.toLowerCase().includes(searchTerm)
+        );
+
+        displaySearchResults(filteredProducts);
+    });
+
+    document.addEventListener('click', function(e) {
+        if (!searchResults.contains(e.target) && e.target !== searchInput) {
+            searchResults.style.display = 'none';
+        }
+    });
+}
+
+// 검색 결과 표시 함수
+function displaySearchResults(products) {
+    const searchResults = document.getElementById('searchResults');
+    searchResults.innerHTML = '';
+
+    if (products.length === 0) {
+        searchResults.style.display = 'none';
+        return;
+    }
+
+    products.forEach(product => {
+        const div = document.createElement('div');
+        div.className = 'search-result-item';
+        
+        const span = document.createElement('span');
+        span.textContent = `${product.name} (${product.company})`;
+        div.appendChild(span);
+
+        const magnifyButton = document.createElement('button');
+        magnifyButton.className = 'magnify-button';
+        magnifyButton.textContent = '🔍';
+        magnifyButton.onclick = (event) => {
+            event.stopPropagation();
+            if (product.imageUrl) {
+                showImagePreview(product.imageUrl, product.name);
+            } else {
+                alert('이미지가 없습니다.');
+            }
+        };
+        div.appendChild(magnifyButton);
+
+        div.onclick = () => selectProductFromSearch(product);
+        searchResults.appendChild(div);
+    });
+
+    searchResults.style.display = 'block';
+}
+
+// 검색 결과에서 제품 선택 함수
+function selectProductFromSearch(product) {
+    selectedCompany = product.company;
+    selectedProduct = product.name;
+
+    document.getElementById('companySelectButton').textContent = selectedCompany;
+    document.getElementById('productSelectButton').textContent = selectedProduct;
+    document.getElementById('productSelectButton').disabled = false;
+    document.getElementById('addButton').disabled = false;
+    document.getElementById('searchResults').style.display = 'none';
+    document.getElementById('productSearchInput').value = '';
 }
 
 // 이벤트 리스너 설정 함수
