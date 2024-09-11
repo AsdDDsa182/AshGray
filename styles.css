@@ -1696,3 +1696,26 @@ td input[type="number"]:focus {
     background-color: #f0f0f0;
 }
 
+
+
+
+.test-button-container {
+    text-align: center;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.test-button {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #4CAF50;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    font-weight: bold;
+    transition: background-color 0.3s;
+}
+
+.test-button:hover {
+    background-color: #45a049;
+}
