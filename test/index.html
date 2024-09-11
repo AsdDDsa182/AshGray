@@ -3,7 +3,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
     <title>GOFITKOREA</title>
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
@@ -117,108 +117,86 @@
                 <div class="gradient-overlay right"></div>
                 <div class="logos-track">
                     <!-- 로고 이미지들. 실제 사용 시 경로를 수정해야 합니다 -->
-                    <img src="/logo_01.png" alt="Partner 1">
-                    <img src="/logo_01.png" alt="Partner 2">
-                    <img src="/logo_01.png" alt="Partner 3">
-                    <img src="/logo_01.png" alt="Partner 4">
-                    <img src="/logo_01.png" alt="Partner 5">
-                    <img src="/logo_01.png" alt="Partner 6">
+                    <img src="/partners/logo_01.png" alt="Partner 1">
+                    <img src="/partners/logo_02.png" alt="Partner 2">
+                    <img src="/partners/logo_03.png" alt="Partner 3">
+                    <img src="/partners/logo_04.png" alt="Partner 4">
+                    <img src="/partners/logo_05.png" alt="Partner 5">
+                    <img src="/partners/logo_06.png" alt="Partner 6">
+                    <img src="/partners/logo_07.png" alt="Partner 7">
+                    <img src="/partners/logo_08.png" alt="Partner 8">
+                    <img src="/partners/logo_09.png" alt="Partner 9">
+                    <img src="/partners/logo_10.png" alt="Partner 10">
                     <!-- 무한 루프를 위해 로고들을 JavaScript로 복제합니다 -->
                 </div>
             </div>
         </div>
     </section>
 
-    
-    <!-- Scroll Animation 섹션 -->
-    <section id="scroll-animation-section" class="section">
-        <div class="scroll-indicator1">
-            <div class="scroll-text1">SCROLL DOWN</div>
-        </div>
-
-        <div class="scroll-container">
-            <div id="canvas-container">
-                <canvas id="hero-lightpass"></canvas>
-                <div class="scroll-section-circle-container">
-                    <div class="scroll-section-circle"></div>
-                </div>
-            </div>
-
-            <div class="content-wrapper">
-                <div id="section1" class="scroll-content">
-                    <h1>혁신적인 제품</h1>
-                    <p>우리의 최신 기술을 경험해보세요.</p>
-                </div>
-
-                <div id="section2" class="scroll-content">
-                    <h1>탁월한 디자인</h1>
-                    <p>아름다움과 기능성의 완벽한 조화를 느껴보세요.</p>
-                </div>
-
-                <div id="section3" class="scroll-content">
-                    <h1>미래를 향한 도약</h1>
-                    <p>더 나은 내일, 우리의 비전을 공유합니다.</p>
-                </div>
-
-                <!-- 새로 추가된 섹션 -->
-                <div id="section4" class="scroll-content special-section">
-                    <h1>혁신의 새로운 장</h1>
-                    <p>우리의 기술로 세상을 바꾸는 <br> 새로운 혁신의 시대를 열어갑니다.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-
 
 
 
 
     
-    <!-- About Us 섹션 -->
-    <section id="about-us" class="section">
-        <!-- 배경 이미지 컨테이너 -->
-        <div class="background-image"></div>
-        <div class="container">
-            <div class="section-content">
-                <!-- 텍스트 콘텐츠 -->
-                <div class="text-content">
-                    <h2 class="section-title">About Us <span class="section-subtitle">회사 소개</span></h2>
-                    <p>Our company was founded with the vision of creating innovative solutions for modern challenges. We believe in the power of technology to transform lives and businesses.</p>
-                </div>
-                <!-- 이미지 콘텐츠 (슬라이드쇼) -->
-                <div class="image-content">
-                    <div class="slideshow-container">
-                        <div class="slide-wrapper">
-                            <div class="slide">
-                                <img src="/aboutus/1.jpg" alt="About Us Image 1">
-                            </div>
-                            <div class="slide">
-                                <img src="/aboutus/2.jpg" alt="About Us Image 2">
-                            </div>
-                            <div class="slide">
-                                <img src="/aboutus/3.jpg" alt="About Us Image 3">
-                            </div>
-                            <div class="slide">
-                                <img src="/aboutus/4.jpg" alt="About Us Image 4">
-                            </div>
+<!-- About Us 섹션 -->
+<section id="about-us" class="section">
+    <div class="background-image"></div>
+    <div class="container">
+        <div class="section-content">
+            <!-- 회사 로고 -->
+            <div class="logo-container">
+                <img src="/logo/gofit-2.png" alt="Company Logo" class="company-logo">
+            </div>
+            
+            <!-- 이미지 콘텐츠 (슬라이드쇼) -->
+            <div class="image-content">
+                <div class="slideshow-container">
+                    <div class="slide-wrapper">
+                        <div class="slide">
+                            <img src="/aboutus/1.jpg" alt="About Us Image 1">
                         </div>
-                        <!-- 슬라이드 컨트롤 -->
-                        <div class="slide-controls">
-                            <button class="prev">❮</button>
-                            <button class="next">❯</button>
+                        <div class="slide">
+                            <img src="/aboutus/2.jpg" alt="About Us Image 2">
                         </div>
-                        <!-- 프로그레스 바 -->
-                        <div class="progress-bar">
-                            <div class="progress"></div>
+                        <div class="slide">
+                            <img src="/aboutus/3.jpg" alt="About Us Image 3">
+                        </div>
+                        <div class="slide">
+                            <img src="/aboutus/4.jpg" alt="About Us Image 4">
                         </div>
                     </div>
-                    <!-- 닷 네비게이션 -->
-                    <div class="dots-container"></div>
+                    <!-- 슬라이드 컨트롤 -->
+                    <div class="slide-controls">
+                        <button class="prev">❮</button>
+                        <button class="next">❯</button>
+                    </div>
+                    <!-- 프로그레스 바 -->
+                    <div class="progress-bar">
+                        <div class="progress"></div>
+                    </div>
                 </div>
+                <!-- 닷 네비게이션 -->
+                <div class="dots-container"></div>
+            </div>
+            <!-- 텍스트 콘텐츠 -->
+            <div class="text-content">
+                <h2 class="section-title">About Us <span class="section-subtitle">회사 소개</span></h2>
+                <div class="text-wrapper">
+                    <p>
+                        고핏코리아는 <strong class="highlight">새로운 도전에 대한 열정</strong>을 가지고 고객과 함께 나아갑니다. 우리는 <strong class="highlight">전 세계에서 엄선한 피트니스 용품, 헬스 기구, 필라테스 운동기구</strong>를 직접 수입하여 국내 시장에 유통함으로써 다양한 선택지를 제공합니다. <strong class="highlight">최상의 품질과 기술을 갖춘 제품을 경쟁력 있는 가격</strong>에 제공하기 위해, 국제적인 무역 네트워크를 통해 신뢰할 수 있는 공급자와 협력합니다. 우리는 운동을 통해 더 나은 자신을 만들어가는 모든 이들의 도전을 응원하며, <strong class="highlight">최고의 제품과 맞춤형 서비스</strong>를 제공하기 위해 항상 노력합니다. 고객이 목표를 이루는 과정에서 <strong class="highlight">최고의 파트너</strong>가 되기 위해, 최신 트렌드를 반영한 제품과 솔루션을 빠르게 도입하여 고객의 다양한 요구를 충족시킵니다.
+                    </p>
+                </div>
+                <button class="read-more-btn">더보기</button>
+            </div>
+            <!-- 새로 추가할 스크롤 유도 화살표 -->
+            <div class="scroll-arrow-container">
+                <div class="scroll-arrow"></div>
+                <span class="scroll-text">Scroll for more</span>
             </div>
         </div>
-    </section>
+    </div>
+</section>
+
 
     
 
@@ -294,7 +272,104 @@
     </section>
 
 
+        <!-- Scroll Animation 섹션 -->
+        <section id="scroll-animation-section" class="section">
+            <div class="scroll-indicator1">
+                <div class="scroll-text1">SCROLL DOWN</div>
+            </div>
+    
+            <div class="scroll-container">
+                <div id="canvas-container">
+                    <canvas id="hero-lightpass"></canvas>
+                    <div class="scroll-section-circle-container">
+                        <div class="scroll-section-circle"></div>
+                    </div>
+                </div>
+    
+                <div class="content-wrapper">
+                    <div id="section1" class="scroll-content">
+                        <h1>혁신적인 제품</h1>
+                        <p>우리의 최신 기술을 경험해보세요.</p>
+                    </div>
+    
+                    <div id="section2" class="scroll-content">
+                        <h1>탁월한 디자인</h1>
+                        <p>아름다움과 기능성의 완벽한 조화를 느껴보세요.</p>
+                    </div>
+    
+                    <div id="section3" class="scroll-content">
+                        <h1>미래를 향한 도약</h1>
+                        <p>더 나은 내일, 우리의 비전을 공유합니다.</p>
+                    </div>
+    
+                    <!-- 새로 추가된 섹션 -->
+                    <div id="section4" class="scroll-content special-section">
+                        <h1>혁신의 새로운 장</h1>
+                        <p>우리의 기술로 세상을 바꾸는 <br> 새로운 혁신의 시대를 열어갑니다.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
 
+
+    <!-- inquiry-intro 섹션 -->
+    <section id="inquiry-intro" class="section">
+        <div class="scroll-container">
+            <div class="content-wrapper">
+                <div id="inquiry-intro-content" class="scroll-display">
+                    <div class="text-animation-container">
+                        <div class="text-item">고객 만족도 <span class="highlight">1위</span></div>
+                        <div class="text-item"><span class="highlight">365일 </span>고객 지원</div>
+                        <div class="text-item"><span class="highlight">신속</span>한 서비스</div>
+                        <div class="text-item"><span class="highlight">꼼꼼한</span> 솔루션</div>
+                        <div class="text-item"><span class="highlight">정확한</span> 견적과</div>
+                        <div class="text-item"><span class="highlight">전문가</span>의 설계</div>
+                        <div class="text-item">전 브랜드 <span class="highlight">최다 프로모션</span></div>
+                        <div class="text-item"><span class="highlight">신뢰</span>할 수 있는 파트너</div>
+                    </div>
+                    <h1 class="main-title">GOFITKOREA</h1>
+                    <p class="main-description">저희 고핏코리아는 수많은 고객분들에게<br class="mobile-break"> 최상의 서비스를 제공했습니다.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- 새로운 Counting Content 섹션 -->
+    <section id="counting-content" class="section">
+        <div class="container">
+            <div class="counting-content">
+                <div class="counting-item">
+                    <i class="fas fa-users"></i>
+                    <div class="count-wrapper">
+                        <span class="count" data-target="1500">0</span>
+                    </div>
+                    <h3>Clients</h3>
+                </div>
+                <div class="counting-item">
+                    <i class="fas fa-project-diagram"></i>
+                    <div class="count-wrapper">
+                        <span class="count" data-target="750">0</span>
+                    </div>
+                    <h3>Projects</h3>
+                </div>
+                <div class="counting-item">
+                    <i class="fas fa-headset"></i>
+                    <div class="count-wrapper">
+                        <span class="count" data-target="24">0</span>
+                    </div>
+                    <h3>Hours Support</h3>
+                </div>
+                <div class="counting-item">
+                    <i class="fas fa-award"></i>
+                    <div class="count-wrapper">
+                        <span class="count" data-target="100">0</span>
+                    </div>
+                    <h3>Awards</h3>
+                </div>
+            </div>
+        </div>
+    </section>
 
     <!-- Our Services 섹션 -->
     <section id="our-services" class="section">
@@ -435,73 +510,6 @@
             </div>
         </div>
     </section>
-
-
-
-
-    <!-- Best Services 섹션 -->
-    <section id="best-services" class="section section">
-        <div class="scroll-container">
-            <div id="canvas-container">
-                <canvas id="best-services-canvas"></canvas>
-            </div>
-            <div class="content-wrapper">
-                <div id="best-services-content" class="scroll-content">
-                    <h1>THE BEST SERVICES</h1>
-                    <p>이미 수많은 고객사에 최상의 서비스를 제공해드렸습니다.</p>
-                </div>
-            </div>
-            <!-- 스크롤 인디케이터2 -->
-            <div class="scroll-indicator2">
-                <div class="scroll-text2">SCROLL DOWN</div>
-            </div>
-        </div>
-    </section>
-
-    
-
-
-
-    <!-- 새로운 Counting Content 섹션 -->
-    <section id="counting-content" class="section">
-        <div class="container">
-            <div class="counting-content">
-                <div class="counting-item">
-                    <i class="fas fa-users"></i>
-                    <div class="count-wrapper">
-                        <span class="count" data-target="1500">0</span>
-                    </div>
-                    <h3>Clients</h3>
-                </div>
-                <div class="counting-item">
-                    <i class="fas fa-project-diagram"></i>
-                    <div class="count-wrapper">
-                        <span class="count" data-target="750">0</span>
-                    </div>
-                    <h3>Projects</h3>
-                </div>
-                <div class="counting-item">
-                    <i class="fas fa-headset"></i>
-                    <div class="count-wrapper">
-                        <span class="count" data-target="24">0</span>
-                    </div>
-                    <h3>Hours Support</h3>
-                </div>
-                <div class="counting-item">
-                    <i class="fas fa-award"></i>
-                    <div class="count-wrapper">
-                        <span class="count" data-target="100">0</span>
-                    </div>
-                    <h3>Awards</h3>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    
-
-
-
 
     <!-- Results 섹션 시작 -->
     <section id="results" class="section">
@@ -705,42 +713,124 @@
     </div>
     <!-- 모달 컨테이너 끝 -->
 
-<!-- inquiry-intro 섹션 -->
-<section id="inquiry-intro" class="section">
-    <div class="scroll-container">
-            <!-- 스크롤 인디케이터3 추가 -->
-    <div class="scroll-indicator3">
-        <div class="scroll-text3">SCROLL DOWN</div>
-    </div>
-        <div class="content-wrapper">
-            <!-- 클래스 이름을 변경: scroll-content -> scroll-display -->
-            <div id="inquiry-intro-content" class="scroll-display">
-                <div class="text-animation-container">
-                    <div class="text-item"><span class="highlight">최고</span>의 서비스를 경험하세요</div>
-                    <div class="text-item"><span class="highlight">맞춤형</span> 솔루션을 제공합니다</div>
-                    <div class="text-item"><span class="highlight">빠르고 정확한</span> 견적</div>
-                    <div class="text-item"><span class="highlight">전문가</span>의 조언을 들어보세요</div>
-                    <div class="text-item">고객 만족도 <span class="highlight">1위</span></div>
-                    <div class="text-item"><span class="highlight">혁신적인</span> 기술 적용</div>
-                    <div class="text-item"><span class="highlight">24/7</span> 고객 지원</div>
-                    <div class="text-item"><span class="highlight">경쟁력 있는</span> 가격</div>
-                    <div class="text-item"><span class="highlight">신뢰</span>할 수 있는 파트너</div>
-                    <div class="text-item"><span class="highlight">미래</span>를 함께 만들어갑니다</div>
-                </div>
-                <h1 class="main-title">INQUIRY INTRO</h1>
-                <p class="main-description">온라인 견적 문의로 최상의 서비스를 경험해보세요.</p>
+
+
+    <!-- Best Services 섹션 -->
+    <section id="best-services" class="section">
+        <div class="scroll-container">
+            <div class="scroll-indicator2">
+                <div class="scroll-text2">SCROLL DOWN</div>
             </div>
+            <div id="image-container">
+                <!-- 이미지들은 JavaScript로 동적 추가됩니다 -->
+            </div>
+            <div class="content-wrapper">
+                <div id="best-services-content" class="scroll-content">
+                    <h1>도움이 필요하세요?</h1>
+                    <p>걱정마세요! 고핏코리아의 전문가가<br class="mobile-break"> 처음부터 끝까지 설계해드립니다.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+<section id="inquiry-section" class="section">
+    <div class="container">
+        <div class="info-content">
+            <h2>온라인 문의 접수</h2>
+            <div class="info-grid">
+                <div class="info-item">
+                    <i class="fas fa-clock"></i>
+                    <h3>전문 피트니스 메이커</h3>
+                    <p>다양한 경험과 노하우로 처음부터 끝까지 설계해드립니다.</p>
+                </div>
+                <div class="info-item">
+                    <i class="fas fa-user-cog"></i>
+                    <h3>고객 맞춤형 솔루션</h3>
+                    <p>귀하의 요구사항에 맞는 최적의 솔루션 제안드립니다.</p>
+                </div>
+                <div class="info-item">
+                    <i class="fas fa-dollar-sign"></i>
+                    <h3>업계 최고의 서비스</h3>
+                    <p>최고의 서비스와 합리적인 가격, 그리고 품질을 보장합니다.</p>
+                </div>
+                <div class="info-item">
+                    <i class="fas fa-headset"></i>
+                    <h3>365일 고객 지원</h3>
+                    <p>언제든지 문의주시면 신속하게 응답해드립니다.</p>
+                </div>
+            </div>
+        </div>
+
+        <div id="loading-modal" class="loading-modal">
+            <div class="loading-spinner"></div>
+            <p>이메일 발송 중...</p>
+          </div>
+
+        <div class="inquiry-form">
+            <h3 class="inquiry-type-title">문의 유형</h3>
+            <div class="category-buttons">
+                <button type="button" class="category-button active">구입 견적 문의</button>
+                <button type="button" class="category-button">렌탈 견적 문의</button>
+                <button type="button" class="category-button">비즈니스 제휴 문의</button>
+                <button type="button" class="category-button">A/S 문의</button>
+                <button type="button" class="category-button">일반 문의</button>
+                <button type="button" class="category-button">기타</button>
+            </div>
+
+            <form id="inquiryForm">
+                <input type="hidden" name="inquiry_type" id="inquiry_type" value="구입 견적 문의">
+                <div class="ec-base-table typeWrite">
+                    <table>
+                        <tbody>
+                            <tr>
+                                <th scope="row">이름</th>
+                                <td>
+                                    <input type="text" name="name" id="writer" placeholder="이름을 적어주세요." required>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th scope="row">전화번호</th>
+                                <td>
+                                    <input type="tel" name="phone" id="phone" placeholder="전화번호를 입력해주세요." required>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th scope="row">이메일 주소</th>
+                                <td>
+                                    <input type="email" name="email" id="email" placeholder="이메일주소를 입력해주세요." required>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th scope="row">내용</th>
+                                <td>
+                                    <textarea name="message" id="board_content" placeholder="내용을 입력해주세요." required></textarea>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="privacy-agreement">
+                    <div class="checkbox-wrapper">
+                        <input type="checkbox" id="privacy-consent" required>
+                        <label for="privacy-consent">개인정보 수집 및 이용 동의</label>
+                    </div>
+                    <ul>
+                        <li><strong>수집 항목:</strong> 이름, 이메일, 연락처, 문의 내용</li>
+                        <li><strong>수집 목적:</strong> 문의 내용 등록, 확인, 답변</li>
+                        <li><strong>보유 기간:</strong> 1년</li>
+                    </ul>
+                </div>
+
+                <div class="ec-base-button">
+                    <button type="submit" class="btnSubmitFix sizeM">Send</button>
+                </div>
+            </form>
         </div>
     </div>
 </section>
 
-
-
-
-
-    <div id="inquiry-section" class="section inquiry-section">
-        <!-- 이 부분에 inquiry-section.html의 내용이 로드됩니다 -->
-    </div>
 
 
 
@@ -799,10 +889,10 @@
                 <img src="/gofit.png" alt="Logo">
             </div>
             <div class="footer-links">
-                <a href="#about-us">About Us</a>
-                <a href="#our-services">Our Services</a>
-                <a href="#results">Results</a>
-                <a href="#contact-us">Contact Us</a>
+                <a href="#about-us" class="nav-item">About Us</a>
+                <a href="#our-services" class="nav-item">Our Services</a>
+                <a href="#results" class="nav-item">Results</a>
+                <a href="#contact-us" class="nav-item">Contact Us</a>
             </div>
             <div class="footer-social">
                 <a href="https://youtube.com" target="_blank"><i class="fab fa-youtube"></i></a>
@@ -820,8 +910,6 @@
         </div>
     </footer>
 
-
-    <script src="script.js"></script>
     <script type="text/javascript" src="https://oapi.map.naver.com/openapi/v3/maps.js?ncpClientId=YOUR_CLIENT_ID"></script>
     <script>
         // 네이버 지도 초기화 함수
@@ -873,128 +961,6 @@
             alert('네이버 지도 Open API 인증이 실패했습니다. 클라이언트 ID를 확인하세요.');
         };
     </script>
-    <script>
-let selectedCategory = '구입 견적 문의'; // 기본 카테고리 설정
-
-fetch('inquiry-section.html')
-    .then(response => response.text())
-    .then(data => {
-        const parser = new DOMParser();
-        const doc = parser.parseFromString(data, 'text/html');
-        const inquirySection = doc.querySelector('.inquiry-section');
-        if (inquirySection) {
-            const container = document.getElementById('inquiry-section');
-            container.innerHTML = ''; // 기존 내용 제거
-            container.appendChild(inquirySection);
-            
-            // 애니메이션 초기 상태 설정
-            inquirySection.classList.add('animate-init');
-            
-            // Intersection Observer 설정
-            const observerOptions = {
-                root: null,
-                rootMargin: '0px',
-                threshold: 0.1
-            };
-
-            const observerCallback = (entries, observer) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        inquirySection.classList.remove('animate-init');
-                        inquirySection.classList.add('animate');
-                        observer.unobserve(entry.target);
-                    }
-                });
-            };
-
-            const observer = new IntersectionObserver(observerCallback, observerOptions);
-            observer.observe(inquirySection);
-            
-            // 카테고리 버튼 기능 추가
-            const categoryButtons = document.querySelectorAll('.category-button');
-            categoryButtons.forEach(button => {
-                if (button.textContent.trim() === selectedCategory) {
-                    button.classList.add('active');
-                }
-                button.addEventListener('click', function() {
-                    categoryButtons.forEach(btn => btn.classList.remove('active'));
-                    this.classList.add('active');
-                    selectedCategory = this.textContent.trim();
-                });
-            });
-
-            // 폼 제출 처리
-            const form = document.getElementById('boardWriteForm');
-            form.addEventListener('submit', function(event) {
-                event.preventDefault();
-                
-                const name = document.getElementById('writer').value.trim();
-                const phone = document.getElementById('phone').value.trim();
-                const email = document.getElementById('email').value.trim();
-                const content = document.getElementById('board_content').value.trim();
-                const privacyAgreement = document.querySelector('.privacy-agreement input[type="checkbox"]').checked;
-
-                // 자동 제목 생성
-                const autoSubjectField = document.getElementById('auto_subject');
-                autoSubjectField.value = `"${name}" 고객 견적 요청 문의`;
-
-                if (name && phone && email && content && privacyAgreement) {
-                    // 모든 정보를 하나의 내용으로 합치기
-                    const formattedContent = `
-카테고리: ${selectedCategory}
-이름: ${name}
-전화번호: ${phone}
-이메일: ${email}
-
-문의 내용:
-${content}
-                    `;
-
-                    // 합쳐진 내용을 board_content 필드에 설정
-                    document.getElementById('board_content').value = formattedContent;
-
-                    // 폼 데이터 생성
-                    const formData = new FormData(form);
-
-                    // AJAX를 사용하여 폼 제출
-                    fetch(form.action, {
-                        method: 'POST',
-                        body: formData
-                    })
-                    .then(response => {
-                        if (response.ok) {
-                            // 성공적으로 제출되었을 때
-                            alert('문의가 성공적으로 등록되었습니다.');
-                            // 필요하다면 폼 리셋 또는 페이지 리다이렉트
-                            form.reset();
-                            // 카테고리 버튼 초기화
-                            categoryButtons.forEach(btn => btn.classList.remove('active'));
-                            categoryButtons[0].classList.add('active');
-                            selectedCategory = '구입 견적 문의';
-                            // 또는 window.location.href = '성공 페이지 URL';
-                        } else {
-                            // 서버에서 오류 응답을 받았을 때
-                            throw new Error('서버 응답 오류');
-                        }
-                    })
-                    .catch(error => {
-                        console.error('Error:', error);
-                        alert('문의 등록 중 오류가 발생했습니다. 다시 시도해 주세요.');
-                    });
-                } else {
-                    let errorMessage = '다음 항목을 확인해주세요:\n';
-                    if (!name) errorMessage += '- 이름을 입력해주세요.\n';
-                    if (!phone) errorMessage += '- 전화번호를 입력해주세요.\n';
-                    if (!email) errorMessage += '- 이메일을 입력해주세요.\n';
-                    if (!content) errorMessage += '- 내용을 입력해주세요.\n';
-                    if (!privacyAgreement) errorMessage += '- 개인정보 수집 및 이용에 동의해주세요.\n';
-
-                    alert(errorMessage);
-                }
-            });
-        }
-    })
-    .catch(error => console.error('Error:', error));
-    </script>
+    <script src="script.js"></script>
 </body>
 </html>
