@@ -298,11 +298,10 @@ function handleAboutUsAnimation() {
         const textContent = aboutSection.querySelector('.text-content');
         const imageContent = aboutSection.querySelector('.image-content');
         const scrollArrowContainer = aboutSection.querySelector('.scroll-arrow-container');
+        const logoContainer = aboutSection.querySelector('.logo-container');
         const readMoreBtn = aboutSection.querySelector('.read-more-btn');
         const textWrapper = aboutSection.querySelector('.text-wrapper');
-        const logoContainer = aboutSection.querySelector('.logo-container'); // 로고 컨테이너 선택
 
-        // 슬라이드쇼 관련 요소들
         const slideWrapper = aboutSection.querySelector('.slide-wrapper');
         const slides = aboutSection.querySelectorAll('.slide');
         const prevButton = aboutSection.querySelector('.prev');
@@ -315,7 +314,6 @@ function handleAboutUsAnimation() {
         let slideInterval;
         let progressBarAnimation;
 
-        // 닷 네비게이션 생성
         slides.forEach((_, index) => {
             const dot = document.createElement('span');
             dot.classList.add('dot');
@@ -325,7 +323,6 @@ function handleAboutUsAnimation() {
 
         const dots = dotsContainer.querySelectorAll('.dot');
 
-        // 슬라이드 이동 함수
         function goToSlide(n) {
             currentSlide = (n + totalSlides) % totalSlides;
             slideWrapper.style.transform = `translateX(-${currentSlide * 100}%)`;
@@ -333,24 +330,20 @@ function handleAboutUsAnimation() {
             resetProgressBar();
         }
 
-        // 다음 슬라이드로 이동
         function nextSlide() {
             goToSlide(currentSlide + 1);
         }
 
-        // 이전 슬라이드로 이동
         function prevSlide() {
             goToSlide(currentSlide - 1);
         }
 
-        // 닷 업데이트
         function updateDots() {
             dots.forEach((dot, index) => {
                 dot.classList.toggle('active', index === currentSlide);
             });
         }
 
-        // 프로그레스 바 리셋 및 애니메이션
         function resetProgressBar() {
             if (progressBarAnimation) {
                 progressBarAnimation.cancel();
@@ -369,14 +362,11 @@ function handleAboutUsAnimation() {
             );
         }
 
-        // 슬라이드쇼 시작
         function startSlideShow() {
             stopSlideShow();
             resetProgressBar();
             slideInterval = setInterval(nextSlide, 4000);
         }
-
-        // 슬라이드쇼 정지
         function stopSlideShow() {
             clearInterval(slideInterval);
             if (progressBarAnimation) {
@@ -384,7 +374,6 @@ function handleAboutUsAnimation() {
             }
         }
 
-        // 이벤트 리스너 추가
         prevButton.addEventListener('click', () => {
             prevSlide();
             startSlideShow();
@@ -395,7 +384,6 @@ function handleAboutUsAnimation() {
             startSlideShow();
         });
 
-        // 터치 스와이프 기능
         let touchStartX = 0;
         let touchEndX = 0;
 
@@ -419,46 +407,21 @@ function handleAboutUsAnimation() {
             startSlideShow();
         }
 
-        // 윈도우 리사이즈 대응
         function handleResize() {
             goToSlide(currentSlide);
-            startSlideShow(); // 리사이즈 후 슬라이드쇼 재시작
+            startSlideShow();
+            adjustText();
         }
 
         let resizeTimer;
         window.addEventListener('resize', () => {
             clearTimeout(resizeTimer);
-            resizeTimer = setTimeout(handleResize, 250); // 리사이즈 이벤트 디바운싱
+            resizeTimer = setTimeout(handleResize, 250);
         });
 
-        // 더보기 버튼 기능
-        if (readMoreBtn && textWrapper) {
-            // 초기 상태 설정
-            textWrapper.style.maxHeight = '150px'; // 텍스트 초기 상태를 축약된 상태로 설정
-            textWrapper.style.overflow = 'hidden'; // 초기 overflow를 숨김
-            textWrapper.classList.add('gradient-mask'); // 초기 상태에서 그라데이션 추가
-            readMoreBtn.textContent = '더보기';
-
-            readMoreBtn.addEventListener('click', function () {
-                if (textWrapper.style.maxHeight === 'none' || textWrapper.style.maxHeight === '') {
-                    textWrapper.style.maxHeight = '150px'; // 다시 최대 높이를 설정
-                    textWrapper.style.overflow = 'hidden'; // 다시 overflow를 숨김
-                    textWrapper.classList.add('gradient-mask'); // 그라데이션 다시 추가
-                    readMoreBtn.textContent = '더보기';
-                } else {
-                    textWrapper.style.maxHeight = 'none'; // 전체 텍스트를 표시할 때 최대 높이를 제거
-                    textWrapper.style.overflow = 'visible'; // 전체 텍스트를 표시할 때 overflow를 제거
-                    textWrapper.classList.remove('gradient-mask'); // 그라데이션 제거
-                    readMoreBtn.textContent = '접기';
-                }
-            });
-        }
-
-        // 초기 설정
         updateDots();
         startSlideShow();
 
-        // Intersection Observer 설정
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
@@ -468,17 +431,58 @@ function handleAboutUsAnimation() {
             });
         }, { threshold: 0.2 });
 
-        // 각 요소에 대해 관찰 시작
         observer.observe(backgroundImage);
         observer.observe(imageContent);
         observer.observe(textContent);
         observer.observe(scrollArrowContainer);
-        observer.observe(logoContainer); // 로고 컨테이너에 대해 관찰 시작
+        observer.observe(logoContainer);
+
+        // 텍스트 조절 함수
+        function adjustText() {
+            if (window.innerWidth <= 768) {
+                textWrapper.style.maxHeight = '100px';
+                readMoreBtn.style.display = 'inline-block';
+            } else {
+                textWrapper.style.maxHeight = 'none';
+                readMoreBtn.style.display = 'none';
+            }
+        }
+
+        // 더보기 버튼 이벤트 리스너
+        readMoreBtn.addEventListener('click', function() {
+            if (textWrapper.style.maxHeight === '100px') {
+                textWrapper.style.maxHeight = 'none';
+                textWrapper.classList.add('expanded');
+                this.textContent = '접기';
+            } else {
+                textWrapper.style.maxHeight = '100px';
+                textWrapper.classList.remove('expanded');
+                this.textContent = '더보기';
+            }
+        });
+
+        // 텍스트 조절 함수
+        function adjustText() {
+            if (window.innerWidth <= 768) {
+                textWrapper.style.maxHeight = '100px';
+                textWrapper.classList.remove('expanded');
+                readMoreBtn.style.display = 'inline-block';
+                readMoreBtn.textContent = '더보기';
+            } else {
+                textWrapper.style.maxHeight = 'none';
+                textWrapper.classList.add('expanded');
+                readMoreBtn.style.display = 'none';
+            }
+        }
+
+        // 초기 텍스트 조절
+        adjustText();
     }
 }
 
 // 페이지 로드 시 About Us 애니메이션 함수 실행
 window.addEventListener('load', handleAboutUsAnimation);
+
 
 
 
@@ -599,8 +603,8 @@ timelineItems.forEach((item, index) => {
         duration: 1,
         scrollTrigger: {
             trigger: item,
-            start: "top 80%",
-            end: "top 20%",
+            start: "top 90%",
+            end: "top 30%",
             scrub: 1,
             toggleActions: "play none none reverse"
         }
@@ -617,7 +621,7 @@ gsap.to(timelineLine, {
     ease: "none",
     scrollTrigger: {
         trigger: "#timeline",
-        start: "top 20%",
+        start: "top 40%",
         end: "bottom center",
         scrub: 1
     }
@@ -980,14 +984,14 @@ function updateMainContent(scrollFraction) {
 
         mainTitle.style.opacity = easedProgress;
         mainDescription.style.opacity = easedProgress;
-        mainTitle.style.transform = `translateY(${30 * (1 - easedProgress)}px)`;
+        mainTitle.style.transform = `translateY(${30 * (1 - easedProgress)}px) scaleY(1.0)`;
         mainDescription.style.transform = `translateY(${30 * (1 - easedProgress)}px)`;
 
         mainContentVisible = true;
     } else {
         mainTitle.style.opacity = 0;
         mainDescription.style.opacity = 0;
-        mainTitle.style.transform = 'translateY(30px)';
+        mainTitle.style.transform = 'translateY(30px) scaleY(0)';
         mainDescription.style.transform = 'translateY(30px)';
     }
 
@@ -1002,12 +1006,6 @@ function handleScroll() {
     const currentItemHeight = updateItemHeight();
     const mainContentVisible = updateMainContent(scrollFraction);
     updateTextItems(scrollFraction, currentItemHeight, mainContentVisible);
-    
-    // 배경 그라데이션 효과 업데이트
-    inquiryIntroSection.style.background = `linear-gradient(180deg, 
-        rgba(0,0,0,1) ${scrollFraction * 100}%, 
-        rgba(20,20,20,1) ${scrollFraction * 100 + 50}%, 
-        rgba(0,0,0,1) 100%)`;
 }
 
 // Throttled 스크롤 핸들러
@@ -1113,6 +1111,7 @@ document.querySelectorAll('.service-box').forEach(box => {
 
 
 
+// Best Section 코드
 (function() {
     const bestServicesSection = document.getElementById('best-services');
     if (!bestServicesSection) return;
@@ -1121,20 +1120,21 @@ document.querySelectorAll('.service-box').forEach(box => {
     const scrollContent = document.getElementById('best-services-content');
     const scrollIndicator2 = document.querySelector('.scroll-indicator2');
 
-    const totalImages = 5;
+    const totalImages = 8;
     let activeImageIndex = 0;
     let animationFrameId = null;
+    let isSectionPassed = false; // 섹션이 지나갔는지 여부를 추적하는 플래그
 
     function createImageElements() {
         for (let i = 1; i <= totalImages; i++) {
             const img = document.createElement('img');
-            img.src = `/product${i}.webp`;
-            img.alt = `Product ${i}`;
+            img.src = `/brand-product/brand-product${i}.png`; // 실제 이미지 경로로 수정
+            img.alt = `brand-product ${i}`;
             imageContainer.appendChild(img);
         }
     }
 
-    function updateImagePositions(contentOpacity) {
+    function updateImagePositions(contentOpacity, minOpacity = 0.1) {
         const images = imageContainer.querySelectorAll('img');
         const isMobile = window.innerWidth <= 768; // 모바일 화면 여부 확인
         
@@ -1142,11 +1142,14 @@ document.querySelectorAll('.service-box').forEach(box => {
             const offset = index - activeImageIndex;
             const absOffset = Math.abs(offset);
             const zIndex = images.length - absOffset;
-            const opacity = (offset === 0 ? 1 : 0.5 - (absOffset * 0.1)) * (1 - contentOpacity);
+            const baseOpacity = (offset === 0 ? 1 : 0.5 - (absOffset * 0.1)) * (1 - contentOpacity);
+
+            // 최소 불투명도 적용
+            const opacity = Math.max(baseOpacity, minOpacity); 
             const scale = offset === 0 ? 1 : 0.7 - (absOffset * 0.1);
             
-            // 여기서 간격을 조절합니다
-            const spacing = isMobile ? 50 : 65; // 모바일에서는 30%, 그 외에는 65%
+            // 간격 조절
+            const spacing = isMobile ? 75 : 85; // 모바일에서는 75%, 그 외에는 85%
             const translateX = offset * spacing;
 
             img.style.transform = `translateX(${translateX}%) scale(${scale})`;
@@ -1156,19 +1159,22 @@ document.querySelectorAll('.service-box').forEach(box => {
     }
 
     function animateContent(progress) {
-        const lastImageFullyVisiblePoint = (totalImages - 1) / totalImages;
-        const textStartPoint = lastImageFullyVisiblePoint + 0.1;
-        
+        const lastImageFullyVisiblePoint = (totalImages - 1) / totalImages; // 마지막 이미지가 완전히 보이는 지점
+        const textStartPoint = lastImageFullyVisiblePoint + 0.04; // 텍스트 시작 지점 조금 더 조정하여 이미지가 충분히 어두워진 후 시작
+    
         let opacity, translateY;
-        
+    
         if (progress < textStartPoint) {
             opacity = 0;
             translateY = 100;
-            updateImagePositions(0);
+            updateImagePositions(0); // 이미지가 완전히 보이도록 유지
         } else {
-            opacity = Math.min(1, (progress - textStartPoint) / (1 - textStartPoint));
+            const imageFadeOutProgress = Math.min(1, (progress - lastImageFullyVisiblePoint) / 0.1); // 이미지가 어두워지는 진행도 계산
+            updateImagePositions(imageFadeOutProgress, 0.1); // 이미지의 어두워짐 효과 적용, 최소 불투명도 설정
+
+            const textFadeInProgress = Math.min(1, (progress - textStartPoint) / (1 - textStartPoint)); // 텍스트가 나타나는 진행도 계산
+            opacity = textFadeInProgress;
             translateY = 70 * (1 - opacity);
-            updateImagePositions(opacity);
         }
 
         scrollContent.style.opacity = opacity;
@@ -1180,6 +1186,7 @@ document.querySelectorAll('.service-box').forEach(box => {
         const viewportHeight = window.innerHeight;
 
         if (rect.top <= 0 && rect.bottom >= viewportHeight) {
+            // 섹션 내에 있을 때
             const sectionProgress = Math.abs(rect.top) / (rect.height - viewportHeight);
             const newImageIndex = Math.min(Math.floor(sectionProgress * totalImages), totalImages - 1);
             
@@ -1189,6 +1196,26 @@ document.querySelectorAll('.service-box').forEach(box => {
 
             animateContent(sectionProgress);
             scrollIndicator2.style.opacity = activeImageIndex === 0 ? '1' : '0';
+        } else if (rect.bottom < viewportHeight) {
+            // 섹션이 화면 아래로 완전히 지나갔을 때
+            if (!isSectionPassed) {
+                isSectionPassed = true;
+                activeImageIndex = totalImages - 1;
+                updateImagePositions(1); // 모든 이미지가 최종 상태로
+                scrollContent.style.opacity = 1;
+                scrollContent.style.transform = `translate(-50%, calc(-45% + 0px))`;
+                scrollIndicator2.style.opacity = '0';
+            }
+        } else if (rect.top > 0) {
+            // 섹션이 화면 위로 완전히 올라갔을 때
+            if (isSectionPassed) {
+                isSectionPassed = false;
+                activeImageIndex = 0;
+                updateImagePositions(0); // 모든 이미지가 초기 상태로
+                scrollContent.style.opacity = 0;
+                scrollContent.style.transform = `translate(-50%, calc(-45% + 100px))`;
+                scrollIndicator2.style.opacity = '1';
+            }
         }
     }
 
@@ -1199,7 +1226,7 @@ document.querySelectorAll('.service-box').forEach(box => {
 
     function init() {
         createImageElements();
-        updateImagePositions(0);
+        handleScroll(); // 초기 스크롤 상태 설정
         animate();
         window.addEventListener('resize', () => updateImagePositions(0));
     }
@@ -1222,113 +1249,138 @@ document.querySelectorAll('.service-box').forEach(box => {
 
 
 
-    // Counting Content 코드
-    function handleCountingContentAnimation() {
-        // counting-content 섹션을 선택합니다.
-        const section = document.querySelector('#counting-content');
-        if (section) {
-            // 카운팅 아이템들을 선택합니다.
-            const countingItems = section.querySelectorAll('.counting-item');
 
-            // IntersectionObserver를 생성합니다. 이는 요소가 뷰포트에 들어왔는지 감지합니다.
-            const observer = new IntersectionObserver((entries, observer) => {
-                entries.forEach(entry => {
-                    // 요소가 뷰포트에 40% 이상 들어왔을 때
-                    if (entry.isIntersecting) {
-                        // 카운팅 아이템 애니메이션을 시작합니다.
+// Counting Content 코드
+function handleCountingContentAnimation() {
+    // counting-content 섹션을 선택합니다.
+    const section = document.querySelector('#counting-content');
+    if (section) {
+        // 텍스트 요소를 선택합니다.
+        const countingText = section.querySelector('.counting-text');
+        // 카운팅 아이템들을 선택합니다.
+        const countingItems = section.querySelectorAll('.counting-item');
+
+        // IntersectionObserver를 생성합니다. 이는 요소가 뷰포트에 들어왔는지 감지합니다.
+        const observer = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                // 요소가 뷰포트에 40% 이상 들어왔을 때
+                if (entry.isIntersecting) {
+                    // 텍스트 요소인 경우 애니메이션을 적용합니다.
+                    if (entry.target === countingText) {
+                        animateText(countingText);
+                    } 
+                    // 카운팅 아이템 컨테이너인 경우 카운팅 애니메이션을 시작합니다.
+                    else if (entry.target === section.querySelector('.counting-items')) {
                         animateCountingItems(countingItems);
-                        // 한 번 애니메이션이 적용된 요소는 더 이상 관찰하지 않습니다.
-                        observer.unobserve(entry.target);
                     }
-                });
-            }, { threshold: 0.1 }); // 요소의 40%가 뷰포트에 들어왔을 때 콜백을 실행합니다.
-
-            // 섹션을 관찰 대상으로 등록합니다.
-            observer.observe(section);
-
-            // 호버 효과 추가
-            countingItems.forEach(item => {
-                item.addEventListener('mouseenter', () => {
-                    item.style.transform = 'translateY(-5px) scale(1.05)';
-                    item.style.boxShadow = '0 6px 12px rgba(0, 0, 0, 0.2)';
-                });
-                item.addEventListener('mouseleave', () => {
-                    item.style.transform = '';
-                    item.style.boxShadow = '';
-                });
+                    // 한 번 애니메이션이 적용된 요소는 더 이상 관찰하지 않습니다.
+                    observer.unobserve(entry.target);
+                }
             });
-        }
-    }
+        }, { threshold: 0.4 }); // 요소의 40%가 뷰포트에 들어왔을 때 콜백을 실행합니다.
 
-    // 카운팅 아이템들에 애니메이션을 적용하는 함수
-    function animateCountingItems(items) {
-        items.forEach((item, index) => {
-            // 각 아이템마다 0.2초 간격으로 애니메이션을 시작합니다.
-            setTimeout(() => {
-                item.classList.add('animate');
-                startCounting(item);
-            }, 200 * index);
+        // 텍스트 요소와 카운팅 아이템 컨테이너를 관찰 대상으로 등록합니다.
+        observer.observe(countingText);
+        observer.observe(section.querySelector('.counting-items'));
+
+        // 호버 효과 추가
+        countingItems.forEach(item => {
+            item.addEventListener('mouseenter', () => {
+                item.style.transform = 'translateY(-5px) scale(1.05)';
+                item.style.boxShadow = '0 6px 12px rgba(0, 0, 0, 0.2)';
+            });
+            item.addEventListener('mouseleave', () => {
+                item.style.transform = '';
+                item.style.boxShadow = '';
+            });
         });
     }
+}
 
-    // 카운팅 애니메이션을 시작하는 함수
-    function startCounting(item) {
-        const countElement = item.querySelector('.count');
-        const targetNumber = parseInt(countElement.getAttribute('data-target'));
-        const duration = 2000; // 2초 동안 애니메이션
-        let startTimestamp = null;
+// 텍스트 애니메이션 함수
+function animateText(textElement) {
+    // 초기 상태 설정 부분 제거
+    // textElement.style.opacity = '0';
+    // textElement.style.transform = 'translateY(50px)';
+    
+    // 애니메이션 시작
+    setTimeout(() => {
+        textElement.style.transition = 'opacity 0.5s, transform 0.5s';
+        textElement.style.opacity = '1';
+        textElement.style.transform = 'translateY(0)';
+    }, 100);
+}
 
-        function animateCount(timestamp) {
-            if (!startTimestamp) startTimestamp = timestamp;
-            const progress = Math.min((timestamp - startTimestamp) / duration, 1);
-            const currentNumber = Math.floor(progress * targetNumber);
 
-            countElement.textContent = `+${currentNumber.toLocaleString()}`;
+// 카운팅 아이템들에 애니메이션을 적용하는 함수
+function animateCountingItems(items) {
+    items.forEach((item, index) => {
+        // 각 아이템마다 0.2초 간격으로 애니메이션을 시작합니다.
+        setTimeout(() => {
+            item.classList.add('animate');
+            startCounting(item);
+        }, 200 * index);
+    });
+}
 
-            // 빠르게 위아래로 흔들리는 효과
-            if (progress < 0.95) {
-                const shakeY = (Math.random() - 0.5) * 15; // 흔들림 강도 조절
-                countElement.style.transform = `translateY(${shakeY}px)`;
-                countElement.style.transition = 'transform 0.05s'; // 빠른 전환 효과
-            } else {
-                // 마지막 5%에서 안정화
-                countElement.style.transform = 'translateY(0)';
-                countElement.style.transition = 'transform 0.2s';
-            }
+// 카운팅 애니메이션을 시작하는 함수
+function startCounting(item) {
+    const countElement = item.querySelector('.count');
+    const targetNumber = parseInt(countElement.getAttribute('data-target'));
+    const duration = 2000; // 2초 동안 애니메이션
+    let startTimestamp = null;
 
-            if (progress < 1) {
-                requestAnimationFrame(animateCount);
-            } else {
-                countElement.style.transform = 'none';
-                item.classList.add('counting-complete');
-                countElement.classList.add('completion-effect');
-                addCompletionCheck(item);
-                
-                // 완료 효과 후 클래스 제거
-                setTimeout(() => {
-                    countElement.classList.remove('completion-effect');
-                }, 1500); // 애니메이션 지속 시간
-            }
+    function animateCount(timestamp) {
+        if (!startTimestamp) startTimestamp = timestamp;
+        const progress = Math.min((timestamp - startTimestamp) / duration, 1);
+        const currentNumber = Math.floor(progress * targetNumber);
+
+        countElement.textContent = `+${currentNumber.toLocaleString()}`;
+
+        // 빠르게 위아래로 흔들리는 효과
+        if (progress < 0.95) {
+            const shakeY = (Math.random() - 0.5) * 15; // 흔들림 강도 조절
+            countElement.style.transform = `translateY(${shakeY}px)`;
+            countElement.style.transition = 'transform 0.05s'; // 빠른 전환 효과
+        } else {
+            // 마지막 5%에서 안정화
+            countElement.style.transform = 'translateY(0)';
+            countElement.style.transition = 'transform 0.2s';
         }
 
-        requestAnimationFrame(animateCount);
+        if (progress < 1) {
+            requestAnimationFrame(animateCount);
+        } else {
+            countElement.style.transform = 'none';
+            item.classList.add('counting-complete');
+            countElement.classList.add('completion-effect');
+            addCompletionCheck(item);
+            
+            // 완료 효과 후 클래스 제거
+            setTimeout(() => {
+                countElement.classList.remove('completion-effect');
+            }, 1500); // 애니메이션 지속 시간
+        }
     }
 
-    // 카운팅 완료 후 체크 표시를 추가하는 함수
-    function addCompletionCheck(item) {
-        const checkMark = document.createElement('div');
-        checkMark.className = 'completion-check';
-        checkMark.innerHTML = '<svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>';
-        item.appendChild(checkMark);
+    requestAnimationFrame(animateCount);
+}
 
-        setTimeout(() => {
-            checkMark.style.opacity = '1';
-            checkMark.style.transform = 'scale(1) rotate(0deg)';
-        }, 100);
-    }
+// 카운팅 완료 후 체크 표시를 추가하는 함수
+function addCompletionCheck(item) {
+    const checkMark = document.createElement('div');
+    checkMark.className = 'completion-check';
+    checkMark.innerHTML = '<svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>';
+    item.appendChild(checkMark);
 
-    // 페이지 로드 시 애니메이션 함수 실행
-    handleCountingContentAnimation();
+    setTimeout(() => {
+        checkMark.style.opacity = '1';
+        checkMark.style.transform = 'scale(1) rotate(0deg)';
+    }, 100);
+}
+
+// 페이지 로드 시 애니메이션 함수 실행
+handleCountingContentAnimation();
 
 
     
