@@ -1123,12 +1123,12 @@ document.querySelectorAll('.service-box').forEach(box => {
     const totalImages = 8;
     let activeImageIndex = 0;
     let animationFrameId = null;
-    let isSectionPassed = false; // 섹션이 지나갔는지 여부를 추적하는 플래그
+    let isSectionPassed = false;
 
     function createImageElements() {
         for (let i = 1; i <= totalImages; i++) {
             const img = document.createElement('img');
-            img.src = `/brand-product/brand-product${i}.png`; // 실제 이미지 경로로 수정
+            img.src = `https://raw.githubusercontent.com/AsdDDsa182/AshGray/main/web/brand-product/brand-product${i}.png`;
             img.alt = `brand-product ${i}`;
             imageContainer.appendChild(img);
         }
@@ -1136,7 +1136,7 @@ document.querySelectorAll('.service-box').forEach(box => {
 
     function updateImagePositions(contentOpacity, minOpacity = 0.1) {
         const images = imageContainer.querySelectorAll('img');
-        const isMobile = window.innerWidth <= 768; // 모바일 화면 여부 확인
+        const isMobile = window.innerWidth <= 768;
         
         images.forEach((img, index) => {
             const offset = index - activeImageIndex;
@@ -1144,12 +1144,10 @@ document.querySelectorAll('.service-box').forEach(box => {
             const zIndex = images.length - absOffset;
             const baseOpacity = (offset === 0 ? 1 : 0.5 - (absOffset * 0.1)) * (1 - contentOpacity);
 
-            // 최소 불투명도 적용
-            const opacity = Math.max(baseOpacity, minOpacity); 
+            const opacity = Math.max(baseOpacity, minOpacity);
             const scale = offset === 0 ? 1 : 0.7 - (absOffset * 0.1);
             
-            // 간격 조절
-            const spacing = isMobile ? 75 : 85; // 모바일에서는 75%, 그 외에는 85%
+            const spacing = isMobile ? 75 : 85;
             const translateX = offset * spacing;
 
             img.style.transform = `translateX(${translateX}%) scale(${scale})`;
@@ -1159,20 +1157,20 @@ document.querySelectorAll('.service-box').forEach(box => {
     }
 
     function animateContent(progress) {
-        const lastImageFullyVisiblePoint = (totalImages - 1) / totalImages; // 마지막 이미지가 완전히 보이는 지점
-        const textStartPoint = lastImageFullyVisiblePoint + 0.04; // 텍스트 시작 지점 조금 더 조정하여 이미지가 충분히 어두워진 후 시작
+        const lastImageFullyVisiblePoint = (totalImages - 1) / totalImages;
+        const textStartPoint = lastImageFullyVisiblePoint + 0.04;
     
         let opacity, translateY;
     
         if (progress < textStartPoint) {
             opacity = 0;
             translateY = 100;
-            updateImagePositions(0); // 이미지가 완전히 보이도록 유지
+            updateImagePositions(0);
         } else {
-            const imageFadeOutProgress = Math.min(1, (progress - lastImageFullyVisiblePoint) / 0.1); // 이미지가 어두워지는 진행도 계산
-            updateImagePositions(imageFadeOutProgress, 0.1); // 이미지의 어두워짐 효과 적용, 최소 불투명도 설정
+            const imageFadeOutProgress = Math.min(1, (progress - lastImageFullyVisiblePoint) / 0.1);
+            updateImagePositions(imageFadeOutProgress, 0.1);
 
-            const textFadeInProgress = Math.min(1, (progress - textStartPoint) / (1 - textStartPoint)); // 텍스트가 나타나는 진행도 계산
+            const textFadeInProgress = Math.min(1, (progress - textStartPoint) / (1 - textStartPoint));
             opacity = textFadeInProgress;
             translateY = 70 * (1 - opacity);
         }
@@ -1186,7 +1184,6 @@ document.querySelectorAll('.service-box').forEach(box => {
         const viewportHeight = window.innerHeight;
 
         if (rect.top <= 0 && rect.bottom >= viewportHeight) {
-            // 섹션 내에 있을 때
             const sectionProgress = Math.abs(rect.top) / (rect.height - viewportHeight);
             const newImageIndex = Math.min(Math.floor(sectionProgress * totalImages), totalImages - 1);
             
@@ -1197,21 +1194,19 @@ document.querySelectorAll('.service-box').forEach(box => {
             animateContent(sectionProgress);
             scrollIndicator2.style.opacity = activeImageIndex === 0 ? '1' : '0';
         } else if (rect.bottom < viewportHeight) {
-            // 섹션이 화면 아래로 완전히 지나갔을 때
             if (!isSectionPassed) {
                 isSectionPassed = true;
                 activeImageIndex = totalImages - 1;
-                updateImagePositions(1); // 모든 이미지가 최종 상태로
+                updateImagePositions(1);
                 scrollContent.style.opacity = 1;
                 scrollContent.style.transform = `translate(-50%, calc(-45% + 0px))`;
                 scrollIndicator2.style.opacity = '0';
             }
         } else if (rect.top > 0) {
-            // 섹션이 화면 위로 완전히 올라갔을 때
             if (isSectionPassed) {
                 isSectionPassed = false;
                 activeImageIndex = 0;
-                updateImagePositions(0); // 모든 이미지가 초기 상태로
+                updateImagePositions(0);
                 scrollContent.style.opacity = 0;
                 scrollContent.style.transform = `translate(-50%, calc(-45% + 100px))`;
                 scrollIndicator2.style.opacity = '1';
@@ -1226,9 +1221,13 @@ document.querySelectorAll('.service-box').forEach(box => {
 
     function init() {
         createImageElements();
-        handleScroll(); // 초기 스크롤 상태 설정
+        updateImagePositions(0); // 초기 이미지 위치 설정
+        handleScroll();
         animate();
-        window.addEventListener('resize', () => updateImagePositions(0));
+        window.addEventListener('resize', () => {
+            updateImagePositions(0);
+            handleScroll();
+        });
     }
 
     if (document.readyState === 'loading') {
@@ -1588,14 +1587,14 @@ function handleModalSwipe() {
             loadingModal.style.display = 'flex';
             
             // Google Apps Script Web App URL
-            const scriptURL = 'https://script.google.com/macros/s/AKfycbzfPJ24i0x9PJfQascnvSPb3M4A53yZ-EmrjdhUHK3WGhsgJ8K5xq__ejL4dz-qQMyx/exec';
+            const scriptURL = 'https://script.google.com/macros/s/AKfycbzKL6Xb9L44bJeqZAoZV_i3e8yDIRH_dixookiJXPgdkvdrx3UxfWDQ7QKzt44H_tdp-Q/exec';
 
             fetch(scriptURL, { method: 'POST', body: formData })
                 .then(response => {
                     if (response.ok) {
                         setTimeout(() => {
                             loadingModal.style.display = 'none';
-                            alert('문의가 성공적으로 제출되었습니다! 곧 답변 드리겠습니다.');
+                            alert('문의가 성공적으로 제출되었습니다! 담당자가 확인 후, 이메일로 답변 드리겠습니다.');
                             form.reset();
                             categoryButtons.forEach(btn => btn.classList.remove('active'));
                             categoryButtons[0].classList.add('active');
@@ -1643,7 +1642,7 @@ function handleModalSwipe() {
 
                 contactObserver.unobserve(contactSection);
             }
-        }, { threshold: 0.4 });
+        }, { threshold: 0.2 });
 
         contactObserver.observe(contactSection);
     }

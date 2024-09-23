@@ -1499,7 +1499,7 @@ body.no-scroll {
     bottom: 140px;
     left: 49.2%;
     transform: translateX(-50%);
-    z-index: 4;
+    z-index: 10;
     opacity: 0;
     transition: opacity 0.3s ease;
 }
@@ -1799,7 +1799,7 @@ body.no-scroll {
                 rgba(0, 0, 0, 1) 0%, /* 위쪽 끝: 투명도 1 */
                 rgba(0, 0, 0, 0.8) 50%, /* 중앙: 투명도 0.8 */
                 rgba(0, 0, 0, 1) 100%), /* 아래쪽 끝: 투명도 1 */
-                url('counting/bg-1.png'); /* 배경 이미지 추가 */
+                url('https://raw.githubusercontent.com/AsdDDsa182/AshGray/main/web/counting/bg-1.png'); /* 배경 이미지 추가 */
     background-size: cover; /* 배경 이미지 크기 설정 */
     background-position: center; /* 배경 이미지 위치 설정 */
     background-repeat: no-repeat; /* 배경 이미지 반복 방지 */
