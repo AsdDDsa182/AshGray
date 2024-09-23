@@ -1496,7 +1496,7 @@ body.no-scroll {
 /* 스크롤 섹션 서클 스타일 */
 .scroll-section-circle-container {
     position: absolute;
-    bottom: 140px;
+    bottom: 100px;
     left: 49.2%;
     transform: translateX(-50%);
     z-index: 10;
