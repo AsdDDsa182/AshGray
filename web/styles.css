@@ -894,12 +894,18 @@ body.no-scroll {
 .text-wrapper {
     position: relative;
     overflow: hidden;
+    text-align: left;
 }
 
 #about-us .section-title {
     margin-top: -20px;
     margin-bottom: 20px;
     font-size: 2.5em;
+}
+
+/* 새로 추가된 스타일 */
+#about-us .section-title .section-subtitle {
+    display: inline-block;
 }
 
 .logo-container {
@@ -909,7 +915,6 @@ body.no-scroll {
     transition: opacity 0.5s ease-out, transform 0.5s ease-out;
     margin-bottom: 60px;
     margin-top: 0px;
-    /* border: solid #00f7ff; */
 }
 
 .company-logo {
@@ -1122,6 +1127,13 @@ body.no-scroll {
     
     #about-us h2 {
         font-size: 2em;
+    }
+
+    /* 새로 추가된 스타일 */
+    #about-us .section-title .section-subtitle {
+        display: block;
+        font-size: 0.6em;
+        margin-top: 5px;
     }
     
     .slideshow-container {
