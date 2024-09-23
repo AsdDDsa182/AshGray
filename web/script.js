@@ -290,6 +290,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
 
+
 // About Us 섹션 애니메이션
 function handleAboutUsAnimation() {
     const aboutSection = document.querySelector('#about-us');
@@ -313,6 +314,7 @@ function handleAboutUsAnimation() {
         const totalSlides = slides.length;
         let slideInterval;
         let progressBarAnimation;
+        let isExpanded = false; // 추가: 확장 상태 추적 변수
 
         slides.forEach((_, index) => {
             const dot = document.createElement('span');
@@ -367,6 +369,7 @@ function handleAboutUsAnimation() {
             resetProgressBar();
             slideInterval = setInterval(nextSlide, 4000);
         }
+        
         function stopSlideShow() {
             clearInterval(slideInterval);
             if (progressBarAnimation) {
@@ -437,20 +440,24 @@ function handleAboutUsAnimation() {
         observer.observe(scrollArrowContainer);
         observer.observe(logoContainer);
 
-        // 텍스트 조절 함수
+        // 수정: 텍스트 조절 함수
         function adjustText() {
-            if (window.innerWidth <= 768) {
+            if (window.innerWidth <= 768 && !isExpanded) {
                 textWrapper.style.maxHeight = '100px';
+                textWrapper.classList.remove('expanded');
                 readMoreBtn.style.display = 'inline-block';
+                readMoreBtn.textContent = '더보기';
             } else {
                 textWrapper.style.maxHeight = 'none';
-                readMoreBtn.style.display = 'none';
+                textWrapper.classList.add('expanded');
+                readMoreBtn.style.display = window.innerWidth <= 768 ? 'inline-block' : 'none';
             }
         }
 
-        // 더보기 버튼 이벤트 리스너
+        // 수정: 더보기 버튼 이벤트 리스너
         readMoreBtn.addEventListener('click', function() {
-            if (textWrapper.style.maxHeight === '100px') {
+            isExpanded = !isExpanded;
+            if (isExpanded) {
                 textWrapper.style.maxHeight = 'none';
                 textWrapper.classList.add('expanded');
                 this.textContent = '접기';
@@ -461,19 +468,12 @@ function handleAboutUsAnimation() {
             }
         });
 
-        // 텍스트 조절 함수
-        function adjustText() {
+        // 추가: 스크롤 이벤트 리스너
+        window.addEventListener('scroll', function() {
             if (window.innerWidth <= 768) {
-                textWrapper.style.maxHeight = '100px';
-                textWrapper.classList.remove('expanded');
-                readMoreBtn.style.display = 'inline-block';
-                readMoreBtn.textContent = '더보기';
-            } else {
-                textWrapper.style.maxHeight = 'none';
-                textWrapper.classList.add('expanded');
-                readMoreBtn.style.display = 'none';
+                adjustText();
             }
-        }
+        });
 
         // 초기 텍스트 조절
         adjustText();
@@ -482,7 +482,6 @@ function handleAboutUsAnimation() {
 
 // 페이지 로드 시 About Us 애니메이션 함수 실행
 window.addEventListener('load', handleAboutUsAnimation);
-
 
 
 
