@@ -291,11 +291,12 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
 
+
+
 // About Us 섹션 애니메이션
 function handleAboutUsAnimation() {
     const aboutSection = document.querySelector('#about-us');
     if (aboutSection) {
-        const backgroundImage = aboutSection.querySelector('.background-image');
         const textContent = aboutSection.querySelector('.text-content');
         const imageContent = aboutSection.querySelector('.image-content');
         const scrollArrowContainer = aboutSection.querySelector('.scroll-arrow-container');
@@ -314,8 +315,9 @@ function handleAboutUsAnimation() {
         const totalSlides = slides.length;
         let slideInterval;
         let progressBarAnimation;
-        let isExpanded = false; // 추가: 확장 상태 추적 변수
+        let isExpanded = false; // 확장 상태 추적 변수
 
+        // 슬라이드쇼 점 생성
         slides.forEach((_, index) => {
             const dot = document.createElement('span');
             dot.classList.add('dot');
@@ -325,6 +327,7 @@ function handleAboutUsAnimation() {
 
         const dots = dotsContainer.querySelectorAll('.dot');
 
+        // 슬라이드 이동 함수
         function goToSlide(n) {
             currentSlide = (n + totalSlides) % totalSlides;
             slideWrapper.style.transform = `translateX(-${currentSlide * 100}%)`;
@@ -346,6 +349,7 @@ function handleAboutUsAnimation() {
             });
         }
 
+        // 진행 바 초기화
         function resetProgressBar() {
             if (progressBarAnimation) {
                 progressBarAnimation.cancel();
@@ -364,6 +368,7 @@ function handleAboutUsAnimation() {
             );
         }
 
+        // 슬라이드쇼 시작 및 중지
         function startSlideShow() {
             stopSlideShow();
             resetProgressBar();
@@ -387,6 +392,7 @@ function handleAboutUsAnimation() {
             startSlideShow();
         });
 
+        // 터치 이벤트를 통한 슬라이드 제어
         let touchStartX = 0;
         let touchEndX = 0;
 
@@ -410,6 +416,7 @@ function handleAboutUsAnimation() {
             startSlideShow();
         }
 
+        // 화면 크기 조절 시 슬라이드 및 텍스트 조절
         function handleResize() {
             goToSlide(currentSlide);
             startSlideShow();
@@ -425,6 +432,7 @@ function handleAboutUsAnimation() {
         updateDots();
         startSlideShow();
 
+        // 요소들의 가시성 애니메이션을 위한 Intersection Observer
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
@@ -434,41 +442,40 @@ function handleAboutUsAnimation() {
             });
         }, { threshold: 0.2 });
 
-        observer.observe(backgroundImage);
         observer.observe(imageContent);
         observer.observe(textContent);
         observer.observe(scrollArrowContainer);
         observer.observe(logoContainer);
 
-        // 수정: 텍스트 조절 함수
+        // 텍스트 조절 함수 수정
         function adjustText() {
             if (window.innerWidth <= 768 && !isExpanded) {
-                textWrapper.style.maxHeight = '100px';
-                textWrapper.classList.remove('expanded');
+                textWrapper.style.maxHeight = '100px'; // 초기 높이로 설정
+                textWrapper.classList.add('masked'); // 마스크 효과 적용
                 readMoreBtn.style.display = 'inline-block';
                 readMoreBtn.textContent = '더보기';
             } else {
-                textWrapper.style.maxHeight = 'none';
-                textWrapper.classList.add('expanded');
+                textWrapper.style.maxHeight = textWrapper.scrollHeight + 'px'; // 콘텐츠 높이로 설정
+                textWrapper.classList.remove('masked'); // 마스크 효과 제거
                 readMoreBtn.style.display = window.innerWidth <= 768 ? 'inline-block' : 'none';
             }
         }
 
-        // 수정: 더보기 버튼 이벤트 리스너
+        // 더보기 버튼 이벤트 리스너 수정
         readMoreBtn.addEventListener('click', function() {
             isExpanded = !isExpanded;
             if (isExpanded) {
-                textWrapper.style.maxHeight = 'none';
-                textWrapper.classList.add('expanded');
+                textWrapper.style.maxHeight = textWrapper.scrollHeight + 'px'; // 콘텐츠 높이로 설정
+                textWrapper.classList.remove('masked'); // 마스크 효과 제거
                 this.textContent = '접기';
             } else {
-                textWrapper.style.maxHeight = '100px';
-                textWrapper.classList.remove('expanded');
+                textWrapper.style.maxHeight = '100px'; // 초기 높이로 설정
+                textWrapper.classList.add('masked'); // 마스크 효과 적용
                 this.textContent = '더보기';
             }
         });
 
-        // 추가: 스크롤 이벤트 리스너
+        // 스크롤 이벤트 리스너
         window.addEventListener('scroll', function() {
             if (window.innerWidth <= 768) {
                 adjustText();
@@ -482,6 +489,8 @@ function handleAboutUsAnimation() {
 
 // 페이지 로드 시 About Us 애니메이션 함수 실행
 window.addEventListener('load', handleAboutUsAnimation);
+
+
 
 
 
@@ -1028,6 +1037,7 @@ handleScroll();
 
 
 
+
 // Our Services 섹션 애니메이션
 function handleServicesAnimation() {
     const servicesSection = document.querySelector('#our-services');
@@ -1035,17 +1045,11 @@ function handleServicesAnimation() {
         const servicesTitle = servicesSection.querySelector('h2');
         const serviceBoxes = servicesSection.querySelectorAll('.service-box');
         
-        // 타이틀 및 서비스 박스 애니메이션을 위한 옵저버
         const observer = new IntersectionObserver((entries, observer) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
-                    // 섹션 타이틀 애니메이션 적용
                     servicesTitle.classList.add('animate');
-
-                    // 서비스 박스 순차 애니메이션 적용
                     animateServiceBoxes(serviceBoxes);
-
-                    // 한 번 애니메이션이 적용된 후에는 더 이상 관찰하지 않음
                     observer.unobserve(entry.target);
                 }
             });
@@ -1058,17 +1062,13 @@ function handleServicesAnimation() {
 // 모든 서비스 박스 순차 애니메이션 함수
 function animateServiceBoxes(boxes) {
     boxes.forEach((box, index) => {
-        // 지연 시간 설정 (0.2초 간격으로 나타나도록)
         const delay = index * 100;
-        
-        // 애니메이션 적용
         setTimeout(() => {
             box.style.transition = 'opacity 0.5s cubic-bezier(0.25, 1, 0.5, 1), transform 0.5s cubic-bezier(0.25, 1, 0.5, 1)';
             box.style.opacity = '1';
             box.style.transform = 'translateY(0)';
             box.classList.add('animate');
             
-            // 0.5초 후 hover-ready 클래스 추가
             setTimeout(() => {
                 box.classList.add('hover-ready');
             }, 500);
@@ -1076,35 +1076,80 @@ function animateServiceBoxes(boxes) {
     });
 }
 
-// 초기 상태 설정 (애니메이션 시작 전)
-document.querySelectorAll('.service-box').forEach(box => {
-    box.style.opacity = '0';
-    box.style.transform = 'translateY(400px)';
-});
+// 동적 높이 조정 함수
+function adjustBoxHeight(box, isExpanding) {
+    const backContent = box.querySelector('.service-back');
+    const closeButton = box.querySelector('.btn-close');
+    const contentHeight = backContent.scrollHeight;
+    const buttonHeight = closeButton.offsetHeight;
+    const totalHeight = contentHeight + buttonHeight + 40;
 
-// 페이지 로드 시 애니메이션 함수 실행
-window.addEventListener('load', handleServicesAnimation);
+    const startHeight = box.offsetHeight;
+    const targetHeight = isExpanding ? Math.min(totalHeight, window.innerHeight * 0.8) : 270;
 
-// 서비스 박스 클릭 이벤트 (기존 코드 유지)
-document.querySelectorAll('.service-box').forEach(box => {
-    const btnDetails = box.querySelector('.btn-details');
-    const btnClose = box.querySelector('.btn-close');
+    function animate(currentTime) {
+        const runtime = currentTime - startTime;
+        const progress = Math.min(runtime / 200, 1);
 
-    btnDetails.addEventListener('click', () => {
-        // 다른 모든 서비스 박스를 원래 상태로 되돌림
-        document.querySelectorAll('.service-box').forEach(otherBox => {
-            if (otherBox !== box) {
-                otherBox.classList.remove('flipped', 'expanded');
-            }
+        box.style.height = `${startHeight + (targetHeight - startHeight) * progress}px`;
+
+        if (runtime < 200) {
+            requestAnimationFrame(animate);
+        } else if (!isExpanding) {
+            box.style.height = '';
+        }
+    }
+
+    const startTime = performance.now();
+    requestAnimationFrame(animate);
+}
+
+// 초기 상태 설정 및 이벤트 리스너 추가
+function initializeServiceBoxes() {
+    const serviceBoxes = document.querySelectorAll('.service-box');
+    serviceBoxes.forEach(box => {
+        box.style.opacity = '0';
+        box.style.transform = 'translateY(400px)';
+
+        const btnDetails = box.querySelector('.btn-details');
+        const btnClose = box.querySelector('.btn-close');
+
+        btnDetails.addEventListener('click', () => {
+            serviceBoxes.forEach(otherBox => {
+                if (otherBox !== box) {
+                    otherBox.classList.remove('flipped', 'expanded');
+                    adjustBoxHeight(otherBox, false);
+                }
+            });
+
+            box.classList.add('flipped', 'expanded');
+            adjustBoxHeight(box, true);
         });
 
-        box.classList.add('flipped', 'expanded');
+        btnClose.addEventListener('click', () => {
+            box.classList.remove('flipped', 'expanded');
+            adjustBoxHeight(box, false);
+        });
     });
+}
 
-    btnClose.addEventListener('click', () => {
-        box.classList.remove('flipped', 'expanded');
-    });
+// 윈도우 리사이즈 이벤트 핸들러
+function handleResize() {
+    const expandedBox = document.querySelector('.service-box.expanded');
+    if (expandedBox) {
+        adjustBoxHeight(expandedBox, true);
+    }
+}
+
+// 페이지 로드 시 실행
+window.addEventListener('load', () => {
+    handleServicesAnimation();
+    initializeServiceBoxes();
 });
+
+// 윈도우 리사이즈 이벤트 리스너
+window.addEventListener('resize', handleResize);
+
 
 
 
@@ -1133,7 +1178,7 @@ document.querySelectorAll('.service-box').forEach(box => {
         }
     }
 
-    function updateImagePositions(contentOpacity, minOpacity = 0.1) {
+    function updateImagePositions(contentOpacity, minBrightness = 0.3, textVisible = false) {
         const images = imageContainer.querySelectorAll('img');
         const isMobile = window.innerWidth <= 768;
         
@@ -1141,16 +1186,24 @@ document.querySelectorAll('.service-box').forEach(box => {
             const offset = index - activeImageIndex;
             const absOffset = Math.abs(offset);
             const zIndex = images.length - absOffset;
-            const baseOpacity = (offset === 0 ? 1 : 0.5 - (absOffset * 0.1)) * (1 - contentOpacity);
-
-            const opacity = Math.max(baseOpacity, minOpacity);
+            let baseBrightness = offset === 0 ? 1 : 0.5 - (absOffset * 0.1);
+            
+            // 텍스트가 보일 때 이미지를 더 어둡게 만듦
+            if (textVisible) {
+                baseBrightness *= 0.5; // 밝기를 50%로 줄임
+                minBrightness = 0.1; // 최소 밝기를 더 낮춤
+            }
+            
+            // 밝기 계산 (contentOpacity에 따라 조정)
+            const brightness = Math.max(baseBrightness * (1 - contentOpacity), minBrightness);
+            
             const scale = offset === 0 ? 1 : 0.7 - (absOffset * 0.1);
             
             const spacing = isMobile ? 75 : 85;
             const translateX = offset * spacing;
 
             img.style.transform = `translateX(${translateX}%) scale(${scale})`;
-            img.style.opacity = opacity;
+            img.style.filter = `brightness(${brightness})`;
             img.style.zIndex = zIndex;
         });
     }
@@ -1164,14 +1217,15 @@ document.querySelectorAll('.service-box').forEach(box => {
         if (progress < textStartPoint) {
             opacity = 0;
             translateY = 100;
-            updateImagePositions(0);
+            updateImagePositions(0, 0.3, false);
         } else {
             const imageFadeOutProgress = Math.min(1, (progress - lastImageFullyVisiblePoint) / 0.1);
-            updateImagePositions(imageFadeOutProgress, 0.1);
-
             const textFadeInProgress = Math.min(1, (progress - textStartPoint) / (1 - textStartPoint));
             opacity = textFadeInProgress;
             translateY = 70 * (1 - opacity);
+            
+            // 텍스트가 나타나기 시작하면 이미지를 더 어둡게 만듦
+            updateImagePositions(imageFadeOutProgress, 0.1, true);
         }
 
         scrollContent.style.opacity = opacity;
@@ -1196,7 +1250,7 @@ document.querySelectorAll('.service-box').forEach(box => {
             if (!isSectionPassed) {
                 isSectionPassed = true;
                 activeImageIndex = totalImages - 1;
-                updateImagePositions(1);
+                updateImagePositions(1, 0.1, true);
                 scrollContent.style.opacity = 1;
                 scrollContent.style.transform = `translate(-50%, calc(-45% + 0px))`;
                 scrollIndicator2.style.opacity = '0';
@@ -1205,7 +1259,7 @@ document.querySelectorAll('.service-box').forEach(box => {
             if (isSectionPassed) {
                 isSectionPassed = false;
                 activeImageIndex = 0;
-                updateImagePositions(0);
+                updateImagePositions(0, 0.3, false);
                 scrollContent.style.opacity = 0;
                 scrollContent.style.transform = `translate(-50%, calc(-45% + 100px))`;
                 scrollIndicator2.style.opacity = '1';
@@ -1220,11 +1274,11 @@ document.querySelectorAll('.service-box').forEach(box => {
 
     function init() {
         createImageElements();
-        updateImagePositions(0); // 초기 이미지 위치 설정
+        updateImagePositions(0, 0.3, false); // 초기 이미지 위치 설정
         handleScroll();
         animate();
         window.addEventListener('resize', () => {
-            updateImagePositions(0);
+            updateImagePositions(0, 0.3, false);
             handleScroll();
         });
     }
@@ -1241,8 +1295,6 @@ document.querySelectorAll('.service-box').forEach(box => {
         }
     });
 })();
-
-
 
 
 
@@ -1616,91 +1668,34 @@ function handleModalSwipe() {
 
 
 
+// Contact Us 섹션 애니메이션
+const contactSection = document.querySelector('#contact-us');
+if (contactSection) {
+    const contactTitle = contactSection.querySelector('h2');
+    const infoCards = contactSection.querySelectorAll('.info-card');
+    const mapContainer = contactSection.querySelector('.map-container');
 
-    // Contact Us 섹션 애니메이션
-    const contactSection = document.querySelector('#contact-us');
-    if (contactSection) {
-        const contactTitle = contactSection.querySelector('h2');
-        const infoCards = contactSection.querySelectorAll('.info-card');
-        const mapContainer = contactSection.querySelector('.map-container');
-        const socialIcons = contactSection.querySelector('.social-icons');
-
-        const contactObserver = new IntersectionObserver((entries) => {
-            if (entries[0].isIntersecting) {
-                contactTitle.classList.add('animate');
-                
-                infoCards.forEach((card, index) => {
-                    setTimeout(() => {
-                        card.classList.add('animate');
-                    }, 200 * (index + 1));
-                });
-
-                setTimeout(() => {
-                    mapContainer.classList.add('animate');
-                }, 200 * (infoCards.length + 1));
-
-                contactObserver.unobserve(contactSection);
-            }
-        }, { threshold: 0.2 });
-
-        contactObserver.observe(contactSection);
-    }
-
-    // 스무스 스크롤 함수
-    function smoothScroll(target, duration) {
-        var targetElement = document.querySelector(target);
-        var navbar = document.querySelector('.navbar');
-        var navbarHeight = navbar.offsetHeight;
-        var targetPosition = targetElement.getBoundingClientRect().top + window.pageYOffset - navbarHeight;
-        var startPosition = window.pageYOffset;
-        var distance = targetPosition - startPosition;
-        var startTime = null;
-
-        function animation(currentTime) {
-            if (startTime === null) startTime = currentTime;
-            var timeElapsed = currentTime - startTime;
-            var run = easeOutBack(timeElapsed, startPosition, distance, duration);
-            window.scrollTo(0, run);
-            if (timeElapsed < duration) requestAnimationFrame(animation);
-        }
-
-        function easeOutBack(t, b, c, d, s = 0.60158) {
-            t = t / d - 1;
-            return c * (t * t * ((s + 0.8) * t + s) + 1) + b;
-        }
-
-        requestAnimationFrame(animation);
-    }
-
-    // 네비게이션 링크에 스무스 스크롤 적용
-    document.querySelectorAll('.nav-item a, #navbar-mobile .nav-item a').forEach(anchor => {
-        anchor.addEventListener('click', function (e) {
-            const href = this.getAttribute('href');
-            if (href.startsWith('#')) {
-                e.preventDefault();
-                smoothScroll(href, 1000);
-
-                // 모바일 메뉴 닫기
-                if (navbarMobile.classList.contains('open')) {
-                    toggleMobileMenu();
-                }
-            }
-        });
-    });
-
-    // 모바일 메뉴 항목에도 스무스 스크롤 적용
-    document.addEventListener('click', function(e) {
-        if (e.target.classList.contains('nav-item') && e.target.getAttribute('href') && e.target.getAttribute('href').startsWith('#')) {
-            e.preventDefault();
-            const targetId = e.target.getAttribute('href');
-            smoothScroll(targetId, 1000);
+    const contactObserver = new IntersectionObserver((entries) => {
+        if (entries[0].isIntersecting) {
+            contactTitle.classList.add('animate');
             
-            // 모바일 메뉴 닫기
-            if (navbarMobile.classList.contains('open')) {
-                toggleMobileMenu();
-            }
+            infoCards.forEach((card, index) => {
+                setTimeout(() => {
+                    card.classList.add('animate');
+                }, 200 * (index + 1));
+            });
+
+            setTimeout(() => {
+                mapContainer.classList.add('animate');
+            }, 200 * (infoCards.length + 1));
+
+            contactObserver.unobserve(contactSection);
         }
-    });
+    }, { threshold: 0.2 });
+
+    contactObserver.observe(contactSection);
+}
+
 
 // 스크롤 인디케이터 공통 함수
 function updateScrollIndicator(indicator, scrollFraction) {
