@@ -5,7 +5,6 @@ let pricesHidden = false; // 가격 숨김 여부를 추적
 let selectedCompany = ''; // 선택된 회사 이름
 let selectedProduct = ''; // 선택된 제품 이름
 let imageDataStore = {}; // 이미지 데이터를 저장할 객체
-let allProducts = []; // 모든 제품을 저장할 배열
 
 // 페이지 초기화 함수
 async function init() {
@@ -14,7 +13,6 @@ async function init() {
     setupEventListeners(); // 이벤트 리스너 설정
     setupModalEvents(); // 모달 이벤트 설정
     updateTotalAmountVisibility(); // 페이지 로드 시 총액 섹션의 표시 여부 초기화
-    initializeSearch();
     console.log("초기화 완료");
 }
 
@@ -134,133 +132,6 @@ async function loadCompaniesAndProducts() {
         console.error('회사 및 제품 데이터 로드 중 오류 발생:', error);
         alert('데이터 로드 중 오류가 발생했습니다.');
     }
-        // 함수의 마지막 부분, console.log("회사 및 제품 데이터 로드 완료"); 바로 위에 다음 코드를 추가합니다.
-        Object.keys(companies).forEach(companyName => {
-            Object.entries(companies[companyName]).forEach(([productName, productInfo]) => {
-                allProducts.push({
-                    name: productName,
-                    company: companyName,
-                    ...productInfo
-                });
-            });
-        });
-    
-        initializeSearch(); // 검색 기능 초기화 함수 호출
-    
-        console.log("회사 및 제품 데이터 로드 완료");
-}
-
-// 검색 기능 초기화 함수
-function initializeSearch() {
-    const searchInput = document.getElementById('productSearchInput');
-    const searchResults = document.getElementById('searchResults');
-
-    searchInput.addEventListener('input', function() {
-        const searchTerm = this.value.toLowerCase();
-        const filteredProducts = allProducts.filter(product => 
-            product.name.toLowerCase().includes(searchTerm)
-        );
-
-        displaySearchResults(filteredProducts);
-    });
-
-    document.addEventListener('click', function(e) {
-        if (!searchResults.contains(e.target) && e.target !== searchInput) {
-            searchResults.style.display = 'none';
-        }
-    });
-}
-
-// 검색 결과 표시 함수
-function displaySearchResults(products) {
-    const searchResults = document.getElementById('searchResults');
-    searchResults.innerHTML = '';
-
-    if (products.length === 0) {
-        searchResults.style.display = 'none';
-        return;
-    }
-
-    products.forEach(product => {
-        const div = document.createElement('div');
-        div.className = 'search-result-item';
-        
-        const span = document.createElement('span');
-        span.textContent = `${product.name} (${product.company})`;
-        div.appendChild(span);
-
-        const magnifyButtonContainer = document.createElement('div');
-        magnifyButtonContainer.className = 'magnify-button-container';
-
-        const magnifyButton = document.createElement('button');
-        magnifyButton.className = 'magnify-button';
-        
-        if (product.imageUrl) {
-            magnifyButton.textContent = '🔍';
-            magnifyButton.onclick = (event) => {
-                event.stopPropagation();
-                showImagePreview(product.imageUrl, product.name);
-            };
-        } else {
-            magnifyButton.textContent = '🚫';
-            magnifyButtonContainer.classList.add('no-image');
-            magnifyButton.onclick = (event) => {
-                event.stopPropagation();
-                alert('이 제품은 이미지가 없습니다.');
-            };
-        }
-
-        magnifyButtonContainer.appendChild(magnifyButton);
-        div.appendChild(magnifyButtonContainer);
-
-        div.onclick = (event) => {
-            if (!event.target.closest('.magnify-button-container')) {
-                selectProductFromSearch(product);
-            }
-        };
-        searchResults.appendChild(div);
-    });
-
-    searchResults.style.display = 'block';
-}
-
-// 문서 전체의 클릭 이벤트 리스너 수정
-document.addEventListener('click', function(e) {
-    const searchResults = document.getElementById('searchResults');
-    const searchInput = document.getElementById('productSearchInput');
-    const imageModal = document.getElementById('imageModal');
-    
-    // 검색 결과, 검색 입력 필드, 이미지 모달 외의 영역을 클릭했을 때만 드롭다운 메뉴를 닫습니다.
-    if (!searchResults.contains(e.target) && 
-        e.target !== searchInput && 
-        !imageModal.contains(e.target) &&
-        !e.target.classList.contains('magnify-button')) {
-        searchResults.style.display = 'none';
-    }
-});
-
-// init 함수나 DOM 로드 이벤트에서 이 함수를 호출해야 합니다.
-setupModalEvents();
-
-// 검색 입력 필드 클릭 시 드롭다운 다시 표시
-document.getElementById('productSearchInput').addEventListener('click', function(e) {
-    const searchResults = document.getElementById('searchResults');
-    if (this.value.trim() !== '') {
-        searchResults.style.display = 'block';
-    }
-});
-
-// 검색 결과에서 제품 선택 함수
-function selectProductFromSearch(product) {
-    selectedCompany = product.company;
-    selectedProduct = product.name;
-
-    document.getElementById('companySelectButton').textContent = selectedCompany;
-    document.getElementById('productSelectButton').textContent = selectedProduct;
-    document.getElementById('productSelectButton').disabled = false;
-    document.getElementById('addButton').disabled = false;
-    document.getElementById('searchResults').style.display = 'none';
-    document.getElementById('productSearchInput').value = '';
 }
 
 // 이벤트 리스너 설정 함수
@@ -306,6 +177,7 @@ function toggleProductOptions() {
     }
 }
 
+// 회사 선택 함수
 function selectCompany(company) {
     selectedCompany = company;
     document.getElementById('companySelectButton').textContent = company;
@@ -316,52 +188,13 @@ function selectCompany(company) {
     
     for (let product in companies[company]) {
         const option = document.createElement('div');
-        option.style.display = 'flex';
-        option.style.alignItems = 'center';
-        option.style.justifyContent = 'space-between';
-
-        const productName = document.createElement('span');
-        productName.textContent = product; 
-        productName.style.flexGrow = '1';
-        productName.style.textAlign = 'left';
-
-        const magnifyButtonContainer = document.createElement('div');
-        magnifyButtonContainer.className = 'magnify-button-container';
-        magnifyButtonContainer.style.display = 'flex';
-        magnifyButtonContainer.style.alignItems = 'center';
-        magnifyButtonContainer.style.width = '32px';
-        magnifyButtonContainer.style.minWidth = '32px';
-        magnifyButtonContainer.style.padding = '4px';
-
-        const magnifyButton = document.createElement('button');
-        magnifyButton.className = 'magnify-button';
-
-        const selectedProductInfo = companies[company][product];
-        if (selectedProductInfo && selectedProductInfo.imageUrl) {
-            magnifyButton.textContent = '🔍';
-            magnifyButton.onclick = (event) => {
-                event.stopPropagation();
-                showImagePreview(selectedProductInfo.imageUrl, product);
-            };
-        } else {
-            magnifyButton.textContent = '🚫';
-            magnifyButtonContainer.classList.add('no-image');
-            magnifyButton.onclick = (event) => {
-                event.stopPropagation();
-                alert('이 제품은 이미지가 없습니다.');
-            };
-        }
-
-        magnifyButtonContainer.appendChild(magnifyButton);
-
-        option.appendChild(productName); 
-        option.appendChild(magnifyButtonContainer);
+        option.textContent = product;
         option.onclick = () => selectProduct(product);
-
+        
         if (isProductAlreadyAdded(product)) {
             option.classList.add('already-added');
         }
-
+        
         productOptions.appendChild(option);
     }
 
@@ -370,7 +203,6 @@ function selectCompany(company) {
     selectedProduct = '';
     document.getElementById('addButton').disabled = true;
 }
-
 
 // 제품이 이미 추가되었는지 확인하는 함수
 function isProductAlreadyAdded(productName) {
@@ -790,16 +622,13 @@ function setupModalEvents() {
     const modal = document.getElementById('imageModal');
     const span = document.getElementsByClassName("close")[0];
     
-    span.onclick = (event) => {
-        event.stopPropagation(); // 이벤트 전파를 중지합니다.
-        closeModal();
-    };
+    span.onclick = closeModal;
 
-    modal.onclick = (event) => {
-        if (event.target === modal) {
+    window.onclick = function(event) {
+        if (event.target == modal) {
             closeModal();
         }
-    };
+    }
 }
 
 // 제품 개수 업데이트 함수
@@ -912,23 +741,18 @@ async function exportToExcel() {
             if (imageKey && imageDataStore[imageKey]) {
                 const imageInfo = imageDataStore[imageKey];
                 const imagePromise = fetch(imageInfo.data)
-                .then(res => res.blob())
-                .then(blob => {
-                    const productName = row.cells[1].querySelector('input').value; // 제품명 가져오기
-                    const imageName = `${productName}.png`; // 제품명으로 이미지 이름 설정
-                    zip.file(imageName, blob, {binary: true});
-                })
-                .catch(error => {
-                    console.error('이미지 처리 중 오류 발생:', error);
-                    return fetch(imageInfo.data)
-                        .then(res => res.blob())
-                        .then(blob => {
-                            const productName = row.cells[1].querySelector('input').value; // 제품명 가져오기
-                            const imageName = `${productName}.png`; // 제품명으로 이미지 이름 설정
-                            zip.file(imageName, blob, {binary: true});
-                        });
-                });
-            
+                    .then(res => res.blob())
+                    .then(blob => {
+                        zip.file(imageInfo.name, blob, {binary: true});
+                    })
+                    .catch(error => {
+                        console.error('이미지 처리 중 오류 발생:', error);
+                        return fetch(imageInfo.data)
+                            .then(res => res.blob())
+                            .then(blob => {
+                                zip.file(imageInfo.name, blob, {binary: true});
+                            });
+                    });
                 imagePromises.push(imagePromise);
             }
         });
@@ -1370,129 +1194,3 @@ async function downloadImageToZip(zip, imageUrl, fileName) {
 // 이 스크립트의 마지막 부분입니다.
 // 페이지 로드 시 초기화 함수를 호출합니다.
 window.onload = init;
-
-
-
-// 덤벨과 플레이트 kg 계산기 기능
-document.addEventListener('DOMContentLoaded', function() {
-    const itemWeightsInput = document.getElementById('itemWeights');
-    const itemCountInput = document.getElementById('itemCount');
-    const addItemsButton = document.getElementById('addItems');
-    const itemList = document.getElementById('itemList').getElementsByTagName('tbody')[0];
-    const pricePerKgInput = document.getElementById('pricePerKg');
-    const calculateTotalButton = document.getElementById('calculateTotal');
-    const togglePairCalculationButton = document.getElementById('togglePairCalculation');
-    const totalResult = document.getElementById('totalResult');
-
-    let items = [];
-    let isPairCalculation = false;
-
-    addItemsButton.addEventListener('click', addItems);
-    calculateTotalButton.addEventListener('click', calculateTotal);
-    togglePairCalculationButton.addEventListener('click', togglePairCalculation);
-
-    // 천 단위 구분자를 추가하는 함수
-    function numberWithCommas(x) {
-        return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-    }
-
-    // 'pricePerKg' 필드의 입력 이벤트 리스너
-    pricePerKgInput.addEventListener('input', function () {
-        const rawValue = this.value.replace(/,/g, ''); // 쉼표 제거
-        if (!isNaN(rawValue) && rawValue !== '') { // 숫자인지 확인
-            this.value = numberWithCommas(rawValue); // 천 단위 구분자를 추가하여 다시 설정
-        } else {
-            this.value = ''; // 숫자가 아니면 빈 값으로 설정
-        }
-    });
-
-    function addItems() {
-        const weightsInput = itemWeightsInput.value.trim();
-        const count = parseInt(itemCountInput.value);
-
-        if (!weightsInput || isNaN(count) || count < 1) {
-            alert('올바른 무게와 개수를 입력해주세요.');
-            return;
-        }
-
-        const weights = weightsInput.split(',').map(w => parseFloat(w.trim())).filter(w => !isNaN(w) && w > 0);
-        
-        if (weights.length === 0) {
-            alert('올바른 무게를 입력해주세요.');
-            return;
-        }
-
-        weights.forEach(weight => {
-            const totalWeight = isPairCalculation ? weight * count * 2 : weight * count;
-            items.push({ weight, count, totalWeight });
-        });
-
-        updateItemList();
-        clearInputs();
-    }
-
-    function updateItemList() {
-        itemList.innerHTML = '';
-        items.forEach((item, index) => {
-            const row = itemList.insertRow();
-            row.innerHTML = `
-                <td>${item.weight} Kg</td>
-                <td>${item.count}${isPairCalculation ? ' (x2)' : ''}</td>
-                <td>${item.totalWeight.toFixed(1)} Kg</td>
-                <td><button onclick="removeItem(${index})">삭제</button></td>
-            `;
-        });
-    }
-
-    function clearInputs() {
-        itemWeightsInput.value = '';
-        itemCountInput.value = '1';
-    }
-
-    function calculateTotal() {
-        const pricePerKg = parseFloat(pricePerKgInput.value.replace(/,/g, '')); // 쉼표 제거 후 숫자 변환
-    
-        if (isNaN(pricePerKg) || pricePerKg < 0) {
-            alert('올바른 1kg당 가격을 입력해주세요.');
-            return;
-        }
-    
-        let totalWeight = 0;
-        let totalPrice = 0;
-    
-        items.forEach(item => {
-            totalWeight += item.totalWeight;
-            totalPrice += item.totalWeight * pricePerKg;
-        });
-    
-        totalResult.innerHTML = `
-            <p>총 무게: ${totalWeight.toFixed(1)} Kg</p>
-            <p>총 가격: ${numberWithCommas(totalPrice.toFixed(0))} 원</p>
-        `;
-    }
-
-    function togglePairCalculation() {
-        isPairCalculation = !isPairCalculation;
-        togglePairCalculationButton.classList.toggle('active');
-        
-        if (isPairCalculation) {
-            togglePairCalculationButton.textContent = '한 쌍으로 계산하기 (활성화됨)';
-        } else {
-            togglePairCalculationButton.textContent = '한 쌍으로 계산하기 (비활성화 됨)';
-        }
-
-        // 기존 항목들의 총 무게를 재계산
-        items = items.map(item => ({
-            ...item,
-            totalWeight: isPairCalculation ? item.weight * item.count * 2 : item.weight * item.count
-        }));
-
-        updateItemList();
-    }
-
-    // 전역 스코프에 removeItem 함수 추가
-    window.removeItem = function(index) {
-        items.splice(index, 1);
-        updateItemList();
-    }
-});
