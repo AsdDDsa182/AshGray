@@ -1,944 +1,188 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-    <title>GOFITKOREA</title>
+    <!-- 화면을 이미지로 캡처하기 위한 라이브러리 -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.3.2/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.7.1/jszip.min.js"></script>
+    <title>견적서 작성</title>
+    <!-- 외부 스타일시트 연결 -->
     <link rel="stylesheet" href="styles.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <script src="https://player.vimeo.com/api/player.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/gsap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/ScrollTrigger.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/gsap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/ScrollTrigger.min.js"></script>
-    <!-- 네이버 지도 API 추가 -->
-    <script type="text/javascript" src="https://oapi.map.naver.com/openapi/v3/maps.js?ncpClientId=a91gqdlv8k"></script>
 </head>
 <body>
-    <!-- 인트로 섹션 -->
-    <div id="intro">
-        <div id="intro-logo">
-            <img src="https://raw.githubusercontent.com/AsdDDsa182/AshGray/main/web/gofit.png" alt="Logo">
-        </div>
-    </div>
-    <div id="main-content" style="display: none;"></div>
-    <header>
-        <nav class="navbar">
-            <div class="navbar-container">
-                <div class="navbar-logo">
-                    <a href="/"><img src="https://raw.githubusercontent.com/AsdDDsa182/AshGray/main/web/gofit.png" alt="Logo"></a>
-                </div>
-                <ul class="navbar-left">
-                    <li class="nav-item"><a href="#about-us" class="nav-item">About Us</a></li>
-                    <li class="nav-item"><a href="#our-services" class="nav-item">Our Services</a></li>
-                    <li class="nav-item"><a href="#results" class="nav-item">Results</a></li>
-                    <li class="nav-item"><a href="#contact-us" class="nav-item">Contact Us</a></li>
-                </ul>
-                <div class="hamburger-menu" id="hamburger-menu">
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                </div>
-                <ul class="navbar-right">
-                    <li class="nav-item has-submenu">
-                        <a href="/products.html" class="product-menu-link">소셜 & 미디어
-                            <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld2JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9IndoaXRlIiBzdHJva2Utd2lkdGg9IjIiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIgY2xhc3M9ImNoZXZyb24tZG93biI+PHBhdGggZD0ibTYgOSA2IDYgNi02Ij48L3BhdGg+PC9zdmc+" class="chevron-down">
-                        </a>
-                        <ul class="sub-menu">
-                            <li class="sub-item"><a href="https://www.youtube.com/@gofitkorea1">유튜브</a></li>
-                            <li class="sub-item"><a href="https://www.instagram.com/gofitkorea/">인스타그램</a></li>
-                            <li class="sub-item"><a href="https://blog.naver.com/gofitkorea">네이버 블로그</a></li>
-                        </ul>
-                    </li>
-                        <li class="nav-item"><a href="https://smartstore.naver.com/gofitkorea">스마트 스토어</a></li>
-                            <li class="nav-item estimate-item">
-                                <li class="nav-item"><a href="#inquiry-section" class="nav-item">온라인 견적</a></li>
-                                <span class="balloon">10% 할인</span>
-                            </li>
-                        <li class="nav-item"><a href="/used-market.html">채팅 문의</a></li>
-                </ul>
-            </div>
-            <div class="navbar-mobile" id="navbar-mobile">
-                <div class="navbar-mobile-content">
-                    <ul>
-                        <li class="nav-item"><a href="#about-us">About Us</a></li>
-                        <li class="nav-item"><a href="#our-services">Our Services</a></li>
-                        <li class="nav-item"><a href="#results">results</a></li>
-                        <li class="nav-item"><a href="#contact-us">Contact Us</a></li>
-                        <li class="nav-item has-submenu">
-                            <a href="/products.html">소셜 & 미디어
-                                <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld2JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9IndoaXRlIiBzdHJva2Utd2lkdGg9IjIiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIgY2xhc3M9ImNoZXZyb24tZG93biI+PHBhdGggZD0ibTYgOSA2IDYgNi02Ij48L3BhdGg+PC9zdmc+" class="chevron-down">
-                            </a>
-                            <ul class="sub-menu">
-                                <li class="sub-item"><a href="https://www.youtube.com/@gofitkorea1">유튜브</a></li>
-                                <li class="sub-item"><a href="https://www.instagram.com/gofitkorea/">인스타그램</a></li>
-                                <li class="sub-item"><a href="https://blog.naver.com/gofitkorea">네이버 블로그</a></li>
-                            </ul>
-                        </li>
-                        <li class="nav-item"><a href="https://smartstore.naver.com/gofitkorea">스마트 스토어</a></li>
-                        <li class="nav-item"><a href="#inquiry-section">온라인 견적</a></li>
-                        <li class="nav-item"><a href="/used-market.html">채팅 문의</a></li>
-                    </ul>
-                </div>
-                <div class="bottom-bar-container">
-                    <div class="bottom-bar"></div>
-                    <div class="bottom-bar"></div>
+    <!-- 견적서 작성 컨테이너 -->
+    <div class="container quote-container">
+        <!-- 회사 로고 추가 -->
+        <img src="logo.png" alt="회사 로고" class="company-logo">
+        <!-- 페이지 제목 -->
+        <h1>견적서 작성</h1>
+
+        <!-- 견적 연도와 고객 이름 입력 영역 -->
+        <div class="form-row">
+            <div>
+                <label for="quoteYear">견적 날짜</label>
+                <div class="date-inputs">
+                    <select id="quoteYear" name="quoteYear"></select>
+                    <select id="quoteMonth" name="quoteMonth"></select>
+                    <select id="quoteDay" name="quoteDay"></select>
                 </div>
             </div>
-        </nav>
-    </header>
-
-    <section id="video-section" class="section">
-        <div class="bg_video">
-            <iframe id="vimeo-player" src="https://player.vimeo.com/video/1000583400?background=1&autoplay=1&loop=1&byline=0&portrait=0&title=0" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" title="test"></iframe>
-        </div>
-        <div class="bg_title">
-            <h1><span class="bold">DREAM</span> <span class="light">OF</span> <span class="bold">CHALLENGE</span></h1>
-            <div class="icons">
-                <a href="https://www.youtube.com/@gofitkorea1" target="_blank"><i class="fab fa-youtube"></i></a>
-                <a href="https://www.instagram.com/gofitkorea/" target="_blank"><i class="fab fa-instagram"></i></a>
-                <a href="https://smartstore.naver.com/gofitkorea" target="_blank"><i class="fas fa-store"></i></a>
-                <a href="https://blog.naver.com/gofitkorea" target="_blank"><i class="fab fa-blogger"></i></a>
+            <div>
+                <label for="customerName">고객 이름</label>
+                <input type="text" id="customerName" name="customerName">
+            </div>
+            <div>
+                <label for="writerPhone">견적 작성자 전화번호</label>
+                <input type="tel" id="writerPhone" name="writerPhone" placeholder="">
             </div>
         </div>
-    </section>
+        
+        <!-- 회사 및 제품 선택 영역 -->
+        <div class="form-group">
+            <!-- 회사 선택 버튼 -->
+            <div class="custom-select">
+                <button class="select-button" id="companySelectButton">- 회사 선택 -</button>
+                <div class="select-options" id="companyOptions">
+                    <!-- 회사 선택 초기화 옵션 -->
+                    <div onclick="resetCompanySelection()">- 회사 선택 -</div>
+                </div>
+            </div>
+            <!-- 제품 선택 버튼 -->
+            <div class="custom-select">
+                <button class="select-button" id="productSelectButton" disabled>- 제품 선택 -</button>
+                <div class="select-options" id="productOptions">
+                    <!-- 제품 선택 초기화 옵션 -->
+                    <div onclick="resetProductSelection()">- 제품 선택 -</div>
+                </div>
+            </div>
 
+            <!-- 제품 추가 버튼 -->
+            <button id="addButton" class="action-button" disabled>추가</button>
 
-
+            <!-- 직접 입력 버튼 추가 -->
+            <button id="manualEntryButton" class="action-button">직접 입력</button>
+        </div>
     
-    <!-- 협력사 로고 배너 섹션 -->
-    <section id="partner-logos" class="partner-logos-section">
-        <div class="container">
-            <div class="logos-container">
-                <div class="gradient-overlay left"></div>
-                <div class="gradient-overlay right"></div>
-                <div class="logos-track">
-                    <!-- 로고 이미지들 -->
-                    <img src="https://raw.githubusercontent.com/AsdDDsa182/AshGray/main/web/partners/logo_01.png" alt="Partner 1">
-                    <img src="https://raw.githubusercontent.com/AsdDDsa182/AshGray/main/web/partners/logo_02.png" alt="Partner 2">
-                    <img src="https://raw.githubusercontent.com/AsdDDsa182/AshGray/main/web/partners/logo_03.png" alt="Partner 3">
-                    <img src="https://raw.githubusercontent.com/AsdDDsa182/AshGray/main/web/partners/logo_04.png" alt="Partner 4">
-                    <img src="https://raw.githubusercontent.com/AsdDDsa182/AshGray/main/web/partners/logo_05.png" alt="Partner 5">
-                    <img src="https://raw.githubusercontent.com/AsdDDsa182/AshGray/main/web/partners/logo_06.png" alt="Partner 6">
-                    <img src="https://raw.githubusercontent.com/AsdDDsa182/AshGray/main/web/partners/logo_07.png" alt="Partner 7">
-                    <img src="https://raw.githubusercontent.com/AsdDDsa182/AshGray/main/web/partners/logo_08.png" alt="Partner 8">
-                    <img src="https://raw.githubusercontent.com/AsdDDsa182/AshGray/main/web/partners/logo_09.png" alt="Partner 9">
-                    <img src="https://raw.githubusercontent.com/AsdDDsa182/AshGray/main/web/partners/logo_10.png" alt="Partner 10">
-                    <!-- 무한 루프를 위해 로고들을 JavaScript로 복제합니다 -->
-                </div>
+        <!-- 데이터 테이블 영역 -->
+        <div class="table-container">
+            <table id="dataTable">
+                <thead>
+                    <tr>
+                        <!-- 테이블 헤더 -->
+                        <th>구분</th>
+                        <th>제품명</th>
+                        <th>단가</th>
+                        <th>수량</th>
+                        <th>가격</th>
+                        <th>비고</th>
+                        <th>미리보기</th>
+                        <th>작업</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
+
+        <!-- 총액 계산 영역 -->
+        <div id="totalAmountSection" class="total-amount-section">
+            <div class="total-row">
+                <span>총액 (부가세 별도):</span>
+                <span id="totalAmountWithoutVAT"></span>
+            </div>
+            <div class="total-row">
+                <span>부가세 (10%):</span>
+                <span id="vatAmount"></span>
+            </div>
+            <div class="total-row">
+                <span>총액 (부가세 포함):</span>
+                <span id="totalAmountWithVAT"></span>
             </div>
         </div>
-    </section>
 
+        <!-- 기능 버튼 영역 -->
+        <div class="button-container">
+            <!-- 가격 숨기기 버튼 -->
+            <!-- <button id="togglePriceButton" class="action-button">가격 숨기기</button> -->
+            <!-- 엑셀로 내보내기 버튼 -->
+            <button id="exportExcelButton" class="action-button">견적서 내보내기 (ZIP)</button>
+            <!-- 새로운 파일 업로드 입력 필드와 버튼 추가 -->
+            <input type="file" id="fileInput" accept=".zip" style="display: none;">
+            <button id="loadExcelButton">견적서 불러오기 (ZIP)</button>
+        </div>
 
-
-
-<!-- About Us 섹션 -->
-<section id="about-us" class="section">
-    <div class="background-image"></div> <!-- 새로 추가된 div -->
-    <div class="container">
-        <div class="section-content">
-            <div class="logo-container">
-                <img src="https://raw.githubusercontent.com/AsdDDsa182/AshGray/main/web/logo/gofit-2.png" alt="Company Logo" class="company-logo">
-            </div>
-            <div class="image-content">
-                <div class="slideshow-container">
-                    <div class="slide-wrapper">
-                        <div class="slide">
-                            <img src="https://raw.githubusercontent.com/AsdDDsa182/AshGray/main/web/aboutus/1.jpg" alt="About Us Image 1">
-                        </div>
-                        <div class="slide">
-                            <img src="https://raw.githubusercontent.com/AsdDDsa182/AshGray/main/web/aboutus/2.jpg" alt="About Us Image 2">
-                        </div>
-                        <div class="slide">
-                            <img src="https://raw.githubusercontent.com/AsdDDsa182/AshGray/main/web/aboutus/3.jpg" alt="About Us Image 3">
-                        </div>
-                        <div class="slide">
-                            <img src="https://raw.githubusercontent.com/AsdDDsa182/AshGray/main/web/aboutus/4.jpg" alt="About Us Image 4">
-                        </div>
-                    </div>
-                    <div class="slide-controls">
-                        <button class="prev">❮</button>
-                        <button class="next">❯</button>
-                    </div>
-                    <div class="progress-bar">
-                        <div class="progress"></div>
+        <div id="imageModal" class="modal">
+            <div class="modal-overlay">
+                <div class="modal-container">
+                    <span class="close">&times;</span>
+                    <div class="modal-content">
+                        <img id="modalImage" src="" alt="제품 이미지">
+                        <div id="modalProductName"></div>
                     </div>
                 </div>
-                <div class="dots-container"></div>
-            </div>
-            
-            <div class="text-content">
-                <h2 class="section-title about-us-title">About Us <span class="section-subtitle">회사 소개</span></h2>
-                <div class="text-wrapper" id="aboutText">
-                    <p>
-                        고핏코리아는 <span class="highlight">새로운 도전에 대한 열정</span>을 가지고 고객과 함께 나아갑니다. 
-                        우리는 <span class="highlight">전 세계에서 엄선한 피트니스 용품, 헬스 기구, 필라테스 운동기구</span>를 직접 수입하여 국내 시장에 유통함으로써 다양한 선택지를 제공합니다.
-                        <span class="highlight">최상의 품질과 기술을 갖춘 제품을 경쟁력 있는 가격</span>에 제공하기 위해, 국제적인 무역 네트워크를 통해 신뢰할 수 있는 공급자와 협력합니다.
-                        우리는 운동을 통해 더 나은 자신을 만들어가는 모든 이들의 도전을 응원하며, <span class="highlight">최고의 제품과 맞춤형 서비스</span>를 제공하기 위해 항상 노력합니다.
-                        고객이 목표를 이루는 과정에서 <span class="highlight">최고의 파트너</span>가 되기 위해, 최신 트렌드를 반영한 제품과 솔루션을 빠르게 도입하여 고객의 다양한 요구를 충족시킵니다.
-                    </p>
-                </div>
-                <button class="read-more-btn">더보기</button>
-            </div>
-            
-            <div class="scroll-arrow-container">
-                <div class="scroll-arrow"></div>
-                <span class="scroll-text">Scroll for more</span>
             </div>
         </div>
     </div>
-</section>
 
-    
-
-
-
-    <!-- 타임라인 섹션 -->
-    <section id="timeline">
-        <div class="timeline-container">
-            <!-- 타임라인 중앙선 -->
-            <div class="timeline-line"></div>
-
-            <!-- 왼쪽 타임라인 아이템 -->
-            <div class="timeline-item left">
-                <div class="timeline-circle"></div>
-                <div class="timeline-content" style="background-image: url('https://picsum.photos/800/600?random=1');">
-                    <h3 class="year">2010</h3>
-                    <h4 class="event">회사 설립</h4>
-                    <p class="description">열정적인 혁신가들의 작은 팀으로 우리의 여정이 시작되었습니다.</p>
-                </div>
+    <!-- 새로운 별도 컨테이너: 고무블럭 수량 계산기 -->
+    <div class="container rubber-block-calculator">
+        <h2>고무블럭 수량 계산기</h2>
+        <p>고무블럭 크기: 1장 (500mm x 500mm)</p>
+        <div class="calculator-inputs">
+            <div>
+                <label for="areaWidth">너비:</label>
+                <input type="number" id="areaWidth" min="0" step="0.1">
             </div>
-
-            <!-- 오른쪽 타임라인 아이템 -->
-            <div class="timeline-item right">
-                <div class="timeline-circle"></div>
-                <div class="timeline-content" style="background-image: url('https://picsum.photos/800/600?random=2');">
-                    <h3 class="year">2015</h3>
-                    <h4 class="event">국제 확장</h4>
-                    <p class="description">런던에 첫 해외 사무소를 열어 글로벌 진출의 시작을 알렸습니다.</p>
-                </div>
+            <div>
+                <label for="areaLength">길이:</label>
+                <input type="number" id="areaLength" min="0" step="0.1">
             </div>
-
-            <!-- 왼쪽 타임라인 아이템 -->
-            <div class="timeline-item left">
-                <div class="timeline-circle"></div>
-                <div class="timeline-content" style="background-image: url('https://picsum.photos/800/600?random=3');">
-                    <h3 class="year">2020</h3>
-                    <h4 class="event">지속가능성 이니셔티브</h4>
-                    <p class="description">2030년까지 탄소 중립을 목표로 하는 전사적 지속가능성 프로그램을 시작했습니다.</p>
-                </div>
-            </div>
-
-            <!-- 오른쪽 타임라인 아이템 -->
-            <div class="timeline-item right">
-                <div class="timeline-circle"></div>
-                <div class="timeline-content" style="background-image: url('https://picsum.photos/800/600?random=4');">
-                    <h3 class="year">2023</h3>
-                    <h4 class="event">차세대 제품 출시</h4>
-                    <p class="description">업계의 새로운 기준을 세우는 차세대 제품 라인을 공개했습니다.</p>
-                </div>
-            </div>
-
-            <!-- 왼쪽 타임라인 아이템 -->
-            <div class="timeline-item left">
-                <div class="timeline-circle"></div>
-                <div class="timeline-content" style="background-image: url('https://picsum.photos/800/600?random=5');">
-                    <h3 class="year">2023</h3>
-                    <h4 class="event">차세대 제품 출시</h4>
-                    <p class="description">업계의 새로운 기준을 세우는 차세대 제품 라인을 공개했습니다.</p>
-                </div>
-            </div>
-
-            <!-- 오른쪽 타임라인 아이템 -->
-            <div class="timeline-item right">
-                <div class="timeline-circle"></div>
-                <div class="timeline-content" style="background-image: url('https://picsum.photos/800/600?random=6');">
-                    <h3 class="year">2023</h3>
-                    <h4 class="event">차세대 제품 출시</h4>
-                    <p class="description">업계의 새로운 기준을 세우는 차세대 제품 라인을 공개했습니다.</p>
-                </div>
+            <div>
+                <label for="unitSelect">단위:</label>
+                <select id="unitSelect">
+                    <option value="m">m(미터)</option>
+                    <option value="cm">cm(센티미터)</option>
+                    <option value="mm">mm(밀리미터)</option>
+                    <option value="km">km(키로미터)</option>
+                </select>
             </div>
         </div>
-    </section>
-
-
-        <!-- Scroll Animation 섹션 -->
-        <section id="scroll-animation-section" class="section">
-            <div class="scroll-indicator1">
-                <div class="scroll-text1">SCROLL DOWN</div>
-            </div>
-    
-            <div class="scroll-container">
-                <div id="canvas-container">
-                    <canvas id="hero-lightpass"></canvas>
-                    <div class="scroll-section-circle-container">
-                        <div class="scroll-section-circle"></div>
-                    </div>
-                </div>
-    
-                <div class="content-wrapper">
-                    <div id="section1" class="scroll-content">
-                        <h1>한계를 뛰어넘다</h1>
-                        <p>오늘의 도전이 내일의 강함이 됩니다.</p>
-                    </div>
-                
-                    <div id="section2" class="scroll-content">
-                        <h1>내가 만드는 일상</h1>
-                        <p>내가 정한 공간에서, 내 방식대로.</p>
-                    </div>
-                
-                    <div id="section3" class="scroll-content">
-                        <h1>미래로의 도약</h1>
-                        <p>운동의 모든 것을, 당신의 손 안에.</p>
-                    </div>
-                
-                    <!-- 새로 추가된 섹션 -->
-                    <div id="section4" class="scroll-content special-section">
-                        <h1>피트니스의 <br>새로운 기준</h1>
-                        <p>지금, 고핏코리아와 함께 <br>변화를 시작하세요.</p>
-                    </div>
-                </div>
-                
-                </div>
-            </div>
-        </section>
-
-
-        <!-- inquiry-intro 섹션 -->
-        <section id="inquiry-intro" class="section">
-            <canvas id="particles-canvas"></canvas>
-            <div class="scroll-container">
-                <div class="content-wrapper">
-                    <div id="inquiry-intro-content" class="scroll-display">
-                        <div class="text-animation-container">
-                            <div class="text-item">고객 만족도 <span class="highlight">1위</span></div>
-                            <div class="text-item"><span class="highlight">365일 </span>고객 지원</div>
-                            <div class="text-item"><span class="highlight">신속</span>한 서비스</div>
-                            <div class="text-item"><span class="highlight">꼼꼼한</span> 솔루션</div>
-                            <div class="text-item"><span class="highlight">정확한</span> 견적과</div>
-                            <div class="text-item"><span class="highlight">전문가</span>의 설계</div>
-                            <div class="text-item">전 브랜드 <span class="highlight">최다 프로모션</span></div>
-                            <div class="text-item"><span class="highlight">신뢰</span>할 수 있는 파트너</div>
-                        </div>
-                        <h1 class="main-title">DREAM OF CHALLENGE</h1>
-                        <p class="main-description">도전을 꿈꾸세요!<br class="mobile-break">고핏코리아가 도와드리겠습니다.</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-
-    <!-- 새로운 Counting Content 섹션 -->
-    <section id="counting-content" class="section">
-        <div class="container">
-            <!-- 텍스트 컨테이너 -->
-            <div class="counting-text">
-                <h1 class="counting-title">신뢰로 움직이는 기업</h1>
-                <p class="counting-description">수많은 고객분들에게<br class="mobile-break"> 최상의 서비스를 제공했습니다.</p>
-            </div>
-            
-            <!-- 카운팅 아이템 컨테이너 -->
-            <div class="counting-items">
-                <div class="counting-item">
-                    <i class="fas fa-users"></i>
-                    <div class="count-wrapper">
-                        <span class="count" data-target="999">0</span>
-                    </div>
-                    <h3>고객 수</h3>
-                </div>
-                <div class="counting-item">
-                    <i class="fas fa-project-diagram"></i>
-                    <div class="count-wrapper">
-                        <span class="count" data-target="999">0</span>
-                    </div>
-                    <h3>프로젝트</h3>
-                </div>
-                <div class="counting-item">
-                    <i class="fas fa-headset"></i>
-                    <div class="count-wrapper">
-                        <span class="count" data-target="48">0</span>
-                    </div>
-                    <h3>협력 업체</h3>
-                </div>
-                <div class="counting-item">
-                    <i class="fas fa-award"></i>
-                    <div class="count-wrapper">
-                        <span class="count" data-target="12">0</span>
-                    </div>
-                    <h3>수상 기록</h3>
-                </div>
-            </div>
-        </div>
-    </section>
-
-
-
-    <!-- Our Services 섹션 -->
-    <section id="our-services" class="section">
-        <div class="background-image"></div>
-        <div class="container">
-            <!-- 섹션 타이틀 -->
-            <h2 class="section-title">
-                Our Services <span class="section-subtitle">서비스 소개</span>
-            </h2>
-            
-            <!-- 서비스 박스 컨테이너 -->
-            <div class="services-content">
-                <!-- 서비스 박스 1 -->
-                <div class="service-box">
-                    <div class="service-front" style="background-image: url('https://picsum.photos/400/300?random=1');">
-                        <div class="icon-box">
-                            <i class="fas fa-laptop-code"></i>
-                        </div>
-                        <h3 class="service-title">기술 지원</h3>
-                        <div class="underline"></div>
-                        <button class="btn-details">자세히 보기</button>
-                    </div>
-                    <div class="service-back" style="background-image: url('https://picsum.photos/400/300?random=7');">
-                        <div class="icon-box">
-                            <i class="fas fa-laptop-code"></i>
-                        </div>
-                        <h3 class="service-title">기술 지원</h3>
-                        <div class="underline"></div>
-                        <p>고객의 피트니스 경험을 <strong style="color: #ff6600;">최적화</strong>하기 위해 <strong style="color: #ff6600;">신속한</strong> 기술 지원을 제공하며, 제품 <strong style="color: #ff6600;">설치</strong>, <strong style="color: #ff6600;">사용 안내</strong>, <strong style="color: #ff6600;">유지 보수</strong>, <strong style="color: #ff6600;">수리</strong>, <strong style="color: #ff6600;">부품 교체</strong>, <strong style="color: #ff6600;">업그레이드</strong>까지 모든 과정을 지원합니다. <strong style="color: #ff6600;">원격 지원</strong>과 <strong style="color: #ff6600;">맞춤형 상담</strong>을 통해 언제 어디서나 도움을 받을 수 있으며, <strong style="color: #ff6600;">교육 프로그램</strong>과 지속적인 <strong style="color: #ff6600;">피드백</strong>을 통해 서비스 품질을 지속적으로 <strong style="color: #ff6600;">개선</strong>합니다. 고객이 건강한 삶을 누릴 수 있도록 최선을 다해 지원합니다.</p>                        
-                        <button class="btn-close">접기</button>
-                    </div>
-                </div>
-                
-                <!-- 서비스 박스 2 -->
-                <div class="service-box">
-                    <div class="service-front" style="background-image: url('https://picsum.photos/400/300?random=2');">
-                        <div class="icon-box">
-                            <i class="fas fa-code"></i>
-                        </div>
-                        <h3 class="service-title">판매 및 유통</h3>
-                        <div class="underline"></div>
-                        <button class="btn-details">자세히 보기</button>
-                    </div>
-                    <div class="service-back" style="background-image: url('https://picsum.photos/400/300?random=8');">
-                        <div class="icon-box">
-                            <i class="fas fa-code"></i>
-                        </div>
-                        <h3 class="service-title">판매 및 유통</h3>
-                        <div class="underline"></div>
-                        <p>다양한 피트니스 및 헬스 기구와 운동 용품을 <strong style="color: #ff6600;">합리적인 가격</strong>과 <strong style="color: #ff6600;">최고의 품질</strong>로 제공합니다. 고객의 요구에 맞춘 <strong style="color: #ff6600;">맞춤형 제품 추천</strong>과 <strong style="color: #ff6600;">유통 서비스</strong>를 통해 빠르고 신뢰할 수 있는 배송을 보장하며, 최신 트렌드와 기술을 반영한 <strong style="color: #ff6600;">다양한 제품군</strong>을 지속적으로 업데이트합니다. 고객의 피트니스 목표 달성을 위해 항상 <strong style="color: #ff6600;">최상의 선택</strong>을 제공합니다.</p>                        
-                        <button class="btn-close">접기</button>
-                    </div>
-                </div>
-                
-                <!-- 서비스 박스 3 -->
-                <div class="service-box">
-                    <div class="service-front" style="background-image: url('https://picsum.photos/400/300?random=3');">
-                        <div class="icon-box">
-                            <i class="fas fa-tasks"></i>
-                        </div>
-                        <h3 class="service-title">렌탈 서비스</h3>
-                        <div class="underline"></div>
-                        <button class="btn-details">자세히 보기</button>
-                    </div>
-                    <div class="service-back" style="background-image: url('https://picsum.photos/400/300?random=9');">
-                        <div class="icon-box">
-                            <i class="fas fa-tasks"></i>
-                        </div>
-                        <h3 class="service-title">렌탈 서비스</h3>
-                        <div class="underline"></div>
-                        <p>고객의 필요에 맞춘 <strong style="color: #ff6600;">렌탈 서비스</strong>를 제공합니다. 단기 행사, 이벤트 또는 일시적인 프로젝트를 위해 다양한 <strong style="color: #ff6600;">헬스 및 피트니스 장비</strong>를 대여할 수 있으며, 장기적으로 필요한 경우 <strong style="color: #ff6600;">유연한 계약 조건</strong>을 통해 비용 효율적인 대안을 제시합니다. 모든 렌탈 장비는 정기적인 <strong style="color: #ff6600;">점검 및 유지 보수</strong>를 거쳐 최상의 상태로 제공되며, <strong style="color: #ff6600;">신속한 배송</strong>과 <strong style="color: #ff6600;">설치 지원</strong>을 통해 편리하게 이용할 수 있습니다. 고객의 비즈니스와 피트니스 목표를 지원하기 위해 항상 최적의 렌탈 솔루션을 제공합니다.</p>                                                
-                        <button class="btn-close">접기</button>
-                    </div>
-                </div>
-                
-                <!-- 서비스 박스 4 -->
-                <div class="service-box">
-                    <div class="service-front" style="background-image: url('https://picsum.photos/400/300?random=4');">
-                        <div class="icon-box">
-                            <i class="fas fa-chart-line"></i>
-                        </div>
-                        <h3 class="service-title">사후 관리</h3>
-                        <div class="underline"></div>
-                        <button class="btn-details">자세히 보기</button>
-                    </div>
-                    <div class="service-back" style="background-image: url('https://picsum.photos/400/300?random=10');">
-                        <div class="icon-box">
-                            <i class="fas fa-chart-line"></i>
-                        </div>
-                        <h3 class="service-title">사후 관리</h3>
-                        <div class="underline"></div>
-                        <p>제품 구매 후에도 고객의 만족도를 높이기 위해 <strong style="color: #ff6600;">지속적인 사후 관리</strong>를 제공합니다. 정기적인 <strong style="color: #ff6600;">제품 점검</strong>과 <strong style="color: #ff6600;">유지 보수</strong> 서비스를 통해 장비의 최적 성능을 유지하고, 필요 시 <strong style="color: #ff6600;">부품 교체</strong>와 <strong style="color: #ff6600;">업그레이드</strong>를 지원합니다. 또한, 고객의 문의와 피드백에 신속하게 대응하며, 문제 해결을 위한 <strong style="color: #ff6600;">전문적인 지원</strong>을 제공합니다. 언제나 고객의 만족과 신뢰를 최우선으로 생각하며, <strong style="color: #ff6600;">장기적인 관계</strong>를 유지하고자 합니다.</p>
-                        <button class="btn-close">접기</button>
-                    </div>
-                </div>
-                
-                <!-- 서비스 박스 5 -->
-                <div class="service-box">
-                    <div class="service-front" style="background-image: url('https://picsum.photos/400/300?random=5');">
-                        <div class="icon-box">
-                            <i class="fas fa-users"></i>
-                        </div>
-                        <h3 class="service-title">할인 프로모션</h3>
-                        <div class="underline"></div>
-                        <button class="btn-details">자세히 보기</button>
-                    </div>
-                    <div class="service-back" style="background-image: url('https://picsum.photos/400/300?random=11');">
-                        <div class="icon-box">
-                            <i class="fas fa-users"></i>
-                        </div>
-                        <h3 class="service-title">할인 프로모션</h3>
-                        <div class="underline"></div>
-                        <p>고객의 다양한 필요를 충족시키기 위해 정기적으로 <strong style="color: #ff6600;">할인 프로모션</strong>을 제공합니다. 신규 고객을 위한 <strong style="color: #ff6600;">첫 구매 할인</strong>, 대량 구매 고객을 위한 <strong style="color: #ff6600;">특별 혜택</strong>, 계절별 행사와 같은 다양한 <strong style="color: #ff6600;">프로모션 이벤트</strong>를 통해 더욱 경제적으로 제품을 구매할 수 있는 기회를 제공합니다. 또한, 소셜 미디어와 뉴스레터를 통해 <strong style="color: #ff6600;">최신 프로모션 소식</strong>을 빠르게 전달하여 고객이 최고의 혜택을 누릴 수 있도록 지원합니다.</p>                        
-                        <button class="btn-close">접기</button>
-                    </div>
-                </div>
-                
-                <!-- 서비스 박스 6 -->
-                <div class="service-box">
-                    <div class="service-front" style="background-image: url('https://picsum.photos/400/300?random=6');">
-                        <div class="icon-box">
-                            <i class="fas fa-headset"></i>
-                        </div>
-                        <h3 class="service-title">창업 솔루션</h3>
-                        <div class="underline"></div>
-                        <button class="btn-details">자세히 보기</button>
-                    </div>
-                    <div class="service-back" style="background-image: url('https://picsum.photos/400/300?random=12');">
-                        <div class="icon-box">
-                            <i class="fas fa-headset"></i>
-                        </div>
-                        <h3 class="service-title">창업 솔루션</h3>
-                        <div class="underline"></div>
-                        <p>성공적인 피트니스 사업을 위해 <strong style="color: #ff6600;">맞춤형 창업 솔루션</strong>을 제공합니다. 시장 조사와 분석, <strong style="color: #ff6600;">사업 계획 수립</strong>, 공간 설계 및 기구 배치에 이르는 <strong style="color: #ff6600;">종합적인 컨설팅</strong> 서비스를 통해 최적의 비즈니스 모델을 구축합니다. 또한, 최신 피트니스 트렌드에 맞춘 <strong style="color: #ff6600;">제품 선택</strong>과 <strong style="color: #ff6600;">효율적인 운영 전략</strong>을 제안하여 성공적인 창업을 지원합니다. 시작부터 운영까지 <strong style="color: #ff6600;">전문적인 지원</strong>을 통해 비즈니스 성장을 함께 이룹니다.</p>
-                        <button class="btn-close">접기</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Results 섹션 시작 -->
-    <section id="results" class="section">
-        <div class="background-image"></div>
-        <div class="container">
-            <h2 class="section-title">Results <span class="section-subtitle">납품 성과</span></h2>
-            <div class="projects-categories">
-                <!-- 헬스장 카테고리 -->
-                <div class="projects-category">
-                    <div class="category-header">
-                        <h3 class="category-title">헬스장 <span class="category-title-en">Gym</span></h3>
-                        <div class="category-line"></div>
-                    </div>
-                    <div class="projects-content">
-                        <!-- 프로젝트 박스: 최신 시설 헬스장 -->
-                        <div class="project-box" data-category="gym" data-images='["https://picsum.photos/400/300?random=1", "https://picsum.photos/400/300?random=19", "https://picsum.photos/400/300?random=20"]'>
-                            <img src="https://picsum.photos/400/300?random=1" alt="Gym Project 1">
-                            <div class="project-info">
-                                <h3>최신 시설 헬스장</h3>
-                                <p>현대적 디자인의 고급 헬스 시설</p>
-                            </div>
-                        </div>
-                        <!-- 프로젝트 박스: 요가 스튜디오 -->
-                        <div class="project-box" data-category="gym" data-images='["https://picsum.photos/400/300?random=2", "https://picsum.photos/400/300?random=21", "https://picsum.photos/400/300?random=22"]'>
-                            <img src="https://picsum.photos/400/300?random=2" alt="Gym Project 2">
-                            <div class="project-info">
-                                <h3>요가 스튜디오</h3>
-                                <p>평화로운 분위기의 요가 전문 공간</p>
-                            </div>
-                        </div>
-                        <!-- 프로젝트 박스: 수영장 시설 -->
-                        <div class="project-box" data-category="gym" data-images='["https://picsum.photos/400/300?random=3", "https://picsum.photos/400/300?random=23", "https://picsum.photos/400/300?random=24"]'>
-                            <img src="https://picsum.photos/400/300?random=3" alt="Gym Project 3">
-                            <div class="project-info">
-                                <h3>수영장 시설</h3>
-                                <p>올림픽 규격의 실내 수영 시설</p>
-                            </div>
-                        </div>
-                        <!-- 프로젝트 박스: 크로스핏 공간 -->
-                        <div class="project-box" data-category="gym" data-images='["https://picsum.photos/400/300?random=4", "https://picsum.photos/400/300?random=25", "https://picsum.photos/400/300?random=26"]'>
-                            <img src="https://picsum.photos/400/300?random=4" alt="Gym Project 4">
-                            <div class="project-info">
-                                <h3>크로스핏 공간</h3>
-                                <p>다양한 기능성 운동을 위한 공간</p>
-                            </div>
-                        </div>
-                        <!-- 프로젝트 박스: 스피닝 클래스 -->
-                        <div class="project-box" data-category="gym" data-images='["https://picsum.photos/400/300?random=5", "https://picsum.photos/400/300?random=27", "https://picsum.photos/400/300?random=28"]'>
-                            <img src="https://picsum.photos/400/300?random=5" alt="Gym Project 5">
-                            <div class="project-info">
-                                <h3>스피닝 클래스</h3>
-                                <p>그룹 사이클링을 위한 특별 공간</p>
-                            </div>
-                        </div>
-                        <!-- 프로젝트 박스: 필라테스 스튜디오 -->
-                        <div class="project-box" data-category="gym" data-images='["https://picsum.photos/400/300?random=6", "https://picsum.photos/400/300?random=29", "https://picsum.photos/400/300?random=30"]'>
-                            <img src="https://picsum.photos/400/300?random=6" alt="Gym Project 6">
-                            <div class="project-info">
-                                <h3>필라테스 스튜디오</h3>
-                                <p>전문 장비를 갖춘 필라테스 공간</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- 기업 카테고리 -->
-                <div class="projects-category">
-                    <div class="category-header">
-                        <h3 class="category-title">기업 <span class="category-title-en">Corporate</span></h3>
-                        <div class="category-line"></div>
-                    </div>
-                    <div class="projects-content">
-                        <!-- 프로젝트 박스: 현대적 사무실 -->
-                        <div class="project-box" data-category="corporate" data-images='["https://picsum.photos/400/300?random=7", "https://picsum.photos/400/300?random=31", "https://picsum.photos/400/300?random=32"]'>
-                            <img src="https://picsum.photos/400/300?random=7" alt="Corporate Project 1">
-                            <div class="project-info">
-                                <h3>현대적 사무실</h3>
-                                <p>효율적이고 세련된 업무 공간</p>
-                            </div>
-                        </div>
-                        <!-- 프로젝트 박스: 회의실 디자인 -->
-                        <div class="project-box" data-category="corporate" data-images='["https://picsum.photos/400/300?random=8", "https://picsum.photos/400/300?random=33", "https://picsum.photos/400/300?random=34"]'>
-                            <img src="https://picsum.photos/400/300?random=8" alt="Corporate Project 2">
-                            <div class="project-info">
-                                <h3>회의실 디자인</h3>
-                                <p>창의적 협업을 위한 회의 공간</p>
-                            </div>
-                        </div>
-                        <!-- 프로젝트 박스: 휴게 공간 -->
-                        <div class="project-box" data-category="corporate" data-images='["https://picsum.photos/400/300?random=9", "https://picsum.photos/400/300?random=35", "https://picsum.photos/400/300?random=36"]'>
-                            <img src="https://picsum.photos/400/300?random=9" alt="Corporate Project 3">
-                            <div class="project-info">
-                                <h3>휴게 공간</h3>
-                                <p>직원들의 휴식을 위한 편안한 공간</p>
-                            </div>
-                        </div>
-                        <!-- 프로젝트 박스: 로비 디자인 -->
-                        <div class="project-box" data-category="corporate" data-images='["https://picsum.photos/400/300?random=10", "https://picsum.photos/400/300?random=37", "https://picsum.photos/400/300?random=38"]'>
-                            <img src="https://picsum.photos/400/300?random=10" alt="Corporate Project 4">
-                            <div class="project-info">
-                                <h3>로비 디자인</h3>
-                                <p>기업 이미지를 반영한 첫인상 공간</p>
-                            </div>
-                        </div>
-                        <!-- 프로젝트 박스: 개방형 사무실 -->
-                        <div class="project-box" data-category="corporate" data-images='["https://picsum.photos/400/300?random=11", "https://picsum.photos/400/300?random=39", "https://picsum.photos/400/300?random=40"]'>
-                            <img src="https://picsum.photos/400/300?random=11" alt="Corporate Project 5">
-                            <div class="project-info">
-                                <h3>개방형 사무실</h3>
-                                <p>협업과 소통을 위한 열린 공간</p>
-                            </div>
-                        </div>
-                        <!-- 프로젝트 박스: 임원 사무실 -->
-                        <div class="project-box" data-category="corporate" data-images='["https://picsum.photos/400/300?random=12", "https://picsum.photos/400/300?random=41", "https://picsum.photos/400/300?random=42"]'>
-                            <img src="https://picsum.photos/400/300?random=12" alt="Corporate Project 6">
-                            <div class="project-info">
-                                <h3>임원 사무실</h3>
-                                <p>품격 있는 고급 임원 전용 공간</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- 군부대 카테고리 -->
-                <div class="projects-category">
-                    <div class="category-header">
-                        <h3 class="category-title">군부대 <span class="category-title-en">Military</span></h3>
-                        <div class="category-line"></div>
-                    </div>
-                    <div class="projects-content">
-                        <!-- 프로젝트 박스: 훈련장 설계 -->
-                        <div class="project-box" data-category="military" data-images='["https://picsum.photos/400/300?random=13", "https://picsum.photos/400/300?random=43", "https://picsum.photos/400/300?random=44"]'>
-                            <img src="https://picsum.photos/400/300?random=13" alt="Military Project 1">
-                            <div class="project-info">
-                                <h3>훈련장 설계</h3>
-                                <p>효율적인 군사 훈련을 위한 공간</p>
-                            </div>
-                        </div>
-                        <!-- 프로젝트 박스: 병영 시설 -->
-                        <div class="project-box" data-category="military" data-images='["https://picsum.photos/400/300?random=14", "https://picsum.photos/400/300?random=45", "https://picsum.photos/400/300?random=46"]'>
-                            <img src="https://picsum.photos/400/300?random=14" alt="Military Project 2">
-                            <div class="project-info">
-                                <h3>병영 시설</h3>
-                                <p>군인들의 편안한 휴식과 생활 공간</p>
-                            </div>
-                        </div>
-                        <!-- 프로젝트 박스: 군용 체육관 -->
-                        <div class="project-box" data-category="military" data-images='["https://picsum.photos/400/300?random=15", "https://picsum.photos/400/300?random=47", "https://picsum.photos/400/300?random=48"]'>
-                            <img src="https://picsum.photos/400/300?random=15" alt="Military Project 3">
-                            <div class="project-info">
-                                <h3>군용 체육관</h3>
-                                <p>체력 단련을 위한 전문 시설</p>
-                            </div>
-                        </div>
-                        <!-- 프로젝트 박스: 지휘 본부 -->
-                        <div class="project-box" data-category="military" data-images='["https://picsum.photos/400/300?random=16", "https://picsum.photos/400/300?random=49", "https://picsum.photos/400/300?random=50"]'>
-                            <img src="https://picsum.photos/400/300?random=16" alt="Military Project 4">
-                            <div class="project-info">
-                                <h3>지휘 본부</h3>
-                                <p>효율적인 작전 수행을 위한 중앙 시설</p>
-                            </div>
-                        </div>
-                        <!-- 프로젝트 박스: 군 식당 -->
-                        <div class="project-box" data-category="military" data-images='["https://picsum.photos/400/300?random=17", "https://picsum.photos/400/300?random=51", "https://picsum.photos/400/300?random=52"]'>
-                            <img src="https://picsum.photos/400/300?random=17" alt="Military Project 5">
-                            <div class="project-info">
-                                <h3>군 식당</h3>
-                                <p>위생적이고 효율적인 급식 시설</p>
-                            </div>
-                        </div>
-                        <!-- 프로젝트 박스: 군사 교육 시설 -->
-                        <div class="project-box" data-category="military" data-images='["https://picsum.photos/400/300?random=18", "https://picsum.photos/400/300?random=53", "https://picsum.photos/400/300?random=54"]'>
-                            <img src="https://picsum.photos/400/300?random=18" alt="Military Project 6">
-                            <div class="project-info">
-                                <h3>군사 교육 시설</h3>
-                                <p>첨단 장비를 갖춘 교육 공간</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-    <!-- Results 섹션 끝 -->
-
-    <!-- 모달 컨테이너 시작 -->
-    <div id="image-modal" class="modal">
-        <!-- 닫기 버튼 -->
-        <span class="close">&times;</span>
-        <!-- 이전 버튼 -->
-        <button class="prev">&#10094;</button>
-        <!-- 다음 버튼 -->
-        <button class="next">&#10095;</button>
-        <!-- 모달 콘텐츠 -->
-        <div class="modal-content">
-            <!-- 이미지 컨테이너 -->
-            <div class="modal-images">
-                <!-- 여기에 이미지들이 동적으로 추가됩니다 -->
-            </div>
-        </div>
+        <button id="calculateBlocks" class="action-button">계산하기</button>
+        <div id="calculationResult" class="calculation-result"></div>
     </div>
-    <!-- 모달 컨테이너 끝 -->
 
-
-
-    <!-- Best Services 섹션 -->
-    <section id="best-services" class="section">
-        <div class="scroll-container">
-            <div class="scroll-indicator2">
-                <div class="scroll-text2">SCROLL DOWN</div>
+    <!-- 새로운 에버롤 수량 계산기 -->
+    <div class="container everoll-calculator">
+        <h2>에버롤 수량 계산기</h2>
+        <p>에버롤 크기: 1롤 (너비 1m x 길이 10m)</p>
+        <div class="calculator-inputs">
+            <div>
+                <label for="everollAreaWidth">너비:</label>
+                <input type="number" id="everollAreaWidth" min="0" step="0.1">
             </div>
-            <div id="image-container">
-                <!-- 이미지들은 JavaScript로 동적 추가됩니다 -->
+            <div>
+                <label for="everollAreaLength">길이:</label>
+                <input type="number" id="everollAreaLength" min="0" step="0.1">
             </div>
-            <div class="content-wrapper">
-                <div id="best-services-content" class="scroll-content">
-                    <h1>도움이 필요하세요?</h1>
-                    <p>걱정마세요! 고핏코리아의 전문가가<br class="mobile-break"> 처음부터 끝까지 설계해드립니다.</p>
-                </div>
+            <div>
+                <label for="everollUnitSelect">단위:</label>
+                <select id="everollUnitSelect">
+                    <option value="m">m(미터)</option>
+                    <option value="cm">cm(센티미터)</option>
+                    <option value="mm">mm(밀리미터)</option>
+                    <option value="km">km(키로미터)</option>
+                </select>
             </div>
         </div>
-    </section>
-
-
-<section id="inquiry-section" class="section">
-    <div class="container">
-        <div id="loading-modal" class="loading-modal">
-            <div class="loading-spinner"></div>
-            <p>이메일 발송 중...</p>
-          </div>
-
-        <div class="inquiry-form">
-            <h3 class="inquiry-type-title">문의 유형</h3>
-            <div class="category-buttons">
-                <button type="button" class="category-button active">구입 견적 문의</button>
-                <button type="button" class="category-button">렌탈 견적 문의</button>
-                <button type="button" class="category-button">비즈니스 제휴 문의</button>
-                <button type="button" class="category-button">A/S 문의</button>
-                <button type="button" class="category-button">일반 문의</button>
-                <button type="button" class="category-button">기타</button>
-            </div>
-
-            <form id="inquiryForm">
-                <input type="hidden" name="inquiry_type" id="inquiry_type" value="구입 견적 문의">
-                <div class="ec-base-table typeWrite">
-                    <table>
-                        <tbody>
-                            <tr>
-                                <th scope="row">이름</th>
-                                <td>
-                                    <input type="text" name="name" id="writer" placeholder="이름을 적어주세요." required>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th scope="row">전화번호</th>
-                                <td>
-                                    <input type="tel" name="phone" id="phone" placeholder="전화번호를 입력해주세요." required>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th scope="row">이메일 주소</th>
-                                <td>
-                                    <input type="email" name="email" id="email" placeholder="이메일주소를 입력해주세요." required>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th scope="row">내용</th>
-                                <td>
-                                    <textarea name="message" id="board_content" placeholder="내용을 입력해주세요." required></textarea>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-
-                <div class="privacy-agreement">
-                    <div class="checkbox-wrapper">
-                        <input type="checkbox" id="privacy-consent" required>
-                        <label for="privacy-consent">개인정보 수집 및 이용 동의</label>
-                    </div>
-                    <ul>
-                        <li><strong>수집 항목:</strong> 이름, 이메일, 연락처, 문의 내용</li>
-                        <li><strong>수집 목적:</strong> 문의 내용 등록, 확인, 답변</li>
-                        <li><strong>보유 기간:</strong> 1년</li>
-                    </ul>
-                </div>
-
-                <div class="ec-base-button">
-                    <button type="submit" class="btnSubmitFix sizeM">Send</button>
-                </div>
-            </form>
-        </div>
+        <button id="calculateEveroll" class="action-button">계산하기</button>
+        <div id="everollCalculationResult" class="calculation-result"></div>
     </div>
-</section>
 
-
-
-
-
-    <section id="contact-us" class="section">
-        <div class="background-image"></div>
-        <div class="container">
-            <h2 class="section-title">Contact Us <span class="section-subtitle">연락처</span></h2>
-            <div class="contact-content">
-                <div class="contact-info">
-
-                    <div class="info-card">
-                        <p class="icon-title">Location</p>
-                        <div class="icon-box">
-                            <i class="fas fa-map-marker-alt"></i>
-                        </div>
-                        <h3>찾아오시는 길</h3>
-                        <p>경기 양주시 봉양동 450-1 고핏코리아</p>
-                    </div>
-                    <div class="info-card">
-                        <p class="icon-title">Phone</p>
-                        <div class="icon-box">
-                            <i class="fas fa-phone"></i>
-                        </div>
-                        <h3>문의 고객 센터</h3>
-                        <p>1833-3745</p>
-                    </div>
-                    <div class="info-card">
-                        <p class="icon-title">E-mail</p>
-                        <div class="icon-box">
-                            <i class="fas fa-envelope"></i>
-                        </div>
-                        <h3>이메일 문의</h3>
-                        <p>gofitkorea@naver.com</p>
-                    </div>
-                    <div class="info-card">
-                        <p class="icon-title">Hours</p>
-                        <div class="icon-box">
-                            <i class="fas fa-clock"></i>
-                        </div>
-                        <h3>업무 시간</h3>
-                        <p>평일 : 오전 9시 ~ 오후 6시</p>
-                    </div>
-                </div>
-                <div class="map-container">
-                    <div id="map"></div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-
-    <footer class="footer">
-        <div class="footer-container">
-            <div class="footer-logo">
-                <img src="https://raw.githubusercontent.com/AsdDDsa182/AshGray/main/web/gofit.png" alt="Logo">
-            </div>
-            <div class="footer-links">
-                <a href="#about-us" class="nav-item">About Us</a>
-                <a href="#our-services" class="nav-item">Our Services</a>
-                <a href="#results" class="nav-item">Results</a>
-                <a href="#contact-us" class="nav-item">Contact Us</a>
-            </div>
-            <div class="footer-social">
-                <a href="https://youtube.com" target="_blank"><i class="fab fa-youtube"></i></a>
-                <a href="https://instagram.com" target="_blank"><i class="fab fa-instagram"></i></a>
-                <a href="https://store.com" target="_blank"><i class="fas fa-store"></i></a>
-                <a href="https://blog.com" target="_blank"><i class="fas fa-blog"></i></a>
-            </div>
-            <div class="footer-info">
-                <p>123 Innovation Street, Seoul, South Korea</p>
-                <p>+82 02-1234-5678 | info@yourcompany.com</p>
-            </div>
-            <div class="footer-copyright">
-                <p>&copy; 2023 Your Company Name. All rights reserved.</p>
-            </div>
-        </div>
-    </footer>
-
-    <script type="text/javascript" src="https://oapi.map.naver.com/openapi/v3/maps.js?ncpClientId=YOUR_CLIENT_ID"></script>
-    <script>
-        // 네이버 지도 초기화 함수
-        function initMap() {
-            var companyLocation = new naver.maps.LatLng(37.865214, 127.078917); // 회사 위치
-            var mapOptions = {
-                center: companyLocation,
-                zoom: 10,
-                zoomControl: true,
-                zoomControlOptions: {
-                    position: naver.maps.Position.TOP_RIGHT
-                }
-            };
-    
-            var map = new naver.maps.Map('map', mapOptions);
-    
-            // 사용자 정의 아이콘 설정
-            var markerIcon = {
-                content: `
-                    <svg width="48" height="48" viewBox="0 0 24 24" fill="orange" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M12 2C8.13 2 5 5.13 5 9C5 13.25 10.2 19.74 11.32 21.06C11.71 21.5 12.29 21.5 12.68 21.06C13.8 19.74 19 13.25 19 9C19 5.13 15.87 2 12 2ZM12 11.5C10.62 11.5 9.5 10.38 9.5 9C9.5 7.62 10.62 6.5 12 6.5C13.38 6.5 14.5 7.62 14.5 9C14.5 10.38 13.38 11.5 12 11.5Z"/>
-                    </svg>
-                `,
-                size: new naver.maps.Size(48, 48),
-                anchor: new naver.maps.Point(24, 48)
-            };
-    
-            // 마커 생성
-            var marker = new naver.maps.Marker({
-                position: companyLocation,
-                map: map,
-                icon: markerIcon,
-                animation: naver.maps.Animation.BOUNCE
-            });
-    
-            // 마커 클릭 시 네이버 지도 웹사이트로 이동
-            naver.maps.Event.addListener(marker, 'click', function() {
-                var url = `https://map.naver.com/p/search/%EA%B3%A0%ED%95%8F%EC%BD%94%EB%A6%AC%EC%95%84/place/1045482651?c=15.00,0,0,0,dh&placePath=%3Fentry%253Dbmp`;
-                window.open(url, '_blank');
-            });
-        }
-    
-        // 페이지 로드 후 네이버 지도 초기화 함수 호출
-        window.onload = initMap;
-    
-        // 인증 실패 확인 함수
-        window.navermap_authFailure = function() {
-            console.log('네이버 지도 Open API 인증이 실패했습니다.');
-            alert('네이버 지도 Open API 인증이 실패했습니다. 클라이언트 ID를 확인하세요.');
-        };
-    </script>
-    <script src="script.js"></script>
+    <!-- 엑셀 파일 생성 및 PDF 출력 라이브러리 -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/exceljs/4.3.0/exceljs.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.23/jspdf.plugin.autotable.min.js"></script>
+    <!-- 사용자 정의 스크립트 파일 -->
+    <script src="scripts.js"></script>
 </body>
 </html>
