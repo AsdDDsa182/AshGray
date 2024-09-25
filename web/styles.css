@@ -851,7 +851,7 @@ body.no-scroll {
     left: 0;
     width: 100%;
     height: 100%;
-    background-image: linear-gradient(to bottom, rgba(0,0,0,0) 0%, rgba(0,0,0,1) 100%), url('https://raw.githubusercontent.com/AsdDDsa182/AshGray/main/web/contact-us/bg.png'); /* 여기에 이미지 경로를 넣으세요 */
+    background-image: linear-gradient(to bottom, rgba(0,0,0,0.8) 0%, rgba(0,0,0,1) 100%), url('https://raw.githubusercontent.com/AsdDDsa182/AshGray/main/web/aboutus/bg.png'); /* 여기에 이미지 경로를 넣으세요 */
     background-size: cover; /* 이미지가 섹션을 꽉 채우도록 합니다 */
     background-position: center; /* 이미지를 중앙에 위치시킵니다 */
     background-repeat: no-repeat;
@@ -1617,6 +1617,14 @@ body.no-scroll {
     margin-top: -200px; /* 상단 마진으로 섹션 위치 조정 */
     left: 50%;
     transform: translateX(-50%); /* 가로 중앙 정렬 */
+    background: linear-gradient(to bottom, 
+        rgba(0, 0, 0, 1) 0%, /* 위쪽 끝: 투명도 1 */
+        rgba(0, 0, 0, 0.8) 50%, /* 중앙: 투명도 0.8 */
+        rgba(0, 0, 0, 1) 100%), /* 아래쪽 끝: 투명도 1 */
+        url('https://raw.githubusercontent.com/AsdDDsa182/AshGray/main/web/inquiry-intro/bg.png'); /* 배경 이미지 추가 */
+    background-size: cover; /* 배경 이미지 크기 설정 */
+    background-position: center; /* 배경 이미지 위치 설정 */
+    background-repeat: no-repeat; /* 배경 이미지 반복 방지 */
 }
 
 /* 스크롤 컨테이너 스타일 */
@@ -1684,7 +1692,7 @@ body.no-scroll {
 #inquiry-intro .main-description {
     opacity: 0;
     transform: translateY(30px);
-    transition: opacity 0.5s ease, transform 0.5s ease;
+    transition: opacity 0.2s ease, transform 0.2s ease;
 }
 
 /* 메인 타이틀 스타일 */
@@ -1696,8 +1704,6 @@ body.no-scroll {
     position: relative;
     top: -100px;
     z-index: 10;
-    transform: scaleY(2.5);
-    transform-origin: center;
 }
 
 /* 메인 설명 스타일 */
@@ -1875,6 +1881,7 @@ body.no-scroll {
     background-position: center; /* 배경 이미지 위치 설정 */
     background-repeat: no-repeat; /* 배경 이미지 반복 방지 */
     /* background-attachment: fixed; 배경 이미지 고정 설정 */
+
 }
 
 
@@ -2145,9 +2152,10 @@ body.no-scroll {
 /* 반응형 디자인: 작은 모바일 */
 @media (max-width: 480px) {
     #counting-content {
-        height: 150vh;
-        padding: 40px 0; /* 패딩 더 축소 */
-        margin-bottom: -400px;
+        height: 100vh;
+        padding: 0px 0px; /* 패딩 더 축소 */
+
+
         text-align: center; /* 텍스트 가운데 정렬 */
     }
 
@@ -2941,7 +2949,7 @@ body.no-scroll {
             rgba(0, 0, 0, 1) 0%, /* 위쪽 끝: 투명도 1 */
             rgba(0, 0, 0, 0) 50%, /* 중앙: 투명도 0.8 */
             rgba(0, 0, 0, 1) 100%), /* 아래쪽 끝: 투명도 1 */
-            url('https://raw.githubusercontent.com/AsdDDsa182/AshGray/main/web/counting/bg-1.png'); /* 배경 이미지 추가 */
+            url('https://raw.githubusercontent.com/AsdDDsa182/AshGray/main/web/best/bg.png'); /* 배경 이미지 추가 */
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
@@ -3383,6 +3391,7 @@ body.no-scroll {
 
 /* 이메일 인쿼리 섹션 */
 #inquiry-section {
+    height: 200%;
     margin-top: -100px;
     margin-bottom: 100px;
     padding: 40px 20px;
@@ -3507,7 +3516,7 @@ body.no-scroll {
 
 #inquiry-section .ec-base-table th,
 #inquiry-section .ec-base-table td {
-    padding: 15px;
+    padding: 20px;
     border-bottom: 1px solid #333333;
 }
 
@@ -3811,7 +3820,11 @@ body.no-scroll {
     align-items: center;
     justify-content: center;
     color: #fff;
-    background-image: url('https://raw.githubusercontent.com/AsdDDsa182/AshGray/main/web/contact-us/bg.png'); /* 배경 이미지 URL을 여기에 입력하세요 */
+    background: linear-gradient(to bottom, 
+            rgba(0, 0, 0, 1) 0%, /* 위쪽 끝: 투명도 1 */
+            rgba(0, 0, 0, 0) 50%, /* 중앙: 투명도 0.8 */
+            rgba(0, 0, 0, 1) 100%), /* 아래쪽 끝: 투명도 1 */
+            url('https://raw.githubusercontent.com/AsdDDsa182/AshGray/main/web/contact-us/bg.png'); /* 배경 이미지 추가 */
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;

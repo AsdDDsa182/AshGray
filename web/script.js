@@ -992,14 +992,16 @@ function updateMainContent(scrollFraction) {
 
         mainTitle.style.opacity = easedProgress;
         mainDescription.style.opacity = easedProgress;
-        mainTitle.style.transform = `translateY(${30 * (1 - easedProgress)}px) scaleY(1.0)`;
+        // 여기서 scaleY를 완전히 제거했습니다.
+        mainTitle.style.transform = `translateY(${30 * (1 - easedProgress)}px)`;
         mainDescription.style.transform = `translateY(${30 * (1 - easedProgress)}px)`;
 
         mainContentVisible = true;
     } else {
         mainTitle.style.opacity = 0;
         mainDescription.style.opacity = 0;
-        mainTitle.style.transform = 'translateY(30px) scaleY(0)';
+        // 여기서도 scaleY를 제거했습니다.
+        mainTitle.style.transform = 'translateY(30px)';
         mainDescription.style.transform = 'translateY(30px)';
     }
 
@@ -1327,7 +1329,7 @@ function handleCountingContentAnimation() {
                     observer.unobserve(entry.target);
                 }
             });
-        }, { threshold: 0.4 }); // 요소의 40%가 뷰포트에 들어왔을 때 콜백을 실행합니다.
+        }, { threshold: 0.9 }); // 요소의 40%가 뷰포트에 들어왔을 때 콜백을 실행합니다.
 
         // 텍스트 요소와 카운팅 아이템 컨테이너를 관찰 대상으로 등록합니다.
         observer.observe(countingText);
