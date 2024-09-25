@@ -1696,6 +1696,62 @@ if (contactSection) {
     contactObserver.observe(contactSection);
 }
 
+    // 스무스 스크롤 함수
+    function smoothScroll(target, duration) {
+        var targetElement = document.querySelector(target);
+        var navbar = document.querySelector('.navbar');
+        var navbarHeight = navbar.offsetHeight;
+        var targetPosition = targetElement.getBoundingClientRect().top + window.pageYOffset - navbarHeight;
+        var startPosition = window.pageYOffset;
+        var distance = targetPosition - startPosition;
+        var startTime = null;
+
+        function animation(currentTime) {
+            if (startTime === null) startTime = currentTime;
+            var timeElapsed = currentTime - startTime;
+            var run = easeOutBack(timeElapsed, startPosition, distance, duration);
+            window.scrollTo(0, run);
+            if (timeElapsed < duration) requestAnimationFrame(animation);
+        }
+
+        function easeOutBack(t, b, c, d, s = 0.60158) {
+            t = t / d - 1;
+            return c * (t * t * ((s + 0.8) * t + s) + 1) + b;
+        }
+
+        requestAnimationFrame(animation);
+    }
+
+    // 네비게이션 링크에 스무스 스크롤 적용
+    document.querySelectorAll('.nav-item a, #navbar-mobile .nav-item a').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+            const href = this.getAttribute('href');
+            if (href.startsWith('#')) {
+                e.preventDefault();
+                smoothScroll(href, 1000);
+
+                // 모바일 메뉴 닫기
+                if (navbarMobile.classList.contains('open')) {
+                    toggleMobileMenu();
+                }
+            }
+        });
+    });
+
+    // 모바일 메뉴 항목에도 스무스 스크롤 적용
+    document.addEventListener('click', function(e) {
+        if (e.target.classList.contains('nav-item') && e.target.getAttribute('href') && e.target.getAttribute('href').startsWith('#')) {
+            e.preventDefault();
+            const targetId = e.target.getAttribute('href');
+            smoothScroll(targetId, 1000);
+            
+            // 모바일 메뉴 닫기
+            if (navbarMobile.classList.contains('open')) {
+                toggleMobileMenu();
+            }
+        }
+    });
+
 
 // 스크롤 인디케이터 공통 함수
 function updateScrollIndicator(indicator, scrollFraction) {
