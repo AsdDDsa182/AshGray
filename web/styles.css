@@ -1746,7 +1746,7 @@ body.no-scroll {
 @media (min-width: 992px) and (max-width: 1199px) {
 
     #inquiry-intro {
-        margin-top: -200px; /* 상단 마진으로 섹션 위치 조정 */
+        margin-top: 0px; /* 상단 마진으로 섹션 위치 조정 */
     }
 
     #inquiry-intro .text-item {
@@ -1765,7 +1765,7 @@ body.no-scroll {
 /* 태블릿 (768px - 991px) */
 @media (min-width: 768px) and (max-width: 991px) {
     #inquiry-intro {
-        margin-top: -600px; /* 상단 마진으로 섹션 위치 조정 */
+        margin-top: 0px; /* 상단 마진으로 섹션 위치 조정 */
     }
     #inquiry-intro .text-item {
         font-size: calc(2rem + 4.5vw);
@@ -1812,7 +1812,7 @@ body.no-scroll {
 /* 소형 모바일 (575px 이하) */
 @media (max-width: 575px) {
     #inquiry-intro {
-        margin-top: -500px; /* 상단 마진으로 섹션 위치 조정 */
+        margin-top: 0px; /* 상단 마진으로 섹션 위치 조정 */
     }
     #inquiry-intro .text-item {
         font-size: calc(1.5rem + 3vw);
@@ -1847,7 +1847,7 @@ body.no-scroll {
 /* 모션 감소를 선호하는 사용자에 대한 설정 */
 @media (prefers-reduced-motion: reduce) {
 #inquiry-intro {
-    margin-top: -200px; /* 상단 마진으로 섹션 위치 조정 */
+    margin-top: 0px; /* 상단 마진으로 섹션 위치 조정 */
     }
     #inquiry-intro .text-item,
     #inquiry-intro .main-title,
@@ -2324,7 +2324,7 @@ body.no-scroll {
 /* 서비스 박스 호버 및 플립 효과 */
 .service-box:hover .service-front::before, 
 .service-box:hover .service-back::before {
-    background-color: rgba(0, 0, 0, 0.7);
+    background-color: rgba(0, 0, 0, 0.8);
 }
 
 .service-box.flipped .service-front {
