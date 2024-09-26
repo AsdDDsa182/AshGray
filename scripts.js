@@ -575,31 +575,31 @@ function addTableRow() {
             const fileInput = document.createElement('input');
             fileInput.type = 'file';
             fileInput.accept = 'image/*';
-        fileInput.onchange = function(event) {
-            const file = event.target.files[0];
-            if (file) {
-                if (file.size > 5 * 1024 * 1024) {
-                    alert('파일 크기가 너무 큽니다. 5MB 이하의 파일을 선택해주세요.');
-                    return;
-                }
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    const imageUrl = e.target.result;
-                    const imageKey = 'image_' + Date.now();
-                    imageDataStore[imageKey] = {
-                        data: imageUrl,
-                        name: file.name,
-                        type: file.type
+            fileInput.onchange = function(event) {
+                const file = event.target.files[0];
+                if (file) {
+                    if (file.size > 5 * 1024 * 1024) {
+                        alert('파일 크기가 너무 큽니다. 5MB 이하의 파일을 선택해주세요.');
+                        return;
+                    }
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        const imageUrl = e.target.result;
+                        const imageKey = 'image_' + Date.now();
+                        imageDataStore[imageKey] = {
+                            data: imageUrl,
+                            name: file.name,
+                            type: file.type
+                        };
+                        newRow.setAttribute('data-image-key', imageKey);
+                        previewButton.onclick = () => showImagePreview(imageUrl, productName);
+                        previewButton.disabled = false;
                     };
-                    newRow.setAttribute('data-image-key', imageKey);
-                    previewButton.onclick = () => showImagePreview(imageUrl, productName);
-                    previewButton.disabled = false;
-                };
-                reader.readAsDataURL(file);
-            }
+                    reader.readAsDataURL(file);
+                }
+            };
+            fileInput.click();
         };
-        fileInput.click();
-    };
 
     decreaseButton.onclick = function() {
         newRow.removeAttribute('data-image-key');
@@ -953,22 +953,15 @@ async function exportToExcel() {
             if (imageKey && imageDataStore[imageKey]) {
                 const imageInfo = imageDataStore[imageKey];
                 const imagePromise = fetch(imageInfo.data)
-                .then(res => res.blob())
-                .then(blob => {
-                    const productName = row.cells[1].querySelector('input').value; // 제품명 가져오기
-                    const imageName = `${productName}.png`; // 제품명으로 이미지 이름 설정
-                    zip.file(imageName, blob, {binary: true});
-                })
-                .catch(error => {
-                    console.error('이미지 처리 중 오류 발생:', error);
-                    return fetch(imageInfo.data)
-                        .then(res => res.blob())
-                        .then(blob => {
-                            const productName = row.cells[1].querySelector('input').value; // 제품명 가져오기
-                            const imageName = `${productName}.png`; // 제품명으로 이미지 이름 설정
-                            zip.file(imageName, blob, {binary: true});
-                        });
-                });
+                    .then(res => res.blob())
+                    .then(blob => {
+                        const productName = row.cells[1].querySelector('input').value; // 제품명 가져오기
+                        const imageName = `${productName}.${imageInfo.type.split('/')[1]}`; // 제품명으로 이미지 이름 설정
+                        zip.file(imageName, blob, {binary: true});
+                    })
+                    .catch(error => {
+                        console.error('이미지 처리 중 오류 발생:', error);
+                    });
             
                 imagePromises.push(imagePromise);
             }
@@ -1173,7 +1166,13 @@ async function loadZipFile(event) {
                             try {
                                 const content = await imageFile.async('base64');
                                 const imageUrl = `data:image/${imageFiles[0].split('.').pop()};base64,${content}`;
-                                newRow.setAttribute('data-image-url', imageUrl);
+                                const imageKey = 'image_' + Date.now();
+                                imageDataStore[imageKey] = {
+                                    data: imageUrl,
+                                    name: imageFiles[0],
+                                    type: `image/${imageFiles[0].split('.').pop()}`
+                                };
+                                newRow.setAttribute('data-image-key', imageKey);
                                 previewButton.disabled = false;
                                 previewButton.onclick = () => showImagePreview(imageUrl, productName);
                             } catch (imageError) {
