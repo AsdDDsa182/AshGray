@@ -1614,7 +1614,7 @@ body.no-scroll {
     height: 300vh; /* 전체 스크롤 높이 */
     transition: background 0.5s ease;
     scroll-behavior: smooth;
-    margin-top: -200px; /* 상단 마진으로 섹션 위치 조정 */
+    margin-top: 0px; /* 상단 마진으로 섹션 위치 조정 */
     left: 50%;
     transform: translateX(-50%); /* 가로 중앙 정렬 */
     background: linear-gradient(to bottom, 
