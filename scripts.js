@@ -172,6 +172,46 @@ function initializeSearch() {
 }
 
 // 검색 결과 표시 함수
+function initializeSearch() {
+    const searchInput = document.getElementById('productSearchInput');
+    const searchResults = document.getElementById('searchResults');
+
+    searchInput.addEventListener('input', function() {
+        const searchTerm = this.value.toLowerCase();
+
+        // 제품 이름 검색
+        const filteredProducts = allProducts.filter(product => 
+            product.name.toLowerCase().includes(searchTerm)
+        );
+
+        // 회사 이름 검색
+        const filteredCompanies = Object.keys(companies).filter(companyName =>
+            companyName.toLowerCase().includes(searchTerm)
+        ).map(companyName => {
+            // 회사에 해당하는 모든 제품을 반환
+            return Object.entries(companies[companyName]).map(([productName, productInfo]) => {
+                return {
+                    name: productName,
+                    company: companyName,
+                    ...productInfo
+                };
+            });
+        }).flat(); // 중첩 배열을 평탄화
+
+        // 검색 결과 통합
+        const combinedResults = [...filteredProducts, ...filteredCompanies];
+        
+        displaySearchResults(combinedResults);
+    });
+
+    document.addEventListener('click', function(e) {
+        if (!searchResults.contains(e.target) && e.target !== searchInput) {
+            searchResults.style.display = 'none';
+        }
+    });
+}
+
+// 검색 결과 표시 함수
 function displaySearchResults(products) {
     const searchResults = document.getElementById('searchResults');
     searchResults.innerHTML = '';
@@ -223,6 +263,7 @@ function displaySearchResults(products) {
 
     searchResults.style.display = 'block';
 }
+
 
 // 문서 전체의 클릭 이벤트 리스너 수정
 document.addEventListener('click', function(e) {
