@@ -992,14 +992,16 @@ function updateMainContent(scrollFraction) {
 
         mainTitle.style.opacity = easedProgress;
         mainDescription.style.opacity = easedProgress;
-        mainTitle.style.transform = `translateY(${30 * (1 - easedProgress)}px) scaleY(1.0)`;
+        // 여기서 scaleY를 완전히 제거했습니다.
+        mainTitle.style.transform = `translateY(${30 * (1 - easedProgress)}px)`;
         mainDescription.style.transform = `translateY(${30 * (1 - easedProgress)}px)`;
 
         mainContentVisible = true;
     } else {
         mainTitle.style.opacity = 0;
         mainDescription.style.opacity = 0;
-        mainTitle.style.transform = 'translateY(30px) scaleY(0)';
+        // 여기서도 scaleY를 제거했습니다.
+        mainTitle.style.transform = 'translateY(30px)';
         mainDescription.style.transform = 'translateY(30px)';
     }
 
@@ -1327,7 +1329,7 @@ function handleCountingContentAnimation() {
                     observer.unobserve(entry.target);
                 }
             });
-        }, { threshold: 0.4 }); // 요소의 40%가 뷰포트에 들어왔을 때 콜백을 실행합니다.
+        }, { threshold: 0.9 }); // 요소의 40%가 뷰포트에 들어왔을 때 콜백을 실행합니다.
 
         // 텍스트 요소와 카운팅 아이템 컨테이너를 관찰 대상으로 등록합니다.
         observer.observe(countingText);
@@ -1695,6 +1697,62 @@ if (contactSection) {
 
     contactObserver.observe(contactSection);
 }
+
+    // 스무스 스크롤 함수
+    function smoothScroll(target, duration) {
+        var targetElement = document.querySelector(target);
+        var navbar = document.querySelector('.navbar');
+        var navbarHeight = navbar.offsetHeight;
+        var targetPosition = targetElement.getBoundingClientRect().top + window.pageYOffset - navbarHeight;
+        var startPosition = window.pageYOffset;
+        var distance = targetPosition - startPosition;
+        var startTime = null;
+
+        function animation(currentTime) {
+            if (startTime === null) startTime = currentTime;
+            var timeElapsed = currentTime - startTime;
+            var run = easeOutBack(timeElapsed, startPosition, distance, duration);
+            window.scrollTo(0, run);
+            if (timeElapsed < duration) requestAnimationFrame(animation);
+        }
+
+        function easeOutBack(t, b, c, d, s = 0.60158) {
+            t = t / d - 1;
+            return c * (t * t * ((s + 0.8) * t + s) + 1) + b;
+        }
+
+        requestAnimationFrame(animation);
+    }
+
+    // 네비게이션 링크에 스무스 스크롤 적용
+    document.querySelectorAll('.nav-item a, #navbar-mobile .nav-item a').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+            const href = this.getAttribute('href');
+            if (href.startsWith('#')) {
+                e.preventDefault();
+                smoothScroll(href, 1000);
+
+                // 모바일 메뉴 닫기
+                if (navbarMobile.classList.contains('open')) {
+                    toggleMobileMenu();
+                }
+            }
+        });
+    });
+
+    // 모바일 메뉴 항목에도 스무스 스크롤 적용
+    document.addEventListener('click', function(e) {
+        if (e.target.classList.contains('nav-item') && e.target.getAttribute('href') && e.target.getAttribute('href').startsWith('#')) {
+            e.preventDefault();
+            const targetId = e.target.getAttribute('href');
+            smoothScroll(targetId, 1000);
+            
+            // 모바일 메뉴 닫기
+            if (navbarMobile.classList.contains('open')) {
+                toggleMobileMenu();
+            }
+        }
+    });
 
 
 // 스크롤 인디케이터 공통 함수
