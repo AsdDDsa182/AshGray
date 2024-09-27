@@ -2927,6 +2927,25 @@ body.no-scroll {
     pointer-events: none;
 }
 
+/* 반응형 디자인: 큰 화면 (1280px 이하) */
+@media (max-width: 1280px) {
+
+    /* 컨텐츠 위치 조정 */
+    #best-services .content-wrapper {
+        top: 30%; /* 위치 조정 */
+    }
+
+    /* 스크롤 컨텐츠 제목 폰트 크기 조정 */
+    #best-services .scroll-content h1 {
+        font-size: 3em;
+    }
+
+    /* 스크롤 컨텐츠 본문 폰트 크기 조정 */
+    #best-services .scroll-content p {
+        font-size: 1.3em;
+    }
+}
+
 /* 반응형 디자인: 큰 화면 (1024px 이하) */
 @media (max-width: 1024px) {
     /* 이미지 스타일 조정 */
@@ -2936,7 +2955,7 @@ body.no-scroll {
 
     /* 컨텐츠 위치 조정 */
     #best-services .content-wrapper {
-        top: 20%; /* 위치 조정 */
+        top: 30%; /* 위치 조정 */
     }
     #best-services .scroll-content {
         top: 48%; /* 위치 조정 */
@@ -2962,7 +2981,7 @@ body.no-scroll {
 
     /* 컨텐츠 위치 조정 */
     #best-services .content-wrapper {
-        top: 27%; /* 위치 조정 */
+        top: 43%; /* 위치 조정 */
     }
     #best-services .scroll-content {
         top: 48%; /* 위치 조정 */
@@ -2987,7 +3006,7 @@ body.no-scroll {
     }
     /* 컨텐츠 위치 조정 */
     #best-services .content-wrapper {
-        top: 31%; /* 위치 조정 */
+        top: 50%; /* 위치 조정 */
     }
     #best-services .scroll-content {
         top: 40%; /* 위치 조정 */
@@ -3013,7 +3032,7 @@ body.no-scroll {
 
     /* 컨텐츠 위치 조정 */
     #best-services .content-wrapper {
-        top: 31%; /* 위치 조정 */
+        top: 45%; /* 위치 조정 */
     }
     #best-services .scroll-content {
         top: 40%; /* 위치 조정 */
@@ -3068,7 +3087,7 @@ body.no-scroll {
 
     /* 컨텐츠 위치 조정 */
     #best-services .content-wrapper {
-        top: 29%; /* 위치 조정 */
+        top: 40%; /* 위치 조정 */
     }
     #best-services .scroll-content {
         top: 40%; /* 위치 조정 */
@@ -3114,7 +3133,7 @@ body.no-scroll {
 
     /* 컨텐츠 위치 조정 */
     #best-services .content-wrapper {
-        top: 24%; /* 위치 조정 */
+        top: 38%; /* 위치 조정 */
     }
     #best-services .scroll-content {
         top: 45%; /* 위치 조정 */
@@ -3145,6 +3164,16 @@ body.no-scroll {
     }
 }
 
+
+/* 반응형 디자인: 작은 화면 (420px 이하) */
+@media (max-width: 420px) {
+    /* 컨텐츠 위치 조정 */
+    #best-services .content-wrapper {
+        top: 40%; /* 위치 조정 */
+    }
+
+}
+
 /* 반응형 디자인: 초소형 화면 (380px 이하, 예: iPhone SE) */
 @media (max-width: 380px) {
     /* 이미지 스타일 조정 */
@@ -3154,7 +3183,7 @@ body.no-scroll {
 
     /* 컨텐츠 위치 조정 */
     #best-services .content-wrapper {
-        top: 19%; /* 위치 조정 */
+        top: 40%; /* 위치 조정 */
     }
     #best-services .scroll-content {
         top: 50%; /* 위치 조정 */
@@ -3185,6 +3214,14 @@ body.no-scroll {
     }
 }
 
+/* 반응형 디자인: 초소형 화면 (380px 이하, 예: iPhone SE) */
+@media (max-width: 380px) {
+    /* 컨텐츠 위치 조정 */
+    #best-services .content-wrapper {
+        top: 36%; /* 위치 조정 */
+    }
+}
+
 /* 모션 감소를 선호하는 사용자에 대한 설정 */
 @media (prefers-reduced-motion: reduce) {
     #best-services .scroll-content,
@@ -3196,11 +3233,6 @@ body.no-scroll {
         animation: none;
     }
 }
-
-
-
-
-
 
 
 
