@@ -1455,7 +1455,8 @@ document.addEventListener('DOMContentLoaded', function() {
             return;
         }
 
-        const weights = weightsInput.split(',').map(w => parseFloat(w.trim())).filter(w => !isNaN(w) && w > 0);
+        // 쉼표와 스페이스바로 구분된 무게를 처리
+        const weights = weightsInput.split(/[,\s]+/).map(w => parseFloat(w.trim())).filter(w => !isNaN(w) && w > 0);
         
         if (weights.length === 0) {
             alert('올바른 무게를 입력해주세요.');
@@ -1477,7 +1478,7 @@ document.addEventListener('DOMContentLoaded', function() {
             const row = itemList.insertRow();
             row.innerHTML = `
                 <td>${item.weight} Kg</td>
-                <td>${item.count}${isPairCalculation ? ' (x2)' : ''}</td>
+                <td><input type="number" value="${item.count}" min="1" onchange="updateItemCount(${index}, this.value)"></td>
                 <td>${item.totalWeight.toFixed(1)} Kg</td>
                 <td><button onclick="removeItem(${index})">삭제</button></td>
             `;
@@ -1534,5 +1535,15 @@ document.addEventListener('DOMContentLoaded', function() {
     window.removeItem = function(index) {
         items.splice(index, 1);
         updateItemList();
+    }
+
+    // 전역 스코프에 updateItemCount 함수 추가
+    window.updateItemCount = function(index, newCount) {
+        newCount = parseInt(newCount);
+        if (!isNaN(newCount) && newCount > 0) {
+            items[index].count = newCount;
+            items[index].totalWeight = isPairCalculation ? items[index].weight * newCount * 2 : items[index].weight * newCount;
+            updateItemList();
+        }
     }
 });
