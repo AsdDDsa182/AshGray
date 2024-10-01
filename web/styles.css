@@ -14,9 +14,13 @@
     --icon-hover-color-v2: #f8a15a;
 }
 
+
 * {
     -webkit-tap-highlight-color: transparent;
-  }
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    user-select: none;
+}
 
 * {
     margin: 0;
@@ -4772,123 +4776,39 @@ body.no-scroll {
 
 
 
-
-/* 호버 효과 개선 */
-@media (hover: hover) and (pointer: fine) {
-    /* 서비스 박스 호버 효과 */
-    .service-box:hover {
-        transform: scale(1.05);
-    }
-
-    /* 정보 카드 호버 효과 */
-    .info-card:hover {
-        transform: translateY(-10px);
-        background-color: rgba(255, 255, 255, 0.2);
-        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
-    }
-
-    /* 프로젝트 박스 이미지 호버 효과 */
-    .project-box:hover img {
-        transform: scale(1.1);
-    }
-
-    /* 푸터 링크 호버 효과 */
-    .footer-links a:hover {
-        color: var(--icon-hover-color);
-        transform: translateY(-2px);
-    }
-
-    /* 푸터 소셜 아이콘 호버 효과 */
-    .footer-social a:hover {
-        color: var(--icon-hover-color);
-        transform: scale(1.2);
-    }
-
-    /* 카운팅 아이템 호버 효과 */
-    .counting-item:hover {
-        transform: translateY(-5px) scale(1.05);
-        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
-    }
-
-    /* 카운팅 아이템 숫자 호버 효과 */
-    .counting-item:hover .count {
-        color: #fff;
-        text-shadow: 0 0 10px #f57309, 0 0 20px #f57309, 0 0 30px #f57309;
-    }
-
-    /* 이벤트 배너 토글 버튼 호버 효과 */
-    .gofit-event-banner-toggle:hover {
-        background-color: var(--secondary-color);
-        transform: translateY(-2px);
-    }
-
-    /* 이벤트 카드 호버 효과 */
-    .gofit-event-card:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-    }
-
-    /* 이벤트 카드 이미지 호버 효과 */
-    .gofit-event-card:hover .gofit-event-image img {
-        transform: scale(1.05);
-    }
-}
-
-/* 터치 디바이스에서 호버 효과 비활성화 */
-@media (hover: none) or (pointer: coarse) {
+@media (hover: none) {
+    a:hover,
+    button:hover,
+    .nav-item > a:hover,
+    .navbar-container .nav-item > a:hover,
+    .navbar-container .nav-item .sub-menu .sub-item a:hover,
+    .icons a:hover,
     .service-box:hover,
-    .info-card:hover,
-    .project-box:hover img,
-    .footer-links a:hover,
-    .footer-social a:hover,
+    .btn-details:hover, 
+    .btn-close:hover,
     .counting-item:hover,
     .counting-item:hover .count,
+    .project-box:hover img,
+    .info-card:hover,
+    .footer-links a:hover,
+    .footer-social a:hover,
+    .footer-info p:hover,
+    .footer-copyright:hover,
     .gofit-event-banner-toggle:hover,
     .gofit-event-card:hover,
-    .gofit-event-card:hover .gofit-event-image img {
-        transform: none;
-        background-color: inherit;
-        color: inherit;
-        text-shadow: none;
-        box-shadow: none;
+    .gofit-event-card:hover .gofit-event-image img,
+    .gofit-event-btn:hover,
+    .gofit-event-modal-close:hover {
+        all: unset;
     }
-}
 
-/* 터치 하이라이트 제거 */
-* {
-    -webkit-tap-highlight-color: transparent;
-}
-
-/* 성능 개선 */
-.service-box,
-.info-card,
-.project-box,
-.counting-item,
-.gofit-event-card {
-    will-change: transform;
-}
-
-/* 접근성 개선 */
-.btn-details:focus,
-.btn-close:focus,
-.footer-links a:focus,
-.footer-social a:focus,
-.category-button:focus,
-.gofit-event-btn:focus {
-    outline: 2px solid #f57309;
-    outline-offset: 2px;
-}
-
-/* 모바일 디바이스에서 고정된 호버 상태 방지 */
-@media (max-width: 768px) {
-    .service-box.hover-ready:active,
-    .info-card:active,
-    .project-box:active,
-    .footer-links a:active,
-    .footer-social a:active,
-    .counting-item:active,
-    .gofit-event-banner-toggle:active,
-    .gofit-event-card:active {
-        transition: none;
+    .service-box,
+    .counting-item,
+    .project-box img,
+    .info-card,
+    .gofit-event-card,
+    .gofit-event-card .gofit-event-image img {
+        transform: none !important;
+        box-shadow: none !important;
     }
 }
