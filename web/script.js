@@ -1848,6 +1848,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
 
+
 // Event Banner JavaScript
 document.addEventListener('DOMContentLoaded', function() {
     const eventBanner = document.querySelector('.gofit-event-banner');
@@ -1874,11 +1875,11 @@ document.addEventListener('DOMContentLoaded', function() {
         event.stopPropagation();
     });
 
-    // Open modal when clicking on an event card or 'View Details' button
+    // Open modal only when clicking on 'View Details' button
     eventContent.addEventListener('click', function(event) {
-        const eventCard = event.target.closest('.gofit-event-card');
-        if (eventCard || event.target.classList.contains('gofit-event-btn')) {
+        if (event.target.classList.contains('gofit-event-btn')) {
             event.stopPropagation(); // Prevent this click from closing the banner
+            const eventCard = event.target.closest('.gofit-event-card');
             const imageUrl = eventCard.getAttribute('data-image');
             eventModalImage.src = imageUrl;
             eventModal.style.display = 'block';
@@ -1899,7 +1900,6 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 });
-
 
 
 

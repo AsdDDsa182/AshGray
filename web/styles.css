@@ -4776,39 +4776,3 @@ body.no-scroll {
 
 
 
-@media (hover: none) {
-    a:hover,
-    button:hover,
-    .nav-item > a:hover,
-    .navbar-container .nav-item > a:hover,
-    .navbar-container .nav-item .sub-menu .sub-item a:hover,
-    .icons a:hover,
-    .service-box:hover,
-    .btn-details:hover, 
-    .btn-close:hover,
-    .counting-item:hover,
-    .counting-item:hover .count,
-    .project-box:hover img,
-    .info-card:hover,
-    .footer-links a:hover,
-    .footer-social a:hover,
-    .footer-info p:hover,
-    .footer-copyright:hover,
-    .gofit-event-banner-toggle:hover,
-    .gofit-event-card:hover,
-    .gofit-event-card:hover .gofit-event-image img,
-    .gofit-event-btn:hover,
-    .gofit-event-modal-close:hover {
-        all: unset;
-    }
-
-    .service-box,
-    .counting-item,
-    .project-box img,
-    .info-card,
-    .gofit-event-card,
-    .gofit-event-card .gofit-event-image img {
-        transform: none !important;
-        box-shadow: none !important;
-    }
-}
