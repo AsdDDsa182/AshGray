@@ -4118,6 +4118,10 @@ body.no-scroll {
     }
 }
 
+.info-card p a {
+    color: #fff;
+    text-decoration: none;
+}
 
 
 
@@ -4200,9 +4204,9 @@ body.no-scroll {
     color: #bbb;
 }
 
-.footer-info p {
-    margin: 5px 0;
-    transition: color 0.3s;
+.footer-info p a {
+    color: inherit;
+    text-decoration: none;
 }
 
 .footer-info p:hover {
@@ -4248,6 +4252,11 @@ body.no-scroll {
         font-size: 0.8em;
     }
 
+    .footer-info p a {
+        color: inherit;
+        text-decoration: none;
+    }
+
     .footer-copyright {
         font-size: 0.7em;
     }
@@ -4271,8 +4280,12 @@ body.no-scroll {
     .footer-info {
         font-size: 0.7em;
     }
-}
 
+    .footer-info p a {
+        color: inherit;
+        text-decoration: none;
+    }
+}
 
 
 
