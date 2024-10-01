@@ -1899,3 +1899,118 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 });
+
+
+// 터치 디바이스 감지
+const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0 || navigator.msMaxTouchPoints > 0;
+
+if (isTouchDevice) {
+    document.body.classList.add('touch-device');
+
+    // 터치 이벤트 리스너 추가
+    document.addEventListener('touchstart', function(e) {
+        const target = e.target.closest('.service-box, .info-card, .project-box, .counting-item, .gofit-event-card');
+        if (target) {
+            target.classList.add('touch-active');
+        }
+    }, {passive: true});
+
+    document.addEventListener('touchend', function(e) {
+        const activeElements = document.querySelectorAll('.touch-active');
+        activeElements.forEach(el => el.classList.remove('touch-active'));
+    }, {passive: true});
+}
+
+// 스크롤 이벤트 최적화
+let ticking = false;
+window.addEventListener('scroll', function() {
+    if (!ticking) {
+        window.requestAnimationFrame(function() {
+            handleScroll();
+            // 여기에 다른 스크롤 관련 함수들을 추가할 수 있습니다.
+            ticking = false;
+        });
+        ticking = true;
+    }
+});
+
+// 서비스 박스 초기화 함수 업데이트
+function initializeServiceBoxes() {
+    const serviceBoxes = document.querySelectorAll('.service-box');
+    serviceBoxes.forEach(box => {
+        box.style.opacity = '0';
+        box.style.transform = 'translateY(400px)';
+
+        const btnDetails = box.querySelector('.btn-details');
+        const btnClose = box.querySelector('.btn-close');
+
+        const toggleBox = () => {
+            serviceBoxes.forEach(otherBox => {
+                if (otherBox !== box) {
+                    otherBox.classList.remove('flipped', 'expanded');
+                    adjustBoxHeight(otherBox, false);
+                }
+            });
+
+            box.classList.toggle('flipped');
+            box.classList.toggle('expanded');
+            adjustBoxHeight(box, box.classList.contains('expanded'));
+        };
+
+        if (isTouchDevice) {
+            box.addEventListener('click', toggleBox);
+        } else {
+            btnDetails.addEventListener('click', toggleBox);
+            btnClose.addEventListener('click', toggleBox);
+        }
+    });
+}
+
+// 이벤트 배너 동작 개선
+document.addEventListener('DOMContentLoaded', function() {
+    const eventBanner = document.querySelector('.gofit-event-banner');
+    const eventToggle = document.querySelector('.gofit-event-banner-toggle');
+    const eventContent = document.querySelector('.gofit-event-banner-content');
+    const eventModal = document.querySelector('.gofit-event-modal');
+    const eventModalImage = document.querySelector('.gofit-event-modal-image');
+    const eventModalClose = document.querySelector('.gofit-event-modal-close');
+
+    eventToggle.addEventListener('click', function(event) {
+        event.stopPropagation();
+        eventBanner.classList.toggle('active');
+    });
+
+    document.addEventListener('click', function(event) {
+        if (!eventBanner.contains(event.target) && eventModal.style.display !== 'block') {
+            eventBanner.classList.remove('active');
+        }
+    });
+
+    eventContent.addEventListener('click', function(event) {
+        const eventCard = event.target.closest('.gofit-event-card');
+        if (eventCard || event.target.classList.contains('gofit-event-btn')) {
+            event.stopPropagation();
+            const imageUrl = eventCard.getAttribute('data-image');
+            eventModalImage.src = imageUrl;
+            eventModal.style.display = 'block';
+        }
+    });
+
+    eventModalClose.addEventListener('click', function(event) {
+        event.stopPropagation();
+        eventModal.style.display = 'none';
+    });
+
+    eventModal.addEventListener('click', function(event) {
+        if (event.target === eventModal) {
+            event.stopPropagation();
+            eventModal.style.display = 'none';
+        }
+    });
+});
+
+// 페이지 로드 시 함수 실행
+window.addEventListener('load', function() {
+    initializeServiceBoxes();
+    // 여기에 다른 초기화 함수들을 추가할 수 있습니다.
+});
