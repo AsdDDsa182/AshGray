@@ -4684,7 +4684,7 @@ body.no-scroll {
 @media (max-width: 768px) {
     /* 모바일 화면에서 이벤트 배너 위치 조정 */
     .gofit-event-banner {
-        top: 9.5vh;
+        top: 90px;
         left: 20px;
     }
 
