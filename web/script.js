@@ -667,7 +667,6 @@ gsap.to(particles.rotation, {
 
 
 
-// 스크롤 애니메이션 섹션
 // 캔버스 요소를 가져옵니다.
 const canvas = document.getElementById("hero-lightpass");
 // 캔버스의 2D 렌더링 컨텍스트를 가져옵니다.
@@ -809,9 +808,8 @@ window.addEventListener('scroll', () => {
         brightness = 1;
     }
     
-    // 스크롤 시작과 끝부분에서 캔버스 크기 축소 효과 및 동그라미 표시
+    // 스크롤 시작과 끝부분에서 캔버스 크기 축소 효과
     const scrollContainer = document.querySelector('.scroll-container');
-    const circleContainer = document.querySelector('.scroll-section-circle-container');
     let scale = 1;
     let containerWidth = '100%';
     let borderRadius = 0;
@@ -823,7 +821,8 @@ window.addEventListener('scroll', () => {
         scale = 0.9 + startProgress * 0.1;
         containerWidth = `${1730 + (window.innerWidth - 1730) * startProgress}px`;
         borderRadius = 20 * (1 - startProgress);
-        shadowOpacity = 0.6 * (1 - startProgress);
+        shadowOpacity = 0.6
+        * (1 - startProgress);
     } else if (scrollFraction > 0.9) {
         // 끝 부분 애니메이션
         const endProgress = (scrollFraction - 0.9) / 0.1;
@@ -842,12 +841,6 @@ window.addEventListener('scroll', () => {
     canvas.style.transform = `scale(${scale})`;
     canvas.style.borderRadius = `${borderRadius}px`;
     canvas.style.boxShadow = `0 0 0 3px rgba(0, 247, 255, ${shadowOpacity})`;
-
-    if (circleContainer) {
-        circleContainer.style.opacity = Math.min(shadowOpacity * 1.5, 0.8);
-        const circleScale = 1 + Math.abs(1 - scale) * 2;
-        circleContainer.style.transform = `scale(${circleScale})`;
-    }
     
     requestAnimationFrame(() => updateImage(frameIndex + 1, brightness, scale));
 
@@ -913,7 +906,6 @@ window.addEventListener('resize', () => {
 // 초기 설정
 resizeCanvas();
 preloadImages();
-
 
 
 
@@ -1848,7 +1840,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
 
-
 // Event Banner JavaScript
 document.addEventListener('DOMContentLoaded', function() {
     const eventBanner = document.querySelector('.gofit-event-banner');
@@ -1899,33 +1890,4 @@ document.addEventListener('DOMContentLoaded', function() {
             eventModal.style.display = 'none';
         }
     });
-});
-
-
-
-// 모바일 터치 관련 문제 해결
-document.addEventListener('DOMContentLoaded', function() {
-    // 터치 시 파란 칸 제거
-    document.body.style.webkitTapHighlightColor = 'transparent';
-
-    // 호버 상태 고정 방지
-    document.addEventListener('touchstart', function() {
-        document.querySelectorAll('a, button').forEach(function(element) {
-            element.classList.remove('hover');
-        });
-    }, false);
-
-    // 스크롤 복원 시 호버 상태 초기화
-    window.addEventListener('pageshow', function(event) {
-        if (event.persisted) {
-            document.querySelectorAll('a, button').forEach(function(element) {
-                element.classList.remove('hover');
-            });
-        }
-    });
-
-    // 터치 디바이스 감지
-    if ('ontouchstart' in window || navigator.maxTouchPoints > 0 || navigator.msMaxTouchPoints > 0) {
-        document.body.classList.add('touch-device');
-    }
 });

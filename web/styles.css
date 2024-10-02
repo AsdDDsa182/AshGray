@@ -14,7 +14,6 @@
     --icon-hover-color-v2: #f8a15a;
 }
 
-
 * {
     -webkit-tap-highlight-color: transparent;
     -webkit-touch-callout: none;
@@ -1548,28 +1547,6 @@ body.no-scroll {
     text-align: center; /* 중앙 정렬 */
 }
 
-/* 스크롤 섹션 서클 스타일 */
-.scroll-section-circle-container {
-    position: absolute;
-    bottom: 100px;
-    left: 49.2%;
-    transform: translateX(-50%);
-    z-index: 10;
-    opacity: 0;
-    transition: opacity 0.3s ease;
-}
-
-.scroll-section-circle {
-    width: 20px;
-    height: 20px;
-    background-color: #00f7ff;
-    border-radius: 50%;
-    box-shadow: 0 0 10px #00f7ff, 0 0 20px #00f7ff;
-    position: relative;
-    top: 50%;
-    transform: translateY(-50%);
-}
-
 /* 반응형 디자인 */
 @media (max-width: 1068px) {
     .scroll-content h1 {
@@ -2757,8 +2734,8 @@ body.no-scroll {
 /* 닫기 버튼 스타일 */
 .close {
     position: absolute;
-    top: 20px;
-    right: 20px;
+    top: 5%;
+    right: 5%;
     color: #fff;
     font-size: 50px;
     transition: 0.3s;
@@ -2769,7 +2746,7 @@ body.no-scroll {
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: rgba(0,0,0,0.5);
+    background-color: rgba(56, 56, 56, 0.8);
     border-radius: 50%;
 }
 
@@ -2863,10 +2840,8 @@ body.no-scroll {
 
 /* 반응형 디자인: 모바일 */
 @media (max-width: 768px) {
-
     #results {
         margin-top: -80px;
-
     }
     
     .projects-categories {
@@ -2915,11 +2890,13 @@ body.no-scroll {
     }
     
     .close {
-        top: 10px;
-        right: 10px;
-        font-size: 30px;
-        width: 40px;
-        height: 40px;
+        top: auto;
+        bottom: 100px;
+        left: 50%;
+        transform: translateX(-50%);
+        font-size: 40px;
+        width: 60px;
+        height: 60px;
     }
 }
 
@@ -4776,3 +4753,71 @@ body.no-scroll {
 
 
 
+
+@media (hover: none) and (pointer: coarse) {
+    .nav-item > a:hover,
+    .navbar-container .nav-item > a:hover,
+    .navbar-container .nav-item .sub-menu .sub-item a:hover,
+    .icons a:hover,
+    .footer-links a:hover,
+    .footer-social a:hover,
+    .service-box:hover,
+    .info-card:hover,
+    .project-box:hover img {
+        transform: none !important;
+        color: inherit !important;
+        background-color: inherit !important;
+        box-shadow: none !important;
+    }
+
+    /* 이벤트 배너 관련 스타일을 별도로 처리 */
+    .gofit-event-banner-toggle:hover,
+    .gofit-event-card:hover,
+    .gofit-event-btn:hover {
+        transform: none !important;
+        box-shadow: none !important;
+    }
+
+    /* 이벤트 배너 토글 버튼의 배경색 유지 */
+    .gofit-event-banner-toggle:hover {
+        background-color: var(--primary-color) !important;
+    }
+
+    /* 이벤트 카드의 배경색 유지 */
+    .gofit-event-card:hover {
+        background-color: #fff !important;
+    }
+
+    /* 이벤트 버튼의 배경색 유지 */
+    .gofit-event-btn:hover {
+        background-color: var(--icon-hover-color) !important;
+    }
+
+    .icons a:hover,
+    .footer-social a:hover {
+        color: var(--text-color) !important;
+    }
+
+    .service-box.hover-ready:hover {
+        transform: none !important;
+    }
+
+    .counting-item:hover .count {
+        color: #f57309 !important;
+        text-shadow: none !important;
+    }
+
+    #inquiry-section .category-button:hover {
+        background-color: #333333 !important;
+        color: #ffffff !important;
+    }
+
+    #inquiry-section .category-button.active {
+        background-color: #f57309 !important;
+        color: #000000 !important;
+    }
+
+    #inquiry-section .ec-base-button .btnSubmitFix:hover {
+        background-color: #f57309 !important;
+    }
+}
