@@ -1846,48 +1846,78 @@ document.addEventListener('DOMContentLoaded', function() {
     const eventToggle = document.querySelector('.gofit-event-banner-toggle');
     const eventContent = document.querySelector('.gofit-event-banner-content');
     const eventModal = document.querySelector('.gofit-event-modal');
+    const eventModalContent = document.querySelector('.gofit-event-modal-content');
     const eventModalImage = document.querySelector('.gofit-event-modal-image');
     const eventModalClose = document.querySelector('.gofit-event-modal-close');
 
+    function resizeModalImage() {
+        if (eventModal.style.display === 'block') {
+            const windowWidth = window.innerWidth;
+            const windowHeight = window.innerHeight;
+            const imgAspectRatio = eventModalImage.naturalWidth / eventModalImage.naturalHeight;
+            const windowAspectRatio = windowWidth / windowHeight;
+
+            let imgWidth, imgHeight;
+
+            if (imgAspectRatio > windowAspectRatio) {
+                // Image is wider than the window
+                imgWidth = Math.min(windowWidth * 0.9, eventModalImage.naturalWidth);
+                imgHeight = imgWidth / imgAspectRatio;
+            } else {
+                // Image is taller than the window
+                imgHeight = Math.min(windowHeight * 0.9, eventModalImage.naturalHeight);
+                imgWidth = imgHeight * imgAspectRatio;
+            }
+
+            eventModalImage.style.width = `${imgWidth}px`;
+            eventModalImage.style.height = `${imgHeight}px`;
+
+            // Center the image
+            eventModalContent.style.width = `${imgWidth}px`;
+            eventModalContent.style.height = `${imgHeight}px`;
+            eventModalContent.style.top = '50%';
+            eventModalContent.style.left = '50%';
+            eventModalContent.style.transform = 'translate(-50%, -50%)';
+        }
+    }
+
     eventToggle.addEventListener('click', function(event) {
-        event.stopPropagation(); // Prevent this click from closing the banner
+        event.stopPropagation();
         eventBanner.classList.toggle('active');
     });
 
-    // Close banner when clicking outside, but not when the modal is open
     document.addEventListener('click', function(event) {
         if (!eventBanner.contains(event.target) && eventModal.style.display !== 'block') {
             eventBanner.classList.remove('active');
         }
     });
 
-    // Prevent closing when clicking inside the banner
     eventContent.addEventListener('click', function(event) {
         event.stopPropagation();
     });
 
-    // Open modal only when clicking on 'View Details' button
     eventContent.addEventListener('click', function(event) {
         if (event.target.classList.contains('gofit-event-btn')) {
-            event.stopPropagation(); // Prevent this click from closing the banner
+            event.stopPropagation();
             const eventCard = event.target.closest('.gofit-event-card');
             const imageUrl = eventCard.getAttribute('data-image');
             eventModalImage.src = imageUrl;
             eventModal.style.display = 'block';
+            eventModalImage.onload = resizeModalImage;
         }
     });
 
-    // Close modal only
     eventModalClose.addEventListener('click', function(event) {
-        event.stopPropagation(); // Prevent this click from closing the banner
+        event.stopPropagation();
         eventModal.style.display = 'none';
     });
 
-    // Close modal when clicking outside the image, but keep the banner open
     eventModal.addEventListener('click', function(event) {
         if (event.target === eventModal) {
-            event.stopPropagation(); // Prevent this click from closing the banner
+            event.stopPropagation();
             eventModal.style.display = 'none';
         }
     });
+
+    window.addEventListener('resize', resizeModalImage);
 });
