@@ -667,245 +667,7 @@ gsap.to(particles.rotation, {
 
 
 
-// 캔버스 요소를 가져옵니다.
-const canvas = document.getElementById("hero-lightpass");
-// 캔버스의 2D 렌더링 컨텍스트를 가져옵니다.
-const context = canvas.getContext("2d");
 
-// 총 프레임 수를 설정합니다.
-const frameCount = 214;
-// 현재 프레임에 해당하는 이미지 URL을 생성하는 함수입니다.
-const currentFrame = index => (
-    `https://www.apple.com/105/media/us/airpods-3rd-generation/2021/3c0b27aa-a5fe-4365-a9ae-83c28d10fa21/anim/spatial-audio/medium/${index.toString().padStart(4, '0')}.jpg`
-);
-
-// 캔버스 크기를 컨테이너에 맞게 설정하는 함수
-function resizeCanvas() {
-    const container = canvas.parentElement;
-    canvas.width = container.clientWidth;
-    canvas.height = container.clientHeight;
-}
-
-// 이미지를 캔버스에 맞게 그리는 함수 (밝기 조절 추가)
-function drawImageProp(ctx, img, x, y, w, h, offsetX, offsetY, brightness) {
-    if (arguments.length === 2) {
-        x = y = 0;
-        w = ctx.canvas.width;
-        h = ctx.canvas.height;
-    }
-
-    offsetX = typeof offsetX === 'number' ? offsetX : 0.5;
-    offsetY = typeof offsetY === 'number' ? offsetY : 0.5;
-
-    if (offsetX < 0) offsetX = 0;
-    if (offsetY < 0) offsetY = 0;
-    if (offsetX > 1) offsetX = 1;
-    if (offsetY > 1) offsetY = 1;
-
-    var iw = img.width,
-        ih = img.height,
-        r = Math.min(w / iw, h / ih),
-        nw = iw * r,
-        nh = ih * r,
-        cx, cy, cw, ch, ar = 1;
-
-    if (nw < w) ar = w / nw;
-    if (Math.abs(ar - 1) < 1e-14 && nh < h) ar = h / nh;
-    nw *= ar;
-    nh *= ar;
-
-    cw = iw / (nw / w);
-    ch = ih / (nh / h);
-    cx = (iw - cw) * offsetX;
-    cy = (ih - ch) * offsetY;
-
-    if (cx < 0) cx = 0;
-    if (cy < 0) cy = 0;
-    if (cw > iw) cw = iw;
-    if (ch > ih) ch = ih;
-
-    ctx.drawImage(img, cx, cy, cw, ch, x, y, w, h);
-
-    // 밝기 조절
-    if (brightness !== undefined) {
-        ctx.globalCompositeOperation = 'source-atop';
-        ctx.fillStyle = `rgba(0, 0, 0, ${1 - brightness})`;
-        ctx.fillRect(x, y, w, h);
-        ctx.globalCompositeOperation = 'source-over';
-    }
-}
-
-// 모든 프레임 이미지를 미리 로드하는 함수입니다.
-const preloadImages = () => {
-    for (let i = 1; i < frameCount; i++) {
-        const img = new Image();
-        img.src = currentFrame(i);
-    }
-};
-
-// 첫 번째 프레임 이미지를 로드합니다.
-const img = new Image();
-img.src = currentFrame(1);
-img.onload = function() {
-    resizeCanvas();
-    drawImageProp(context, img, 0, 0, canvas.width, canvas.height, 0.5, 0.5, 0.2); // 시작 시 20% 밝기
-};
-
-// 특정 인덱스의 이미지로 캔버스를 업데이트하는 함수입니다.
-const updateImage = (index, brightness, scale = 1) => {
-    img.src = currentFrame(index);
-    img.onload = function() {
-        context.clearRect(0, 0, canvas.width, canvas.height);
-        drawImageProp(context, img, 0, 0, canvas.width, canvas.height, 0.5, 0.5, brightness);
-    };
-};
-
-// 모든 섹션을 선택합니다 (일반 섹션 + 특별 섹션)
-const allSections = document.querySelectorAll('#scroll-animation-section .scroll-content');
-
-// 각 섹션의 시작 지점을 정의합니다 (0부터 1 사이의 값)
-const sectionStartPoints = [0, 0.25, 0.5, 0.75];
-
-// easing 함수
-function easeInOutQuad(t) {
-    return t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2;
-}
-
-// 스크롤 이벤트 리스너를 추가합니다.
-window.addEventListener('scroll', () => {
-    const scrollTop = window.pageYOffset;
-    const scrollAnimationSection = document.getElementById('scroll-animation-section');
-    const sectionTop = scrollAnimationSection.offsetTop;
-    const scrollPosition = scrollTop - sectionTop;
-    const sectionHeight = scrollAnimationSection.offsetHeight;
-    // 스크롤 양을 줄이기 위해 분모를 줄입니다.
-    const scrollFraction = Math.max(0, Math.min(1, scrollPosition / (sectionHeight / 1.3))); //값을 내리면 이미지가 더 빨리 진행됨
-
-    // 스크롤 인디케이터 제어
-    const scrollIndicator = document.querySelector('.scroll-indicator1');
-    if (scrollIndicator) {
-        if (scrollFraction > 0.01) {
-            scrollIndicator.classList.add('hide');
-        } else {
-            scrollIndicator.classList.remove('hide');
-        }
-    }
-
-    // 이미지 프레임 업데이트
-    const frameIndex = Math.min(frameCount - 1, Math.floor(scrollFraction * frameCount));
-    
-    // 이미지 밝기 조절
-    let brightness;
-    if (scrollFraction < 0.1) {
-        // 시작 부분: 20%에서 100%로 밝아짐
-        brightness = 0.2 + (scrollFraction / 0.2) * 0.8;
-    } else if (scrollFraction > 0.75) {
-        // 끝 부분: 100%에서 20%로 어두워짐
-        const endProgress = (scrollFraction - 0.75) / 0.25;
-        brightness = 1 - (endProgress * 0.8);
-    } else {
-        // 중간 부분: 100% 밝기 유지
-        brightness = 1;
-    }
-    
-    // 스크롤 시작과 끝부분에서 캔버스 크기 축소 효과
-    const scrollContainer = document.querySelector('.scroll-container');
-    let scale = 1;
-    let containerWidth = '100%';
-    let borderRadius = 0;
-    let shadowOpacity = 0;
-
-    if (scrollFraction <= 0.1) {
-        // 시작 부분 애니메이션
-        const startProgress = scrollFraction / 0.1;
-        scale = 0.9 + startProgress * 0.1;
-        containerWidth = `${1730 + (window.innerWidth - 1730) * startProgress}px`;
-        borderRadius = 20 * (1 - startProgress);
-        shadowOpacity = 0.6
-        * (1 - startProgress);
-    } else if (scrollFraction > 0.9) {
-        // 끝 부분 애니메이션
-        const endProgress = (scrollFraction - 0.9) / 0.1;
-        const endOpacity = easeInOutQuad(endProgress);
-        scale = 1 - endOpacity * 0.1;
-        containerWidth = `${window.innerWidth - (window.innerWidth - 1730) * endProgress}px`;
-        borderRadius = 20 * endOpacity;
-        shadowOpacity = 0.6 * endOpacity;
-    } else {
-        // 중간 부분: 전체 화면 유지
-        containerWidth = '100%';
-    }
-
-    // 스타일 적용
-    scrollContainer.style.width = containerWidth;
-    canvas.style.transform = `scale(${scale})`;
-    canvas.style.borderRadius = `${borderRadius}px`;
-    canvas.style.boxShadow = `0 0 0 3px rgba(0, 247, 255, ${shadowOpacity})`;
-    
-    requestAnimationFrame(() => updateImage(frameIndex + 1, brightness, scale));
-
-    // 모든 섹션에 대해 동일한 로직 적용
-    allSections.forEach((section, index) => {
-        const totalSections = allSections.length;
-        const startFraction = sectionStartPoints[index];
-        const endFraction = index < sectionStartPoints.length - 1 ? sectionStartPoints[index + 1] : 1;
-        const sectionProgress = (scrollFraction - startFraction) / (endFraction - startFraction);
-        
-        let opacity, translateY, scale;
-        
-        // 각 섹션을 100개의 단계로 나눕니다.
-        const steps = 100;
-        const currentStep = Math.floor(sectionProgress * steps);
-        
-        if (index === totalSections - 1) {
-            // 특별 섹션 (마지막 섹션)에 대한 애니메이션
-            opacity = Math.min(1, currentStep / steps);
-            // 살짝 확대되는 효과
-            scale = 0.95 + (currentStep / steps) * 0.2;
-            translateY = 0; // 위아래로 움직이지 않음
-        } else {
-            // 일반 섹션에 대한 애니메이션 (기존 로직 유지)
-            const fadeInEnd = 30;
-            const fadeOutStart = 70;
-
-            if (currentStep < fadeInEnd) {
-                // 페이드 인
-                opacity = currentStep / fadeInEnd;
-                translateY = 30 * (1 - (currentStep / fadeInEnd));
-            } else if (currentStep >= fadeOutStart) {
-                // 페이드 아웃
-                const fadeOutProgress = (currentStep - fadeOutStart) / (steps - fadeOutStart);
-                opacity = 1 - fadeOutProgress;
-                translateY = -30 * fadeOutProgress;
-            } else {
-                // 완전히 보이는 상태
-                opacity = 1;
-                translateY = 0;
-            }
-            scale = 1; // 일반 섹션은 크기 변화 없음
-        }
-        
-        // 소수점 둘째자리까지 사용하여 변화 표현
-        section.style.opacity = opacity.toFixed(2);
-        if (index === totalSections - 1) {
-            // 특별 섹션은 scale 적용
-            section.style.transform = `scale(${scale.toFixed(2)})`;
-        } else {
-            // 일반 섹션은 translateY 적용
-            section.style.transform = `translateY(${translateY.toFixed(2)}px)`;
-        }
-    });
-});
-
-// 윈도우 리사이즈 이벤트 리스너
-window.addEventListener('resize', () => {
-    resizeCanvas();
-    drawImageProp(context, img, 0, 0, canvas.width, canvas.height, 0.5, 0.5, 0.2); // 리사이즈 시에도 20% 밝기 유지
-});
-
-// 초기 설정
-resizeCanvas();
-preloadImages();
 
 
 
@@ -1164,6 +926,8 @@ window.addEventListener('resize', handleResize);
     let activeImageIndex = 0;
     let animationFrameId = null;
     let isSectionPassed = false;
+    let currentProgress = 0;
+    let lastScrollTop = 0;
 
     function createImageElements() {
         for (let i = 1; i <= totalImages; i++) {
@@ -1184,13 +948,11 @@ window.addEventListener('resize', handleResize);
             const zIndex = images.length - absOffset;
             let baseBrightness = offset === 0 ? 1 : 0.5 - (absOffset * 0.1);
             
-            // 텍스트가 보일 때 이미지를 더 어둡게 만듦
             if (textVisible) {
-                baseBrightness *= 0.5; // 밝기를 50%로 줄임
-                minBrightness = 0.1; // 최소 밝기를 더 낮춤
+                baseBrightness *= 0.5;
+                minBrightness = 0.1;
             }
             
-            // 밝기 계산 (contentOpacity에 따라 조정)
             const brightness = Math.max(baseBrightness * (1 - contentOpacity), minBrightness);
             
             const scale = offset === 0 ? 1 : 0.7 - (absOffset * 0.1);
@@ -1205,6 +967,7 @@ window.addEventListener('resize', handleResize);
     }
 
     function animateContent(progress) {
+        currentProgress = progress;
         const lastImageFullyVisiblePoint = (totalImages - 1) / totalImages;
         const textStartPoint = lastImageFullyVisiblePoint + 0.1;
     
@@ -1220,7 +983,6 @@ window.addEventListener('resize', handleResize);
             opacity = textFadeInProgress;
             translateY = 70 * (1 - opacity);
             
-            // 텍스트가 나타나기 시작하면 이미지를 더 어둡게 만듦
             updateImagePositions(imageFadeOutProgress, 0.1, true);
         }
 
@@ -1231,8 +993,9 @@ window.addEventListener('resize', handleResize);
     function handleScroll() {
         const rect = bestServicesSection.getBoundingClientRect();
         const viewportHeight = window.innerHeight;
+        const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
 
-        if (rect.top <= 0 && rect.bottom >= viewportHeight) {
+        if (rect.top <= 0 && rect.bottom >= 0) {
             const sectionProgress = Math.abs(rect.top) / (rect.height - viewportHeight);
             const newImageIndex = Math.min(Math.floor(sectionProgress * totalImages), totalImages - 1);
             
@@ -1242,7 +1005,8 @@ window.addEventListener('resize', handleResize);
 
             animateContent(sectionProgress);
             scrollIndicator2.style.opacity = activeImageIndex === 0 ? '1' : '0';
-        } else if (rect.bottom < viewportHeight) {
+            isSectionPassed = false;
+        } else if (rect.bottom < 0) {
             if (!isSectionPassed) {
                 isSectionPassed = true;
                 activeImageIndex = totalImages - 1;
@@ -1251,8 +1015,8 @@ window.addEventListener('resize', handleResize);
                 scrollContent.style.transform = `translate(-50%, calc(-45% + 0px))`;
                 scrollIndicator2.style.opacity = '0';
             }
-        } else if (rect.top > 0) {
-            if (isSectionPassed) {
+        } else if (rect.top > viewportHeight) {
+            if (isSectionPassed || scrollTop < lastScrollTop) {
                 isSectionPassed = false;
                 activeImageIndex = 0;
                 updateImagePositions(0, 0.3, false);
@@ -1261,6 +1025,8 @@ window.addEventListener('resize', handleResize);
                 scrollIndicator2.style.opacity = '1';
             }
         }
+
+        lastScrollTop = scrollTop;
     }
 
     function animate() {
@@ -1268,15 +1034,29 @@ window.addEventListener('resize', handleResize);
         animationFrameId = requestAnimationFrame(animate);
     }
 
+    function handleResize() {
+        cancelAnimationFrame(animationFrameId);
+        updateImagePositions(currentProgress > (totalImages - 1) / totalImages ? 1 : 0, 0.3, currentProgress > (totalImages - 1) / totalImages);
+        handleScroll();
+        animationFrameId = requestAnimationFrame(animate);
+    }
+
+    function checkInitialScroll() {
+        const rect = bestServicesSection.getBoundingClientRect();
+        const viewportHeight = window.innerHeight;
+        if (rect.top <= viewportHeight && rect.bottom >= 0) {
+            const sectionProgress = Math.max(0, Math.min(1, (viewportHeight - rect.top) / rect.height));
+            animateContent(sectionProgress);
+        }
+    }
+
     function init() {
         createImageElements();
-        updateImagePositions(0, 0.3, false); // 초기 이미지 위치 설정
+        updateImagePositions(0, 0.3, false);
+        checkInitialScroll();
         handleScroll();
         animate();
-        window.addEventListener('resize', () => {
-            updateImagePositions(0, 0.3, false);
-            handleScroll();
-        });
+        window.addEventListener('resize', handleResize);
     }
 
     if (document.readyState === 'loading') {
@@ -1289,6 +1069,7 @@ window.addEventListener('resize', handleResize);
         if (animationFrameId) {
             cancelAnimationFrame(animationFrameId);
         }
+        window.removeEventListener('resize', handleResize);
     });
 })();
 
