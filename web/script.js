@@ -1199,7 +1199,7 @@ window.addEventListener('resize', handleResize);
                 brightness = Math.max(0.5 - (absOffset * 0.1), 0.2); // 다른 이미지들은 상대적으로 어둡게
             }
             
-            const scale = offset === 0 ? 1 : 0.7 - (absOffset * 0.1);
+            const scale = offset === 0 ? 1 : 0.6 - (absOffset * 0.1);
             
             const spacing = isMobile ? 75 : 85;
             const translateX = offset * spacing;

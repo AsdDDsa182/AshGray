@@ -1581,7 +1581,7 @@ body.no-scroll {
     }
 
     .scroll-content p {
-        font-size: 18px;
+        font-size: 14px;
     }
 
     .scroll-content.special-section {
@@ -1591,9 +1591,9 @@ body.no-scroll {
 
 @media (max-width: 430px) {
     .scroll-content {
-        bottom: 15%; /* 하단에서의 위치를 더 낮게 조정 */
+        bottom: 20%; /* 하단에서의 위치를 더 낮게 조정 */
         left: 5%; /* 왼쪽 여백 줄임 */
-        width: 90%; /* 너비 증가 */
+        width: 60%; /* 너비 증가 */
     }
 
     .scroll-content.special-section {
@@ -3003,7 +3003,7 @@ body.no-scroll {
 #image-container img {
     position: absolute;
     margin-left: 15px;
-    width: 30%; /* 기본 너비 */
+    width: 26%; /* 기본 너비 */
     height: auto;
     transition: all 0.5s ease;
     transform-origin: center center -300px;
@@ -3257,6 +3257,12 @@ body.no-scroll {
 @media (min-width: 1280px) {
     #inquiry-section {
         margin-top: -200px;
+    }
+}
+
+@media (min-width: 1281px) {
+    #inquiry-section {
+        margin-top: -100px;
     }
 }
 
