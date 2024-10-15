@@ -664,6 +664,7 @@ gsap.to(particles.rotation, {
 
 
 
+
 // 스크롤 애니메이션 섹션
 // 캔버스 요소를 가져옵니다.
 const canvas = document.getElementById("hero-lightpass");
@@ -910,7 +911,6 @@ window.addEventListener('resize', () => {
 // 초기 설정
 resizeCanvas();
 preloadImages();
-
 
 
 
@@ -1164,7 +1164,6 @@ window.addEventListener('resize', handleResize);
     if (!bestServicesSection) return;
 
     const imageContainer = document.getElementById('image-container');
-    const scrollContent = document.getElementById('best-services-content');
     const scrollIndicator2 = document.querySelector('.scroll-indicator2');
 
     const totalImages = 8;
@@ -1183,7 +1182,7 @@ window.addEventListener('resize', handleResize);
         }
     }
 
-    function updateImagePositions(contentOpacity, minBrightness = 0.3, textVisible = false) {
+    function updateImagePositions(contentOpacity) {
         const images = imageContainer.querySelectorAll('img');
         const isMobile = window.innerWidth <= 768;
         
@@ -1191,14 +1190,14 @@ window.addEventListener('resize', handleResize);
             const offset = index - activeImageIndex;
             const absOffset = Math.abs(offset);
             const zIndex = images.length - absOffset;
-            let baseBrightness = offset === 0 ? 1 : 0.5 - (absOffset * 0.1);
             
-            if (textVisible) {
-                baseBrightness *= 0.5;
-                minBrightness = 0.1;
+            // 밝기 조절 로직 수정
+            let brightness;
+            if (offset === 0) {
+                brightness = 1; // 중앙 이미지는 항상 가장 밝게
+            } else {
+                brightness = Math.max(0.5 - (absOffset * 0.1), 0.2); // 다른 이미지들은 상대적으로 어둡게
             }
-            
-            const brightness = Math.max(baseBrightness * (1 - contentOpacity), minBrightness);
             
             const scale = offset === 0 ? 1 : 0.7 - (absOffset * 0.1);
             
@@ -1209,30 +1208,6 @@ window.addEventListener('resize', handleResize);
             img.style.filter = `brightness(${brightness})`;
             img.style.zIndex = zIndex;
         });
-    }
-
-    function animateContent(progress) {
-        currentProgress = progress;
-        const lastImageFullyVisiblePoint = (totalImages - 1) / totalImages;
-        const textStartPoint = lastImageFullyVisiblePoint + 0.1;
-    
-        let opacity, translateY;
-    
-        if (progress < textStartPoint) {
-            opacity = 0;
-            translateY = 100;
-            updateImagePositions(0, 0.3, false);
-        } else {
-            const imageFadeOutProgress = Math.min(1, (progress - lastImageFullyVisiblePoint) / 0.1);
-            const textFadeInProgress = Math.min(1, (progress - textStartPoint) / (1 - textStartPoint));
-            opacity = textFadeInProgress;
-            translateY = 70 * (1 - opacity);
-            
-            updateImagePositions(imageFadeOutProgress, 0.1, true);
-        }
-
-        scrollContent.style.opacity = opacity;
-        scrollContent.style.transform = `translate(-50%, calc(-45% + ${translateY}px))`;
     }
 
     function handleScroll() {
@@ -1248,25 +1223,21 @@ window.addEventListener('resize', handleResize);
                 activeImageIndex = newImageIndex;
             }
 
-            animateContent(sectionProgress);
+            updateImagePositions(sectionProgress);
             scrollIndicator2.style.opacity = activeImageIndex === 0 ? '1' : '0';
             isSectionPassed = false;
         } else if (rect.bottom < 0) {
             if (!isSectionPassed) {
                 isSectionPassed = true;
                 activeImageIndex = totalImages - 1;
-                updateImagePositions(1, 0.1, true);
-                scrollContent.style.opacity = 1;
-                scrollContent.style.transform = `translate(-50%, calc(-45% + 0px))`;
+                updateImagePositions(1);
                 scrollIndicator2.style.opacity = '0';
             }
         } else if (rect.top > viewportHeight) {
             if (isSectionPassed || scrollTop < lastScrollTop) {
                 isSectionPassed = false;
                 activeImageIndex = 0;
-                updateImagePositions(0, 0.3, false);
-                scrollContent.style.opacity = 0;
-                scrollContent.style.transform = `translate(-50%, calc(-45% + 100px))`;
+                updateImagePositions(0);
                 scrollIndicator2.style.opacity = '1';
             }
         }
@@ -1281,24 +1252,14 @@ window.addEventListener('resize', handleResize);
 
     function handleResize() {
         cancelAnimationFrame(animationFrameId);
-        updateImagePositions(currentProgress > (totalImages - 1) / totalImages ? 1 : 0, 0.3, currentProgress > (totalImages - 1) / totalImages);
+        updateImagePositions(currentProgress);
         handleScroll();
         animationFrameId = requestAnimationFrame(animate);
     }
 
-    function checkInitialScroll() {
-        const rect = bestServicesSection.getBoundingClientRect();
-        const viewportHeight = window.innerHeight;
-        if (rect.top <= viewportHeight && rect.bottom >= 0) {
-            const sectionProgress = Math.max(0, Math.min(1, (viewportHeight - rect.top) / rect.height));
-            animateContent(sectionProgress);
-        }
-    }
-
     function init() {
         createImageElements();
-        updateImagePositions(0, 0.3, false);
-        checkInitialScroll();
+        updateImagePositions(0);
         handleScroll();
         animate();
         window.addEventListener('resize', handleResize);

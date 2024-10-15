@@ -1442,7 +1442,7 @@ body.no-scroll {
     padding: 0px 0px;
     position: relative;
     width: 100%;
-    height: 600vh; /* 전체 스크롤 높이 설정 */
+    height: 400vh; /* 전체 스크롤 높이 설정 */
     display: flex;
     justify-content: center;
     align-items: flex-start;
@@ -1543,31 +1543,19 @@ body.no-scroll {
     text-align: left;
 }
 
-/* 특별 섹션 문단 스타일 */
-.scroll-content.special-section p {
-    text-align: center; /* 중앙 정렬 */
+
+.special-section {
+    text-align: center !important;
+    display: flex !important;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 
-/* 스크롤 섹션 서클 스타일 */
-.scroll-section-circle-container {
-    position: absolute;
-    bottom: 100px;
-    left: 49.2%;
-    transform: translateX(-50%);
-    z-index: 10;
-    opacity: 0;
-    transition: opacity 0.3s ease;
-}
-
-.scroll-section-circle {
-    width: 20px;
-    height: 20px;
-    background-color: #00f7ff;
-    border-radius: 50%;
-    box-shadow: 0 0 10px #00f7ff, 0 0 20px #00f7ff;
-    position: relative;
-    top: 50%;
-    transform: translateY(-50%);
+.special-section h1,
+.special-section p {
+    width: 100%;
+    text-align: center !important;
 }
 
 /* 반응형 디자인 */
@@ -1888,15 +1876,15 @@ body.no-scroll {
     justify-content: center;
     text-align: center;
     background: linear-gradient(to bottom, 
-            rgba(0, 0, 0, 1) 0%, /* 위쪽 끝: 투명도 1 */
-            rgba(0, 0, 0, 0.9) 50%, /* 중앙: 투명도 0.8 */
-            rgba(0, 0, 0, 1) 100%), /* 아래쪽 끝: 투명도 1 */
-        url('https://raw.githubusercontent.com/AsdDDsa182/AshGray/main/web/ourservices/our_bg.jpg'); /* 배경 이미지 추가 */
+            rgba(0, 0, 0, 1) 0%,
+            rgba(0, 0, 0, 0.9) 50%,
+            rgba(0, 0, 0, 1) 100%),
+        url('https://raw.githubusercontent.com/AsdDDsa182/AshGray/main/web/ourservices/our_bg.jpg');
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
     background-attachment: sticky;
-    }
+}
 
 /* 컨테이너 스타일 */
 #our-services .container {
@@ -1937,8 +1925,7 @@ body.no-scroll {
 .service-box {
     flex: 0 1 calc(33.333% - 30px);
     max-width: calc(33.333% - 30px);
-    perspective: 1000px;
-    height: 270px;
+    height: 300px;
     transition: height 0.5s ease-in-out, transform 0.5s ease, opacity 0.5s ease;
     position: relative;
     overflow: hidden;
@@ -1960,10 +1947,11 @@ body.no-scroll {
 /* 서비스 박스 앞면과 뒷면 공통 스타일 */
 .service-front, .service-back {
     position: absolute;
+    top: 0;
+    left: 0;
     width: 100%;
     height: 100%;
-    backface-visibility: hidden;
-    transition: transform 0.5s ease-in-out, opacity 0.5s ease-in-out;
+    transition: opacity 0.5s ease-in-out;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -1986,32 +1974,30 @@ body.no-scroll {
 
 /* 서비스 박스 앞면 스타일 */
 .service-front {
-    transform: rotateY(0deg);
-    z-index: 0;
+    opacity: 1;
+    z-index: 2;
 }
 
 /* 서비스 박스 뒷면 스타일 */
 .service-back {
-    transform: rotateY(180deg);
     opacity: 0;
-    z-index: 0;
-    padding-bottom: 70px; /* 버튼을 위한 공간 확보 */
+    z-index: 1;
+    padding-bottom: 70px;
 }
 
-/* 서비스 박스 호버 및 플립 효과 */
+/* 서비스 박스 호버 및 확장 효과 */
 .service-box:hover .service-front::before, 
 .service-box:hover .service-back::before {
     background-color: rgba(255, 255, 255, 0.1);
 }
 
-.service-box.flipped .service-front {
-    transform: rotateY(180deg);
+.service-box.expanded .service-front {
     opacity: 0;
 }
 
-.service-box.flipped .service-back {
-    transform: rotateY(0deg);
+.service-box.expanded .service-back {
     opacity: 1;
+    z-index: 2;
 }
 
 .service-box:hover {
@@ -2023,9 +2009,39 @@ body.no-scroll {
     transition: height 0.5s ease-in-out, transform 0.5s ease;
 }
 
-/* 아이콘, 타이틀, 밑줄 스타일 */
-.icon-box, .service-title, .underline {
-    margin-top: 40px;
+/* 아이콘 스타일 */
+.icon-box {
+    font-size: 40px;
+    margin-top: 30px;
+    margin-bottom: 15px;
+    color: var(--icon-hover-color);
+    z-index: 2;
+}
+
+/* 서비스 타이틀 스타일 */
+.service-title {
+    font-size: 1.2em;
+    font-weight: bold;
+    margin: 10px 0 5px 0;
+    color: #ffffff;
+    z-index: 2;
+}
+
+/* 서비스 서브타이틀 스타일 */
+#our-services .service-box .service-subtitle {
+    font-size: 0.8em;
+    color: #999999 !important;
+    margin-bottom: 10px;
+    position: relative;
+    z-index: 2;
+}
+
+/* 밑줄 스타일 */
+.underline {
+    width: 60px;
+    height: 2px;
+    background-color: var(--icon-hover-color);
+    margin: 20px auto 30px;
     z-index: 2;
 }
 
@@ -2046,42 +2062,12 @@ body.no-scroll {
     transform: translateX(-50%);
     z-index: 2;
     white-space: nowrap;
-}
-
-.btn-details {
-    bottom: 40px;
-}
-
-.btn-close {
     bottom: 40px;
 }
 
 .btn-details:hover, .btn-close:hover {
     background-color: var(--icon-hover-color-v2);
     transform: translateX(-50%) scale(1.05);
-}
-
-/* 아이콘 스타일 */
-.icon-box {
-    font-size: 40px;
-    margin-bottom: 15px;
-    color: var(--icon-hover-color);
-}
-
-/* 서비스 타이틀 스타일 */
-.service-title {
-    font-size: 1.2em;
-    font-weight: bold;
-    margin: 10px 0;
-    color: #ffffff;
-}
-
-/* 밑줄 스타일 */
-.underline {
-    width: 60px;
-    height: 2px;
-    background-color: var(--icon-hover-color);
-    margin: 20px auto;
 }
 
 /* 서비스 박스 내 텍스트 스타일 */
@@ -2093,6 +2079,7 @@ body.no-scroll {
     text-align: left;
     z-index: 2;
     color: #ffffff;
+    margin-top: 0;
 }
 
 /* 새로운 스타일: 내용 페이드 인 효과 */
@@ -2102,7 +2089,7 @@ body.no-scroll {
     transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
 }
 
-.service-box.flipped .service-back .content {
+.service-box.expanded .service-back .content {
     opacity: 1;
     transform: translateY(0);
     transition-delay: 0.2s;
@@ -2121,9 +2108,8 @@ body.no-scroll {
 
 /* 반응형 디자인: 모바일 */
 @media (max-width: 768px) {
-    /* 밑줄 스타일 */
     .underline {
-        margin: 30px auto;
+        margin: 10px auto 20px;
     }
 
     #our-services {
@@ -2137,7 +2123,7 @@ body.no-scroll {
     .service-box {
         flex: 0 1 100%;
         max-width: 100%;
-        height: 200px;
+        height: 250px;
     }
 
     .icon-box {
@@ -2148,6 +2134,10 @@ body.no-scroll {
     .service-title {
         font-size: 1.1em;
         margin: 5px 0;
+    }
+
+    .service-subtitle {
+        font-size: 0.7em;
     }
 
     .service-box p {
@@ -2162,19 +2152,17 @@ body.no-scroll {
 
 /* 작은 모바일 화면 */
 @media (max-width: 480px) {
-
     #our-services h2 {
         font-size: 2.4em;
     }
 
     .service-box {
         padding-top: 5px;
-        height: 200px;
+        height: 220px;
     }
 
-    /* 밑줄 스타일 */
     .underline {
-        margin: 16px auto;
+        margin: 5px auto 15px;
     }
 
     .icon-box {
@@ -2183,6 +2171,10 @@ body.no-scroll {
 
     .service-title {
         font-size: 1em;
+    }
+
+    .service-subtitle {
+        font-size: 0.6em;
     }
 
     .service-box p {
@@ -2967,6 +2959,8 @@ body.no-scroll {
 
 
 
+
+
 /* Best Services 섹션의 전체 스타일 */
 #best-services {
     position: relative;
@@ -2982,9 +2976,7 @@ body.no-scroll {
     background-position: center;
     background-repeat: no-repeat;
     background-attachment: sticky;
-    }
-
-
+}
 
 /* 스크롤 컨테이너 스타일 */
 #best-services .scroll-container {
@@ -3015,63 +3007,6 @@ body.no-scroll {
     height: auto;
     transition: all 0.5s ease;
     transform-origin: center center -300px;
-}
-
-/* 컨텐츠 래퍼 스타일 */
-#best-services .content-wrapper {
-    position: absolute;
-    top: 26%; /* 기본 위치 */
-    left: 0;
-    width: 100%;
-    height: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 2;
-}
-
-/* 스크롤 컨텐츠 스타일 */
-#best-services .scroll-content {
-    position: absolute;
-    top: 50%; /* 기본 위치 */
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 100%;
-    text-align: center;
-    opacity: 0;
-    transition: opacity 1s ease, transform 1s ease; /* 속도 조절 */
-    z-index: 2;
-}
-
-/* 스크롤 컨텐츠 내부 텍스트 스타일 */
-#best-services .scroll-content h1,
-#best-services .scroll-content p {
-    width: 100%;
-    margin-left: auto;
-    margin-right: auto;
-    text-align: center;
-}
-
-/* 제목 스타일 */
-#best-services .scroll-content h1 {
-    font-size: calc(2rem + 3vw);
-    font-weight: bold;
-    line-height: 1.2;
-    margin-bottom: 10px;
-    text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
-}
-
-/* 본문 스타일 */
-#best-services .scroll-content p {
-    font-size: calc(0.6rem + 1vw);
-    line-height: 1.5;
-    max-width: none;
-    margin: 0 auto;
-    text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
-}
-
-.mobile-break {
-    display: none;
 }
 
 /* 스크롤 인디케이터 스타일 */
@@ -3131,188 +3066,24 @@ body.no-scroll {
     pointer-events: none;
 }
 
-/* 반응형 디자인: 큰 화면 (1280px 이하) */
-@media (max-width: 1280px) {
-
-    /* 컨텐츠 위치 조정 */
-    #best-services .content-wrapper {
-        top: 30%; /* 위치 조정 */
-    }
-
-    /* 스크롤 컨텐츠 제목 폰트 크기 조정 */
-    #best-services .scroll-content h1 {
-        font-size: 3em;
-    }
-
-    /* 스크롤 컨텐츠 본문 폰트 크기 조정 */
-    #best-services .scroll-content p {
-        font-size: 1.3em;
-    }
-}
-
 /* 반응형 디자인: 큰 화면 (1024px 이하) */
 @media (max-width: 1024px) {
-    /* 이미지 스타일 조정 */
     #image-container img {
         width: 80%; /* 이미지 너비 조정 */
-    }
-
-    /* 컨텐츠 위치 조정 */
-    #best-services .content-wrapper {
-        top: 32%; /* 위치 조정 */
-    }
-    #best-services .scroll-content {
-        top: 48%; /* 위치 조정 */
-    }
-
-    /* 스크롤 컨텐츠 제목 폰트 크기 조정 */
-    #best-services .scroll-content h1 {
-        font-size: 3em;
-    }
-
-    /* 스크롤 컨텐츠 본문 폰트 크기 조정 */
-    #best-services .scroll-content p {
-        font-size: 1.3em;
-    }
-}
-
-/* 반응형 디자인: 큰 화면 (920px 이하) */
-@media (max-width: 920px) {
-    /* 이미지 스타일 조정 */
-    #image-container img {
-        width: 80%; /* 이미지 너비 조정 */
-    }
-
-    /* 컨텐츠 위치 조정 */
-    #best-services .content-wrapper {
-        top: 42%; /* 위치 조정 */
-    }
-    #best-services .scroll-content {
-        top: 48%; /* 위치 조정 */
-    }
-
-    /* 스크롤 컨텐츠 제목 폰트 크기 조정 */
-    #best-services .scroll-content h1 {
-        font-size: 3em;
-    }
-
-    /* 스크롤 컨텐츠 본문 폰트 크기 조정 */
-    #best-services .scroll-content p {
-        font-size: 1.3em;
-    }
-}
-
-/* 반응형 디자인: 큰 화면 (830px 이하) */
-@media (max-width: 830px) {
-    /* 이미지 스타일 조정 */
-    #image-container img {
-        width: 80%; /* 이미지 너비 증가 */
-    }
-    /* 컨텐츠 위치 조정 */
-    #best-services .content-wrapper {
-        top: 48%; /* 위치 조정 */
-    }
-    #best-services .scroll-content {
-        top: 40%; /* 위치 조정 */
     }
 }
 
 /* 반응형 디자인: 중간 화면 (768px 이하) */
 @media (max-width: 768px) {
-    /* Best Services 섹션 위치 조정 */
     #best-services {
         margin-top: -200px;
     }
 
-    /* 이미지 스타일 조정 */
     #image-container img {
         margin-left: 14px;
         width: 70%; /* 이미지 너비 증가 */
     }
 
-    .mobile-break {
-        display: inline;
-    }
-
-    /* 컨텐츠 위치 조정 */
-    #best-services .content-wrapper {
-        top: 44%; /* 위치 조정 */
-    }
-    #best-services .scroll-content {
-        top: 40%; /* 위치 조정 */
-    }
-
-    /* 스크롤 컨텐츠 제목 폰트 크기 조정 */
-    #best-services .scroll-content h1 {
-        font-size: 2.5em;
-    }
-
-    /* 스크롤 컨텐츠 본문 폰트 크기 및 스타일 조정 */
-    #best-services .scroll-content p {
-        font-size: 1.2em;
-        white-space: normal;
-    }
-    #best-services .scroll-content p::after {
-        content: '\A';
-        white-space: pre;
-    }
-
-    /* 스크롤 인디케이터 크기 조정 */
-    .scroll-indicator2 {
-        width: 40px;
-        height: 80px;
-    }
-    .scroll-indicator2::before {
-        width: 15px;
-        height: 15px;
-    }
-    .scroll-text2 {
-        font-size: 12px;
-        bottom: -30px;
-    }
-}
-
-/* 반응형 디자인: 중간 화면 (550px 이하) */
-@media (max-width: 550px) {
-    /* Best Services 섹션 위치 조정 */
-    #best-services {
-        margin-top: -200px;
-    }
-
-    /* 이미지 스타일 조정 */
-    #image-container img {
-        margin-left: 14px;
-        width: 70%; /* 이미지 너비 증가 */
-    }
-
-    .mobile-break {
-        display: inline;
-    }
-
-    /* 컨텐츠 위치 조정 */
-    #best-services .content-wrapper {
-        top: 38%; /* 위치 조정 */
-    }
-    #best-services .scroll-content {
-        top: 40%; /* 위치 조정 */
-    }
-
-    /* 스크롤 컨텐츠 제목 폰트 크기 조정 */
-    #best-services .scroll-content h1 {
-        font-size: 2.5em;
-    }
-
-    /* 스크롤 컨텐츠 본문 폰트 크기 및 스타일 조정 */
-    #best-services .scroll-content p {
-        font-size: 1.2em;
-        white-space: normal;
-    }
-    #best-services .scroll-content p::after {
-        content: '\A';
-        white-space: pre;
-    }
-
-    /* 스크롤 인디케이터 크기 조정 */
     .scroll-indicator2 {
         width: 40px;
         height: 80px;
@@ -3329,31 +3100,11 @@ body.no-scroll {
 
 /* 반응형 디자인: 작은 화면 (480px 이하) */
 @media (max-width: 480px) {
-    /* 이미지 스타일 조정 */
     #image-container img {
         margin-left: 0;
         width: 90%; /* 이미지 너비 최대화 */
     }
 
-    /* 컨텐츠 위치 조정 */
-    #best-services .content-wrapper {
-        top: 38%; /* 위치 조정 */
-    }
-    #best-services .scroll-content {
-        top: 45%; /* 위치 조정 */
-    }
-
-    /* 스크롤 컨텐츠 제목 폰트 크기 조정 */
-    #best-services .scroll-content h1 {
-        font-size: 2em;
-    }
-
-    /* 스크롤 컨텐츠 본문 폰트 크기 조정 */
-    #best-services .scroll-content p {
-        font-size: 1em;
-    }
-
-    /* 스크롤 인디케이터 숨김 */
     .scroll-indicator2 {
         width: 30px;
         height: 60px;
@@ -3368,42 +3119,12 @@ body.no-scroll {
     }
 }
 
-
-/* 반응형 디자인: 작은 화면 (420px 이하) */
-@media (max-width: 420px) {
-    /* 컨텐츠 위치 조정 */
-    #best-services .content-wrapper {
-        top: 38%; /* 위치 조정 */
-    }
-
-}
-
 /* 반응형 디자인: 초소형 화면 (380px 이하, 예: iPhone SE) */
 @media (max-width: 380px) {
-    /* 이미지 스타일 조정 */
     #image-container img {
         width: 100%; /* 이미지 너비 최대화 */
     }
 
-    /* 컨텐츠 위치 조정 */
-    #best-services .content-wrapper {
-        top: 30%; /* 위치 조정 */
-    }
-    #best-services .scroll-content {
-        top: 50%; /* 위치 조정 */
-    }
-
-    /* 스크롤 컨텐츠 제목 폰트 크기 조정 */
-    #best-services .scroll-content h1 {
-        font-size: 1.8em;
-    }
-
-    /* 스크롤 컨텐츠 본문 폰트 크기 조정 */
-    #best-services .scroll-content p {
-        font-size: 0.9em;
-    }
-
-    /* 스크롤 인디케이터 숨김 */
     .scroll-indicator2 {
         width: 25px;
         height: 50px;
@@ -3418,17 +3139,8 @@ body.no-scroll {
     }
 }
 
-/* 반응형 디자인: 초소형 화면 (380px 이하, 예: iPhone SE) */
-@media (max-width: 345px) {
-    /* 컨텐츠 위치 조정 */
-    #best-services .content-wrapper {
-        top: 34%; /* 위치 조정 */
-    }
-}
-
 /* 모션 감소를 선호하는 사용자에 대한 설정 */
 @media (prefers-reduced-motion: reduce) {
-    #best-services .scroll-content,
     #image-container img {
         transition: none;
     }
@@ -3440,16 +3152,68 @@ body.no-scroll {
 
 
 
+
+
+
+
+
+
 /* 이메일 인쿼리 섹션 */
 #inquiry-section {
     height: 200%;
-    margin-top: -100px;
+    margin-top: -150px;
     margin-bottom: 100px;
     padding: 40px 20px;
     opacity: 1;
     transform: translateY(0);
     transition: opacity 0.5s ease, transform 0.5s ease;
 }
+
+
+
+
+#inquiry-section .inquiry-main-title {
+    font-size: 2.5em;
+    color: #ffffff;
+    margin-bottom: 30px;
+    text-align: left;
+    font-weight: bold;
+}
+
+@media (max-width: 768px) {
+    #inquiry-section .inquiry-main-title {
+        font-size: 2em;
+        text-align: left;
+        margin-bottom: 20px;
+    }
+}
+
+@media (max-width: 480px) {
+    #inquiry-section .inquiry-main-title {
+        font-size: 1.8em;
+        margin-bottom: 15px;
+    }
+}
+
+
+
+.inquiry-divider {
+    border: 0;
+    height: 1px;
+    background-color: rgba(255, 255, 255, 0.2);
+    margin: 20px 0;
+}
+
+#inquiry-section .inquiry-main-title {
+    margin-bottom: 10px;  /* 기존 margin-bottom 값을 줄임 */
+}
+
+#inquiry-section .inquiry-type-title {
+    margin-top: 10px;  /* 상단 여백 추가 */
+}
+
+
+
 
 #inquiry-section.animate-init {
     opacity: 0;
@@ -4411,9 +4175,13 @@ body.no-scroll {
 /* 이벤트 배너 스타일 */
 .gofit-event-banner {
     position: fixed;
-    top: 100px;
-    left: 50px;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
     z-index: 888;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 /* 이벤트 배너 토글 버튼 스타일 */
@@ -4424,10 +4192,10 @@ body.no-scroll {
 }
 
 .gofit-event-banner-toggle {
-    background-color: var(--icon-hover-color);
+    background-color: #1a1a1a;
     color: #fff;
     padding: 12px 22px;
-    border-radius: 60px;
+    border-radius: 30px 30px 0 0;
     cursor: pointer;
     display: flex;
     align-items: center;
@@ -4436,7 +4204,20 @@ body.no-scroll {
     position: relative;
     overflow: hidden;
     border: none;
-    border: solid var(--icon-hover-color-v2)
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-bottom: none;
+}
+
+.gofit-event-banner-toggle::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -25%;
+    width: 150%;
+    height: 200%;
+    background-color: #1a1a1a;
+    border-radius: 50%;
+    z-index: -1;
 }
 
 .gofit-event-banner-toggle i {
@@ -4469,14 +4250,14 @@ body.no-scroll {
 }
 
 /* 이벤트 배너 토글 버튼 빛 효과 */
-.gofit-event-banner-toggle::before {
+.gofit-event-banner-toggle::after {
     content: '';
     position: absolute;
     top: 0;
     left: -100%;
     width: 100%;
     height: 100%;
-    background: linear-gradient(90deg, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.6), rgba(255, 255, 255, 0));
+    background: linear-gradient(90deg, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0));
     transform: skewX(-30deg);
     animation: shineEffect 3s infinite;
 }
@@ -4487,35 +4268,24 @@ body.no-scroll {
     100% { left: 100%; }
 }
 
-/* 이벤트 배너 토글 버튼 배경 효과 */
-.gofit-event-banner-toggle::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(255, 255, 255, 0.1);
-}
-
 /* 이벤트 배너 토글 버튼 호버 효과 */
 .gofit-event-banner-toggle:hover {
-    background-color: var(--icon-hover-color-v2);
-    transform: translateY(-2px);
+    background-color: #333;
 }
 
 /* 이벤트 배너 내용 스타일 */
 .gofit-event-banner-content {
     position: absolute;
-    top: calc(100% + 10px);
-    left: 0;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%);
     width: 90vw;
     max-width: 400px;
     max-height: 0;
     background-color: #f5f5f5;
     border-radius: 15px;
     padding: 0 20px;
-    margin-top: 0px;
+    margin-bottom: 10px;
     opacity: 0;
     visibility: hidden;
     transition: all 0.3s ease;
@@ -4594,7 +4364,7 @@ body.no-scroll {
 
 /* 이벤트 버튼 스타일 */
 .gofit-event-btn {
-    background-color: var(--icon-hover-color);
+    background-color: #1a1a1a;
     color: #fff;
     border: none;
     padding: 8px 15px;
@@ -4606,7 +4376,7 @@ body.no-scroll {
 
 /* 이벤트 버튼 호버 효과 */
 .gofit-event-btn:hover {
-    background-color: var(--icon-hover-color-v2);
+    background-color: #333;
 }
 
 /* 이벤트 모달 스타일 */
@@ -4697,12 +4467,6 @@ body.no-scroll {
 
 /* 모바일 화면 스타일 */
 @media (max-width: 768px) {
-    /* 모바일 화면에서 이벤트 배너 위치 조정 */
-    .gofit-event-banner {
-        top: 90px;
-        left: 20px;
-    }
-
     /* 모바일 화면에서 이벤트 배너 내용 너비 조정 */
     .gofit-event-banner-content {
         width: 85vw;
@@ -4723,11 +4487,6 @@ body.no-scroll {
         font-size: 14px;
     }
 }
-
-
-
-
-
 
 @media (hover: none) and (pointer: coarse) {
     .nav-item > a:hover,
@@ -4755,7 +4514,7 @@ body.no-scroll {
 
     /* 이벤트 배너 토글 버튼의 배경색 유지 */
     .gofit-event-banner-toggle:hover {
-        background-color: var(--icon-hover-color) !important;
+        background-color: #1a1a1a !important;
     }
 
     /* 이벤트 카드의 배경색 유지 */
@@ -4765,7 +4524,7 @@ body.no-scroll {
 
     /* 이벤트 버튼의 배경색 유지 */
     .gofit-event-btn:hover {
-        background-color: var(--icon-hover-color) !important;
+        background-color: #1a1a1a !important;
     }
 
     .icons a:hover,
