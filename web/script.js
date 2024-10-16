@@ -292,7 +292,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
 
-
 // About Us 섹션 애니메이션
 function handleAboutUsAnimation() {
     const aboutSection = document.querySelector('#about-us');
@@ -489,6 +488,7 @@ function handleAboutUsAnimation() {
 
 // 페이지 로드 시 About Us 애니메이션 함수 실행
 window.addEventListener('load', handleAboutUsAnimation);
+
 
 
 
@@ -1153,6 +1153,7 @@ window.addEventListener('load', () => {
 
 // 윈도우 리사이즈 이벤트 리스너
 window.addEventListener('resize', handleResize);
+
 
 
 
