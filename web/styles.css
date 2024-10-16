@@ -1133,7 +1133,8 @@ body.no-scroll {
 /* 반응형 조정: 최대 768px */
 @media (max-width: 768px) {
     .logo-container {
-        margin-top: 40px;
+        margin-top: 80px;
+        margin-bottom: 110px;
     }
 
     #about-us .image-content {
