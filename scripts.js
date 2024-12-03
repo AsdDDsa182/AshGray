@@ -1251,6 +1251,7 @@ async function loadZipFile(event) {
 // 페이지 로드 시 초기화 함수 호출
 window.onload = init;
 
+
 // 고무블럭 수량 계산기 기능
 document.addEventListener('DOMContentLoaded', function() {
     const calculateButton = document.getElementById('calculateBlocks');
@@ -1274,13 +1275,28 @@ document.addEventListener('DOMContentLoaded', function() {
         const widthInMeters = convertToMeters(width, unit);
         const lengthInMeters = convertToMeters(length, unit);
 
-        const areaInSquareMeters = widthInMeters * lengthInMeters;
-        const blockSizeInSquareMeters = 0.5 * 0.5; // 50cm x 50cm = 0.25 m²
-        const numberOfBlocks = Math.ceil(areaInSquareMeters / blockSizeInSquareMeters);
+        // 블록 크기 (고정값 500mm = 0.5m)
+        const blockWidth = 0.5;
+        const blockLength = 0.5;
 
-        calculationResult.textContent = `필요한 고무블럭 수량: ${numberOfBlocks}개`;
+        // 단순 면적 계산 (소수점 올림 처리)
+        const totalArea = widthInMeters * lengthInMeters;
+        const blockArea = blockWidth * blockLength;
+        const simpleCalculation = Math.ceil(totalArea / blockArea);
+
+        // 실제 시공을 고려한 계산
+        const blocksPerWidth = Math.ceil(widthInMeters / blockWidth);
+        const blocksPerLength = Math.ceil(lengthInMeters / blockLength);
+        const actualBlocks = blocksPerWidth * blocksPerLength;
+
+        // 결과 출력
+        calculationResult.innerHTML = `
+            <p>단순 면적 계산 시 필요 수량: ${simpleCalculation}장</p>
+            <p>여유분 추가 시 필요 수량: ${actualBlocks}장</p>
+        `;
     }
 
+    // 단위를 미터로 변환
     function convertToMeters(value, unit) {
         switch (unit) {
             case 'm': return value;
@@ -1291,6 +1307,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 });
+
 
 // 에버롤 수량 계산기 기능
 document.addEventListener('DOMContentLoaded', function() {
