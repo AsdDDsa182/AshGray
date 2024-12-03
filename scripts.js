@@ -1252,7 +1252,6 @@ async function loadZipFile(event) {
 window.onload = init;
 
 
-// 고무블럭 수량 계산기 기능
 document.addEventListener('DOMContentLoaded', function() {
     const calculateButton = document.getElementById('calculateBlocks');
     const areaWidthInput = document.getElementById('areaWidth');
@@ -1292,7 +1291,8 @@ document.addEventListener('DOMContentLoaded', function() {
         // 결과 출력
         calculationResult.innerHTML = `
             <p>단순 면적 계산 시 필요 수량: ${simpleCalculation}장</p>
-            <p>여유분 추가 시 필요 수량: ${actualBlocks}장</p>
+            <p><span style="color: red; font-weight: bold;">*</span> 여유분 추가 시 필요 수량: ${actualBlocks}장</p>
+            <p style="color: red; font-weight: bold;">* 가로/세로 각각의 끝부분 자투리 공간과 시공 시 발생하는 손실을 고려한 수량입니다.</p>
         `;
     }
 
