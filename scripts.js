@@ -1290,8 +1290,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
         // 결과 출력
         calculationResult.innerHTML = `
-            <p>단순 면적 계산 시 필요 수량: ${simpleCalculation}장</p>
-            <p><span style="color: red; font-weight: bold;">*</span> 여유분 추가 시 필요 수량: ${actualBlocks}장</p>
+            <p>단순 면적 계산 시 필요 수량: <span style="color: blue; font-weight: bold;">${simpleCalculation}장</span></p>
+            <p><span style="color: red; font-weight: bold;">*</span> 여유분 추가 시 필요 수량: <span style="color: blue; font-weight: bold;">${actualBlocks}장</span></p>
             <p style="color: red; font-weight: bold;">* 가로/세로 각각의 끝부분 자투리 공간과 시공 시 발생하는 손실을 고려한 수량입니다.</p>
         `;
     }
