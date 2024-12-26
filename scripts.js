@@ -1309,6 +1309,36 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 
+
+
+
+// 평당 고무블럭 계산기 버튼 클릭 이벤트
+document.getElementById('calculatePyeongBlocks').addEventListener('click', function () {
+    const pyeong = parseFloat(document.getElementById('pyeongInput').value);
+    const resultDiv = document.getElementById('calculationResultPyeongBlocks');
+
+    if (isNaN(pyeong) || pyeong <= 0) {
+        resultDiv.textContent = '올바른 평수를 입력해주세요.';
+        return;
+    }
+
+    // 평당 13장 계산
+    const blocksPerPyeong = 13; // 평당 고무블럭 수
+    const totalBlocks = pyeong * blocksPerPyeong; // 총 필요한 블럭 수
+
+    // 결과 출력
+    resultDiv.innerHTML = `
+        <p>입력한 평수: ${pyeong.toFixed(2)}평</p>
+        <p>필요한 고무블럭 수: <span class="highlight">${totalBlocks}</span>장</p>
+    `;
+});
+
+
+
+
+
+
+
 // 에버롤 수량 계산기 기능
 document.addEventListener('DOMContentLoaded', function() {
     const calculateEverollButton = document.getElementById('calculateEveroll');

@@ -986,7 +986,7 @@ td input[type="number"]:focus {
     text-align: center;
 }
 
-/* 고무블럭 계산기 반응형 디자인 */
+/* 고무블럭 계산기(수치) 반응형 디자인 */
 /**************************************
  * 화면 크기가 768px 이하일 때 적용되는 스타일
  * 모바일 환경에 맞춰 레이아웃과 크기를 조정
@@ -1043,6 +1043,70 @@ td input[type="number"]:focus {
         font-size: 14px;
     }
 }
+
+
+
+
+
+/* 고무블럭 계산기(평당) 반응형 디자인 */
+/**************************************
+ * 화면 크기가 768px 이하일 때 적용되는 스타일
+ * 모바일 환경에 맞춰 레이아웃과 크기를 조정
+ **************************************/
+.pyeong-calculator {
+    width: 100%;
+    padding: 30px;
+    background: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    margin: 20px;
+}
+
+/* 계산기 제목 스타일 */
+.pyeong-calculator h2 {
+    color: #333333;
+    font-size: 24px;
+    font-weight: 600;
+    margin-bottom: 15px;
+}
+
+ /* 블럭 크기 설명 문구 스타일 */
+ .pyeong-calculator p {
+    color: #666666;
+    font-size: 14px;
+    margin-bottom: 20px;
+}
+
+/* 계산 결과 스타일 */
+#calculatePyeongBlocks {
+    width: 100%;
+    padding: 12px;
+    margin-top: 20px;
+    background-color: #3498db;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+/* 결과 값 강조 스타일 */
+.highlight {
+    color: blue; /* 파란색 */
+    font-weight: bold; /* 진하게 */
+}
+
+
+
+
+
+
+
+
+
 
 /* 에버롤 수량 계산기 전체 컨테이너 스타일 */
 /**************************************

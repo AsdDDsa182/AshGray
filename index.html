@@ -138,7 +138,7 @@
 
     <!-- 고무블럭 수량 계산기 -->
     <div class="container rubber-block-calculator">
-        <h2>고무블럭 수량 계산기</h2>
+        <h2>고무블럭 수량 계산기(수치)</h2>
         <p>고무블럭 크기: 1장 (500mm x 500mm)</p>
         <div class="calculator-inputs">
             <div>
@@ -162,6 +162,24 @@
         <button id="calculateBlocks" class="action-button">계산하기</button>
         <div id="calculationResult" class="calculation-result"></div>
     </div>
+
+
+
+    <!-- 평당 계산기 -->
+<div class="container pyeong-calculator">
+    <h2>고무블럭 수량 계산기(평당)</h2>
+    <p>계산값은 무조건 1평당 13장으로 계산됩니다</p>
+    <div class="calculator-inputs">
+        <div>
+            <label for="pyeongInput">평수 입력:</label>
+            <input type="number" id="pyeongInput" min="0" step="0.1" placeholder="예: 10">
+        </div>
+    </div>
+    <button id="calculatePyeongBlocks" class="action-button">계산하기</button>
+    <div id="calculationResultPyeongBlocks" class="calculation-result"></div>
+</div>
+
+
 
     <!-- 에버롤 수량 계산기 -->
     <div class="container everoll-calculator">
