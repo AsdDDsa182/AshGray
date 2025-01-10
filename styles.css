@@ -328,63 +328,89 @@ td input[type="number"]:focus {
     justify-content: center;
 }
 
+
+
+
+
 /* 폼 행 스타일 */
 /**************************************
  * 폼 내의 각 행에 대한 스타일
  * 배치, 간격, 마진 등을 설정
  **************************************/
-.form-row {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    gap: 20px;
+ .form-row {
+    display: flex; /* 가로 배치 */
+    flex-wrap: wrap; /* 화면이 좁으면 줄바꿈 */
+    justify-content: space-between; /* 좌우 간격 균등 분배 */
+    gap: 10px; /* 열 간 간격 */
     margin-bottom: 20px;
+    width: 100%; /* 부모 컨테이너 너비에 맞춤 */
 }
 
 /* 폼 행 내부 요소 스타일 */
 .form-row > div {
-    flex: 1;
-    min-width: 200px;
-}
-
-/* 날짜 입력 필드 컨테이너 스타일 */
-.form-row > div:first-child {
-    flex: 0 0 50%;
-}
-
-/* 고객 이름 입력 필드 컨테이너 스타일 */
-.form-row > div:last-child {
-    flex: 0 0 50%;
+    flex: 1; /* 모든 요소가 균등하게 너비를 차지 */
+    min-width: 250px; /* 각 요소의 최소 너비 설정 */
 }
 
 /* 입력 필드 공통 스타일 */
 .form-row input,
 .form-row select {
-    width: 100%;
-    padding: 10px;
-    border: 1px solid #e0e0e0;
-    border-radius: 12px;
+    width: 100%; /* 부모 요소에 맞게 너비 설정 */
+    padding: 10px; /* 입력 필드 안쪽 여백 */
+    border: 1px solid #e0e0e0; /* 테두리 */
+    border-radius: 12px; /* 모서리 둥글게 */
     font-size: 14px;
-    background-color: #f9f9f9;
-    color: #2c3e50;
-    transition: border-color 0.3s ease;
+    background-color: #f9f9f9; /* 배경색 */
+    color: #2c3e50; /* 글자색 */
+    transition: border-color 0.3s ease; /* 포커스 시 테두리 애니메이션 */
 }
 
 /* 입력 필드 포커스 스타일 */
 .form-row input:focus,
 .form-row select:focus {
     outline: none;
-    border-color: #3498db;
-    background-color: #ffffff;
+    border-color: #3498db; /* 포커스 시 테두리 색상 */
+    background-color: #ffffff; /* 포커스 시 배경색 */
 }
 
 /* 레이블 스타일 */
 .form-row label {
     display: block;
     margin-bottom: 5px;
-    font-weight: 600;
-    color: #2c3e50;
+    font-weight: 600; /* 레이블 글자 두께 */
+    color: #2c3e50; /* 레이블 색상 */
 }
+
+/* 추가 비고란 스타일 */
+#newNote {
+    width: 100%; /* 부모 컨테이너의 너비를 가득 채움 */
+    max-width: 1000px; /* 최대 너비 제한 (반응형 고려) */
+    padding: 10px; /* 입력 필드 내부 여백 */
+    border: 1px solid #e0e0e0; /* 테두리 */
+    border-radius: 12px; /* 둥근 테두리 */
+    font-size: 14px;
+    background-color: #f9f9f9; /* 배경색 */
+    color: #2c3e50; /* 글자색 */
+    transition: border-color 0.3s ease; /* 포커스 시 테두리 애니메이션 */
+    min-width: 200px; /* 최소 너비 제한 */
+    margin: 0 auto; /* 가운데 정렬 */
+    box-sizing: border-box; /* 패딩과 테두리를 크기에 포함 */
+}
+
+/* 반응형 지원을 위한 미디어 쿼리 */
+@media (max-width: 768px) {
+    #newNote {
+        width: 100%; /* 모바일에서는 전체 너비 사용 */
+        max-width: 100%; /* 최대 너비 제한 해제 */
+    }
+}
+
+
+
+
+
+
+
 
 /* 직접 입력 버튼 스타일 */
 #manualEntryButton {
@@ -514,6 +540,11 @@ td input[type="number"]:focus {
      border-color: #3498db;
      background-color: #ffffff;
  }
+
+
+
+
+
  
  /* 모바일 화면을 위한 미디어 쿼리 */
  /**************************************
@@ -776,6 +807,14 @@ td input[type="number"]:focus {
          flex: 1;
      }
  }
+
+
+
+
+
+
+
+ 
  
  /* 반응형 디자인을 위한 미디어 쿼리 */
  /**************************************

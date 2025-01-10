@@ -900,7 +900,7 @@ async function exportToExcel() {
 
         const worksheet = workbook.getWorksheet(1);
         const tableRows = document.querySelectorAll('#dataTable tbody tr');
-        const startRow = 18;
+        const startRow = 20;
         const endRow = 150;
 
         worksheet.columns.forEach((column, index) => {
@@ -918,6 +918,9 @@ async function exportToExcel() {
 
         const writerPhone = document.getElementById('writerPhone').value;
         worksheet.getCell('H7').value = writerPhone;
+
+        const newNote = document.getElementById('newNote').value; // 추가 비고란 값 가져오기
+        worksheet.getCell('D15').value = newNote; // D15 셀에 추가
 
         let totalAmount = 0;
 
@@ -1069,12 +1072,18 @@ async function loadZipFile(event) {
                     document.getElementById('writerPhone').value = writerPhone;
                 }
 
+                // **추가 비고란(D15) 값 설정**
+                const additionalNote = worksheet.getCell('D15').value;
+                if (additionalNote) {
+                    document.getElementById('newNote').value = additionalNote;
+                }
+
                 // 기존 테이블 내용 삭제
                 const tableBody = document.querySelector('#dataTable tbody');
                 tableBody.innerHTML = '';
 
                 // 제품 데이터 추가
-                for (let rowNumber = 18; rowNumber <= worksheet.rowCount; rowNumber++) {
+                for (let rowNumber = 20; rowNumber <= worksheet.rowCount; rowNumber++) {
                     const row = worksheet.getRow(rowNumber);
                     if (!row.getCell(1).value) break;  // 빈 행이면 중단
 
