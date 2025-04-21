@@ -1,0 +1,40 @@
+Seated_Chest_Press
+Incline_Chest_Press
+Pec_Deck_Fly_with_Reverse
+Standing_Fly_Chest_Back
+Lat_Pulldown_High_Pulley
+Seated_Row
+Low_Pully_Long_Pull
+Chin-Up_Dip_Assist
+Shoulder_Press
+Standing_Lateral_Raise
+Arm_Curl
+Seated_Dip
+Rotary_Torso
+Abdominal
+Leg_Extension
+Leg_Curl
+Seated_Leg_Press
+Hip_Adduction_Abduction_Combo
+Glute_Kick_Back
+
+
+(어드밴스) 시티드 체스트 프레스
+(어드밴스) 인클라인 체스트 프레스
+(어드밴스) 팩덱 플라이 (리버스 포함)
+(어드밴스) 스탠딩 플라이 체스트 백
+(어드밴스) 랫 풀다운 & 하이 풀리
+(어드밴스) 시티드 로우
+(어드밴스) 로우 풀리 롱 풀
+(어드밴스) 친업 & 딥 어시스트
+(어드밴스) 숄더 프레스
+(어드밴스) 스탠딩 레터럴 레이즈
+(어드밴스) 암 컬
+(어드밴스) 시티드 딥
+(어드밴스) 로터리 토르소
+(어드밴스) 복부 운동기 (앱도미널)
+(어드밴스) 레그 익스텐션
+(어드밴스) 레그 컬
+(어드밴스) 시티드 레그 프레스
+(어드밴스) 힙 어덕션 + 어브덕션 콤보
+(어드밴스) 글루트 킥백
