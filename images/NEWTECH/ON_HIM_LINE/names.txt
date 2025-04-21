@@ -1,0 +1,44 @@
+Incline_Chest_Press
+Pec_Dec_Fly_With_Reverse
+Standing_Fly_Chest_Back
+Lat_Pulldown_High_Pulley
+Seated_Row
+Adjustable_Low_Pulley
+Chin_Up_Dip_Assist
+Shoulder_Press
+Seated_Lateral_Raise
+Standing_Lateral_Raise
+Single_Lateral_Raise
+Arm_Curl
+Seated_Dip
+Rotary_Torso
+Abdominal
+Leg_Extension
+Leg_Curl
+Seated_Leg_Press
+Hip_Adduction_Single_Move
+Hip_Adduction_Abduction_Combo
+Glute_Kick_Back
+
+
+(온힘) 인클라인 체스트 프레스
+(온힘) 팩덱 플라이 (리버스 포함)
+(온힘) 스탠딩 플라이 체스트 백
+(온힘) 랫 풀다운 & 하이 풀리
+(온힘) 시티드 로우
+(온힘) 조절형 로우 풀리
+(온힘) 턱걸이 + 딥 어시스트
+(온힘) 숄더 프레스
+(온힘) 시티드 레터럴 레이즈
+(온힘) 스탠딩 레터럴 레이즈
+(온힘) 싱글 레터럴 레이즈
+(온힘) 암 컬
+(온힘) 시티드 딥
+(온힘) 로터리 토르소
+(온힘) 복부 운동기 (앱도미널)
+(온힘) 레그 익스텐션
+(온힘) 레그 컬
+(온힘) 시티드 레그 프레스
+(온힘) 힙 어덕션 단일 동작
+(온힘) 힙 어덕션 + 어브덕션 콤보
+(온힘) 글루트 킥백
