@@ -150,45 +150,84 @@ async function loadCompaniesAndProducts() {
         console.log("회사 및 제품 데이터 로드 완료");
 }
 
-// 검색 기능 초기화 함수
+
+
+// ✅ 최종 검색 기능 (자모 분해 + 다양한 중성 교정 + 초성 조건 검색)
 function initializeSearch() {
     const searchInput = document.getElementById('productSearchInput');
     const searchResults = document.getElementById('searchResults');
 
-    searchInput.addEventListener('input', function() {
-        const searchTerm = this.value.toLowerCase();
-        const filteredProducts = allProducts.filter(product => 
-            product.name.toLowerCase().includes(searchTerm)
-        );
+    // 초성, 중성, 종성 배열
+    const CHO = ['ㄱ','ㄲ','ㄴ','ㄷ','ㄸ','ㄹ','ㅁ','ㅂ','ㅃ','ㅅ','ㅆ','ㅇ','ㅈ','ㅉ','ㅊ','ㅋ','ㅌ','ㅍ','ㅎ'];
+    const JUNG = ['ㅏ','ㅐ','ㅑ','ㅒ','ㅓ','ㅔ','ㅕ','ㅖ','ㅗ','ㅘ','ㅙ','ㅚ','ㅛ','ㅜ','ㅝ','ㅞ','ㅟ','ㅠ','ㅡ','ㅢ','ㅣ'];
+    const JONG = ['','ㄱ','ㄲ','ㄳ','ㄴ','ㄵ','ㄶ','ㄷ','ㄹ','ㄺ','ㄻ','ㄼ','ㄽ','ㄾ','ㄿ','ㅀ','ㅁ','ㅂ','ㅄ','ㅅ','ㅆ','ㅇ','ㅈ','ㅊ','ㅋ','ㅌ','ㅍ','ㅎ'];
 
-        displaySearchResults(filteredProducts);
-    });
+    // 자모 분해 함수
+    const decompose = (text) => {
+        return Array.from(text).map(char => {
+            const code = char.charCodeAt(0);
+            if (code >= 44032 && code <= 55203) {
+                const uni = code - 44032;
+                const cho = CHO[Math.floor(uni / 588)];
+                const jung = JUNG[Math.floor((uni % 588) / 28)];
+                const jong = JONG[uni % 28];
+                return [cho, jung, jong];
+            } else {
+                return [char];
+            }
+        }).flat().join('');
+    };
 
-    document.addEventListener('click', function(e) {
-        if (!searchResults.contains(e.target) && e.target !== searchInput) {
-            searchResults.style.display = 'none';
-        }
-    });
-}
+    // normalize: 자모 분해 + 공백 제거 + 다양한 중성 교정
+    const normalize = str => {
+        return decompose(str.toLowerCase().replace(/\s+/g, ''))
+            .replace(/ㅐ/g, 'ㅔ')
+            .replace(/ㅔ/g, 'ㅐ')
+            .replace(/ㅓ/g, 'ㅏ')
+            .replace(/ㅏ/g, 'ㅓ')
+            .replace(/ㅗ/g, 'ㅜ')
+            .replace(/ㅜ/g, 'ㅗ');
+    };
 
-// 검색 결과 표시 함수
-function initializeSearch() {
-    const searchInput = document.getElementById('productSearchInput');
-    const searchResults = document.getElementById('searchResults');
+    // 초성 추출
+    const getChosung = (text) => {
+        return Array.from(text).map(char => {
+            const code = char.charCodeAt(0) - 44032;
+            if (code >= 0 && code <= 11171) {
+                return CHO[Math.floor(code / 588)];
+            }
+            return char;
+        }).join('');
+    };
 
-    searchInput.addEventListener('input', function() {
-        const searchTerm = this.value.toLowerCase();
+    // 정렬
+    const sortByRelevance = (products, searchTerm) => {
+        return products.sort((a, b) => {
+            const aText = normalize(`${a.name} ${a.company}`);
+            const bText = normalize(`${b.name} ${b.company}`);
+            return aText.indexOf(searchTerm) - bText.indexOf(searchTerm);
+        });
+    };
 
-        // 제품 이름 검색
-        const filteredProducts = allProducts.filter(product => 
-            product.name.toLowerCase().includes(searchTerm)
-        );
+    searchInput.addEventListener('input', function () {
+        const rawSearch = this.value.toLowerCase().trim();
+        const normalizedKeywords = rawSearch.split(/\s+/).map(k => normalize(k));
+        const chosungSearch = getChosung(rawSearch);
+        const isOnlyChosung = rawSearch.split('').every(char => /[ㄱ-ㅎ]/.test(char));
 
-        // 회사 이름 검색
+        const filteredProducts = allProducts.filter(product => {
+            const fullText = `${product.name} ${product.company}`;
+            const normText = normalize(fullText);
+            const chosungText = getChosung(fullText);
+            const matchKeyword = normalizedKeywords.every(keyword => normText.includes(keyword));
+            const matchChosung = isOnlyChosung && chosungText.includes(chosungSearch);
+            return matchKeyword || matchChosung;
+        });
+
         const filteredCompanies = Object.keys(companies).filter(companyName =>
-            companyName.toLowerCase().includes(searchTerm)
+            normalize(companyName).includes(normalize(rawSearch)) ||
+            (isOnlyChosung && getChosung(companyName).includes(chosungSearch))
         ).map(companyName => {
-            // 회사에 해당하는 모든 제품을 반환
             return Object.entries(companies[companyName]).map(([productName, productInfo]) => {
                 return {
                     name: productName,
@@ -196,20 +235,24 @@ function initializeSearch() {
                     ...productInfo
                 };
             });
-        }).flat(); // 중첩 배열을 평탄화
+        }).flat();
 
-        // 검색 결과 통합
         const combinedResults = [...filteredProducts, ...filteredCompanies];
-        
-        displaySearchResults(combinedResults);
+        const sortedResults = sortByRelevance(combinedResults, normalize(rawSearch));
+
+        displaySearchResults(sortedResults);
     });
 
-    document.addEventListener('click', function(e) {
+    document.addEventListener('click', function (e) {
         if (!searchResults.contains(e.target) && e.target !== searchInput) {
             searchResults.style.display = 'none';
         }
     });
 }
+
+
+
+
 
 // 검색 결과 표시 함수
 function displaySearchResults(products) {
@@ -263,6 +306,7 @@ function displaySearchResults(products) {
 
     searchResults.style.display = 'block';
 }
+
 
 
 // 문서 전체의 클릭 이벤트 리스너 수정
