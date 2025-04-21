@@ -211,6 +211,10 @@ function initializeSearch() {
 
     searchInput.addEventListener('input', function () {
         const rawSearch = this.value.toLowerCase().trim();
+        if (!rawSearch) {
+            searchResults.style.display = 'none';
+            return;
+        }
         const normalizedKeywords = rawSearch.split(/\s+/).map(k => normalize(k));
         const chosungSearch = getChosung(rawSearch);
         const isOnlyChosung = rawSearch.split('').every(char => /[ㄱ-ㅎ]/.test(char));
