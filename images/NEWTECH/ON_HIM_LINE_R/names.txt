@@ -1,0 +1,3 @@
+Seated_Row_Outward
+Seated_Row_Inward
+Seated_Chest_Press
