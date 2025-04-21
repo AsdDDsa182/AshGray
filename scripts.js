@@ -302,6 +302,8 @@ function selectProductFromSearch(product) {
     document.getElementById('addButton').disabled = false;
     document.getElementById('searchResults').style.display = 'none';
     document.getElementById('productSearchInput').value = '';
+
+    addTableRow(); // 검색 결과 클릭 시 바로 제품 추가
 }
 
 // 이벤트 리스너 설정 함수
@@ -477,6 +479,12 @@ function addTableRow() {
         updateExistingRow(existingRow);
     } else {
         const newRow = tableBody.insertRow();
+        newRow.style.backgroundColor = '#ffffcc'; // 노란색
+
+        setTimeout(() => {
+            newRow.style.transition = 'background-color 1s'; // 1초 동안 서서히
+            newRow.style.backgroundColor = ''; // 원래 색으로 돌아감
+        }, 100);
 
         const indexCell = newRow.insertCell(0);
         indexCell.textContent = ++productCount;
