@@ -72,6 +72,25 @@ function calculate() {
   // 결과 화면 표시
   document.getElementById("result").innerHTML = html;
   document.getElementById("result").style.display = "block";
+
+  // 이미지 저장 버튼도 표시
+  document.getElementById("save-btn-wrapper").style.display = "block";
+}
+
+// 이미지 저장 기능
+function saveImage() {
+  const target = document.getElementById("result");
+  if (target.style.display === "none") {
+    alert("먼저 계산하기를 눌러 결과를 표시해주세요.");
+    return;
+  }
+
+  html2canvas(target).then(canvas => {
+    const link = document.createElement("a");
+    link.download = "렌탈견적.png";  // 저장될 파일 이름
+    link.href = canvas.toDataURL("image/png");
+    link.click();  // 다운로드 시작
+  });
 }
 
 // 엔터키로 계산하기 기능
