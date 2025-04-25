@@ -129,26 +129,27 @@ async function loadCompaniesAndProducts() {
             });
         });
 
+        // ✅ 여기에 한 번만 넣어야 함
+        allProducts = []; // 혹시 모를 중복 방지를 위해 초기화
+        Object.keys(companies).forEach(companyName => {
+            Object.entries(companies[companyName]).forEach(([productName, productInfo]) => {
+                allProducts.push({
+                    name: productName,
+                    company: companyName,
+                    ...productInfo
+                });
+            });
+        });
+
+        initializeSearch(); // ✅ 검색 함수는 반드시 allProducts 채운 후 실행
+
         console.log("회사 및 제품 데이터 로드 완료");
     } catch (error) {
         console.error('회사 및 제품 데이터 로드 중 오류 발생:', error);
         alert('데이터 로드 중 오류가 발생했습니다.');
     }
-        // // 함수의 마지막 부분, console.log("회사 및 제품 데이터 로드 완료"); 바로 위에 다음 코드를 추가합니다.
-        // Object.keys(companies).forEach(companyName => {
-        //     Object.entries(companies[companyName]).forEach(([productName, productInfo]) => {
-        //         allProducts.push({
-        //             name: productName,
-        //             company: companyName,
-        //             ...productInfo
-        //         });
-        //     });
-        // });
-    
-        // initializeSearch(); // 검색 기능 초기화 함수 호출
-    
-        console.log("회사 및 제품 데이터 로드 완료");
 }
+
 
 
 
