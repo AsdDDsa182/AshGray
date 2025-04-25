@@ -1138,7 +1138,11 @@ td input[type="number"]:focus {
     font-weight: bold; /* 진하게 */
 }
 
-
+@media (max-width: 768px) {
+    .pyeong-calculator {
+        width: 84%;
+    }
+}
 
 
 
