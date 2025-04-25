@@ -1,0 +1,101 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    padding: 40px 20px;
+    margin: 0;
+  }
+  
+  .container {
+    background-color: #fff;
+    padding: 40px;
+    margin-top: 60px;
+    border-radius: 10px;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+    box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+  }
+  
+  h2 {
+    text-align: center;
+    color: #333;
+    margin-bottom: 20px;
+  }
+  
+  label, input {
+    display: block;
+    margin: 15px 0;
+    font-size: 1.1em;
+  }
+  
+  input[type="text"] {
+    width: 100%;
+    padding: 10px;
+    font-size: 1.1em;
+    border: 2px solid #ddd;
+    border-radius: 5px;
+    background-color: #fff;
+    transition: border 0.3s ease;
+  }
+  
+  input[type="text"]:focus {
+    border-color: #6c63ff;
+    outline: none;
+  }
+  
+  button {
+    background-color: #6c63ff;
+    color: #fff;
+    padding: 10px 15px;
+    font-size: 1.1em;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    width: 100%;
+    margin-top: 10px;
+    transition: background-color 0.3s ease;
+  }
+  
+  button:hover {
+    background-color: #5a54e1;
+  }
+  
+  .result {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin-top: 30px;
+  }
+  
+  .warning {
+    color: #f44336;
+    font-size: 0.9em;
+    margin-top: 10px;
+    text-align: center;
+    font-weight: bold;
+  }
+  
+  .save-wrapper {
+    text-align: center;
+    margin: 20px auto;
+    max-width: 600px;       /* 컨테이너와 똑같은 최대 너비 */
+    width: 100%;            /* 가로폭 꽉 채우기 */
+  }
+  
+  .save-wrapper button {
+    width: 100%;            /* 버튼도 부모 너비 100% 사용 */
+    background-color: #6c63ff;
+    color: #fff;
+    padding: 12px 20px;
+    font-size: 1.1em;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .save-wrapper button:hover {
+    background-color: #5a54e1;
+  }
+  
