@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <title>헬스기구 렌탈 계산기</title>
+  <link rel="stylesheet" href="style.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no"> <!-- 확대 방지 -->
+  
+  <!-- html2canvas 라이브러리 추가 -->
+  <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+</head>
+<body>
+  <div class="container">
+    <h2>헬스기구 렌탈 금액 계산기</h2>
+
+    <label for="amount">장비 금액 (VAT 별도):</label>
+    <input type="text" id="amount" placeholder="예: 15,600,000">
+
+    <button onclick="calculate()">계산하기</button>
+
+    <div class="result" id="result" style="display:none;"></div>
+
+    <div class="warning">
+      ※ 본 견적 금액은 고정 렌탈 요율을 기준으로 계산되었으며, 최종 견적 금액은 소비자의 신용 등급 및 실제 렌탈사와 계약 조건에 따라 달라질 수 있습니다.
+    </div>
+
+    <!-- 이미지 저장 버튼 -->
+    <div class="save-wrapper" style="display:none;" id="save-btn-wrapper">
+      <button onclick="saveImage()">이미지로 저장</button>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
