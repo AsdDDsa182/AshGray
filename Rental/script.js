@@ -29,12 +29,14 @@ function removeCommas(x) {
 // 계산하기 버튼 클릭 시 실행
 function calculate() {
   const vatRate = 0.1;
+
+  // ✅ 엑셀 기준 최종 요율 (D1, F1, H1, J1, L1 셀 기준)
   const rates = {
-    12: 0.067913, // 추정치
-    24: 0.05262187215884563,
-    36: 0.0369093104601894,
-    48: 0.029636915954628227,
-    60: 0.025393427427109084
+    12: 0.09947,  // D1
+    24: 0.05262,  // F1
+    36: 0.03691,  // H1
+    48: 0.02964,  // J1
+    60: 0.02539   // L1
   };
 
   const rawInput = document.getElementById('amount').value;
@@ -55,7 +57,7 @@ function calculate() {
     const rate = rates[months];
     const base = amount * rate;
     const rounded = Math.ceil(base / 1000) * 1000;
-    const monthlyRental = Math.round(rounded * 1.1); // ✅ 엑셀과 동일한 계산식
+    const monthlyRental = Math.round(rounded * 1.1); // =ROUNDUP(..., -3) * 1.1
     const totalRental = monthlyRental * parseInt(months);
 
     html += `<strong>${months}개월</strong>: 월 렌탈료 ${monthlyRental.toLocaleString()}원 / 총 렌탈비용 ${totalRental.toLocaleString()}원<br><br>`;
