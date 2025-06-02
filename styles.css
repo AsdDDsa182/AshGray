@@ -1822,3 +1822,39 @@ td input[type="number"]:focus {
 .test-button:hover {
     background-color: #45a049;
 }
+
+
+
+
+
+
+
+.test-button-container {
+    text-align: center;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.test-button {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #4CAF50;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    font-weight: bold;
+    transition: background-color 0.3s;
+}
+
+.test-button:hover {
+    background-color: #45a049;
+}
+
+/* 테스트 페이지 버튼 스타일 */
+.test-page-button {
+    background-color: #ff6b6b;
+}
+
+.test-page-button:hover {
+    background-color: #ff5252;
+}
