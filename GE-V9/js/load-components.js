@@ -5,7 +5,7 @@ const headerHTML = `
   <div class="gf-header-container">
     <!-- 로고 영역 -->
     <div class="gf-header-logo">
-      <a href="/AshGray/GE-V9/" class="gf-header-logo-link" style="display: block; width: 120px; height: 40px;">
+      <a href="https://asdddsa182.github.io/AshGray/GE-V9/" class="gf-header-logo-link" style="display: block; width: 120px; height: 40px;">
         <div class="gf-header-logo-placeholder" 
              style="position: absolute; 
                     width: 120px; 
@@ -25,25 +25,25 @@ const headerHTML = `
     <nav class="gf-header-nav-desktop">
       <ul class="gf-header-nav-list">
         <li class="gf-header-nav-item">
-          <a href="/AshGray/GE-V9/index.html" class="gf-header-nav-link">
+          <a href="https://asdddsa182.github.io/AshGray/GE-V9/index.html" class="gf-header-nav-link">
             <span class="gf-header-nav-text">Home</span>
             <span class="gf-header-nav-underline"></span>
           </a>
         </li>
         <li class="gf-header-nav-item">
-          <a href="/AshGray/GE-V9/about/about.html" class="gf-header-nav-link">
+          <a href="https://asdddsa182.github.io/AshGray/GE-V9/about/about.html" class="gf-header-nav-link">
             <span class="gf-header-nav-text">About</span>
             <span class="gf-header-nav-underline"></span>
           </a>
         </li>
         <li class="gf-header-nav-item">
-          <a href="/AshGray/GE-V9/features/features.html" class="gf-header-nav-link">
+          <a href="https://asdddsa182.github.io/AshGray/GE-V9/features/features.html" class="gf-header-nav-link">
             <span class="gf-header-nav-text">Features</span>
             <span class="gf-header-nav-underline"></span>
           </a>
         </li>
         <li class="gf-header-nav-item">
-          <a href="/AshGray/GE-V9/products/products.html" class="gf-header-nav-link">
+          <a href="https://asdddsa182.github.io/AshGray/GE-V9/products/products.html" class="gf-header-nav-link">
             <span class="gf-header-nav-text">Products</span>
             <span class="gf-header-nav-underline"></span>
           </a>
@@ -95,28 +95,28 @@ const headerHTML = `
       <nav class="gf-header-mobile-nav">
         <ul class="gf-header-mobile-nav-list">
           <li class="gf-header-mobile-nav-item">
-            <a href="/AshGray/GE-V9/index.html" class="gf-header-mobile-nav-link">
+            <a href="https://asdddsa182.github.io/AshGray/GE-V9/index.html" class="gf-header-mobile-nav-link">
               <span class="gf-header-link-number">01</span>
               <span class="gf-header-link-text">Home</span>
               <span class="gf-header-link-arrow">&rarr;</span>
             </a>
           </li>
           <li class="gf-header-mobile-nav-item">
-            <a href="/AshGray/GE-V9/about/about.html" class="gf-header-mobile-nav-link">
+            <a href="https://asdddsa182.github.io/AshGray/GE-V9/about/about.html" class="gf-header-mobile-nav-link">
               <span class="gf-header-link-number">02</span>
               <span class="gf-header-link-text">About</span>
               <span class="gf-header-link-arrow">&rarr;</span>
             </a>
           </li>
           <li class="gf-header-mobile-nav-item">
-            <a href="/AshGray/GE-V9/features/features.html" class="gf-header-mobile-nav-link">
+            <a href="https://asdddsa182.github.io/AshGray/GE-V9/features/features.html" class="gf-header-mobile-nav-link">
               <span class="gf-header-link-number">03</span>
               <span class="gf-header-link-text">Features</span>
               <span class="gf-header-link-arrow">&rarr;</span>
             </a>
           </li>
           <li class="gf-header-mobile-nav-item">
-            <a href="/AshGray/GE-V9/products/products.html" class="gf-header-mobile-nav-link">
+            <a href="https://asdddsa182.github.io/AshGray/GE-V9/products/products.html" class="gf-header-mobile-nav-link">
               <span class="gf-header-link-number">04</span>
               <span class="gf-header-link-text">Products</span>
               <span class="gf-header-link-arrow">&rarr;</span>
