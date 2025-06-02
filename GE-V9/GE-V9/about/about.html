@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <base href="/AshGray/GE-V9/">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>회사소개 - GOFIT EQUIPMENT</title>
+  
+   <!-- 로고 이미지 미리 로드 추가 -->
+  <link rel="preload" href="https://gofitkorea.netlify.app/GE.webp" as="image">
+  <!-- Pretendard 웹폰트 -->
+  <link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css" rel="stylesheet">
+  <!-- 메인 CSS (헤더, 푸터용) -->
+  <link rel="stylesheet" href="../styles.css">
+  <!-- 회사소개 전용 CSS -->
+  <link rel="stylesheet" href="about-styles.css">
+  <!-- Font Awesome CDN -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+</head>
+
+<body>
+<div id="header-container"></div>
+
+<!-- 회사소개 히어로 섹션 -->
+<section class="gf-about-hero">
+  <!-- 배경 비디오/이미지 -->
+  <div class="gf-about-hero-bg">
+    <img src="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?q=80&w=2070" alt="GOFIT Equipment">
+    <div class="gf-about-hero-overlay"></div>
+  </div>
+  
+  <!-- 파티클 효과 -->
+  <div class="gf-about-particles" id="gfAboutParticles"></div>
+  
+  <!-- 히어로 콘텐츠 -->
+  <div class="gf-about-hero-content">
+    <div class="gf-about-hero-badge">ABOUT US</div>
+    <h1 class="gf-about-hero-title">
+      <span class="gf-about-hero-word">테스트</span>
+      <span class="gf-about-hero-word">피트니스의</span>
+      <span class="gf-about-hero-word gf-about-hero-accent">미래</span>
+    </h1>
+    <p class="gf-about-hero-subtitle">
+      20년의 기술력과 경험으로 대한민국 피트니스 산업을 선도합니다
+    </p>
+    <div class="gf-about-hero-scroll">
+      <span>Scroll Down</span>
+      <div class="gf-about-hero-scroll-icon">
+        <div class="gf-about-hero-scroll-dot"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 회사 스토리 섹션 -->
+<section class="gf-about-story">
+  <div class="gf-about-container">
+    <div class="gf-about-story-grid">
+      <!-- 텍스트 영역 -->
+      <div class="gf-about-story-content">
+        <div class="gf-about-section-header">
+          <span class="gf-about-label">OUR STORY</span>
+          <h2 class="gf-about-section-title">GOFIT의 시작</h2>
+        </div>
+        <div class="gf-about-story-text">
+          <p>
+            GOFIT EQUIPMENT는 2004년, 단 3명의 엔지니어로 시작했습니다. 
+            우리의 목표는 단순했습니다. '누구나 안전하고 효과적으로 운동할 수 있는 
+            최고의 피트니스 장비를 만들자.'
+          </p>
+          <p>
+            20년이 지난 지금, GOFIT은 국내 최고의 피트니스 장비 제조사로 성장했습니다. 
+            항공우주 등급의 소재와 최첨단 기술력을 바탕으로, 전국 3,000개 이상의 
+            피트니스 센터에서 우리의 제품을 신뢰하고 사용하고 있습니다.
+          </p>
+        </div>
+        <div class="gf-about-stats">
+          <div class="gf-about-stat">
+            <div class="gf-about-stat-value">
+              <span class="gf-about-stat-number" data-target="20">0</span>
+            </div>
+            <span class="gf-about-stat-label">Years of Excellence</span>
+          </div>
+          <div class="gf-about-stat">
+            <div class="gf-about-stat-value">
+              <span class="gf-about-stat-number" data-target="3000">0</span>
+              <span class="gf-about-stat-suffix">+</span>
+            </div>
+            <span class="gf-about-stat-label">Partner Centers</span>
+          </div>
+          <div class="gf-about-stat">
+            <div class="gf-about-stat-value">
+              <span class="gf-about-stat-number" data-target="150">0</span>
+              <span class="gf-about-stat-suffix">+</span>
+            </div>
+            <span class="gf-about-stat-label">Product Lines</span>
+          </div>
+        </div>
+      </div>
+      
+      <!-- 이미지 영역 -->
+      <div class="gf-about-story-visual">
+        <div class="gf-about-image-stack">
+          <div class="gf-about-image-1">
+            <img src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=600" alt="GOFIT Factory">
+          </div>
+          <div class="gf-about-image-2">
+            <img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=600" alt="GOFIT Team">
+          </div>
+        </div>
+        <div class="gf-about-experience-badge">
+          <span class="gf-about-exp-number">20</span>
+          <span class="gf-about-exp-text">Years of<br>Innovation</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 비전 & 미션 섹션 -->
+<section class="gf-about-vision">
+  <div class="gf-about-container">
+    <div class="gf-about-section-header gf-about-center">
+      <span class="gf-about-label">VISION & MISSION</span>
+      <h2 class="gf-about-section-title">우리가 나아가는 방향</h2>
+    </div>
+    
+    <div class="gf-about-vm-grid">
+      <!-- 비전 카드 -->
+      <div class="gf-about-vm-card gf-about-vision-card">
+        <div class="gf-about-vm-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+            <circle cx="12" cy="12" r="3"/>
+          </svg>
+        </div>
+        <h3 class="gf-about-vm-title">VISION</h3>
+        <p class="gf-about-vm-desc">
+          글로벌 피트니스 산업을 선도하는<br>
+          토탈 솔루션 기업
+        </p>
+      </div>
+      
+      <!-- 미션 카드 -->
+      <div class="gf-about-vm-card gf-about-mission-card">
+        <div class="gf-about-vm-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+            <polyline points="22 4 12 14.01 9 11.01"/>
+          </svg>
+        </div>
+        <h3 class="gf-about-vm-title">MISSION</h3>
+        <p class="gf-about-vm-desc">
+          최고의 품질과 기술력으로<br>
+          모든 사람의 건강한 삶에 기여
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 핵심 가치 섹션 -->
+<section class="gf-about-values">
+  <div class="gf-about-container">
+    <div class="gf-about-section-header gf-about-center">
+      <span class="gf-about-label">CORE VALUES</span>
+      <h2 class="gf-about-section-title">GOFIT의 핵심 가치</h2>
+    </div>
+    
+    <div class="gf-about-values-grid">
+      <!-- 연구개발 -->
+      <div class="gf-about-value-item gf-value-innovation">
+        <div class="gf-about-value-icon">
+          <i class="fas fa-lightbulb"></i>
+        </div>
+        <div class="gf-about-value-content">
+          <h3 class="gf-about-value-title">연구</h3>
+          <p class="gf-about-value-desc">끊임없는 연구개발로<br>업계 최고의 기술력을 추구합니다</p>
+        </div>
+        <div class="gf-about-value-bg-number">01</div>
+      </div>
+      
+      <!-- 품질 -->
+      <div class="gf-about-value-item gf-value-quality">
+        <div class="gf-about-value-icon">
+          <i class="fas fa-award"></i>
+        </div>
+        <div class="gf-about-value-content">
+          <h3 class="gf-about-value-title">품질</h3>
+          <p class="gf-about-value-desc">타협하지 않는 품질로<br>고객의 신뢰를 얻습니다</p>
+        </div>
+        <div class="gf-about-value-bg-number">02</div>
+      </div>
+      
+      <!-- 안전 -->
+      <div class="gf-about-value-item gf-value-safety">
+        <div class="gf-about-value-icon">
+          <i class="fas fa-shield-alt"></i>
+        </div>
+        <div class="gf-about-value-content">
+          <h3 class="gf-about-value-title">안전</h3>
+          <p class="gf-about-value-desc">사용자의 안전을<br>최우선으로 생각합니다</p>
+        </div>
+        <div class="gf-about-value-bg-number">03</div>
+      </div>
+      
+      <!-- 고객중심 -->
+      <div class="gf-about-value-item gf-value-customer">
+        <div class="gf-about-value-icon">
+          <i class="fas fa-users"></i>
+        </div>
+        <div class="gf-about-value-content">
+          <h3 class="gf-about-value-title">고객중심</h3>
+          <p class="gf-about-value-desc">고객의 목소리에 귀 기울이며<br>함께 성장합니다</p>
+        </div>
+        <div class="gf-about-value-bg-number">04</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 타임라인 섹션 -->
+<section class="gf-about-timeline">
+  <div class="gf-about-container">
+    <div class="gf-about-section-header gf-about-center">
+      <span class="gf-about-label">HISTORY</span>
+      <h2 class="gf-about-section-title">GOFIT의 발자취</h2>
+    </div>
+    
+    <div class="gf-about-timeline-wrapper">
+      <div class="gf-about-timeline-line">
+        <div class="gf-about-timeline-progress"></div>
+      </div>
+      
+      <!-- 2004년 -->
+      <div class="gf-about-timeline-item gf-timeline-left">
+        <div class="gf-about-timeline-content">
+          <div class="gf-about-timeline-card">
+            <span class="gf-about-timeline-year">2004</span>
+            <h3 class="gf-about-timeline-title">GOFIT EQUIPMENT 설립</h3>
+            <p class="gf-about-timeline-desc">3명의 엔지니어로 시작한 작은 회사</p>
+          </div>
+        </div>
+        <div class="gf-about-timeline-dot">
+          <div class="gf-about-timeline-dot-inner"></div>
+        </div>
+      </div>
+      
+      <!-- 2010년 -->
+      <div class="gf-about-timeline-item gf-timeline-right">
+        <div class="gf-about-timeline-content">
+          <div class="gf-about-timeline-card">
+            <span class="gf-about-timeline-year">2010</span>
+            <h3 class="gf-about-timeline-title">첫 특허 기술 개발</h3>
+            <p class="gf-about-timeline-desc">인체공학적 운동 경로 시스템 특허 획득</p>
+          </div>
+        </div>
+        <div class="gf-about-timeline-dot">
+          <div class="gf-about-timeline-dot-inner"></div>
+        </div>
+      </div>
+      
+      <!-- 2015년 -->
+      <div class="gf-about-timeline-item gf-timeline-left">
+        <div class="gf-about-timeline-content">
+          <div class="gf-about-timeline-card">
+            <span class="gf-about-timeline-year">2015</span>
+            <h3 class="gf-about-timeline-title">1000호점 돌파</h3>
+            <p class="gf-about-timeline-desc">전국 1000개 피트니스 센터와 파트너십 체결</p>
+          </div>
+        </div>
+        <div class="gf-about-timeline-dot">
+          <div class="gf-about-timeline-dot-inner"></div>
+        </div>
+      </div>
+      
+      <!-- 2020년 -->
+      <div class="gf-about-timeline-item gf-timeline-right">
+        <div class="gf-about-timeline-content">
+          <div class="gf-about-timeline-card">
+            <span class="gf-about-timeline-year">2020</span>
+            <h3 class="gf-about-timeline-title">해외 진출 시작</h3>
+            <p class="gf-about-timeline-desc">동남아시아 시장 진출 및 수출 개시</p>
+          </div>
+        </div>
+        <div class="gf-about-timeline-dot">
+          <div class="gf-about-timeline-dot-inner"></div>
+        </div>
+      </div>
+      
+      <!-- 2024년 -->
+      <div class="gf-about-timeline-item gf-timeline-left">
+        <div class="gf-about-timeline-content">
+          <div class="gf-about-timeline-card">
+            <span class="gf-about-timeline-year">2024</span>
+            <h3 class="gf-about-timeline-title">글로벌 브랜드로 도약</h3>
+            <p class="gf-about-timeline-desc">20주년, 3000개 파트너사 달성</p>
+          </div>
+        </div>
+        <div class="gf-about-timeline-dot">
+          <div class="gf-about-timeline-dot-inner"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 인증 & 수상 섹션 -->
+<section class="gf-about-awards">
+  <div class="gf-about-container">
+    <div class="gf-about-section-header gf-about-center">
+      <span class="gf-about-label">CERTIFICATIONS & AWARDS</span>
+      <h2 class="gf-about-section-title">인증 및 수상</h2>
+    </div>
+    
+    <div class="gf-about-awards-grid">
+      <!-- ISO 9001 -->
+      <div class="gf-about-award-item">
+        <div class="gf-about-award-icon">
+          <div class="gf-about-award-icon-bg"></div>
+          <i class="fas fa-award"></i>
+        </div>
+        <div class="gf-about-award-content">
+          <h3 class="gf-about-award-title">ISO 9001</h3>
+          <p class="gf-about-award-desc">품질경영시스템 인증</p>
+        </div>
+      </div>
+      
+      <!-- KC 인증 -->
+      <div class="gf-about-award-item">
+        <div class="gf-about-award-icon">
+          <div class="gf-about-award-icon-bg"></div>
+          <i class="fas fa-certificate"></i>
+        </div>
+        <div class="gf-about-award-content">
+          <h3 class="gf-about-award-title">KC 인증</h3>
+          <p class="gf-about-award-desc">국가통합인증마크</p>
+        </div>
+      </div>
+      
+      <!-- 대한민국 브랜드 대상 -->
+      <div class="gf-about-award-item">
+        <div class="gf-about-award-icon">
+          <div class="gf-about-award-icon-bg"></div>
+          <i class="fas fa-trophy"></i>
+        </div>
+        <div class="gf-about-award-content">
+          <h3 class="gf-about-award-title">대한민국 브랜드 대상</h3>
+          <p class="gf-about-award-desc">피트니스 장비 부문 3년 연속</p>
+        </div>
+      </div>
+      
+      <!-- 우수 디자인 선정 -->
+      <div class="gf-about-award-item">
+        <div class="gf-about-award-icon">
+          <div class="gf-about-award-icon-bg"></div>
+          <i class="fas fa-star"></i>
+        </div>
+        <div class="gf-about-award-content">
+          <h3 class="gf-about-award-title">우수 디자인 선정</h3>
+          <p class="gf-about-award-desc">Good Design Award 수상</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA 섹션 -->
+<section class="gf-about-cta">
+  <div class="gf-about-container">
+    <div class="gf-about-cta-content">
+      <h2 class="gf-about-cta-title">GOFIT과 함께 성장하세요</h2>
+      <p class="gf-about-cta-desc">
+        최고의 품질과 서비스로 여러분의 피트니스 비즈니스를 성공으로 이끌겠습니다
+      </p>
+      <div class="gf-about-cta-buttons">
+        <a href="../index.html#gf-contact-section" class="gf-about-cta-btn gf-about-cta-primary">
+          <span>문의하기</span>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M5 12h14M12 5l7 7-7 7"/>
+          </svg>
+        </a>
+        <a href="../index.html#catalog" class="gf-about-cta-btn gf-about-cta-secondary">
+          <span>카탈로그 다운로드</span>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+            <polyline points="7 10 12 15 17 10"/>
+            <line x1="12" y1="15" x2="12" y2="3"/>
+          </svg>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 푸터 컨테이너 -->
+<div id="modal-container"></div>
+<div id="footer-container"></div>
+
+  <!-- JavaScript 연결 -->
+<script src="../js/load-components.js"></script>
+<script src="../script.js" defer></script>
+<script src="../about/about-script.js" defer></script>
+</body>
+</html>
