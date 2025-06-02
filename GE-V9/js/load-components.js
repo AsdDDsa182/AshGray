@@ -205,10 +205,21 @@ async function loadComponent(elementId, componentPath) {
 // 현재 페이지의 경로 깊이를 확인하는 함수
 function getBasePath() {
   const path = window.location.pathname;
-  const depth = (path.match(/\//g) || []).length - 1;
   
-  // about 폴더 안에 있으면 '../', 루트에 있으면 './'
-  if (path.includes('/about/') || path.includes('/features/') || path.includes('/products/')) {
+  // GE-V9 내부의 하위 폴더에 있는 경우
+  if (path.includes('/GE-V9/about/') || 
+      path.includes('/GE-V9/features/') || 
+      path.includes('/GE-V9/products/')) {
+    return '../';
+  } 
+  // GE-V9 루트에 있는 경우
+  else if (path.includes('/GE-V9/')) {
+    return './';
+  }
+  // 일반적인 경우
+  else if (path.includes('/about/') || 
+           path.includes('/features/') || 
+           path.includes('/products/')) {
     return '../';
   } else {
     return './';
@@ -251,40 +262,46 @@ async function loadModals(basePath) {
 
 // 페이지 경로에 따른 헤더 링크 업데이트
 function updateHeaderLinks() {
-  const basePath = getBasePath();
-  
-  // 헤더가 로드된 후 링크 업데이트
-  setTimeout(() => {
-    const headerLinks = document.querySelectorAll('.gf-header-nav-link, .gf-header-mobile-nav-link');
-    const footerLinks = document.querySelectorAll('.gf-footer-nav a');
-    const logo = document.querySelector('.gf-header-logo-link');
-    
-    // 헤더 네비게이션 링크
-    headerLinks.forEach(link => {
-      const href = link.getAttribute('href');
-      if (href && href.startsWith('#')) {
-        // 해시 링크는 index.html로 이동 후 섹션으로 스크롤
-        if (basePath === '../') {
-          link.setAttribute('href', '../index.html' + href);
-        }
-      }
-    });
-    
-    // 푸터 네비게이션 링크
-    footerLinks.forEach(link => {
-      const href = link.getAttribute('href');
-      if (href && href.startsWith('#')) {
-        if (basePath === '../') {
-          link.setAttribute('href', '../index.html' + href);
-        }
-      }
-    });
-    
-    // 로고 링크
-    if (logo) {
-      logo.setAttribute('href', basePath + 'index.html');
-    }
-  }, 100);
+ // base 태그가 있으면 아무것도 하지 않음
+ const hasBaseTag = document.querySelector('base');
+ if (hasBaseTag) {
+   return;
+ }
+ 
+ const basePath = getBasePath();
+ 
+ // 헤더가 로드된 후 링크 업데이트
+ setTimeout(() => {
+   const headerLinks = document.querySelectorAll('.gf-header-nav-link, .gf-header-mobile-nav-link');
+   const footerLinks = document.querySelectorAll('.gf-footer-nav a');
+   const logo = document.querySelector('.gf-header-logo-link');
+   
+   // 헤더 네비게이션 링크
+   headerLinks.forEach(link => {
+     const href = link.getAttribute('href');
+     if (href && href.startsWith('#')) {
+       // 해시 링크는 index.html로 이동 후 섹션으로 스크롤
+       if (basePath === '../') {
+         link.setAttribute('href', '../index.html' + href);
+       }
+     }
+   });
+   
+   // 푸터 네비게이션 링크
+   footerLinks.forEach(link => {
+     const href = link.getAttribute('href');
+     if (href && href.startsWith('#')) {
+       if (basePath === '../') {
+         link.setAttribute('href', '../index.html' + href);
+       }
+     }
+   });
+   
+   // 로고 링크
+   if (logo) {
+     logo.setAttribute('href', basePath + 'index.html');
+   }
+ }, 100);
 }
 
 // 헤더 이벤트 초기화
