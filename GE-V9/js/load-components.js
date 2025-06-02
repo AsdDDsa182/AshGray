@@ -5,7 +5,7 @@ const headerHTML = `
   <div class="gf-header-container">
     <!-- 로고 영역 -->
     <div class="gf-header-logo">
-      <a href="./" class="gf-header-logo-link" style="display: block; width: 120px; height: 40px;">
+      <a href="/AshGray/GE-V9/" class="gf-header-logo-link" style="display: block; width: 120px; height: 40px;">
         <div class="gf-header-logo-placeholder" 
              style="position: absolute; 
                     width: 120px; 
@@ -25,25 +25,25 @@ const headerHTML = `
     <nav class="gf-header-nav-desktop">
       <ul class="gf-header-nav-list">
         <li class="gf-header-nav-item">
-          <a href="./index.html" class="gf-header-nav-link">
+          <a href="/AshGray/GE-V9/index.html" class="gf-header-nav-link">
             <span class="gf-header-nav-text">Home</span>
             <span class="gf-header-nav-underline"></span>
           </a>
         </li>
         <li class="gf-header-nav-item">
-          <a href="./about/about.html" class="gf-header-nav-link">
+          <a href="/AshGray/GE-V9/about/about.html" class="gf-header-nav-link">
             <span class="gf-header-nav-text">About</span>
             <span class="gf-header-nav-underline"></span>
           </a>
         </li>
         <li class="gf-header-nav-item">
-          <a href="./features/features.html" class="gf-header-nav-link">
+          <a href="/AshGray/GE-V9/features/features.html" class="gf-header-nav-link">
             <span class="gf-header-nav-text">Features</span>
             <span class="gf-header-nav-underline"></span>
           </a>
         </li>
         <li class="gf-header-nav-item">
-          <a href="./products/products.html" class="gf-header-nav-link">
+          <a href="/AshGray/GE-V9/products/products.html" class="gf-header-nav-link">
             <span class="gf-header-nav-text">Products</span>
             <span class="gf-header-nav-underline"></span>
           </a>
@@ -95,28 +95,28 @@ const headerHTML = `
       <nav class="gf-header-mobile-nav">
         <ul class="gf-header-mobile-nav-list">
           <li class="gf-header-mobile-nav-item">
-            <a href="./index.html" class="gf-header-mobile-nav-link">
+            <a href="/AshGray/GE-V9/index.html" class="gf-header-mobile-nav-link">
               <span class="gf-header-link-number">01</span>
               <span class="gf-header-link-text">Home</span>
               <span class="gf-header-link-arrow">&rarr;</span>
             </a>
           </li>
           <li class="gf-header-mobile-nav-item">
-            <a href="./about/about.html" class="gf-header-mobile-nav-link">
+            <a href="/AshGray/GE-V9/about/about.html" class="gf-header-mobile-nav-link">
               <span class="gf-header-link-number">02</span>
               <span class="gf-header-link-text">About</span>
               <span class="gf-header-link-arrow">&rarr;</span>
             </a>
           </li>
           <li class="gf-header-mobile-nav-item">
-            <a href="./features/features.html" class="gf-header-mobile-nav-link">
+            <a href="/AshGray/GE-V9/features/features.html" class="gf-header-mobile-nav-link">
               <span class="gf-header-link-number">03</span>
               <span class="gf-header-link-text">Features</span>
               <span class="gf-header-link-arrow">&rarr;</span>
             </a>
           </li>
           <li class="gf-header-mobile-nav-item">
-            <a href="./products/products.html" class="gf-header-mobile-nav-link">
+            <a href="/AshGray/GE-V9/products/products.html" class="gf-header-mobile-nav-link">
               <span class="gf-header-link-number">04</span>
               <span class="gf-header-link-text">Products</span>
               <span class="gf-header-link-arrow">&rarr;</span>
@@ -205,21 +205,10 @@ async function loadComponent(elementId, componentPath) {
 // 현재 페이지의 경로 깊이를 확인하는 함수
 function getBasePath() {
   const path = window.location.pathname;
+  const depth = (path.match(/\//g) || []).length - 1;
   
-  // GE-V9 내부의 하위 폴더에 있는 경우
-  if (path.includes('/GE-V9/about/') || 
-      path.includes('/GE-V9/features/') || 
-      path.includes('/GE-V9/products/')) {
-    return '../';
-  } 
-  // GE-V9 루트에 있는 경우
-  else if (path.includes('/GE-V9/')) {
-    return './';
-  }
-  // 일반적인 경우
-  else if (path.includes('/about/') || 
-           path.includes('/features/') || 
-           path.includes('/products/')) {
+  // about 폴더 안에 있으면 '../', 루트에 있으면 './'
+  if (path.includes('/about/') || path.includes('/features/') || path.includes('/products/')) {
     return '../';
   } else {
     return './';
@@ -262,46 +251,40 @@ async function loadModals(basePath) {
 
 // 페이지 경로에 따른 헤더 링크 업데이트
 function updateHeaderLinks() {
- // base 태그가 있으면 아무것도 하지 않음
- const hasBaseTag = document.querySelector('base');
- if (hasBaseTag) {
-   return;
- }
- 
- const basePath = getBasePath();
- 
- // 헤더가 로드된 후 링크 업데이트
- setTimeout(() => {
-   const headerLinks = document.querySelectorAll('.gf-header-nav-link, .gf-header-mobile-nav-link');
-   const footerLinks = document.querySelectorAll('.gf-footer-nav a');
-   const logo = document.querySelector('.gf-header-logo-link');
-   
-   // 헤더 네비게이션 링크
-   headerLinks.forEach(link => {
-     const href = link.getAttribute('href');
-     if (href && href.startsWith('#')) {
-       // 해시 링크는 index.html로 이동 후 섹션으로 스크롤
-       if (basePath === '../') {
-         link.setAttribute('href', '../index.html' + href);
-       }
-     }
-   });
-   
-   // 푸터 네비게이션 링크
-   footerLinks.forEach(link => {
-     const href = link.getAttribute('href');
-     if (href && href.startsWith('#')) {
-       if (basePath === '../') {
-         link.setAttribute('href', '../index.html' + href);
-       }
-     }
-   });
-   
-   // 로고 링크
-   if (logo) {
-     logo.setAttribute('href', basePath + 'index.html');
-   }
- }, 100);
+  const basePath = getBasePath();
+  
+  // 헤더가 로드된 후 링크 업데이트
+  setTimeout(() => {
+    const headerLinks = document.querySelectorAll('.gf-header-nav-link, .gf-header-mobile-nav-link');
+    const footerLinks = document.querySelectorAll('.gf-footer-nav a');
+    const logo = document.querySelector('.gf-header-logo-link');
+    
+    // 헤더 네비게이션 링크
+    headerLinks.forEach(link => {
+      const href = link.getAttribute('href');
+      if (href && href.startsWith('#')) {
+        // 해시 링크는 index.html로 이동 후 섹션으로 스크롤
+        if (basePath === '../') {
+          link.setAttribute('href', '../index.html' + href);
+        }
+      }
+    });
+    
+    // 푸터 네비게이션 링크
+    footerLinks.forEach(link => {
+      const href = link.getAttribute('href');
+      if (href && href.startsWith('#')) {
+        if (basePath === '../') {
+          link.setAttribute('href', '../index.html' + href);
+        }
+      }
+    });
+    
+    // 로고 링크
+    if (logo) {
+      logo.setAttribute('href', basePath + 'index.html');
+    }
+  }, 100);
 }
 
 // 헤더 이벤트 초기화
