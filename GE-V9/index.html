@@ -143,90 +143,40 @@
   <div class="gf-hero-bg-video">
     <iframe
       id="gf-hero-vimeo-player"
-      src="https://player.vimeo.com/video/1000583400?background=1&autoplay=1&loop=1&byline=0&portrait=0&title=0"
+      src="https://player.vimeo.com/video/1000583400?background=1&autoplay=1&loop=1&byline=0&portrait=0&title=0&muted=1"
       frameborder="0"
       allow="autoplay; fullscreen; picture-in-picture"
       title="GOFIT Video">
     </iframe>
   </div>
   
-  <!-- 그리드 패턴 오버레이 -->
-  <div class="gf-hero-grid-overlay"></div>
-  
-  <!-- 마우스 추적 파티클 컨테이너 -->
-  <div class="gf-hero-particles" id="gfHeroParticles"></div>
-  
   <!-- 메인 콘텐츠 -->
   <div class="gf-hero-content">
-    <!-- 상단 라벨 -->
-    <div class="gf-hero-top-label">
-      <span class="gf-hero-label-text">PREMIUM FITNESS EQUIPMENT</span>
-      <div class="gf-hero-label-line"></div>
-    </div>
+    <!-- 메인 타이틀 (글리치 효과) -->
+    <h1 class="gf-hero-glitch-text" data-text="강력한 퍼포먼스를 위한 선택">
+      강력한 퍼포먼스를 위한 선택
+    </h1>
     
-    <!-- 타이틀 영역 -->
-    <div class="gf-hero-title-wrapper">
-      <h1 class="gf-hero-glitch-text" data-text="강력한 퍼포먼스를 위한 선택">
-        강력한 퍼포먼스를 위한 선택
-      </h1>
-      
-      <!-- 타이핑 효과 서브타이틀 -->
-      <div class="gf-hero-subtitle-wrapper">
-        <span class="gf-hero-subtitle-prefix">GOFIT은</span>
-        <span class="gf-hero-typing-text" id="gfHeroTyping"></span>
-        <span class="gf-hero-typing-cursor">|</span>
-      </div>
-    </div>
+    <!-- 회사 소개 버튼 -->
+    <a href="about/about.html" class="gf-hero-main-btn">
+      <span>회사 소개</span>
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M5 12h14M12 5l7 7-7 7"/>
+      </svg>
+    </a>
     
-    <!-- CTA 버튼 그룹 -->
-    <div class="gf-hero-cta-group">
-      <a href="#gf-contact-section" class="gf-hero-btn gf-hero-btn-primary">
-        <span>문의하기</span>
-        <div class="gf-hero-btn-bg"></div>
+    <!-- SNS 링크 -->
+    <div class="gf-hero-sns-links">
+      <a href="#" class="gf-hero-sns-link" aria-label="YouTube">
+        <i class="fab fa-youtube"></i>
       </a>
-      <a href="#intro" class="gf-hero-btn gf-hero-btn-secondary">
-        <span>제품 둘러보기</span>
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <path d="M5 12h14M12 5l7 7-7 7"/>
-        </svg>
+      <a href="#" class="gf-hero-sns-link" aria-label="Instagram">
+        <i class="fab fa-instagram"></i>
+      </a>
+      <a href="#" class="gf-hero-sns-link" aria-label="Blog">
+        <i class="fab fa-blogger"></i>
       </a>
     </div>
-  </div>
-  
-  <!-- 플로팅 요소들 -->
-  <div class="gf-hero-floating-elements">
-    <div class="gf-hero-float gf-hero-float-1"></div>
-    <div class="gf-hero-float gf-hero-float-2"></div>
-    <div class="gf-hero-float gf-hero-float-3"></div>
-  </div>
-  
-  <!-- 사이드 소셜 링크 -->
-  <div class="gf-hero-social-links">
-    <a href="#" class="gf-hero-social-link" aria-label="YouTube">
-      <i class="fab fa-youtube"></i>
-    </a>
-    <a href="#" class="gf-hero-social-link" aria-label="Instagram">
-      <i class="fab fa-instagram"></i>
-    </a>
-    <a href="#" class="gf-hero-social-link" aria-label="Blog">
-      <i class="fab fa-blogger"></i>
-    </a>
-  </div>
-  
-  <!-- 사이드 바 -->
-  <div class="gf-hero-sidebar">
-    <div class="gf-hero-sidebar-line"></div>
-    <div class="gf-hero-sidebar-content">
-      <span class="gf-hero-sidebar-text">FITNESS INNOVATION</span>
-    </div>
-  </div>
-  
-  <!-- 스크롤 다운 인디케이터 -->
-  <div class="gf-hero-scroll-indicator">
-    <div class="gf-hero-scroll-mouse">
-      <div class="gf-hero-scroll-wheel"></div>
-    </div>
-    <span class="gf-hero-scroll-text">Scroll Down</span>
   </div>
 </section>
 
@@ -825,11 +775,6 @@
     </div>
 </section>
 
-<!-- ═══════════════════════════════════════════════════════════════════════════
-     GOFIT 제품 정보 섹션 - 고유 선택자 버전
-     모든 클래스에 'gf-products-' 접두사 적용
-═══════════════════════════════════════════════════════════════════════════ -->
-
 <!-- 제품 정보 섹션 (Product Info Section) -->
 <section id="gf-products-section" class="gf-products-info">
   <!-- 움직이는 그리드 패턴 -->
@@ -860,257 +805,62 @@
       </p>
     </div>
 
-    <!-- 카테고리 필터 탭 -->
-    <div class="gf-products-filter-wrapper">
-      <div class="gf-products-filter-container">
-        <button class="gf-products-filter-tab active" data-category="all">
-          <span>전체</span>
-          <span class="gf-products-tab-count">10</span>
-        </button>
-        <button class="gf-products-filter-tab" data-category="strength">
-          <span>근력 운동</span>
-          <span class="gf-products-tab-count">4</span>
-        </button>
-        <button class="gf-products-filter-tab" data-category="cardio">
-          <span>유산소 운동</span>
-          <span class="gf-products-tab-count">3</span>
-        </button>
-        <button class="gf-products-filter-tab" data-category="free">
-          <span>프리웨이트</span>
-          <span class="gf-products-tab-count">3</span>
-        </button>
+    <!-- 슬라이드쇼 컨테이너 -->
+    <div class="gf-products-slideshow-wrapper">
+      <div class="gf-products-slideshow">
+        <div class="gf-products-slides-track">
+          <!-- 슬라이드 이미지들 - 누끼 제거된 제품 이미지용 -->
+          <div class="gf-products-slide active">
+            <img src="https://images.unsplash.com/photo-1526506118085-60ce8714f8c5?w=800&auto=format&fit=crop" alt="GOFIT Equipment 1">
+          </div>
+          <div class="gf-products-slide">
+            <img src="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=800&auto=format&fit=crop" alt="GOFIT Equipment 2">
+          </div>
+          <div class="gf-products-slide">
+            <img src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=800&auto=format&fit=crop" alt="GOFIT Equipment 3">
+          </div>
+          <div class="gf-products-slide">
+            <img src="https://images.unsplash.com/photo-1593079831268-3381b0db4a77?w=800&auto=format&fit=crop" alt="GOFIT Equipment 4">
+          </div>
+          <div class="gf-products-slide">
+            <img src="https://images.unsplash.com/photo-1517836357463-d25dfeac3438?w=800&auto=format&fit=crop" alt="GOFIT Equipment 5">
+          </div>
+        </div>
+      </div>
+      
+      <!-- 좌우 화살표 버튼 -->
+      <button class="gf-products-nav-btn gf-products-nav-prev" onclick="changeProductSlide(-1)">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M15 18l-6-6 6-6"/>
+        </svg>
+      </button>
+      <button class="gf-products-nav-btn gf-products-nav-next" onclick="changeProductSlide(1)">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M9 18l6-6-6-6"/>
+        </svg>
+      </button>
+      
+      <!-- 슬라이드 인디케이터 -->
+      <div class="gf-products-slide-indicators">
+        <span class="gf-products-slide-dot active" data-slide="0"></span>
+        <span class="gf-products-slide-dot" data-slide="1"></span>
+        <span class="gf-products-slide-dot" data-slide="2"></span>
+        <span class="gf-products-slide-dot" data-slide="3"></span>
+        <span class="gf-products-slide-dot" data-slide="4"></span>
       </div>
     </div>
 
-    <!-- 제품 그리드 -->
-    <div class="gf-products-grid">
-      <!-- 제품 카드 1 -->
-      <div class="gf-products-card" data-category="strength">
-        <div class="gf-products-image">
-          <img src="https://images.unsplash.com/photo-1542766788-a2f588f447ee?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MzR8fEdZTXxlbnwwfHwwfHx8MA%3D%3D" alt="제품 이미지">
-          <div class="gf-products-overlay">
-            <span class="gf-products-category">근력 운동</span>
-          </div>
-        </div>
-        <div class="gf-products-content">
-          <h3 class="gf-products-name">제품 이름 1</h3>
-          <p class="gf-products-subtitle-text">Sub-Title in English</p>
-          <p class="gf-products-spec">W1000 x D1000 x H1000</p>
-          <a href="product-consult-1.html" class="gf-products-btn">
-            <span>자세히 보기</span>
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M5 12h14M12 5l7 7-7 7"/>
-            </svg>
-          </a>
-        </div>
-      </div>
-
-      <!-- 제품 카드 2 -->
-      <div class="gf-products-card" data-category="cardio">
-        <div class="gf-products-image">
-          <img src="https://plus.unsplash.com/premium_photo-1664109999537-088e7d964da2?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MzJ8fEdZTXxlbnwwfHwwfHx8MA%3D%3D" alt="제품 이미지">
-          <div class="gf-products-overlay">
-            <span class="gf-products-category">유산소 운동</span>
-          </div>
-        </div>
-        <div class="gf-products-content">
-          <h3 class="gf-products-name">제품 이름 2</h3>
-          <p class="gf-products-subtitle-text">Sub-Title in English</p>
-          <p class="gf-products-spec">W1000 x D1000 x H1000</p>
-          <a href="product-consult-2.html" class="gf-products-btn">
-            <span>자세히 보기</span>
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M5 12h14M12 5l7 7-7 7"/>
-            </svg>
-          </a>
-        </div>
-      </div>
-
-      <!-- 제품 카드 3 -->
-      <div class="gf-products-card" data-category="free">
-        <div class="gf-products-image">
-          <img src="https://images.unsplash.com/photo-1434682772747-f16d3ea162c3?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mzh8fEdZTXxlbnwwfHwwfHx8MA%3D%3D" alt="제품 이미지">
-          <div class="gf-products-overlay">
-            <span class="gf-products-category">프리웨이트</span>
-          </div>
-        </div>
-        <div class="gf-products-content">
-          <h3 class="gf-products-name">제품 이름 3</h3>
-          <p class="gf-products-subtitle-text">Sub-Title in English</p>
-          <p class="gf-products-spec">W1000 x D1000 x H1000</p>
-          <a href="product-consult-3.html" class="gf-products-btn">
-            <span>자세히 보기</span>
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M5 12h14M12 5l7 7-7 7"/>
-            </svg>
-          </a>
-        </div>
-      </div>
-
-      <!-- 제품 카드 4 -->
-      <div class="gf-products-card" data-category="strength">
-        <div class="gf-products-image">
-          <img src="https://images.unsplash.com/photo-1570829460005-c840387bb1ca?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NDZ8fEdZTXxlbnwwfHwwfHx8MA%3D%3D" alt="제품 이미지">
-          <div class="gf-products-overlay">
-            <span class="gf-products-category">근력 운동</span>
-          </div>
-        </div>
-        <div class="gf-products-content">
-          <h3 class="gf-products-name">제품 이름 4</h3>
-          <p class="gf-products-subtitle-text">Sub-Title in English</p>
-          <p class="gf-products-spec">W1000 x D1000 x H1000</p>
-          <a href="product-consult-4.html" class="gf-products-btn">
-            <span>자세히 보기</span>
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M5 12h14M12 5l7 7-7 7"/>
-            </svg>
-          </a>
-        </div>
-      </div>
-
-      <!-- 제품 카드 5 -->
-      <div class="gf-products-card" data-category="cardio">
-        <div class="gf-products-image">
-          <img src="https://images.unsplash.com/photo-1578874691223-64558a3ca096?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NTR8fEdZTXxlbnwwfHwwfHx8MA%3D%3D" alt="제품 이미지">
-          <div class="gf-products-overlay">
-            <span class="gf-products-category">유산소 운동</span>
-          </div>
-        </div>
-        <div class="gf-products-content">
-          <h3 class="gf-products-name">제품 이름 5</h3>
-          <p class="gf-products-subtitle-text">Sub-Title in English</p>
-          <p class="gf-products-spec">W1000 x D1000 x H1000</p>
-          <a href="product-consult-5.html" class="gf-products-btn">
-            <span>자세히 보기</span>
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M5 12h14M12 5l7 7-7 7"/>
-            </svg>
-          </a>
-        </div>
-      </div>
-
-      <!-- 제품 카드 6 -->
-      <div class="gf-products-card" data-category="free">
-        <div class="gf-products-image">
-          <img src="https://images.unsplash.com/photo-1589579234096-25cb6b83e021?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NjZ8fEdZTXxlbnwwfHwwfHx8MA%3D%3D" alt="제품 이미지">
-          <div class="gf-products-overlay">
-            <span class="gf-products-category">프리웨이트</span>
-          </div>
-        </div>
-        <div class="gf-products-content">
-          <h3 class="gf-products-name">제품 이름 6</h3>
-          <p class="gf-products-subtitle-text">Sub-Title in English</p>
-          <p class="gf-products-spec">W1000 x D1000 x H1000</p>
-          <a href="product-consult-6.html" class="gf-products-btn">
-            <span>자세히 보기</span>
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M5 12h14M12 5l7 7-7 7"/>
-            </svg>
-          </a>
-        </div>
-      </div>
-
-      <!-- 제품 카드 7 -->
-      <div class="gf-products-card" data-category="strength">
-        <div class="gf-products-image">
-          <img src="https://images.unsplash.com/photo-1637666218229-1fe0a9419267?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8ODV8fEdZTXxlbnwwfHwwfHx8MA%3D%3D" alt="제품 이미지">
-          <div class="gf-products-overlay">
-            <span class="gf-products-category">근력 운동</span>
-          </div>
-        </div>
-        <div class="gf-products-content">
-          <h3 class="gf-products-name">제품 이름 7</h3>
-          <p class="gf-products-subtitle-text">Sub-Title in English</p>
-          <p class="gf-products-spec">W1000 x D1000 x H1000</p>
-          <a href="product-consult-7.html" class="gf-products-btn">
-            <span>자세히 보기</span>
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M5 12h14M12 5l7 7-7 7"/>
-            </svg>
-          </a>
-        </div>
-      </div>
-
-      <!-- 제품 카드 8 -->
-      <div class="gf-products-card" data-category="cardio">
-        <div class="gf-products-image">
-          <img src="https://images.unsplash.com/photo-1674834727206-4bc272bfd8da?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OTN8fEdZTXxlbnwwfHwwfHx8MA%3D%3D" alt="제품 이미지">
-          <div class="gf-products-overlay">
-            <span class="gf-products-category">유산소 운동</span>
-          </div>
-        </div>
-        <div class="gf-products-content">
-          <h3 class="gf-products-name">제품 이름 8</h3>
-          <p class="gf-products-subtitle-text">Sub-Title in English</p>
-          <p class="gf-products-spec">W1000 x D1000 x H1000</p>
-          <a href="product-consult-8.html" class="gf-products-btn">
-            <span>자세히 보기</span>
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M5 12h14M12 5l7 7-7 7"/>
-            </svg>
-          </a>
-        </div>
-      </div>
-
-      <!-- 제품 카드 9 -->
-      <div class="gf-products-card" data-category="free">
-        <div class="gf-products-image">
-          <img src="https://images.unsplash.com/photo-1603734220970-25a0b335ca01?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTI5fHxHWU18ZW58MHx8MHx8fDA%3D" alt="제품 이미지">
-          <div class="gf-products-overlay">
-            <span class="gf-products-category">프리웨이트</span>
-          </div>
-        </div>
-        <div class="gf-products-content">
-          <h3 class="gf-products-name">제품 이름 9</h3>
-          <p class="gf-products-subtitle-text">Sub-Title in English</p>
-          <p class="gf-products-spec">W1000 x D1000 x H1000</p>
-          <a href="product-consult-9.html" class="gf-products-btn">
-            <span>자세히 보기</span>
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M5 12h14M12 5l7 7-7 7"/>
-            </svg>
-          </a>
-        </div>
-      </div>
-
-      <!-- 제품 카드 10 -->
-      <div class="gf-products-card" data-category="strength">
-        <div class="gf-products-image">
-          <img src="https://images.unsplash.com/photo-1434608519344-49d77a699e1d?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTQzfHxHWU18ZW58MHx8MHx8fDA%3D" alt="제품 이미지">
-          <div class="gf-products-overlay">
-            <span class="gf-products-category">근력 운동</span>
-          </div>
-        </div>
-        <div class="gf-products-content">
-          <h3 class="gf-products-name">제품 이름 10</h3>
-          <p class="gf-products-subtitle-text">Sub-Title in English</p>
-          <p class="gf-products-spec">W1000 x D1000 x H1000</p>
-          <a href="product-consult-10.html" class="gf-products-btn">
-            <span>자세히 보기</span>
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M5 12h14M12 5l7 7-7 7"/>
-            </svg>
-          </a>
-        </div>
-      </div>
-    </div>
-
-    <!-- 모바일 인디케이터 -->
-    <div class="gf-products-indicators">
-      <span class="gf-products-indicator active"></span>
-      <span class="gf-products-indicator"></span>
-      <span class="gf-products-indicator"></span>
+    <!-- 제품 보러가기 버튼 -->
+    <div class="gf-products-cta-wrapper">
+      <a href="products.html" class="gf-products-view-btn">
+        <span>제품 보러가기</span>
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M5 12h14M12 5l7 7-7 7"/>
+        </svg>
+      </a>
     </div>
   </div>
 </section>
-
-
-
-
-
-
-
-
 
 <!-- GOFIT 새로운 문의 섹션 -->
 <section class="gfnew-contact" id="gfnew-contact">
@@ -1181,314 +931,28 @@
       </div>
     </div>
 
-    <!-- 탭 버튼 -->
-    <div class="gfnew-tab-container">
-      <button class="gfnew-tab active" onclick="showTab('general', event)">일반 문의</button>
-      <button class="gfnew-tab" onclick="showTab('purchase', event)">구입 견적서</button>
-      <button class="gfnew-tab" onclick="showTab('rental', event)">렌탈 견적서</button>
-    </div>
-
-    <!-- 폼 영역 -->
-    <div class="gfnew-form-wrapper">
-      <!-- 일반 문의 폼 -->
-      <form class="gfnew-form-panel active" id="general-form">
-        <div class="gfnew-form-group">
-          <div class="gfnew-form-row">
-            <div>
-              <label class="gfnew-label">이름<span class="req">*</span></label>
-              <input type="text" class="gfnew-input" placeholder="홍길동" required>
-            </div>
-            <div>
-              <label class="gfnew-label">이메일<span class="req">*</span></label>
-              <input type="email" class="gfnew-input" placeholder="example@email.com" required>
-            </div>
-          </div>
-        </div>
-
-        <div class="gfnew-form-group">
-          <div class="gfnew-form-row">
-            <div>
-              <label class="gfnew-label">전화번호</label>
-              <input type="tel" class="gfnew-input" placeholder="010-0000-0000">
-            </div>
-            <div>
-              <label class="gfnew-label">회사명</label>
-              <input type="text" class="gfnew-input" placeholder="회사명 (선택)">
-            </div>
-          </div>
-        </div>
-
-        <div class="gfnew-form-group">
-          <label class="gfnew-label">문의 유형<span class="req">*</span></label>
-          <select class="gfnew-select" required>
-            <option value="">선택하세요</option>
-            <option value="product">제품 문의</option>
-            <option value="price">가격 문의</option>
-            <option value="as">AS 문의</option>
-            <option value="other">기타 문의</option>
-          </select>
-        </div>
-
-        <div class="gfnew-form-group">
-          <label class="gfnew-label">문의 내용<span class="req">*</span></label>
-          <textarea class="gfnew-textarea" placeholder="문의하실 내용을 자세히 적어주세요" required></textarea>
-        </div>
-
-        <div class="gfnew-privacy-agree">
-          <label class="gfnew-checkbox-label">
-            <input type="checkbox" class="gfnew-checkbox" required>
-            <span class="gfnew-check-custom"></span>
-            <span class="gfnew-check-text">개인정보 수집 및 이용에 동의합니다. <span class="req">*</span></span>
-          </label>
-          <button type="button" class="gfnew-privacy-link" onclick="openGofitLegalModal(event, 'privacy')">자세히 보기</button>
-        </div>
-
-        <div class="gfnew-submit-wrapper">
-          <button type="submit" class="gfnew-submit">문의하기</button>
-        </div>
-      </form>
-
-      <!-- 구입 견적서 폼 -->
-      <form class="gfnew-form-panel" id="purchase-form">
-        <div class="gfnew-form-group">
-          <div class="gfnew-form-row">
-            <div>
-              <label class="gfnew-label">이름<span class="req">*</span></label>
-              <input type="text" class="gfnew-input" placeholder="홍길동" required>
-            </div>
-            <div>
-              <label class="gfnew-label">이메일<span class="req">*</span></label>
-              <input type="email" class="gfnew-input" placeholder="example@email.com" required>
-            </div>
-          </div>
-        </div>
-
-        <div class="gfnew-form-group">
-          <div class="gfnew-form-row">
-            <div>
-              <label class="gfnew-label">전화번호<span class="req">*</span></label>
-              <input type="tel" class="gfnew-input" placeholder="010-0000-0000" required>
-            </div>
-            <div>
-              <label class="gfnew-label">회사/센터명<span class="req">*</span></label>
-              <input type="text" class="gfnew-input" placeholder="회사명" required>
-            </div>
-          </div>
-        </div>
-
-        <div class="gfnew-form-group">
-          <label class="gfnew-label">예상 예산 (선택)</label>
-          <input type="text" class="gfnew-input gfnew-budget-input" id="purchase-budget" placeholder="예: 10,000,000원" onkeyup="updateBudgetComparison()">
-          <span class="gfnew-helper-text">예산을 입력하시면 더 정확한 견적을 제안해드릴 수 있습니다.</span>
-        </div>
-
-        <!-- 제품 선택 섹션 -->
-        <div class="gfnew-product-section">
-          <h3 class="gfnew-section-title">제품 선택</h3>
-          <button type="button" class="gfnew-add-btn" onclick="openProductModal('purchase')">
-            <i class="fas fa-plus-circle"></i>
-            제품 추가하기
-          </button>
-          <div class="gfnew-selected-list" id="purchase-products">
-            <!-- 선택된 제품이 여기에 표시됩니다 -->
-          </div>
-        </div>
-
-        <!-- 예산 대비 가격 비교 섹션 (새로 추가) -->
-        <div class="gfnew-budget-compare" id="purchase-budget-compare" style="display: none;">
-          <h4 class="gfnew-compare-title">예산 대비 선택 제품 가격</h4>
-          <div class="gfnew-budget-info">
-            <div class="gfnew-budget-row">
-              <span>예상 예산:</span>
-              <span class="gfnew-budget-amount" id="purchase-budget-display">0원</span>
-            </div>
-            <div class="gfnew-budget-row">
-              <span>선택 제품 합계:</span>
-              <span class="gfnew-budget-amount" id="purchase-total-display">0원</span>
-            </div>
-          </div>
-          <div class="gfnew-budget-gauge">
-            <div class="gfnew-gauge-bar">
-              <div class="gfnew-gauge-fill" id="purchase-gauge-fill"></div>
-              <div class="gfnew-gauge-marker" id="purchase-gauge-marker"></div>
-            </div>
-            <div class="gfnew-gauge-labels">
-              <span class="gfnew-gauge-label">0%</span>
-              <span class="gfnew-gauge-label">50%</span>
-              <span class="gfnew-gauge-label">100%</span>
-              <span class="gfnew-gauge-label">150%</span>
-            </div>
-          </div>
-          <div class="gfnew-budget-status" id="purchase-budget-status">
-            <i class="fas fa-info-circle"></i>
-            <span>예산 대비 상태가 여기에 표시됩니다</span>
-          </div>
-        </div>
-
-        <div class="gfnew-form-group">
-          <label class="gfnew-label">추가 요청사항</label>
-          <textarea class="gfnew-textarea" placeholder="추가로 요청하실 사항이 있다면 적어주세요"></textarea>
-        </div>
-
-        <div class="gfnew-privacy-agree">
-          <label class="gfnew-checkbox-label">
-            <input type="checkbox" class="gfnew-checkbox" required>
-            <span class="gfnew-check-custom"></span>
-            <span class="gfnew-check-text">개인정보 수집 및 이용에 동의합니다. <span class="req">*</span></span>
-          </label>
-          <button type="button" class="gfnew-privacy-link" onclick="openGofitLegalModal(event, 'privacy')">자세히 보기</button>
-        </div>
-
-        <div class="gfnew-submit-wrapper">
-          <button type="submit" class="gfnew-submit">견적 요청하기</button>
-        </div>
-      </form>
-
-      <!-- 렌탈 견적서 폼 (희망 설치일 제거) -->
-      <form class="gfnew-form-panel" id="rental-form">
-        <div class="gfnew-form-group">
-          <div class="gfnew-form-row">
-            <div>
-              <label class="gfnew-label">이름<span class="req">*</span></label>
-              <input type="text" class="gfnew-input" placeholder="홍길동" required>
-            </div>
-            <div>
-              <label class="gfnew-label">이메일<span class="req">*</span></label>
-              <input type="email" class="gfnew-input" placeholder="example@email.com" required>
-            </div>
-          </div>
-        </div>
-
-        <div class="gfnew-form-group">
-          <div class="gfnew-form-row">
-            <div>
-              <label class="gfnew-label">전화번호<span class="req">*</span></label>
-              <input type="tel" class="gfnew-input" placeholder="010-0000-0000" required>
-            </div>
-            <div>
-              <label class="gfnew-label">회사/센터명<span class="req">*</span></label>
-              <input type="text" class="gfnew-input" placeholder="회사명" required>
-            </div>
-          </div>
-        </div>
-
-        <div class="gfnew-form-group">
-          <label class="gfnew-label">렌탈 기간<span class="req">*</span></label>
-          <select class="gfnew-select" required>
-            <option value="">선택하세요</option>
-            <option value="12">12개월</option>
-            <option value="24">24개월</option>
-            <option value="36">36개월</option>
-            <option value="48">48개월</option>
-            <option value="60">60개월</option>
-          </select>
-        </div>
-
-        <div class="gfnew-form-group">
-          <label class="gfnew-label">월 렌탈 예산 (선택)</label>
-          <input type="text" class="gfnew-input gfnew-budget-input" id="rental-budget" placeholder="예: 500,000원" onkeyup="updateRentalBudgetComparison()">
-          <span class="gfnew-helper-text">월 렌탈 예산을 입력하시면 더 정확한 견적을 제안해드릴 수 있습니다.</span>
-        </div>
-
-        <!-- 제품 선택 섹션 -->
-        <div class="gfnew-product-section">
-          <h3 class="gfnew-section-title">제품 선택</h3>
-          <button type="button" class="gfnew-add-btn" onclick="openProductModal('rental')">
-            <i class="fas fa-plus-circle"></i>
-            제품 추가하기
-          </button>
-          <div class="gfnew-selected-list" id="rental-products">
-            <!-- 선택된 제품이 여기에 표시됩니다 -->
-          </div>
-        </div>
-
-        <!-- 예산 대비 가격 비교 섹션 -->
-        <div class="gfnew-budget-compare" id="rental-budget-compare" style="display: none;">
-          <h4 class="gfnew-compare-title">월 렌탈 예산 대비 선택 제품 가격</h4>
-          <div class="gfnew-budget-info">
-            <div class="gfnew-budget-row">
-              <span>월 렌탈 예산:</span>
-              <span class="gfnew-budget-amount" id="rental-budget-display">0원</span>
-            </div>
-            <div class="gfnew-budget-row">
-              <span>선택 제품 월 렌탈료 합계:</span>
-              <span class="gfnew-budget-amount" id="rental-total-display">0원</span>
-            </div>
-          </div>
-          <div class="gfnew-budget-gauge">
-            <div class="gfnew-gauge-bar">
-              <div class="gfnew-gauge-fill" id="rental-gauge-fill"></div>
-              <div class="gfnew-gauge-marker" id="rental-gauge-marker"></div>
-            </div>
-            <div class="gfnew-gauge-labels">
-              <span class="gfnew-gauge-label">0%</span>
-              <span class="gfnew-gauge-label">50%</span>
-              <span class="gfnew-gauge-label">100%</span>
-              <span class="gfnew-gauge-label">150%</span>
-            </div>
-          </div>
-          <div class="gfnew-budget-status" id="rental-budget-status">
-            <i class="fas fa-info-circle"></i>
-            <span>예산 대비 상태가 여기에 표시됩니다</span>
-          </div>
-        </div>
-
-        <div class="gfnew-form-group">
-          <label class="gfnew-label">추가 요청사항</label>
-          <textarea class="gfnew-textarea" placeholder="추가로 요청하실 사항이 있다면 적어주세요"></textarea>
-        </div>
-
-        <div class="gfnew-privacy-agree">
-          <label class="gfnew-checkbox-label">
-            <input type="checkbox" class="gfnew-checkbox" required>
-            <span class="gfnew-check-custom"></span>
-            <span class="gfnew-check-text">개인정보 수집 및 이용에 동의합니다. <span class="req">*</span></span>
-          </label>
-          <button type="button" class="gfnew-privacy-link" onclick="openGofitLegalModal(event, 'privacy')">자세히 보기</button>
-        </div>
-
-        <div class="gfnew-submit-wrapper">
-          <button type="submit" class="gfnew-submit">렌탈 견적 요청하기</button>
-        </div>
-      </form>
-    </div>
-  </div>
-
-  <!-- 제품 선택 모달 -->
-  <div class="gfnew-modal-overlay" id="productModal">
-    <div class="gfnew-modal">
-      <div class="gfnew-modal-header">
-        <h3 class="gfnew-modal-title">제품 선택</h3>
-        <button class="gfnew-modal-close" onclick="closeProductModal()">
-          <i class="fas fa-times"></i>
-        </button>
-      </div>
-
-      <!-- 카테고리 필터 -->
-      <div class="gfnew-filter-tabs">
-        <button class="gfnew-filter-tab active" onclick="filterProducts('전체', event)">전체</button>
-        <button class="gfnew-filter-tab" onclick="filterProducts('근력 운동', event)">근력 운동</button>
-        <button class="gfnew-filter-tab" onclick="filterProducts('유산소 운동', event)">유산소 운동</button>
-        <button class="gfnew-filter-tab" onclick="filterProducts('프리웨이트', event)">프리웨이트</button>
-      </div>
-
-      <!-- 제품 목록 (세로 스크롤) -->
-      <div class="gfnew-modal-body">
-        <div class="gfnew-product-grid" id="productGrid">
-          <!-- 제품들이 여기에 JavaScript로 추가됩니다 -->
-        </div>
-      </div>
-
-      <div class="gfnew-modal-footer">
-        <div class="gfnew-selection-info">
-          선택된 제품: <span class="gfnew-selection-count" id="selectionCount">0</span>개
-        </div>
-        <button class="gfnew-confirm-btn" onclick="confirmSelection()">선택 완료</button>
-      </div>
+    <!-- 온라인 견적 문의 버튼 영역 -->
+    <div class="gfnew-online-inquiry-wrapper">
+      <h3 class="gfnew-online-inquiry-title">온라인으로 편하게 문의하세요</h3>
+      <p class="gfnew-online-inquiry-desc">
+        일반 문의, 구입 견적, 렌탈 견적까지<br>
+        모든 문의를 온라인으로 간편하게 진행하실 수 있습니다.
+      </p>
+      <a href="contact.html" class="gfnew-online-inquiry-btn">
+        <span>온라인 견적 문의</span>
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M5 12h14M12 5l7 7-7 7"/>
+        </svg>
+      </a>
     </div>
   </div>
 </section>
 <!-- GOFIT 새로운 문의 섹션 끝 -->
+
+
+
+
+
 
 <!-- 푸터 컨테이너 -->
 <div id="modal-container"></div>

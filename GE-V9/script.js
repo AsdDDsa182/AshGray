@@ -1,3 +1,98 @@
+// ═══════════════════════════════════════════════════════════════════════
+// 모바일 브라우저 UI 떨림 방지 JavaScript
+// script.js 파일 맨 위에 추가하세요!
+// ═══════════════════════════════════════════════════════════════════════
+
+// 모바일 뷰포트 높이 고정
+(function() {
+  'use strict';
+  
+  // 모바일 체크
+  const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+  
+  if (!isMobile) return;
+  
+  // 1. 뷰포트 높이 고정
+  function setViewportHeight() {
+    // 현재 뷰포트 높이 계산
+    const vh = window.innerHeight * 0.01;
+    // CSS 변수로 설정
+    document.documentElement.style.setProperty('--vh', `${vh}px`);
+  }
+  
+  // 초기 설정
+  setViewportHeight();
+  
+  // 리사이즈 시 재계산 (방향 전환 시)
+  let resizeTimer;
+  window.addEventListener('resize', () => {
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(setViewportHeight, 100);
+  });
+  
+  // 2. 스크롤 시 헤더 고정
+  const header = document.querySelector('.gf-header-main');
+  if (header) {
+    let lastScrollY = 0;
+    let ticking = false;
+    
+    function updateHeader() {
+      const currentScrollY = window.scrollY;
+      
+      // 스크롤 방향에 관계없이 헤더 고정
+      if (currentScrollY > 50) {
+        header.style.transform = 'translateY(0)';
+      }
+      
+      lastScrollY = currentScrollY;
+      ticking = false;
+    }
+    
+    window.addEventListener('scroll', () => {
+      if (!ticking) {
+        window.requestAnimationFrame(updateHeader);
+        ticking = true;
+      }
+    }, { passive: true });
+  }
+  
+  // 3. 터치 이벤트 최적화
+  let touchStartY = 0;
+  
+  document.addEventListener('touchstart', (e) => {
+    touchStartY = e.touches[0].clientY;
+  }, { passive: true });
+  
+  document.addEventListener('touchmove', (e) => {
+    const touchY = e.touches[0].clientY;
+    const touchDiff = touchY - touchStartY;
+    
+    // 상단에서 아래로 당기기 방지 (iOS 바운스)
+    if (window.scrollY === 0 && touchDiff > 0) {
+      e.preventDefault();
+    }
+  }, { passive: false });
+  
+  // 4. 페이지 로드 완료 후 부드러운 전환 활성화
+  window.addEventListener('load', () => {
+    document.body.style.transition = 'none';
+    
+    setTimeout(() => {
+      document.body.style.transition = '';
+    }, 100);
+  });
+  
+})();
+
+// 5. CSS 변수를 사용한 높이 설정 도우미
+document.addEventListener('DOMContentLoaded', function() {
+  // 히어로 섹션에 적용
+  const heroSection = document.getElementById('gf-hero-section');
+  if (heroSection) {
+    heroSection.style.height = 'calc(var(--vh, 1vh) * 100)';
+  }
+});
+
 // ─── GOFIT 헤더 JavaScript (고유 선택자 버전) ───
 document.addEventListener('DOMContentLoaded', function() {
   const gfHeader = document.querySelector('.gf-header-main');
@@ -121,229 +216,64 @@ document.addEventListener('DOMContentLoaded', function() {
   window.addEventListener('scroll', highlightGfCurrentSection);
 });
 
-
-
-// GOFIT 비디오(히어로) 섹션 리디자인 JavaScript
+// GOFIT 비디오(히어로) 섹션 심플 JavaScript
 (function() {
   'use strict';
   
-  // 비디오 로드 후 애니메이션 트리거
+  // 비디오 로드 후 페이드인
   const gfHeroVimeo = document.getElementById('gf-hero-vimeo-player');
   const gfHeroVideoBg = document.querySelector('.gf-hero-bg-video');
 
   if (gfHeroVimeo && gfHeroVideoBg) {
     // iframe 로드 이벤트
     gfHeroVimeo.addEventListener('load', function() {
-      // 애니메이션 클래스 추가
-      gfHeroVideoBg.classList.add('gf-hero-loaded');
+      gfHeroVideoBg.classList.add('loaded');
     });
     
     // 백업: 3초 후 자동으로 애니메이션 시작
     setTimeout(function() {
-      if (!gfHeroVideoBg.classList.contains('gf-hero-loaded')) {
-        gfHeroVideoBg.classList.add('gf-hero-loaded');
+      if (!gfHeroVideoBg.classList.contains('loaded')) {
+        gfHeroVideoBg.classList.add('loaded');
       }
     }, 3000);
   }
   
-  // 타이핑 효과
-  function initTypingEffect() {
-    const typingElement = document.getElementById('gfHeroTyping');
-    if (!typingElement) return;
+  // 개선된 글리치 효과
+  function initGlitchEffect() {
+    const glitchText = document.querySelector('.gf-hero-glitch-text');
+    if (!glitchText) return;
     
-    const phrases = [
-      '혁신적인 디자인',
-      '최고의 품질',
-      '당신의 성공',
-      '피트니스의 미래'
-    ];
-    
-    let currentPhrase = 0;
-    let currentChar = 0;
-    let isDeleting = false;
-    let typeSpeed = 100;
-    
-    function type() {
-      const current = phrases[currentPhrase];
+    // 글리치 효과 트리거 함수
+    function triggerGlitch() {
+      // 이미 글리치 중이면 무시
+      if (glitchText.classList.contains('glitching')) return;
       
-      if (isDeleting) {
-        typingElement.textContent = current.substring(0, currentChar - 1);
-        currentChar--;
-        typeSpeed = 50;
-      } else {
-        typingElement.textContent = current.substring(0, currentChar + 1);
-        currentChar++;
-        typeSpeed = 100;
-      }
+      glitchText.classList.add('glitching');
       
-      if (!isDeleting && currentChar === current.length) {
-        // 단어 완성 후 대기
-        typeSpeed = 2000;
-        isDeleting = true;
-      } else if (isDeleting && currentChar === 0) {
-        // 삭제 완료 후 다음 문구로
-        isDeleting = false;
-        currentPhrase = (currentPhrase + 1) % phrases.length;
-        typeSpeed = 500;
-      }
-      
-      setTimeout(type, typeSpeed);
-    }
-    
-    // 타이핑 시작
-    setTimeout(type, 1500);
-  }
-  
-  // 마우스 추적 파티클 효과
-  function initMouseParticles() {
-    const particlesContainer = document.getElementById('gfHeroParticles');
-    if (!particlesContainer) return;
-    
-    let mouseX = 0;
-    let mouseY = 0;
-    let particleCount = 0;
-    const maxParticles = 50;
-    
-    document.addEventListener('mousemove', (e) => {
-      mouseX = e.clientX;
-      mouseY = e.clientY;
-      
-      // 마우스 이동 시 파티클 생성
-      if (particleCount < maxParticles) {
-        createParticle(mouseX, mouseY);
-        particleCount++;
-      }
-    });
-    
-    function createParticle(x, y) {
-      const particle = document.createElement('div');
-      particle.className = 'gf-hero-particle';
-      
-      // 랜덤 오프셋
-      const offsetX = (Math.random() - 0.5) * 50;
-      const offsetY = (Math.random() - 0.5) * 50;
-      
-      particle.style.left = (x + offsetX) + 'px';
-      particle.style.top = (y + offsetY) + 'px';
-      
-      // 랜덤 크기
-      const size = Math.random() * 6 + 2;
-      particle.style.width = size + 'px';
-      particle.style.height = size + 'px';
-      
-      particlesContainer.appendChild(particle);
-      
-      // 애니메이션 후 제거
+      // 애니메이션 시간과 동일하게 설정 (0.4초)
       setTimeout(() => {
-        particle.remove();
-        particleCount--;
-      }, 1000);
+        glitchText.classList.remove('glitching');
+      }, 400);
     }
-  }
-  
-  // 스크롤 인디케이터 클릭
-  function initScrollIndicator() {
-    const scrollIndicator = document.querySelector('.gf-hero-scroll-indicator');
-    if (!scrollIndicator) return;
     
-    // 초기 애니메이션이 끝나면 애니메이션 속성 제거
-    scrollIndicator.addEventListener('animationend', function() {
-      this.style.animation = 'none';
-      this.style.opacity = '1';
-    });
+    // 정기적인 글리치 효과 (8초마다)
+    setInterval(triggerGlitch, 1000);
     
-    scrollIndicator.addEventListener('click', () => {
-      const nextSection = document.querySelector('#intro');
-      if (nextSection) {
-        const header = document.querySelector('.gf-header-main');
-        const headerHeight = header ? header.offsetHeight : 80;
-        const targetPosition = nextSection.offsetTop - headerHeight;
-        
-        window.scrollTo({
-          top: targetPosition,
-          behavior: 'smooth'
-        });
+    // 마우스 호버시 글리치 효과 (선택사항)
+    glitchText.addEventListener('mouseenter', function() {
+      // 랜덤하게 글리치 효과 발생 (30% 확률)
+      if (Math.random() > 0.7) {
+        triggerGlitch();
       }
     });
     
-    // 스크롤 시 인디케이터 점진적 숨기기
-    function updateIndicator() {
-      const scrollY = window.scrollY;
-      const isMobile = window.innerWidth <= 768;
-      
-      // 모바일에서는 더 빨리 사라지도록 조정
-      const startFade = isMobile ? 20 : 30;
-      const endFade = isMobile ? 70 : 100;
-      
-      if (scrollY <= startFade) {
-        // startFade 이하: 완전히 보임
-        scrollIndicator.style.opacity = '1';
-        scrollIndicator.style.pointerEvents = 'auto';
-      } else if (scrollY > startFade && scrollY < endFade) {
-        // startFade ~ endFade: 점진적으로 투명해짐
-        const fadeRange = endFade - startFade;
-        const fadeProgress = (scrollY - startFade) / fadeRange;
-        const opacity = Math.max(0, 1 - fadeProgress);
-        
-        scrollIndicator.style.opacity = opacity.toString();
-        scrollIndicator.style.pointerEvents = opacity > 0.3 ? 'auto' : 'none';
-      } else {
-        // endFade 이상: 완전히 숨김
-        scrollIndicator.style.opacity = '0';
-        scrollIndicator.style.pointerEvents = 'none';
-      }
-    }
-    
-    // 스크롤 이벤트 리스너
-    window.addEventListener('scroll', updateIndicator);
-    
-    // 초기 상태 확인
-    setTimeout(updateIndicator, 100);
-  }
-  
-  // 패럴랙스 효과
-  function initParallaxEffect() {
-    const heroContent = document.querySelector('.gf-hero-content');
-    const gridOverlay = document.querySelector('.gf-hero-grid-overlay');
-    const floatingElements = document.querySelector('.gf-hero-floating-elements');
-    
-    if (!heroContent || !gridOverlay) return;
-    
-    let ticking = false;
-    
-    function updateParallax() {
-      const scrolled = window.pageYOffset;
-      const rate = scrolled * 0.5;
-      
-      heroContent.style.transform = `translate(-50%, calc(-50% + ${rate}px))`;
-      gridOverlay.style.transform = `translateY(${rate * 0.2}px)`;
-      
-      if (floatingElements) {
-        floatingElements.style.transform = `translateY(${rate * 0.3}px)`;
-      }
-      
-      ticking = false;
-    }
-    
-    window.addEventListener('scroll', () => {
-      if (!ticking) {
-        window.requestAnimationFrame(updateParallax);
-        ticking = true;
-      }
-    });
+    // 초기 글리치 효과 (페이지 로드 2초 후)
+    setTimeout(triggerGlitch, 2000);
   }
   
   // 초기화
   function init() {
-    initTypingEffect();
-    initMouseParticles();
-    initScrollIndicator();
-    initParallaxEffect();
-    
-    // 페이지 로드 완료 시 애니메이션 시작
-    window.addEventListener('load', () => {
-      document.body.classList.add('loaded');
-    });
+    initGlitchEffect();
   }
   
   // DOM 로드 완료 시 실행
@@ -353,6 +283,8 @@ document.addEventListener('DOMContentLoaded', function() {
     init();
   }
 })();
+
+
 
 
 
@@ -1139,18 +1071,19 @@ document.addEventListener('DOMContentLoaded', function() {
 })();
 
 
-
-
-// GOFIT 제품 정보 섹션 JavaScript (기하학적 도형 패턴 효과)
+// GOFIT 제품 정보 섹션 JavaScript (슬라이드쇼 버전)
 (function() {
   'use strict';
   
   // 전역 변수
-  let currentCategory = 'all';
+  let currentSlide = 0;
+  let slideInterval;
+  const slideDelay = 8000; // 8초마다 슬라이드 변경 (5초에서 증가)
+  let isTransitioning = false;
   
   // 초기화
   function initGfProductsSection() {
-    console.log('GOFIT 제품 섹션 초기화');
+    console.log('GOFIT 제품 섹션 초기화 (슬라이드쇼 버전)');
     
     // 기하학적 도형 패턴 효과 추가
     createProductsParticles();
@@ -1158,16 +1091,11 @@ document.addEventListener('DOMContentLoaded', function() {
     // 스크롤 애니메이션 설정
     setupScrollAnimations();
     
-    // 카테고리 필터 설정
-    setupCategoryFilters();
+    // 슬라이드쇼 시작
+    startSlideshow();
     
-    // 모바일에서만 제품 캐러셀 활성화
-    if (window.innerWidth <= 768) {
-      setupProductCarousel();
-    }
-    
-    // 카드 애니메이션
-    setupCardAnimations();
+    // 인디케이터 클릭 이벤트
+    setupIndicatorClicks();
   }
   
   // ═══════════════════════════════════════════════════════════
@@ -1213,433 +1141,114 @@ document.addEventListener('DOMContentLoaded', function() {
   }
   
   // ═══════════════════════════════════════════════════════════
-  // 카테고리 필터 (심플한 드래그)
+  // 슬라이드쇼 기능 (캐러셀 버전)
   // ═══════════════════════════════════════════════════════════
-  function setupCategoryFilters() {
-    const filterWrapper = document.querySelector('.gf-products-filter-wrapper');
-    const filterTabs = document.querySelectorAll('.gf-products-filter-tab');
+  function startSlideshow() {
+    const slides = document.querySelectorAll('.gf-products-slide');
+    const dots = document.querySelectorAll('.gf-products-slide-dot');
     
-    if (!filterWrapper) return;
+    if (slides.length === 0) return;
     
-    // 드래그 변수
-    let isDragging = false;
-    let startX = 0;
-    let scrollLeft = 0;
-    let clickStartX = 0;
-    let velocity = 0;
-    let animationId = null;
+    // 초기 위치 설정
+    updateSlidePosition();
     
-    // 탭 클릭 이벤트
-    filterTabs.forEach(tab => {
-      tab.addEventListener('click', function(e) {
-        // 드래그 거리가 5px 이상이면 클릭 무시
-        if (Math.abs(clickStartX - e.clientX) > 5) {
-          e.preventDefault();
-          return;
-        }
-        
-        const category = this.getAttribute('data-category');
-        
-        // 활성 탭 변경
-        filterTabs.forEach(t => t.classList.remove('active'));
-        this.classList.add('active');
-        
-        // 카테고리 필터링
-        filterProducts(category);
-      });
-    });
-    
-    // 마우스 드래그
-    filterWrapper.addEventListener('mousedown', (e) => {
-      isDragging = true;
-      clickStartX = e.clientX;
-      startX = e.pageX - filterWrapper.offsetLeft;
-      scrollLeft = filterWrapper.scrollLeft;
-      velocity = 0;
-      
-      // 관성 애니메이션 중지
-      if (animationId) {
-        cancelAnimationFrame(animationId);
-        animationId = null;
-      }
-      
-      filterWrapper.style.cursor = 'grabbing';
-      filterWrapper.style.userSelect = 'none';
-    });
-    
-    filterWrapper.addEventListener('mousemove', (e) => {
-      if (!isDragging) return;
-      e.preventDefault();
-      
-      const x = e.pageX - filterWrapper.offsetLeft;
-      const walk = (x - startX) * 1;
-      filterWrapper.scrollLeft = scrollLeft - walk;
-      
-      // 속도 계산 (관성용)
-      velocity = walk * 0.15; // 제품 카드와 동일하게
-    });
-    
-    filterWrapper.addEventListener('mouseup', () => {
-      isDragging = false;
-      filterWrapper.style.cursor = 'grab';
-      filterWrapper.style.userSelect = '';
-      
-      // 관성 효과 적용
-      applyInertia();
-    });
-    
-    filterWrapper.addEventListener('mouseleave', () => {
-      isDragging = false;
-      filterWrapper.style.cursor = 'grab';
-      filterWrapper.style.userSelect = '';
-      
-      // 관성 효과 적용
-      applyInertia();
-    });
-    
-    // 터치 드래그
-    let touchStartX = 0;
-    let touchScrollLeft = 0;
-    let lastTouchX = 0;
-    let touchVelocity = 0;
-    
-    filterWrapper.addEventListener('touchstart', (e) => {
-      touchStartX = e.touches[0].pageX - filterWrapper.offsetLeft;
-      lastTouchX = e.touches[0].pageX;
-      touchScrollLeft = filterWrapper.scrollLeft;
-      touchVelocity = 0;
-      
-      // 관성 애니메이션 중지
-      if (animationId) {
-        cancelAnimationFrame(animationId);
-        animationId = null;
-      }
-    }, { passive: true });
-    
-    filterWrapper.addEventListener('touchmove', (e) => {
-      const x = e.touches[0].pageX - filterWrapper.offsetLeft;
-      const walk = (x - touchStartX) * 1;
-      filterWrapper.scrollLeft = touchScrollLeft - walk;
-      
-      // 속도 계산
-      touchVelocity = (e.touches[0].pageX - lastTouchX) * 0.3; // 제품 카드와 동일
-      lastTouchX = e.touches[0].pageX;
-    }, { passive: true });
-    
-    filterWrapper.addEventListener('touchend', () => {
-      velocity = -touchVelocity * 0.5; // 제품 카드와 동일
-      applyInertia();
-    });
-    
-    // 관성 효과 함수
-    function applyInertia() {
-      const friction = 0.97; // 제품 카드와 동일
-      const minVelocity = 0.2; // 제품 카드와 동일
-      
-      function animate() {
-        if (Math.abs(velocity) > minVelocity) {
-          filterWrapper.scrollLeft -= velocity;
-          velocity *= friction;
-          animationId = requestAnimationFrame(animate);
-        } else {
-          animationId = null;
-        }
-      }
-      
-      animate();
-    }
-    
-    // 초기 스타일
-    filterWrapper.style.cursor = 'grab';
+    // 자동 슬라이드 시작
+    slideInterval = setInterval(() => {
+      changeProductSlide(1);
+    }, slideDelay);
   }
   
-  // ═══════════════════════════════════════════════════════════
-  // 제품 필터링 - 수정된 버전
-  // ═══════════════════════════════════════════════════════════
-  function filterProducts(category) {
-    currentCategory = category;
-    const cards = document.querySelectorAll('.gf-products-card');
+  // 슬라이드 위치 업데이트
+  function updateSlidePosition() {
+    const track = document.querySelector('.gf-products-slides-track');
+    const slides = document.querySelectorAll('.gf-products-slide');
     
-    cards.forEach((card, index) => {
-      const cardCategory = card.getAttribute('data-category');
-      
-      if (category === 'all' || cardCategory === category) {
-        // 먼저 display를 복원
-        card.style.display = '';
-        
-        // 기존 인라인 스타일 제거 (중요!)
-        card.style.opacity = '';
-        card.style.transform = '';
-        card.style.transition = '';
-        
-        // 애니메이션 클래스 일시적으로 제거
-        card.classList.remove('gf-products-visible');
-        card.classList.remove('gf-products-animation-complete');
-        
-        // 리플로우 강제 발생 (브라우저가 변경사항을 인식하도록)
-        void card.offsetWidth;
-        
-        // 애니메이션 재적용
-        setTimeout(() => {
-          card.style.transition = 'all 0.4s ease';
-          card.classList.add('gf-products-visible');
-          
-          // 애니메이션 완료 후 처리
-          setTimeout(() => {
-            card.classList.add('gf-products-animation-complete');
-          }, 400);
-        }, index * 50);
+    if (!track) return;
+    
+    // 트랙 이동
+    track.style.transform = `translateX(-${currentSlide * 100}%)`;
+    
+    // active 클래스 업데이트
+    slides.forEach((slide, index) => {
+      if (index === currentSlide) {
+        slide.classList.add('active');
       } else {
-        // 카드 숨기기
-        card.style.transition = 'all 0.3s ease';
-        card.style.opacity = '0';
-        card.style.transform = 'scale(0.9)';
-        
-        setTimeout(() => {
-          card.style.display = 'none';
-        }, 300);
+        slide.classList.remove('active');
       }
     });
-    
-    // 모바일에서 스크롤 초기화
-    if (window.innerWidth <= 768) {
-      const carousel = document.querySelector('.gf-products-grid');
-      if (carousel) {
-        carousel.scrollTo({
-          left: 0,
-          behavior: 'smooth'
-        });
-      }
-    }
     
     // 인디케이터 업데이트
-    updateIndicators();
+    const dots = document.querySelectorAll('.gf-products-slide-dot');
+    dots.forEach((dot, index) => {
+      if (index === currentSlide) {
+        dot.classList.add('active');
+      } else {
+        dot.classList.remove('active');
+      }
+    });
   }
   
-  // ═══════════════════════════════════════════════════════════
-  // 제품 캐러셀 (자유로운 드래그)
-  // ═══════════════════════════════════════════════════════════
-  function setupProductCarousel() {
-    const carousel = document.querySelector('.gf-products-grid');
-    if (!carousel) return;
+  // 슬라이드 변경 함수 (전역으로 노출)
+  window.changeProductSlide = function(direction) {
+    if (isTransitioning) return;
     
-    // 드래그 변수
-    let isDragging = false;
-    let startX = 0;
-    let scrollLeft = 0;
-    let velocity = 0;
-    let animationId = null;
+    const slides = document.querySelectorAll('.gf-products-slide');
+    const totalSlides = slides.length;
     
-    // 스크롤 스냅 완전히 제거
-    carousel.style.scrollSnapType = 'none';
-    carousel.style.scrollBehavior = 'auto';
+    // 자동 슬라이드 중지 후 재시작
+    clearInterval(slideInterval);
     
-    // 이미지 드래그 방지
-    const images = carousel.querySelectorAll('img');
-    images.forEach(img => {
-      img.style.pointerEvents = 'none';
-      img.style.userSelect = 'none';
-      img.setAttribute('draggable', 'false');
-    });
-    
-    // 마우스 이벤트
-    carousel.addEventListener('mousedown', (e) => {
-      // 이미지나 링크 드래그 방지
-      e.preventDefault();
-      
-      isDragging = true;
-      startX = e.pageX - carousel.offsetLeft;
-      scrollLeft = carousel.scrollLeft;
-      velocity = 0;
-      
-      // 관성 애니메이션 중지
-      if (animationId) {
-        cancelAnimationFrame(animationId);
-        animationId = null;
-      }
-      
-      carousel.style.cursor = 'grabbing';
-      carousel.style.userSelect = 'none';
-    });
-    
-    carousel.addEventListener('mousemove', (e) => {
-      if (!isDragging) return;
-      e.preventDefault();
-      
-      const x = e.pageX - carousel.offsetLeft;
-      const diff = x - startX;
-      carousel.scrollLeft = scrollLeft - diff;
-      
-      // 속도 계산 (관성용) - 부드럽게 조정
-      velocity = diff * 0.15; // 더 약하게 조정
-    });
-    
-    carousel.addEventListener('mouseup', () => {
-      if (!isDragging) return;
-      isDragging = false;
-      carousel.style.cursor = 'grab';
-      carousel.style.userSelect = '';
-      
-      // 관성 효과 적용
-      applyInertia();
-    });
-    
-    carousel.addEventListener('mouseleave', () => {
-      if (!isDragging) return;
-      isDragging = false;
-      carousel.style.cursor = 'grab';
-      carousel.style.userSelect = '';
-      
-      // 관성 효과 적용
-      applyInertia();
-    });
-    
-    // 터치 이벤트
-    let touchStartX = 0;
-    let touchScrollLeft = 0;
-    let lastTouchX = 0;
-    let touchVelocity = 0;
-    
-    carousel.addEventListener('touchstart', (e) => {
-      touchStartX = e.touches[0].pageX;
-      lastTouchX = touchStartX;
-      touchScrollLeft = carousel.scrollLeft;
-      touchVelocity = 0;
-      
-      // 관성 애니메이션 중지
-      if (animationId) {
-        cancelAnimationFrame(animationId);
-        animationId = null;
-      }
-    }, { passive: true });
-    
-    carousel.addEventListener('touchmove', (e) => {
-      const x = e.touches[0].pageX;
-      const diff = touchStartX - x;
-      carousel.scrollLeft = touchScrollLeft + diff;
-      
-      // 속도 계산 - 부드럽게 조정
-      touchVelocity = (x - lastTouchX) * 0.3; // 더 약하게
-      lastTouchX = x;
-    }, { passive: true });
-    
-    carousel.addEventListener('touchend', () => {
-      velocity = -touchVelocity * 0.5; // 더 약하게
-      applyInertia();
-    });
-    
-    // 관성 효과 함수
-    function applyInertia() {
-      const friction = 0.97; // 더 높여서 빨리 멈춤
-      const minVelocity = 0.2; // 더 낮춰서 빨리 멈춤
-      
-      function animate() {
-        if (Math.abs(velocity) > minVelocity) {
-          carousel.scrollLeft -= velocity;
-          velocity *= friction;
-          animationId = requestAnimationFrame(animate);
-        } else {
-          animationId = null;
-        }
-      }
-      
-      animate();
+    // 다음 슬라이드 인덱스 계산
+    currentSlide = currentSlide + direction;
+    if (currentSlide >= totalSlides) {
+      currentSlide = 0;
+    } else if (currentSlide < 0) {
+      currentSlide = totalSlides - 1;
     }
     
-    // 스크롤 이벤트로 인디케이터 실시간 업데이트
-    carousel.addEventListener('scroll', () => {
-      updateIndicators();
-    });
+    // 슬라이드 전환
+    isTransitioning = true;
+    updateSlidePosition();
     
-    // 초기 스타일
-    carousel.style.cursor = 'grab';
+    // 전환 애니메이션 완료 대기
+    setTimeout(() => {
+      isTransitioning = false;
+    }, 800); // CSS transition 시간과 맞춤
     
-    // 컨텍스트 메뉴 방지 (우클릭)
-    carousel.addEventListener('contextmenu', (e) => {
-      e.preventDefault();
-    });
-    
-    // 선택 방지
-    carousel.addEventListener('selectstart', (e) => {
-      e.preventDefault();
-    });
-  }
+    // 3초 후 자동 슬라이드 재시작
+    setTimeout(() => {
+      slideInterval = setInterval(() => {
+        changeProductSlide(1);
+      }, slideDelay);
+    }, 3000);
+  };
   
-  // ═══════════════════════════════════════════════════════════
-  // 인디케이터
-  // ═══════════════════════════════════════════════════════════
-  function updateIndicators() {
-    const carousel = document.querySelector('.gf-products-grid');
-    const indicators = document.querySelectorAll('.gf-products-indicator');
-    
-    if (!carousel || indicators.length === 0) return;
-    
-    // 보이는 카드들만 가져오기
-    const visibleCards = Array.from(document.querySelectorAll('.gf-products-card'))
-      .filter(card => card.style.display !== 'none');
-    
-    if (visibleCards.length === 0) return;
-    
-    // 현재 스크롤 위치를 기반으로 인디케이터 활성화
-    const scrollPercentage = carousel.scrollLeft / (carousel.scrollWidth - carousel.clientWidth);
-    const activeIndex = Math.round(scrollPercentage * (indicators.length - 1));
-    
-    indicators.forEach((indicator, index) => {
-      if (index === activeIndex) {
-        indicator.classList.add('active');
-      } else {
-        indicator.classList.remove('active');
-      }
-    });
-  }
-  
-  // 인디케이터 클릭
+  // 인디케이터 클릭 이벤트
   function setupIndicatorClicks() {
-    const indicators = document.querySelectorAll('.gf-products-indicator');
-    const carousel = document.querySelector('.gf-products-grid');
+    const dots = document.querySelectorAll('.gf-products-slide-dot');
     
-    if (!carousel) return;
-    
-    indicators.forEach((indicator, index) => {
-      indicator.addEventListener('click', () => {
-        const scrollWidth = carousel.scrollWidth - carousel.clientWidth;
-        const targetScroll = (scrollWidth / (indicators.length - 1)) * index;
+    dots.forEach((dot, index) => {
+      dot.addEventListener('click', () => {
+        if (isTransitioning || index === currentSlide) return;
         
-        carousel.scrollTo({
-          left: targetScroll,
-          behavior: 'smooth'
-        });
-      });
-    });
-  }
-  
-  // ═══════════════════════════════════════════════════════════
-  // 카드 애니메이션
-  // ═══════════════════════════════════════════════════════════
-  function setupCardAnimations() {
-    const cards = document.querySelectorAll('.gf-products-card');
-    
-    cards.forEach(card => {
-      card.addEventListener('click', function(e) {
-        // 버튼 클릭은 제외
-        if (e.target.closest('.gf-products-btn')) return;
+        // 자동 슬라이드 중지 후 재시작
+        clearInterval(slideInterval);
         
-        // 리플 효과
-        const ripple = document.createElement('span');
-        ripple.className = 'gf-products-ripple';
+        currentSlide = index;
+        isTransitioning = true;
+        updateSlidePosition();
         
-        const rect = this.getBoundingClientRect();
-        const size = Math.max(rect.width, rect.height);
-        const x = e.clientX - rect.left - size / 2;
-        const y = e.clientY - rect.top - size / 2;
+        // 전환 애니메이션 완료 대기
+        setTimeout(() => {
+          isTransitioning = false;
+        }, 800);
         
-        ripple.style.width = ripple.style.height = size + 'px';
-        ripple.style.left = x + 'px';
-        ripple.style.top = y + 'px';
-        
-        this.appendChild(ripple);
-        
-        setTimeout(() => ripple.remove(), 600);
+        // 3초 후 자동 슬라이드 재시작
+        setTimeout(() => {
+          slideInterval = setInterval(() => {
+            changeProductSlide(1);
+          }, slideDelay);
+        }, 3000);
       });
     });
   }
@@ -1651,9 +1260,8 @@ document.addEventListener('DOMContentLoaded', function() {
     // 관찰할 요소들 선택
     const elementsToObserve = [
       '.gf-products-header',
-      '.gf-products-filter-wrapper',
-      '.gf-products-card',
-      '.gf-products-indicators'
+      '.gf-products-slideshow-wrapper',
+      '.gf-products-cta-wrapper'
     ];
     
     // Intersection Observer 옵션
@@ -1668,36 +1276,7 @@ document.addEventListener('DOMContentLoaded', function() {
         if (entry.isIntersecting) {
           // 요소가 화면에 들어오면 visible 클래스 추가
           requestAnimationFrame(() => {
-            // 헤더는 즉시
-            if (entry.target.classList.contains('gf-products-header')) {
-              entry.target.classList.add('gf-products-visible');
-            }
-            // 필터는 0.1초 후
-            else if (entry.target.classList.contains('gf-products-filter-wrapper')) {
-              setTimeout(() => {
-                entry.target.classList.add('gf-products-visible');
-              }, 100);
-            }
-            // 인디케이터는 0.3초 후
-            else if (entry.target.classList.contains('gf-products-indicators')) {
-              setTimeout(() => {
-                entry.target.classList.add('gf-products-visible');
-              }, 300);
-            }
-            // 카드는 즉시 visible 추가하고 애니메이션 완료 후 complete 클래스 추가
-            else if (entry.target.classList.contains('gf-products-card')) {
-              entry.target.classList.add('gf-products-visible');
-              
-              // 카드의 인덱스를 찾아서 적절한 딜레이 계산
-              const cards = document.querySelectorAll('.gf-products-card');
-              const index = Array.from(cards).indexOf(entry.target);
-              const delay = 50 + (index * 50); // 기본 50ms + 인덱스 * 50ms
-              
-              // 애니메이션 완료 후 클래스 추가
-              setTimeout(() => {
-                entry.target.classList.add('gf-products-animation-complete');
-              }, delay + 400); // transition 시간(400ms) 추가
-            }
+            entry.target.classList.add('gf-products-visible');
           });
           
           // 한 번만 실행되도록 관찰 중지
@@ -1727,488 +1306,28 @@ document.addEventListener('DOMContentLoaded', function() {
   }
   
   // ═══════════════════════════════════════════════════════════
-  // 리사이즈 처리
-  // ═══════════════════════════════════════════════════════════
-  function handleResize() {
-    if (window.innerWidth <= 768) {
-      setupProductCarousel();
-      setupIndicatorClicks();
-    }
-  }
-  
-  // ═══════════════════════════════════════════════════════════
   // 실행
   // ═══════════════════════════════════════════════════════════
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', () => {
       initGfProductsSection();
-      setupIndicatorClicks();
     });
   } else {
     initGfProductsSection();
-    setupIndicatorClicks();
   }
   
-  // 리사이즈 이벤트
-  let resizeTimer;
-  window.addEventListener('resize', () => {
-    clearTimeout(resizeTimer);
-    resizeTimer = setTimeout(handleResize, 250);
+  // 페이지 숨김/표시 시 슬라이드쇼 제어
+  document.addEventListener('visibilitychange', () => {
+    if (document.hidden) {
+      clearInterval(slideInterval);
+    } else {
+      startSlideshow();
+    }
   });
   
 })();
 
-// CSS 추가 (리플 효과용)
-const style = document.createElement('style');
-style.textContent = `
-  .gf-products-card {
-    position: relative;
-    overflow: hidden;
-  }
-  
-  .gf-products-ripple {
-    position: absolute;
-    border-radius: 50%;
-    background: rgba(230, 57, 70, 0.3);
-    transform: scale(0);
-    animation: gfProductsRipple 0.6s ease-out;
-    pointer-events: none;
-  }
-  
-  @keyframes gfProductsRipple {
-    to {
-      transform: scale(4);
-      opacity: 0;
-    }
-  }
-`;
-document.head.appendChild(style);
 
-
-
-
-// ─── 모던 문의 섹션 V2 JavaScript ───// ─── 모던 문의 섹션 V2 JavaScript ───// ─── 모던 문의 섹션 V2 JavaScript ───
-
-// ─── 모던 문의 섹션 V2 JavaScript (예산 비교 기능 추가) ───
-
-// 제품 데이터 (rentalPrice를 숫자로 변경)
-const products = [
-  // 근력 운동
-  { id: 1, name: '파워랙 프로', code: 'PR-001', category: 'strength', price: 3500000, rentalPrice: 120000, img: 'https://images.unsplash.com/photo-1623874514711-0f321325f318?w=300' },
-  { id: 2, name: '스미스 머신', code: 'SM-001', category: 'strength', price: 4200000, rentalPrice: 150000, img: 'https://images.unsplash.com/photo-1526506118085-60ce8714f8c5?w=300' },
-  { id: 3, name: '케이블 머신', code: 'CM-001', category: 'strength', price: 5800000, rentalPrice: 200000, img: 'https://images.unsplash.com/photo-1576678927484-cc907957088c?w=300' },
-  { id: 4, name: '레그 프레스', code: 'LP-001', category: 'strength', price: 2900000, rentalPrice: 100000, img: 'https://images.unsplash.com/photo-1434608519344-49d77a699e1d?w=300' },
-  
-  // 유산소 운동
-  { id: 5, name: '런닝머신 X3', code: 'TM-003', category: 'cardio', price: 6500000, rentalPrice: 220000, img: 'https://images.unsplash.com/photo-1578874691223-64558a3ca096?w=300' },
-  { id: 6, name: '사이클 프로', code: 'CY-001', category: 'cardio', price: 3200000, rentalPrice: 110000, img: 'https://images.unsplash.com/photo-1589579234096-25cb6b83e021?w=300' },
-  { id: 7, name: '일립티컬', code: 'EL-001', category: 'cardio', price: 4800000, rentalPrice: 165000, img: 'https://images.unsplash.com/photo-1637666218229-1fe0a9419267?w=300' },
-  
-  // 프리웨이트
-  { id: 8, name: '덤벨 세트', code: 'DB-001', category: 'free', price: 450000, rentalPrice: 20000, img: 'https://images.unsplash.com/photo-1542766788-a2f588f447ee?w=300' },
-  { id: 9, name: '바벨 세트', code: 'BB-001', category: 'free', price: 680000, rentalPrice: 25000, img: 'https://plus.unsplash.com/premium_photo-1664109999537-088e7d964da2?w=300' },
-  { id: 10, name: '케틀벨 세트', code: 'KB-001', category: 'free', price: 320000, rentalPrice: 15000, img: 'https://plus.unsplash.com/premium_photo-1664109999537-088e7d964da2?w=300' }
-];
-
-// 현재 활성 탭
-let activeTab = 'general';
-let currentFormType = '';
-let selectedProducts = {
-  purchase: [],
-  rental: []
-};
-
-// 탭 전환
-function showTab(tabName, event) {
-  activeTab = tabName;
-  
-  // 탭 버튼 활성화
-  document.querySelectorAll('.gfnew-tab').forEach(tab => {
-    tab.classList.remove('active');
-  });
-  event.target.classList.add('active');
-  
-  // 폼 패널 전환
-  document.querySelectorAll('.gfnew-form-panel').forEach(panel => {
-    panel.classList.remove('active');
-  });
-  document.getElementById(`${tabName}-form`).classList.add('active');
-}
-
-// 제품 모달 열기
-function openProductModal(formType) {
-  currentFormType = formType;
-  window.currentCategory = 'all';
-  document.getElementById('productModal').classList.add('show');
-  
-  // 필터 탭 초기화
-  document.querySelectorAll('.gfnew-filter-tab').forEach(tab => {
-    tab.classList.remove('active');
-    if (tab.textContent === '전체') {
-      tab.classList.add('active');
-    }
-  });
-  
-  renderProducts('all');
-  updateSelectionCount();
-}
-
-// 제품 모달 닫기
-function closeProductModal() {
-  document.getElementById('productModal').classList.remove('show');
-}
-
-// 제품 필터링
-function filterProducts(category, event) {
-  // 필터 버튼 활성화
-  document.querySelectorAll('.gfnew-filter-tab').forEach(tab => {
-    tab.classList.remove('active');
-  });
-  event.target.classList.add('active');
-  
-  // 카테고리 매핑
-  const categoryMap = {
-    '전체': 'all',
-    '근력 운동': 'strength',
-    '유산소 운동': 'cardio',
-    '프리웨이트': 'free'
-  };
-  
-  const mappedCategory = categoryMap[category] || category;
-  
-  // 현재 카테고리를 전역 변수로 저장
-  window.currentCategory = mappedCategory;
-  renderProducts(mappedCategory);
-}
-
-// 제품 렌더링
-function renderProducts(category) {
-  const grid = document.getElementById('productGrid');
-  const filteredProducts = category === 'all' 
-    ? products 
-    : products.filter(p => p.category === category);
-  
-  grid.innerHTML = filteredProducts.map(product => {
-    const isSelected = selectedProducts[currentFormType].some(p => p.id === product.id);
-    const price = currentFormType === 'rental' ? `월 ${formatNumber(product.rentalPrice)}원` : `${formatNumber(product.price)}원`;
-    
-    return `
-      <div class="gfnew-product-card ${isSelected ? 'selected' : ''}" onclick="toggleProduct(${product.id})">
-        <img src="${product.img}" alt="${product.name}" class="gfnew-card-img">
-        <div class="gfnew-card-info">
-          <h4 class="gfnew-card-name">${product.name}</h4>
-          <p class="gfnew-card-desc">제품코드: ${product.code}</p>
-          <p class="gfnew-card-price">${price}</p>
-        </div>
-        <div class="gfnew-card-check"></div>
-      </div>
-    `;
-  }).join('');
-}
-
-// 제품 선택/해제
-function toggleProduct(productId) {
-  const product = products.find(p => p.id === productId);
-  const index = selectedProducts[currentFormType].findIndex(p => p.id === productId);
-  
-  if (index > -1) {
-    selectedProducts[currentFormType].splice(index, 1);
-  } else {
-    selectedProducts[currentFormType].push({...product, quantity: 1});
-  }
-  
-  // 현재 카테고리를 유지하면서 다시 렌더링
-  const currentCat = window.currentCategory || 'all';
-  renderProducts(currentCat);
-  updateSelectionCount();
-}
-
-// 선택 개수 업데이트
-function updateSelectionCount() {
-  document.getElementById('selectionCount').textContent = selectedProducts[currentFormType].length;
-}
-
-// 선택 완료
-function confirmSelection() {
-  renderSelectedProducts();
-  closeProductModal();
-  
-  // 예산 비교 업데이트
-  if (currentFormType === 'purchase') {
-    updateBudgetComparison();
-  } else if (currentFormType === 'rental') {
-    updateRentalBudgetComparison();
-  }
-}
-
-// 선택된 제품 렌더링
-function renderSelectedProducts() {
-  const listId = currentFormType === 'purchase' ? 'purchase-products' : 'rental-products';
-  const list = document.getElementById(listId);
-  
-  if (selectedProducts[currentFormType].length === 0) {
-    list.classList.remove('show');
-    return;
-  }
-  
-  list.classList.add('show');
-  list.innerHTML = selectedProducts[currentFormType].map((product, index) => {
-    const price = currentFormType === 'rental' ? `월 ${formatNumber(product.rentalPrice)}원` : `${formatNumber(product.price)}원`;
-    
-    return `
-      <div class="gfnew-product-item">
-        <img src="${product.img}" alt="${product.name}" class="gfnew-product-img">
-        <div class="gfnew-product-info">
-          <h4 class="gfnew-product-name">${product.name}</h4>
-          <p class="gfnew-product-code">${product.code} · ${price}</p>
-        </div>
-        <div class="gfnew-product-controls">
-          <div class="gfnew-qty-control">
-            <button class="gfnew-qty-btn" onclick="changeQuantity('${currentFormType}', ${index}, -1)">-</button>
-            <span class="gfnew-qty-value">${product.quantity}</span>
-            <button class="gfnew-qty-btn" onclick="changeQuantity('${currentFormType}', ${index}, 1)">+</button>
-          </div>
-          <button class="gfnew-delete-btn" onclick="removeProduct('${currentFormType}', ${index})">
-            <i class="fas fa-trash"></i>
-          </button>
-        </div>
-      </div>
-    `;
-  }).join('');
-}
-
-// 수량 변경
-function changeQuantity(formType, index, change) {
-  const product = selectedProducts[formType][index];
-  product.quantity = Math.max(1, product.quantity + change);
-  currentFormType = formType;
-  renderSelectedProducts();
-  
-  // 예산 비교 업데이트
-  if (formType === 'purchase') {
-    updateBudgetComparison();
-  } else if (formType === 'rental') {
-    updateRentalBudgetComparison();
-  }
-}
-
-// 제품 삭제
-function removeProduct(formType, index) {
-  selectedProducts[formType].splice(index, 1);
-  currentFormType = formType;
-  renderSelectedProducts();
-  
-  // 예산 비교 업데이트
-  if (formType === 'purchase') {
-    updateBudgetComparison();
-  } else if (formType === 'rental') {
-    updateRentalBudgetComparison();
-  }
-}
-
-// 숫자 포맷팅 함수 (천단위 콤마)
-function formatNumber(num) {
-  return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-}
-
-// 숫자만 추출하는 함수
-function extractNumber(str) {
-  return parseInt(str.replace(/[^0-9]/g, '')) || 0;
-}
-
-// 총 가격 계산 함수
-function calculateTotalPrice() {
-  return selectedProducts.purchase.reduce((total, product) => {
-    return total + (product.price * product.quantity);
-  }, 0);
-}
-
-// 렌탈 총 가격 계산 함수
-function calculateTotalRentalPrice() {
-  return selectedProducts.rental.reduce((total, product) => {
-    return total + (product.rentalPrice * product.quantity);
-  }, 0);
-}
-
-// 예산 비교 업데이트 함수
-function updateBudgetComparison() {
-  const budgetInput = document.getElementById('purchase-budget');
-  const budgetCompare = document.getElementById('purchase-budget-compare');
-  const budgetDisplay = document.getElementById('purchase-budget-display');
-  const totalDisplay = document.getElementById('purchase-total-display');
-  const gaugeFill = document.getElementById('purchase-gauge-fill');
-  const gaugeMarker = document.getElementById('purchase-gauge-marker');
-  const budgetStatus = document.getElementById('purchase-budget-status');
-  
-  // 예산 입력값 확인
-  const budgetValue = extractNumber(budgetInput.value);
-  const totalPrice = calculateTotalPrice();
-  
-  // 예산이 입력되고 제품이 선택된 경우에만 표시
-  if (budgetValue > 0 && selectedProducts.purchase.length > 0) {
-    budgetCompare.style.display = 'block';
-    
-    // 금액 표시
-    budgetDisplay.textContent = formatNumber(budgetValue) + '원';
-    totalDisplay.textContent = formatNumber(totalPrice) + '원';
-    
-    // 퍼센트 계산
-    const percentage = Math.min((totalPrice / budgetValue) * 100, 150);
-    
-    // 게이지 업데이트
-    gaugeFill.style.width = `${Math.min(percentage, 100)}%`;
-    gaugeMarker.style.left = `${percentage}%`;
-    
-    // 상태 메시지 업데이트
-    if (percentage <= 70) {
-      budgetStatus.className = 'gfnew-budget-status good';
-      budgetStatus.innerHTML = `
-        <i class="fas fa-check-circle"></i>
-        <span>예산 내에서 여유있게 선택하셨습니다. (${Math.round(percentage)}%)</span>
-      `;
-    } else if (percentage <= 100) {
-      budgetStatus.className = 'gfnew-budget-status warning';
-      budgetStatus.innerHTML = `
-        <i class="fas fa-exclamation-circle"></i>
-        <span>예산에 근접한 선택입니다. (${Math.round(percentage)}%)</span>
-      `;
-    } else {
-      budgetStatus.className = 'gfnew-budget-status over';
-      budgetStatus.innerHTML = `
-        <i class="fas fa-times-circle"></i>
-        <span>예산을 ${formatNumber(totalPrice - budgetValue)}원 초과했습니다. (${Math.round(percentage)}%)</span>
-      `;
-    }
-    
-    // 게이지 색상 업데이트
-    if (percentage <= 70) {
-      gaugeFill.style.background = 'linear-gradient(90deg, #2ecc71, #27ae60)';
-    } else if (percentage <= 100) {
-      gaugeFill.style.background = 'linear-gradient(90deg, #f1c40f, #f39c12)';
-    } else {
-      gaugeFill.style.background = 'linear-gradient(90deg, #e74c3c, #c0392b)';
-    }
-  } else {
-    budgetCompare.style.display = 'none';
-  }
-}
-
-// 렌탈 예산 비교 업데이트 함수
-function updateRentalBudgetComparison() {
-  const budgetInput = document.getElementById('rental-budget');
-  const budgetCompare = document.getElementById('rental-budget-compare');
-  const budgetDisplay = document.getElementById('rental-budget-display');
-  const totalDisplay = document.getElementById('rental-total-display');
-  const gaugeFill = document.getElementById('rental-gauge-fill');
-  const gaugeMarker = document.getElementById('rental-gauge-marker');
-  const budgetStatus = document.getElementById('rental-budget-status');
-  
-  // 예산 입력값 확인
-  const budgetValue = extractNumber(budgetInput.value);
-  const totalPrice = calculateTotalRentalPrice();
-  
-  // 예산이 입력되고 제품이 선택된 경우에만 표시
-  if (budgetValue > 0 && selectedProducts.rental.length > 0) {
-    budgetCompare.style.display = 'block';
-    
-    // 금액 표시
-    budgetDisplay.textContent = formatNumber(budgetValue) + '원';
-    totalDisplay.textContent = formatNumber(totalPrice) + '원';
-    
-    // 퍼센트 계산
-    const percentage = Math.min((totalPrice / budgetValue) * 100, 150);
-    
-    // 게이지 업데이트
-    gaugeFill.style.width = `${Math.min(percentage, 100)}%`;
-    gaugeMarker.style.left = `${percentage}%`;
-    
-    // 상태 메시지 업데이트
-    if (percentage <= 70) {
-      budgetStatus.className = 'gfnew-budget-status good';
-      budgetStatus.innerHTML = `
-        <i class="fas fa-check-circle"></i>
-        <span>월 렌탈 예산 내에서 여유있게 선택하셨습니다. (${Math.round(percentage)}%)</span>
-      `;
-    } else if (percentage <= 100) {
-      budgetStatus.className = 'gfnew-budget-status warning';
-      budgetStatus.innerHTML = `
-        <i class="fas fa-exclamation-circle"></i>
-        <span>월 렌탈 예산에 근접한 선택입니다. (${Math.round(percentage)}%)</span>
-      `;
-    } else {
-      budgetStatus.className = 'gfnew-budget-status over';
-      budgetStatus.innerHTML = `
-        <i class="fas fa-times-circle"></i>
-        <span>월 렌탈 예산을 ${formatNumber(totalPrice - budgetValue)}원 초과했습니다. (${Math.round(percentage)}%)</span>
-      `;
-    }
-    
-    // 게이지 색상 업데이트
-    if (percentage <= 70) {
-      gaugeFill.style.background = 'linear-gradient(90deg, #2ecc71, #27ae60)';
-    } else if (percentage <= 100) {
-      gaugeFill.style.background = 'linear-gradient(90deg, #f1c40f, #f39c12)';
-    } else {
-      gaugeFill.style.background = 'linear-gradient(90deg, #e74c3c, #c0392b)';
-    }
-  } else {
-    budgetCompare.style.display = 'none';
-  }
-}
-
-// 폼 제출 처리
-document.querySelectorAll('form').forEach(form => {
-  form.addEventListener('submit', function(e) {
-    e.preventDefault();
-    alert('문의가 접수되었습니다. 빠른 시일 내에 연락드리겠습니다.');
-    form.reset();
-    selectedProducts = {purchase: [], rental: []};
-    document.querySelectorAll('.gfnew-selected-list').forEach(list => {
-      list.classList.remove('show');
-      list.innerHTML = '';
-    });
-    // 예산 비교 숨기기
-    document.getElementById('purchase-budget-compare').style.display = 'none';
-    document.getElementById('rental-budget-compare').style.display = 'none';
-  });
-});
-
-// 모달 외부 클릭시 닫기
-document.getElementById('productModal').addEventListener('click', function(e) {
-  if (e.target === this) {
-    closeProductModal();
-  }
-});
-
-// 예산 입력 시 실시간 포맷팅 (선택사항)
-document.getElementById('purchase-budget').addEventListener('input', function(e) {
-  // 숫자만 남기기
-  let value = e.target.value.replace(/[^0-9]/g, '');
-  
-  // 천단위 콤마 추가
-  if (value) {
-    e.target.value = formatNumber(value) + '원';
-  }
-  
-  // 커서를 끝으로 이동
-  const len = e.target.value.length;
-  e.target.setSelectionRange(len - 1, len - 1);
-});
-
-// 렌탈 예산 입력 시 실시간 포맷팅
-document.getElementById('rental-budget').addEventListener('input', function(e) {
-  // 숫자만 남기기
-  let value = e.target.value.replace(/[^0-9]/g, '');
-  
-  // 천단위 콤마 추가
-  if (value) {
-    e.target.value = formatNumber(value) + '원';
-  }
-  
-  // 커서를 끝으로 이동
-  const len = e.target.value.length;
-  e.target.setSelectionRange(len - 1, len - 1);
-});
 
 // ═══════════════════════════════════════════════════════════════════════
 // GOFIT 문의 섹션 스크롤 애니메이션
@@ -2223,26 +1342,23 @@ document.getElementById('rental-budget').addEventListener('input', function(e) {
     const elementsToObserve = [
       '.gfnew-header',
       '.gfnew-quick-contact',
-      '.gfnew-tab-container',
-      '.gfnew-form-wrapper'
+      '.gfnew-online-inquiry-wrapper'
     ];
     
     // Intersection Observer 옵션
     const observerOptions = {
-      threshold: 0.05, // 요소의 10%가 보이면 트리거
-      rootMargin: '0px 0px -20px 0px' // 하단에서 50px 전에 트리거
+      threshold: 0.05,
+      rootMargin: '0px 0px -20px 0px'
     };
     
     // Observer 생성
     const scrollObserver = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
-          // 요소가 화면에 들어오면 visible 클래스 추가
           requestAnimationFrame(() => {
             entry.target.classList.add('gfnew-visible');
           });
           
-          // 한 번만 실행되도록 관찰 중지
           scrollObserver.unobserve(entry.target);
         }
       });
@@ -2261,7 +1377,6 @@ document.getElementById('rental-budget').addEventListener('input', function(e) {
       const contactSection = document.querySelector('.gfnew-contact');
       if (contactSection) {
         const rect = contactSection.getBoundingClientRect();
-        // 문의 섹션이 이미 화면에 보이는 경우
         if (rect.top < window.innerHeight && rect.bottom > 0) {
           elementsToObserve.forEach(selector => {
             const element = document.querySelector(selector);
