@@ -1,0 +1,946 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>명언 이미지 생성기</title>
+    
+    <!-- 
+    파일 구조:
+    /
+    ├── index.html
+    ├── fonts.js
+    ├── quotes/
+    │   └── good.json
+    └── gofit_logo/
+        └── LOGO.png
+    -->
+    
+    <!-- 폰트 로딩 스크립트 -->
+    <script src="fonts.js"></script>
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Noto Sans KR', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: #0a0a0a;
+            min-height: 100vh;
+            display: flex;
+            align-items: flex-start; /* 상단 정렬로 변경 */
+            justify-content: center;
+            padding: 50px 20px 20px 20px; /* 상단에 여백 추가 */
+            color: #e0e0e0;
+            overflow-y: auto;
+        }
+
+        .container {
+            background: #1a1a1a;
+            border-radius: 24px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5), 0 0 100px rgba(138, 43, 226, 0.1);
+            padding: 40px;
+            max-width: 1400px;
+            width: 100%;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+        }
+
+        h1 {
+            text-align: center;
+            color: #fff;
+            margin-bottom: 40px;
+            font-size: 2.5rem;
+            background: linear-gradient(135deg, #8a2be2 0%, #4169e1 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: glow 3s ease-in-out infinite;
+        }
+
+        @keyframes glow {
+            0%, 100% { filter: brightness(1); }
+            50% { filter: brightness(1.2); }
+        }
+
+        .generator-wrapper {
+            display: flex;
+            gap: 50px;
+            align-items: flex-start;
+            flex-wrap: wrap;
+            justify-content: center;
+            min-height: 800px; /* 최소 높이 설정 */
+            padding-bottom: 150px; /* 하단 여백 추가 */
+        }
+
+        .left-section {
+            flex: 1;
+            min-width: 300px;
+            max-width: 600px;
+        }
+
+        .canvas-container {
+            position: relative;
+            margin-bottom: 30px;
+        }
+
+        .loading-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            border-radius: 16px;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            z-index: 10;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .loading-overlay.active {
+            display: flex;
+            opacity: 1;
+        }
+
+        .loading-content {
+            text-align: center;
+            color: #fff;
+        }
+
+        .loading-spinner {
+            width: 60px;
+            height: 60px;
+            margin: 0 auto 30px;
+            position: relative;
+        }
+
+        .loading-spinner::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            border: 3px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .loading-spinner::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            border: 3px solid transparent;
+            border-top-color: #8a2be2;
+            border-right-color: #8a2be2;
+            animation: spin 1s linear infinite;
+            box-shadow: 0 0 20px rgba(138, 43, 226, 0.5);
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .loading-text {
+            font-size: 22px;
+            font-weight: 600;
+            color: #fff;
+            text-shadow: 0 2px 10px rgba(138, 43, 226, 0.8);
+            animation: pulse 1.5s ease-in-out infinite;
+            letter-spacing: 0.5px;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        .loading-dots::after {
+            content: '';
+            animation: dots 1.5s infinite;
+        }
+
+        @keyframes dots {
+            0%, 20% { content: '.'; }
+            40% { content: '..'; }
+            60%, 100% { content: '...'; }
+        }
+
+        canvas {
+            width: 100%;
+            height: auto;
+            border: 2px solid rgba(138, 43, 226, 0.3);
+            border-radius: 16px;
+            display: block;
+            background: #2a2a2a;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        canvas:hover {
+            border-color: rgba(138, 43, 226, 0.6);
+            transform: translateY(-2px);
+            box-shadow: 0 15px 40px rgba(138, 43, 226, 0.2);
+        }
+
+        .button-group {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .button-group.single {
+            grid-template-columns: 1fr;
+        }
+
+        .button-group.triple {
+            grid-template-columns: repeat(3, 1fr);
+        }
+
+        button {
+            padding: 15px 20px;
+            background: linear-gradient(135deg, #8a2be2 0%, #4169e1 100%);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        button.secondary {
+            background: linear-gradient(135deg, #374151 0%, #4b5563 100%);
+        }
+
+        button.secondary:hover {
+            background: linear-gradient(135deg, #4b5563 0%, #6b7280 100%);
+        }
+
+        button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(138, 43, 226, 0.3);
+        }
+
+        button:hover::before {
+            left: 100%;
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none !important;
+        }
+
+        button:disabled::before {
+            display: none;
+        }
+
+        .controls {
+            flex: 1;
+            min-width: 300px;
+            max-width: 500px;
+            overflow: visible; /* 드롭다운이 컨테이너 밖으로 나갈 수 있도록 */
+        }
+
+        .control-section {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 25px;
+            margin-bottom: 20px;
+            transition: all 0.3s ease;
+            overflow: visible; /* 드롭다운을 위해 추가 */
+        }
+
+        .control-section:hover {
+            background: rgba(255, 255, 255, 0.05);
+            border-color: rgba(138, 43, 226, 0.3);
+        }
+
+        .section-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #8a2be2;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .control-group {
+            margin-bottom: 20px;
+            animation: fadeInUp 0.6s ease-out forwards;
+            opacity: 0;
+        }
+
+        .control-group:last-child {
+            margin-bottom: 0;
+        }
+
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+        }
+
+        label {
+            display: block;
+            font-weight: 600;
+            color: #b0b0b0;
+            margin-bottom: 10px;
+            transition: color 0.3s ease;
+            font-size: 14px;
+        }
+
+        .control-group:hover label {
+            color: #8a2be2;
+        }
+
+        input, select, textarea {
+            width: 100%;
+            padding: 12px 16px;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            font-size: 16px;
+            background: rgba(255, 255, 255, 0.05);
+            color: #e0e0e0;
+            transition: all 0.3s ease;
+        }
+        
+        /* select 요소 추가 스타일 - 드롭다운 방향 제어 */
+        select {
+            position: relative;
+            z-index: 999;
+        }
+        
+        /* 폰트 선택 드롭다운 특별 처리 */
+        #fontFamily {
+            max-height: none; /* 높이 제한 제거 */
+        }
+
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: #8a2be2;
+            background: rgba(138, 43, 226, 0.1);
+            box-shadow: 0 0 20px rgba(138, 43, 226, 0.2);
+        }
+
+        input:disabled, select:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        input[type="color"] {
+            height: 50px;
+            cursor: pointer;
+            padding: 5px;
+        }
+
+        input[type="range"] {
+            padding: 0;
+            background: transparent;
+        }
+
+        input[type="range"]::-webkit-slider-track {
+            background: rgba(255, 255, 255, 0.1);
+            height: 6px;
+            border-radius: 3px;
+        }
+
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 18px;
+            height: 18px;
+            background: #8a2be2;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        input[type="range"]::-webkit-slider-thumb:hover {
+            transform: scale(1.2);
+            box-shadow: 0 0 15px rgba(138, 43, 226, 0.5);
+        }
+
+        textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+            accent-color: #8a2be2;
+            vertical-align: middle;
+        }
+
+        .checkbox-label {
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+        }
+
+        .checkbox-label span {
+            margin-left: 10px;
+        }
+
+        @media (max-width: 992px) {
+            .generator-wrapper {
+                flex-direction: column;
+                gap: 30px;
+            }
+
+            .left-section, .controls {
+                max-width: 100%;
+            }
+
+            .button-group.triple {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+            }
+
+            h1 {
+                font-size: 2rem;
+            }
+
+            .control-section {
+                padding: 20px;
+            }
+
+            .button-group {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        option {
+            background: #2a2a2a;
+            color: #e0e0e0;
+        }
+
+        optgroup {
+            background: #4a2c7a;
+            color: #fff;
+            font-weight: bold;
+        }
+
+        /* 아이콘 스타일 */
+        .icon {
+            width: 20px;
+            height: 20px;
+            display: inline-block;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>✨ 명언 이미지 생성기</h1>
+        
+        <div class="generator-wrapper">
+            <div class="left-section">
+                <div class="canvas-container">
+                    <canvas id="canvas" width="1000" height="1000"></canvas>
+                    <div class="loading-overlay" id="loading">
+                        <div class="loading-content">
+                            <div class="loading-spinner"></div>
+                            <div class="loading-text">이미지를 불러오는 중<span class="loading-dots"></span></div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="button-group">
+                    <button onclick="generateNewCombination()">🎲 랜덤 조합</button>
+                    <button onclick="downloadImage()">💾 이미지 저장</button>
+                </div>
+                
+                <div class="button-group">
+                    <button class="secondary" onclick="generateNewImage()">🖼️ 랜덤 이미지</button>
+                    <button class="secondary" onclick="generateNewQuote()">💬 랜덤 명언</button>
+                </div>
+            </div>
+            
+            <div class="controls">
+                <div class="control-section">
+                    <h3 class="section-title">🎨 텍스트 스타일</h3>
+                    
+                    <div class="control-group">
+                        <label for="fontFamily">폰트</label>
+                        <select id="fontFamily">
+                            <!-- 폰트 옵션은 fonts.js에서 자동으로 추가됩니다 -->
+                        </select>
+                    </div>
+                    
+                    <div class="control-group">
+                        <label for="fontSize">글자 크기: <span id="fontSizeValue">60</span>px</label>
+                        <input type="range" id="fontSize" min="30" max="100" value="60">
+                    </div>
+                    
+                    <div class="control-group">
+                        <label for="textColor">글자 색상</label>
+                        <input type="color" id="textColor" value="#ffffff">
+                    </div>
+                    
+                    <div class="control-group">
+                        <label for="bgOpacity">배경 어둡기: <span id="bgOpacityValue">0.8</span></label>
+                        <input type="range" id="bgOpacity" min="0" max="1" step="0.1" value="0.8">
+                    </div>
+                </div>
+                
+                <div class="control-section">
+                    <h3 class="section-title">📝 명언 설정</h3>
+                    
+                    <div class="control-group">
+                        <label for="quoteSelect">명언 카테고리</label>
+                        <select id="quoteSelect">
+                            <option value="good">좋은 글귀</option>
+                            <option value="custom">직접 입력</option>
+                        </select>
+                    </div>
+                    
+                    <div class="control-group" id="customQuoteGroup" style="display: none;">
+                        <label for="customQuote">명언 입력</label>
+                        <textarea id="customQuote" placeholder="당신의 명언을 입력하세요..."></textarea>
+                    </div>
+                </div>
+                
+                <div class="control-section">
+                    <h3 class="section-title">🏷️ 로고 설정</h3>
+                    
+                    <div class="control-group">
+                        <label class="checkbox-label" for="showLogo">
+                            <input type="checkbox" id="showLogo" checked>
+                            <span>로고 표시</span>
+                        </label>
+                    </div>
+                    
+                    <div class="control-group" id="logoSizeGroup">
+                        <label for="logoSize">로고 크기: <span id="logoSizeValue">120</span>px</label>
+                        <input type="range" id="logoSize" min="40" max="200" value="120">
+                    </div>
+                    
+                    <div class="control-group" id="logoPositionGroup">
+                        <label for="logoPosition">로고 위치</label>
+                        <select id="logoPosition">
+                            <option value="bottom">하단</option>
+                            <option value="top">상단</option>
+                        </select>
+                    </div>
+                    
+                    <div class="control-group" id="logoMarginGroup">
+                        <label for="logoMargin">로고 여백: <span id="logoMarginValue">100</span>px</label>
+                        <input type="range" id="logoMargin" min="20" max="300" value="100">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 명언 데이터를 저장할 객체
+        let quotesData = {
+            good: []
+        };
+
+        // 임시 데이터 (실제로는 각 JSON 파일에서 로드)
+        const tempData = {
+            good: [
+                { "text": "매일 조금씩 나아가면 언젠가는 도착한다." },
+                { "text": "힘든 길일수록 도착했을 때의 기쁨이 크다." },
+                { "text": "포기하지 않는 한 실패는 없다." },
+                { "text": "어제와 다른 오늘을 만들어가자." },
+                { "text": "작은 변화가 큰 결과를 만든다." },
+                { "text": "오늘 할 수 있는 일을 내일로 미루지 마라." },
+                { "text": "시작이 반이다." },
+                { "text": "꾸준함이 재능을 이긴다." },
+                { "text": "실패는 성공으로 가는 과정일 뿐이다." },
+                { "text": "노력은 배신하지 않는다." }
+            ]
+        };
+
+        // 명언 파일 로드 함수
+        async function loadQuotes() {
+            try {
+                // 실제 JSON 파일 로드
+                const response = await fetch('quotes/good.json');
+                if (!response.ok) {
+                    throw new Error('파일을 불러올 수 없습니다');
+                }
+                const goodQuotes = await response.json();
+                
+                quotesData = {
+                    good: goodQuotes
+                };
+                
+                console.log('명언 데이터 로드 완료:', quotesData);
+                
+            } catch (error) {
+                console.error('명언 파일 로드 실패:', error);
+                // 로드 실패시 기본 데이터 사용
+                quotesData = tempData;
+                console.log('임시 데이터 사용');
+            }
+        }
+
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+        let currentImageUrl = '';
+        let currentImage = null;  // 현재 이미지 저장
+        let currentQuote = null;
+        let logoImage = null;  // 로고 이미지
+
+        // 컨트롤 요소들
+        const quoteSelect = document.getElementById('quoteSelect');
+        const customQuoteGroup = document.getElementById('customQuoteGroup');
+        const customQuote = document.getElementById('customQuote');
+        const fontFamily = document.getElementById('fontFamily');
+        const fontSize = document.getElementById('fontSize');
+        const fontSizeValue = document.getElementById('fontSizeValue');
+        const textColor = document.getElementById('textColor');
+        const bgOpacity = document.getElementById('bgOpacity');
+        const bgOpacityValue = document.getElementById('bgOpacityValue');
+        const showLogo = document.getElementById('showLogo');
+        const logoSize = document.getElementById('logoSize');
+        const logoSizeValue = document.getElementById('logoSizeValue');
+        const logoSizeGroup = document.getElementById('logoSizeGroup');
+        const logoPosition = document.getElementById('logoPosition');
+        const logoPositionGroup = document.getElementById('logoPositionGroup');
+        const logoMargin = document.getElementById('logoMargin');
+        const logoMarginValue = document.getElementById('logoMarginValue');
+        const logoMarginGroup = document.getElementById('logoMarginGroup');
+        const loading = document.getElementById('loading');
+
+        // 로고 이미지 로드
+        async function loadLogo() {
+            return new Promise((resolve, reject) => {
+                const logo = new Image();
+                logo.crossOrigin = 'anonymous';
+                logo.onload = () => resolve(logo);
+                logo.onerror = () => {
+                    console.error('로고 로드 실패');
+                    resolve(null);  // 로고 로드 실패해도 계속 진행
+                };
+                logo.src = '/gofit_logo/LOGO.png';
+            });
+        }
+
+        // 버튼 비활성화/활성화
+        function setButtonsDisabled(disabled) {
+            const buttons = document.querySelectorAll('button');
+            buttons.forEach(btn => btn.disabled = disabled);
+        }
+
+        // 로딩 표시
+        function showLoading() {
+            loading.style.display = 'flex';
+            setTimeout(() => loading.classList.add('active'), 10);
+            setButtonsDisabled(true);
+        }
+
+        // 로딩 숨기기
+        function hideLoading() {
+            loading.classList.remove('active');
+            setTimeout(() => loading.style.display = 'none', 300);
+            setButtonsDisabled(false);
+        }
+
+        // 랜덤 이미지 가져오기
+        async function getRandomImage() {
+            showLoading();
+            const randomId = Date.now() + '_' + Math.floor(Math.random() * 10000);
+            currentImageUrl = `https://picsum.photos/1000/1000?random=${randomId}`;
+            
+            const img = new Image();
+            img.crossOrigin = 'anonymous';
+            
+            return new Promise((resolve, reject) => {
+                img.onload = () => {
+                    hideLoading();
+                    resolve(img);
+                };
+                img.onerror = () => {
+                    hideLoading();
+                    reject();
+                };
+                img.src = currentImageUrl;
+            });
+        }
+
+        // 이벤트 리스너
+        quoteSelect.addEventListener('change', (e) => {
+            const value = e.target.value;
+            customQuoteGroup.style.display = value === 'custom' ? 'block' : 'none';
+            
+            // 카테고리 변경시 새로운 명언 선택 (custom 제외)
+            if (value !== 'custom') {
+                selectNewQuote(true);  // 강제로 새 명언 선택
+            } else {
+                currentQuote = '';  // custom 선택시 초기화
+            }
+            drawCanvas(false);  // 이미지는 유지
+        });
+
+        fontSize.addEventListener('input', (e) => {
+            fontSizeValue.textContent = e.target.value;
+            drawCanvas(false);  // 이미지 유지
+        });
+
+        bgOpacity.addEventListener('input', (e) => {
+            bgOpacityValue.textContent = e.target.value;
+            drawCanvas(false);  // 이미지 유지
+        });
+
+        // 실시간 업데이트를 위한 이벤트 리스너
+        customQuote.addEventListener('input', () => {
+            if (quoteSelect.value === 'custom') {
+                currentQuote = customQuote.value;
+                drawCanvas(false);  // 이미지 유지
+            }
+        });
+        
+        fontFamily.addEventListener('change', () => drawCanvas(false));  // 이미지 유지
+        textColor.addEventListener('input', () => drawCanvas(false));  // 이미지 유지
+
+        showLogo.addEventListener('change', () => {
+            logoSizeGroup.style.display = showLogo.checked ? 'block' : 'none';
+            logoPositionGroup.style.display = showLogo.checked ? 'block' : 'none';
+            logoMarginGroup.style.display = showLogo.checked ? 'block' : 'none';
+            drawCanvas(false);  // 이미지 유지
+        });
+
+        logoSize.addEventListener('input', (e) => {
+            logoSizeValue.textContent = e.target.value;
+            drawCanvas(false);  // 이미지 유지
+        });
+
+        logoPosition.addEventListener('change', () => drawCanvas(false));  // 이미지 유지
+        
+        logoMargin.addEventListener('input', (e) => {
+            logoMarginValue.textContent = e.target.value;
+            drawCanvas(false);  // 이미지 유지
+        });
+
+        // 새로운 명언 선택
+        function selectNewQuote(forceNew = false) {
+            const category = quoteSelect.value;
+            
+            if (category === 'custom') {
+                currentQuote = customQuote.value || '당신의 명언을 입력하세요';
+            } else {
+                // forceNew가 true이거나 현재 명언이 없을 때만 새로운 명언 선택
+                if (forceNew || !currentQuote) {
+                    const quotes = quotesData.good || [];
+                    if (quotes.length > 0) {
+                        const randomQuote = quotes[Math.floor(Math.random() * quotes.length)];
+                        currentQuote = randomQuote.text || '명언을 불러올 수 없습니다';
+                    } else {
+                        currentQuote = '명언 데이터를 로드하는 중...';
+                    }
+                }
+            }
+        }
+
+        // 캔버스 그리기
+        async function drawCanvas(newImage = false) {
+            if (newImage || !currentImage) {
+                try {
+                    currentImage = await getRandomImage();
+                } catch (error) {
+                    console.error('이미지 로드 실패:', error);
+                    return;
+                }
+            }
+
+            // 이미지 그리기
+            ctx.drawImage(currentImage, 0, 0, 1000, 1000);
+
+            // 반투명 오버레이
+            ctx.fillStyle = `rgba(0, 0, 0, ${bgOpacity.value})`;
+            ctx.fillRect(0, 0, 1000, 1000);
+
+            // 텍스트 설정
+            ctx.fillStyle = textColor.value;
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+
+            // 현재 선택된 명언 사용
+            const quote = currentQuote || '명언을 선택하세요';
+
+            // 폰트 설정 (폴백 추가)
+            const fontValue = fontFamily.value || "'Noto Sans KR', sans-serif";
+            
+            // 명언 그리기
+            ctx.font = `${fontSize.value}px ${fontValue}`;
+            
+            // 텍스트 줄바꿈 처리
+            const maxWidth = 800;
+            const lineHeight = parseInt(fontSize.value) * 1.5;
+            const words = quote.split(' ');
+            const lines = [];
+            let currentLine = '';
+
+            for (let word of words) {
+                const testLine = currentLine + word + ' ';
+                const metrics = ctx.measureText(testLine);
+                if (metrics.width > maxWidth && currentLine !== '') {
+                    lines.push(currentLine);
+                    currentLine = word + ' ';
+                } else {
+                    currentLine = testLine;
+                }
+            }
+            lines.push(currentLine);
+
+            // 텍스트 중앙 정렬
+            const totalHeight = lines.length * lineHeight;
+            const startY = 500 - totalHeight / 2;
+
+            lines.forEach((line, index) => {
+                ctx.fillText(line.trim(), 500, startY + index * lineHeight);
+            });
+
+            // 로고 그리기
+            if (logoImage && showLogo.checked) {
+                const logoHeight = parseInt(logoSize.value);  // 동적 로고 높이
+                const logoRatio = logoImage.width / logoImage.height;
+                const logoWidth = logoHeight * logoRatio;
+                const margin = parseInt(logoMargin.value);  // 동적 여백
+                
+                // 로고 위치 (중앙 정렬)
+                const logoX = (1000 - logoWidth) / 2;
+                let logoY;
+                
+                if (logoPosition.value === 'top') {
+                    logoY = margin;  // 상단에서 동적 여백
+                } else {
+                    logoY = 1000 - logoHeight - margin;  // 하단에서 동적 여백
+                }
+                
+                // 로고 그리기
+                ctx.drawImage(logoImage, logoX, logoY, logoWidth, logoHeight);
+            }
+        }
+
+        // 랜덤 조합 (이미지 + 명언 모두 변경)
+        async function generateNewCombination() {
+            // 새로운 명언 강제 선택 (custom이 아닌 경우만)
+            if (quoteSelect.value !== 'custom') {
+                selectNewQuote(true);
+            }
+            // 새로운 이미지 로드
+            await drawCanvas(true);
+        }
+
+        // 랜덤 이미지만 변경
+        async function generateNewImage() {
+            await drawCanvas(true);
+        }
+
+        // 랜덤 명언만 변경
+        function generateNewQuote() {
+            if (quoteSelect.value !== 'custom') {
+                selectNewQuote(true);
+                drawCanvas(false);  // 이미지는 유지
+            }
+        }
+
+        // 이미지 다운로드
+        function downloadImage() {
+            const link = document.createElement('a');
+            const date = new Date();
+            const fileName = `quote_${date.getFullYear()}${(date.getMonth()+1).toString().padStart(2,'0')}${date.getDate().toString().padStart(2,'0')}_${date.getHours().toString().padStart(2,'0')}${date.getMinutes().toString().padStart(2,'0')}${date.getSeconds().toString().padStart(2,'0')}.png`;
+            
+            link.download = fileName;
+            link.href = canvas.toDataURL();
+            link.click();
+        }
+
+        // 초기화
+        async function init() {
+            // 초기 로딩 표시
+            showLoading();
+            
+            try {
+                // 로고 로드
+                logoImage = await loadLogo();
+                
+                // 명언 데이터 로드
+                await loadQuotes();
+                
+                // 폰트가 완전히 로드될 때까지 대기
+                await document.fonts.ready;
+                
+                // 폰트 select가 채워질 때까지 잠시 대기
+                await new Promise(resolve => setTimeout(resolve, 300));
+                
+                // 기본 폰트가 설정되었는지 확인
+                if (!fontFamily.value) {
+                    fontFamily.value = "'Nanum Myeongjo', serif";
+                }
+                
+                // 명언 선택
+                selectNewQuote(true);
+                
+                // 캔버스 그리기
+                await drawCanvas(true);
+                
+                // 로고 관련 컨트롤 초기 상태
+                logoSizeGroup.style.display = showLogo.checked ? 'block' : 'none';
+                logoPositionGroup.style.display = showLogo.checked ? 'block' : 'none';
+                logoMarginGroup.style.display = showLogo.checked ? 'block' : 'none';
+                
+            } catch (error) {
+                console.error('초기화 중 오류 발생:', error);
+                hideLoading();
+            }
+        }
+
+        // 페이지 로드시 초기화
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', init);
+        } else {
+            // DOM이 이미 로드된 경우
+            init();
+        }
+    </script>
+</body>
+</html>
