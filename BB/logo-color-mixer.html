@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>로고 & 배경색 조합 도구</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #1a1a1a;
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
+            max-width: 500px;
+            width: 90%;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+            color: #333;
+            font-size: 24px;
+        }
+
+        .logo-container {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 40px;
+            background: #f0f0f0;
+            border-radius: 15px;
+            position: relative;
+            overflow: hidden;
+            transition: background-color 0.3s ease;
+        }
+
+        #logoCanvas {
+            max-width: 200px;
+            max-height: 200px;
+            display: block;
+            margin: 0 auto;
+        }
+
+        .controls {
+            display: grid;
+            gap: 25px;
+        }
+
+        .control-group {
+            display: grid;
+            gap: 10px;
+        }
+
+        .control-group label {
+            font-weight: 600;
+            color: #555;
+            font-size: 14px;
+        }
+
+        .color-input-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            background: #f8f9fa;
+            padding: 10px;
+            border-radius: 10px;
+        }
+
+        input[type="color"] {
+            width: 60px;
+            height: 40px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: transform 0.2s ease;
+        }
+
+        input[type="color"]:hover {
+            transform: scale(1.1);
+        }
+
+        .value-display {
+            min-width: 80px;
+            text-align: left;
+            font-weight: 600;
+            color: #4a90e2;
+        }
+
+        .hint {
+            text-align: center;
+            color: #888;
+            font-size: 14px;
+            margin-top: 20px;
+        }
+
+        #logoImage {
+            display: none;
+        }
+
+        .reset-btn {
+            margin-top: 20px;
+            width: 100%;
+            padding: 12px;
+            background: #4a90e2;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .reset-btn:hover {
+            background: #357abd;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(74, 144, 226, 0.3);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎨 로고 & 배경색 조합 도구</h1>
+        
+        <div class="logo-container" id="logoContainer">
+            <canvas id="logoCanvas"></canvas>
+            <img id="logoImage" src="fitgirl.png" alt="FitGirl 로고">
+        </div>
+
+        <div class="controls">
+            <div class="control-group">
+                <label>배경색</label>
+                <div class="color-input-wrapper">
+                    <input type="color" id="bgColor" value="#f0f0f0">
+                    <span class="value-display" id="bgColorValue">#f0f0f0</span>
+                </div>
+            </div>
+
+            <div class="control-group">
+                <label>로고 색상</label>
+                <div class="color-input-wrapper">
+                    <input type="color" id="logoColor" value="#000000">
+                    <span class="value-display" id="logoColorValue">#000000</span>
+                </div>
+            </div>
+
+            <div class="control-group">
+                <label>색상 적용 방식</label>
+                <div class="color-input-wrapper">
+                    <select id="colorMode" style="flex: 1; padding: 8px; border: 1px solid #ddd; border-radius: 6px;">
+                        <option value="solid">단색 (완전히 색 변경)</option>
+                        <option value="tint">틴트 (밝기 유지)</option>
+                    </select>
+                </div>
+            </div>
+
+            <button class="reset-btn" onclick="resetColors()">🔄 원본 색상으로 초기화</button>
+        </div>
+
+        <p class="hint">💡 배경색과 로고 색상을 독립적으로 선택하여 퍼스널 컬러를 찾아보세요!</p>
+    </div>
+
+    <script>
+        // 요소 선택
+        const logoContainer = document.getElementById('logoContainer');
+        const logoImage = document.getElementById('logoImage');
+        const canvas = document.getElementById('logoCanvas');
+        const ctx = canvas.getContext('2d');
+        const bgColor = document.getElementById('bgColor');
+        const logoColor = document.getElementById('logoColor');
+        const bgColorValue = document.getElementById('bgColorValue');
+        const logoColorValue = document.getElementById('logoColorValue');
+
+        let originalImageData = null;
+
+        // 이미지 로드
+        logoImage.onload = function() {
+            canvas.width = logoImage.width;
+            canvas.height = logoImage.height;
+            ctx.drawImage(logoImage, 0, 0);
+            originalImageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+            updateLogoColor();
+        };
+
+        // 색상을 RGB로 변환
+        function hexToRgb(hex) {
+            const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+            return result ? {
+                r: parseInt(result[1], 16),
+                g: parseInt(result[2], 16),
+                b: parseInt(result[3], 16)
+            } : null;
+        }
+
+        // 로고 색상 업데이트
+        function updateLogoColor() {
+            if (!originalImageData) return;
+            
+            const imageData = ctx.createImageData(originalImageData);
+            const data = imageData.data;
+            const originalData = originalImageData.data;
+            const targetColor = hexToRgb(logoColor.value);
+            const colorMode = document.getElementById('colorMode').value;
+            
+            for (let i = 0; i < data.length; i += 4) {
+                // 알파 채널이 있는 픽셀만 처리
+                if (originalData[i + 3] > 0) {
+                    if (colorMode === 'solid') {
+                        // 단색 모드: 완전히 타겟 색상으로 변경
+                        data[i] = targetColor.r;
+                        data[i + 1] = targetColor.g;
+                        data[i + 2] = targetColor.b;
+                    } else {
+                        // 틴트 모드: 원본의 밝기를 유지하면서 색상 변경
+                        const brightness = (originalData[i] + originalData[i + 1] + originalData[i + 2]) / 3 / 255;
+                        data[i] = targetColor.r * brightness;
+                        data[i + 1] = targetColor.g * brightness;
+                        data[i + 2] = targetColor.b * brightness;
+                    }
+                    data[i + 3] = originalData[i + 3]; // 알파 채널 유지
+                }
+            }
+            
+            ctx.putImageData(imageData, 0, 0);
+        }
+
+        // 색상 모드 변경 이벤트
+        document.getElementById('colorMode').addEventListener('change', updateLogoColor);
+
+        // 배경색 변경
+        bgColor.addEventListener('input', function() {
+            logoContainer.style.backgroundColor = this.value;
+            bgColorValue.textContent = this.value;
+        });
+
+        // 로고 색상 변경
+        logoColor.addEventListener('input', function() {
+            logoColorValue.textContent = this.value;
+            updateLogoColor();
+        });
+
+        // 색상 초기화
+        function resetColors() {
+            bgColor.value = '#f0f0f0';
+            logoColor.value = '#000000';
+            document.getElementById('colorMode').value = 'solid';
+            logoContainer.style.backgroundColor = bgColor.value;
+            bgColorValue.textContent = bgColor.value;
+            logoColorValue.textContent = logoColor.value;
+            
+            if (originalImageData) {
+                ctx.putImageData(originalImageData, 0, 0);
+            }
+        }
+
+        // 이미지 로드 실패 시 처리
+        logoImage.onerror = function() {
+            canvas.style.display = 'none';
+            logoContainer.innerHTML += '<p style="color: #666; margin-top: 20px;">fitgirl.png 파일을 찾을 수 없습니다.<br>HTML 파일과 같은 폴더에 넣어주세요.</p>';
+        };
+    </script>
+</body>
+</html>
