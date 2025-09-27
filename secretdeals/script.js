@@ -2,7 +2,6 @@
   'use strict';
 
   /* ===== 설정 ===== */
-  const ACCESS_KEY = 'gofit2025';
   const STORE_URL  = 'https://smartstore.naver.com/';
   const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyRAXNYclCAqOkzqXe8fIHc6Md0nQOIXcJeAC13xjKqobD3t7jdDZ-PjmtULNFJ5ZZr/exec';
 
@@ -30,8 +29,8 @@
   ];
 
   /* ===== 더보기 기능 관련 설정 추가 ===== */
-  const PRODUCTS_TO_SHOW = 8; // 한 번에 보여줄 상품 수
-  let productsDisplayed = 0; // 현재까지 보여준 상품 수
+  const PRODUCTS_TO_SHOW = 8;
+  let productsDisplayed = 0;
 
   const PROMO_IMAGES = [
     { srcDesktop: 'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?q=80&w=1600&h=700&auto=format&fit=crop', srcMobile: 'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?q=80&w=750&h=1000&auto=format&fit=crop', href: '#' },
@@ -199,15 +198,11 @@
   }
 
   const fmtKRW = n => new Intl.NumberFormat('ko-KR',{style:'currency',currency:'KRW',maximumFractionDigits:0}).format(n);
-  const qs = k => new URLSearchParams(location.search).get(k);
   const $ = s => document.querySelector(s);
   const el = (html) => { const t=document.createElement('template'); t.innerHTML=html.trim(); return t.content.firstElementChild; };
 
-  const contentWrapperEl = $('#contentWrapper');
-  const headerEl = $('#mainHeader');
-  const gateEl=$('#gate'), gateStatus=$('#gateStatus');
-  const bannerSection=$('#bannerSection'), bannerRoot=$('#bannerRoot'), sepBanner=$('#sepBanner');
-  const channelsSection=$('#channelsSection'), channelsGrid=$('#channelsGrid');
+  const bannerRoot=$('#bannerRoot');
+  const channelsGrid=$('#channelsGrid');
   const grid=$('#productGrid'), emptyState=$('#emptyState'), tpl=$('#productTpl');
   const drawer=$('#quotePanel'), sheet=$('#quoteSheet'), cartbar=$('#cartbar');
   const overlay=$('#overlay');
@@ -220,72 +215,12 @@
   const submitQuoteMBtn = $('#submitQuoteM');
   const copyQuoteBtn = $('#copyQuote');
   const copyQuoteMBtn = $('#copyQuoteM');
-
-  const keyInput = $('#keyInput'); const keySubmitBtn = $('#keySubmit'); const copyMyLinkBtn = $('#copyMyLink');
   
-  const loadMoreBtn = $('#loadMoreBtn'), loadMoreContainer = loadMoreBtn ? loadMoreBtn.parentElement : null;
+  const loadMoreBtn = $('#loadMoreBtn');
   
   const toastEl = $('#toastNotification');
   let toastTimeout;
   let toastResetTimeout;
-
-  /* ===== 접근 게이트 ===== */
-  function lock(){
-    document.body.style.overflow = 'hidden'; 
-    
-    gateEl.style.display='grid'; gateEl.setAttribute('aria-hidden','false');
-    if (contentWrapperEl) contentWrapperEl.classList.add('content-hidden');
-    
-    $('#productSection').style.display='none'; 
-    $('#hero').style.display='none';
-    $('#promoSliderSection').style.display='none';
-    $('#inquirySection').style.display='none';
-    bannerSection.hidden=true; 
-    sepBanner.hidden=true; 
-    channelsSection.hidden=true;
-    
-    gateStatus.textContent='접근 확인 중…'; 
-    gateStatus.classList.remove('success');
-
-    if (openQuoteBtn) {
-      openQuoteBtn.disabled = true;
-      openQuoteBtn.setAttribute('aria-disabled', 'true');
-    }
-  }
-  
-  function unlock(){
-    document.body.style.overflow = ''; 
-
-    gateEl.style.display='none'; gateEl.setAttribute('aria-hidden','true');
-    if (contentWrapperEl) contentWrapperEl.classList.remove('content-hidden');
-    
-    $('#productSection').style.display=''; 
-    $('#hero').style.display='';
-    $('#promoSliderSection').style.display='';
-    $('#inquirySection').style.display='';
-    bannerSection.hidden=false; 
-    sepBanner.hidden=false; 
-    channelsSection.hidden=false;
-    
-    headerEl.style.visibility='visible';
-    gateStatus.textContent='비밀 링크 인증 완료'; 
-    gateStatus.classList.add('success');
-
-    if (openQuoteBtn) {
-      openQuoteBtn.disabled = false;
-      openQuoteBtn.removeAttribute('aria-disabled');
-    }
-  }
-  function onSubmitKey(){
-    const v = keyInput?.value.trim() || '';
-    if(!v) return alert('액세스 키를 입력해주세요.');
-    if(v === ACCESS_KEY){ unlock(); } else { alert('키가 올바르지 않습니다.'); }
-  }
-  function bindGateEvents(){
-    if(keySubmitBtn) keySubmitBtn.addEventListener('click', onSubmitKey);
-    if(keyInput) keyInput.addEventListener('keydown', e=>{ if(e.key==='Enter') onSubmitKey(); });
-    if(copyMyLinkBtn) copyMyLinkBtn.addEventListener('click', ()=> alert('DM으로 초대 코드를 발송해 주세요. (임시 버튼)'));
-  }
 
   /* ===== 배너/채널/제품 ===== */
   function renderBanner(){
@@ -339,6 +274,7 @@
   }
 
   function loadMoreProducts(){
+    const loadMoreContainer = loadMoreBtn ? loadMoreBtn.parentElement : null;
     if (!PRODUCTS.length) {
       emptyState.hidden = false;
       if(loadMoreContainer) loadMoreContainer.hidden = true;
@@ -410,13 +346,7 @@
     renderQuoteList(quoteListM); quoteTotalM.textContent=t; quoteSubM.textContent = quoteSub.textContent;
     cartTotal.textContent=t; cartCount.textContent = c > 0 ? `(${c})` : '';
     
-    // ⭐ 수정된 부분 시작 ⭐
-    // PC 헤더 버튼 활성화/비활성화
     openQuoteBtn.classList.toggle('active', !isCartEmpty);
-
-    // 모바일 하단 바는 CSS 미디어쿼리로 제어하므로 JS 코드 제거
-    // cartbar.style.display = c > 0 ? 'flex' : 'none'; // 이 줄을 삭제함
-    // ⭐ 수정된 부분 끝 ⭐
 
     if (submitQuoteBtn) {
       submitQuoteBtn.disabled = isCartEmpty;
@@ -531,10 +461,8 @@
     sheet.classList.remove('open'); 
     sheet.setAttribute('aria-hidden','true'); 
     
-    if (gateEl.style.display !== 'grid' || gateEl.getAttribute('aria-hidden') === 'true') {
-        if (modal.style.display !== 'grid' || modal.getAttribute('aria-hidden') === 'true') {
-            document.body.style.overflow='';
-        }
+    if (modal.style.display !== 'grid' || modal.getAttribute('aria-hidden') === 'true') {
+      document.body.style.overflow='';
     }
 
     hideOverlay(); 
@@ -560,7 +488,6 @@
 
   /* ===== 폼 모달 ===== */
   const modal = document.getElementById('quoteFormModal');
-  let gateWasVisible=false;
 
   function populateModalQuoteList() {
     const listEl = $('#modalQuoteList');
@@ -583,9 +510,6 @@
   }
 
   function openForm(){
-    gateWasVisible = gateEl.style.display==='grid' && gateEl.getAttribute('aria-hidden')==='false';
-    if(gateWasVisible){ gateEl.style.display='none'; }
-    
     document.body.style.overflow='hidden';
 
     modal.style.display='grid'; modal.setAttribute('aria-hidden','false');
@@ -594,13 +518,9 @@
   function closeForm(){
     modal.style.display='none'; modal.setAttribute('aria-hidden','true');
     
-    if (gateEl.style.display !== 'grid' || gateEl.getAttribute('aria-hidden') === 'true') {
-        if (!drawer.classList.contains('open') && !sheet.classList.contains('open')) {
-            document.body.style.overflow=''; 
-        }
+    if (!drawer.classList.contains('open') && !sheet.classList.contains('open')) {
+        document.body.style.overflow=''; 
     }
-
-    if(gateWasVisible){ gateEl.style.display='grid'; }
   }
   document.getElementById('submitQuote').addEventListener('click', openForm);
   document.getElementById('submitQuoteM').addEventListener('click', openForm);
@@ -684,8 +604,6 @@
 
   /* 초기 실행 */
   (function init(){
-    lock(); bindGateEvents();
-    const k=qs('key'); if(k && $('#keyInput')) $('#keyInput').value=k;
     renderBanner();
     renderChannels();
     updateQuoteUI();

@@ -20,11 +20,10 @@
         <img src="gofit_logo.png" alt="GOFITKOREA 로고" class="logo-img">
         <span>GOFITKOREA Secret Deals</span>
       </a>
-      <div style="display:flex;gap:8px;align-items:center">
-        <button id="openQuote" class="btn ghost" aria-controls="quotePanel" aria-expanded="false">
+      <div style="display:flex;gap:8px;align:items:center">
+        <button id="openQuote" class="btn" aria-controls="quotePanel" aria-expanded="false">
           <span class="label-wrap"><span class="label">견적서</span><span id="quoteCount"></span></span>
         </button>
-        <div class="pill" id="gateStatus">접근 확인 중…</div>
       </div>
     </div>
   </header>
@@ -33,7 +32,7 @@
 
   <main class="wrap">
     <div id="contentWrapper">
-      <section id="bannerSection" aria-label="프로모션 배너" hidden>
+      <section id="bannerSection" aria-label="프로모션 배너">
         <div class="pulsing-circles-container">
           <div class="circle"></div>
           <div class="circle"></div>
@@ -76,7 +75,7 @@
           </div>
         </div>
       </section>
-      <div id="sepBanner" class="section-sep" aria-hidden="true" hidden></div>
+      <div id="sepBanner" class="section-sep" aria-hidden="true"></div>
       
       <section id="promoSliderSection" aria-label="진행중인 프로모션">
         <div class="section-head">
@@ -198,7 +197,7 @@
 
       <div id="sepProducts" class="section-sep" aria-hidden="true"></div>
 
-      <section id="channelsSection" class="channels" aria-label="고핏코리아 채널" hidden>
+      <section id="channelsSection" class="channels" aria-label="고핏코리아 채널">
         <div class="section-head">
           <h2 class="section-title">고핏코리아 채널</h2>
           <p class="section-desc">공식 홈페이지 및 SNS 채널로 이동</p>
@@ -206,23 +205,6 @@
         <div class="ch-grid" id="channelsGrid"></div>
       </section>
     </div>
-
-    <section class="gate" id="gate" aria-hidden="true">
-      <div class="gate-card">
-        <h2 style="margin:0">🔒 비밀 링크 접근 필요</h2>
-        <p style="color:var(--muted);margin:0">전달받은 <b>액세스 키</b>를 입력하세요.</p>
-
-        <div class="field">
-          <label for="keyInput">액세스 키</label>
-          <input id="keyInput" placeholder="액세스 키 입력" autocomplete="off" />
-        </div>
-
-        <div style="display: flex; gap: 8px;">
-          <button id="keySubmit" style="flex: 1;">입장하기</button>
-          <button id="copyMyLink" class="btn" style="background: #1b1c2c; flex: 1;">DM 문의</button>
-        </div>
-      </div>
-    </section>
 
     <template id="productTpl">
       <article class="card">
