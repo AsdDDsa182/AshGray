@@ -227,7 +227,7 @@
   
   const toastEl = $('#toastNotification');
   let toastTimeout;
-  let toastResetTimeout; // 애니메이션 리셋을 위한 타이머 변수 추가
+  let toastResetTimeout;
 
   /* ===== 접근 게이트 ===== */
   function lock(){
@@ -403,12 +403,20 @@
   }
   function updateQuoteUI(){
     const c=count(), t=fmtKRW(total());
-    const isCartEmpty = quote.items.length === 0;
+    const isCartEmpty = c === 0;
 
-    quoteCount.textContent = c>0 ? `(${c})` : '';
-    renderQuoteList(quoteList);  quoteTotal.textContent=t;  quoteSub.textContent  = c? `${quote.items.length}종, 총 ${c}개`:'담긴 상품이 없습니다';
+    quoteCount.textContent = c > 0 ? `(${c})` : '';
+    renderQuoteList(quoteList);  quoteTotal.textContent=t;  quoteSub.textContent  = !isCartEmpty ? `${quote.items.length}종, 총 ${c}개`:'담긴 상품이 없습니다';
     renderQuoteList(quoteListM); quoteTotalM.textContent=t; quoteSubM.textContent = quoteSub.textContent;
-    cartTotal.textContent=t; cartCount.textContent = c>0 ? `(${c})` : ''; cartbar.style.display = c>0 ? 'flex' : 'none';
+    cartTotal.textContent=t; cartCount.textContent = c > 0 ? `(${c})` : '';
+    
+    // ⭐ 수정된 부분 시작 ⭐
+    // PC 헤더 버튼 활성화/비활성화
+    openQuoteBtn.classList.toggle('active', !isCartEmpty);
+
+    // 모바일 하단 바는 CSS 미디어쿼리로 제어하므로 JS 코드 제거
+    // cartbar.style.display = c > 0 ? 'flex' : 'none'; // 이 줄을 삭제함
+    // ⭐ 수정된 부분 끝 ⭐
 
     if (submitQuoteBtn) {
       submitQuoteBtn.disabled = isCartEmpty;
@@ -420,15 +428,12 @@
     }
   }
 
-  /* ===== 수정된 부분: Toast 알림창 표시 함수 ===== */
   function showToast(message) {
     if (!toastEl) return;
     
-    // 모든 타이머를 초기화하여 중복 실행 방지
     clearTimeout(toastTimeout);
     clearTimeout(toastResetTimeout);
 
-    // 알림창을 실제로 화면에 표시하고 3초 후 사라지게 하는 내부 함수
     const _show = () => {
       toastEl.textContent = message;
       toastEl.classList.add('show');
@@ -437,14 +442,10 @@
       }, 3000);
     };
 
-    // 만약 알림창이 이미 표시되어 있다면
     if (toastEl.classList.contains('show')) {
-      // 1. 먼저 숨김 애니메이션을 실행
       toastEl.classList.remove('show');
-      // 2. 숨김 애니메이션(0.4초)이 끝난 후, 새로운 알림창을 띄움
-      toastResetTimeout = setTimeout(_show, 200);
+      toastResetTimeout = setTimeout(_show, 400);
     } else {
-      // 알림창이 숨겨져 있다면 즉시 띄움
       _show();
     }
   }

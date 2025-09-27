@@ -38,7 +38,7 @@ body {
   background: var(--bg);
   color: var(--text);
   font-family: 'Pretendard', system-ui, -apple-system, Segoe UI, Roboto, 'Noto Sans KR', sans-serif;
-  /* ⭐ 수정된 부분: sticky 기능 충돌을 막기 위해 overflow-x: hidden 제거 */
+  overflow-x: hidden;
   touch-action: pan-y;
 }
 
@@ -607,15 +607,14 @@ textarea { caret-color: var(--text); }
 
 .sheet .sum { padding: 14px 16px; }
 
-/* ⭐ 수정된 부분: 디버깅을 위해 색상 변경 */
 .cartbar {
   position: fixed;
   left: 16px;
   right: 16px;
   bottom: calc(16px + env(safe-area-inset-bottom));
   z-index: 55;
-  background: var(--ok); /* 밝은 녹색 배경 */
-  color: var(--bg); /* 어두운 글자색 */
+  background: var(--ok);
+  color: var(--bg);
   border: 1px solid var(--border);
   border-radius: 16px;
   padding: 10px 12px;
@@ -739,6 +738,7 @@ footer {
   line-height: 1;
   color: var(--text);
   text-align: center;
+  transition: all .2s ease; /* 부드러운 색상 전환을 위한 transition 추가 */
 }
 
 #openQuote .label-wrap {
@@ -750,6 +750,13 @@ footer {
 }
 
 #openQuote #quoteCount:empty { display: none; }
+
+/* ⭐ 추가된 부분: PC 견적서 버튼 활성화 스타일 */
+#openQuote.active {
+  background: linear-gradient(135deg, var(--brand), var(--brand-2));
+  border-color: transparent;
+}
+
 
 /* 모달(.modal) 표시 컨테이너 */
 .modal {
