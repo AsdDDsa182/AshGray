@@ -20,13 +20,31 @@
         <img src="gofit_logo.png" alt="GOFITKOREA 로고" class="logo-img">
         <span>GOFITKOREA Secret Deals</span>
       </a>
-      <div style="display:flex;gap:8px;align-items:center">
+      <div class="header-actions">
+        <a href="https://gofitkorea.co.kr" target="_blank" rel="noopener" class="btn header-link">공식 홈페이지</a>
         <button id="openQuote" class="btn" aria-controls="quotePanel" aria-expanded="false">
           <span class="label-wrap"><span class="label">견적서</span><span id="quoteCount"></span></span>
         </button>
       </div>
+      <button id="hamburgerBtn" class="hamburger-btn" aria-label="메뉴 열기" aria-expanded="false" aria-controls="mobileNav">
+        <span class="line"></span><span class="line"></span><span class="line"></span>
+      </button>
     </div>
   </header>
+
+  <nav id="mobileNav" class="mobile-nav" aria-hidden="true">
+    <button id="closeMobileNavBtn" class="btn-close-nav" aria-label="메뉴 닫기">&times;</button>
+    <div class="mobile-nav-content">
+      <a href="https://gofitkorea.co.kr" target="_blank" rel="noopener" class="mobile-nav-link">고핏코리아 공식 홈페이지</a>
+      <hr class="mobile-nav-divider">
+      <div class="contact-info">
+        <div class="contact-item"><strong>대표번호:</strong><span>1588-XXXX</span></div>
+        <div class="contact-item"><strong>AS/기술지원:</strong><span>070-XXXX-XXXX</span></div>
+        <div class="contact-item"><strong>제휴/B2B문의:</strong><span>02-XXXX-XXXX</span></div>
+        <div class="contact-item"><strong>이메일:</strong><span>help@gofitkorea.co.kr</span></div>
+      </div>
+    </div>
+  </nav>
 
   <div id="overlay" class="overlay" hidden></div>
 
@@ -214,8 +232,12 @@
           <div class="price"><span class="orig p-orig"></span><span class="sale p-sale"></span></div>
           <div class="cta">
             <button class="btn primary add-quote">견적서에 담기</button>
-            <a class="btn ghost p-nshop" target="_blank" rel="noopener">N쇼핑으로 보기</a>
-            <a class="btn ghost p-link" target="_blank" rel="noopener">상세보기</a>
+            <div class="cta-split">
+              <a class="btn p-nshop" target="_blank" rel="noopener">N쇼핑</a>
+              <a class="btn p-link" target="_blank" rel="noopener" aria-label="상세보기">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+              </a>
+            </div>
           </div>
         </div>
       </article>

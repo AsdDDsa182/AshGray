@@ -17,7 +17,7 @@
   const PRODUCTS = [
     { id:'tm-900',  title:'GOFIT 트레드밀 TM-900', image:'https://images.unsplash.com/photo-1517836357463-d25dfeac3438?q=80&w=1200&auto=format&fit=crop', original:2990000, sale:1990000, link:STORE_URL, nshop:'https://smartstore.naver.com/gofitkorea/products/12463900656' },
     { id:'sb-plate',title:'GOFIT 스톤블랙 원판 세트 100kg', image:'https://images.unsplash.com/photo-1517836357463-d25dfeac3438?q=80&w=1200&auto=format&fit=crop', original: 890000, sale: 629000, link:STORE_URL, nshop:'#' },
-    { id:'rack-hr', title:'GOFIT 하프랙 PRO',            image:'https://images.unsplash.com/photo-1554284126-aa88f22d8b74?q=80&w=1200&auto=format&fit=crop', original:1590000, sale:1090000, link:STORE_URL, nshop:'#' },
+    { id:'rack-hr', title:'GOFIT 하프랙 PRO',            image:'https://images.unsplash.com/photo-1554284126-aa88f22d8b74?q=80&w=1200&auto=format&fit=crop', original:1590000, sale:1090000, link:'#', nshop:'#' },
     { id:'bench-pro', title:'GOFIT 조절식 벤치 PRO', image:'https://images.unsplash.com/photo-1574680096145-f844349f0409?q=80&w=1200&auto=format&fit=crop', original:450000, sale:320000, link:STORE_URL, nshop:'#' },
     { id:'leg-press', title:'GOFIT 레그 프레스 머신', image:'https://images.unsplash.com/photo-1541534741688-6078c6bfb5c5?q=80&w=1200&auto=format&fit=crop', original:3500000, sale:2800000, link:STORE_URL, nshop:'#' },
     { id:'cable-cross', title:'GOFIT 케이블 크로스오버', image:'https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?q=80&w=1200&auto=format&fit=crop', original:4200000, sale:3500000, link:STORE_URL, nshop:'#' },
@@ -28,7 +28,6 @@
     { id:'rowing-machine', title:'GOFIT 로잉 머신 R-700', image:'https://images.unsplash.com/photo-1579758629938-03607ccdbaba?q=80&w=1200&auto=format&fit=crop', original:1200000, sale:950000, link:STORE_URL, nshop:'#' }
   ];
 
-  /* ===== 더보기 기능 관련 설정 추가 ===== */
   const PRODUCTS_TO_SHOW = 8;
   let productsDisplayed = 0;
 
@@ -143,10 +142,10 @@
 
       const movedBy = currentTranslate - prevTranslate;
 
-      if (movedBy < -100 && currentIndex < slides.length - 1) {
+      if (movedBy < -50 && currentIndex < slides.length - 1) {
         currentIndex++;
       }
-      if (movedBy > 100 && currentIndex > 0) {
+      if (movedBy > 50 && currentIndex > 0) {
         currentIndex--;
       }
       
@@ -222,7 +221,10 @@
   let toastTimeout;
   let toastResetTimeout;
 
-  /* ===== 배너/채널/제품 ===== */
+  const hamburgerBtn = $('#hamburgerBtn');
+  const mobileNav = $('#mobileNav');
+  const closeMobileNavBtn = $('#closeMobileNavBtn');
+
   function renderBanner(){
     bannerRoot.innerHTML='';
     let mediaHTML = '';
@@ -292,8 +294,23 @@
       node.querySelector('.p-title').textContent=p.title;
       node.querySelector('.p-orig').textContent=fmtKRW(p.original);
       node.querySelector('.p-sale').textContent=fmtKRW(p.sale);
-      node.querySelector('.p-link').href=p.link;
-      const nbtn=node.querySelector('.p-nshop'); if(p.nshop&&p.nshop!=='#'){ nbtn.href=p.nshop; } else { nbtn.href='#'; nbtn.setAttribute('aria-disabled','true'); }
+
+      const nshopBtn = node.querySelector('.p-nshop');
+      if (p.nshop && p.nshop !== '#') {
+        nshopBtn.href = p.nshop;
+      } else {
+        nshopBtn.href = '#';
+        nshopBtn.setAttribute('aria-disabled', 'true');
+      }
+
+      const linkBtn = node.querySelector('.p-link');
+      if (p.link && p.link !== '#') {
+        linkBtn.href = p.link;
+      } else {
+        linkBtn.href = '#';
+        linkBtn.setAttribute('aria-disabled', 'true');
+      }
+
       const add=node.querySelector('.add-quote'); add.dataset.id=p.id; add.dataset.title=p.title; add.dataset.price=p.sale; add.dataset.image=p.image;
       fragment.appendChild(node);
     });
@@ -308,7 +325,6 @@
     }
   }
 
-  /* ===== 견적 상태/UI ===== */
   const quote={ items: [] };
   const saveQuote=()=>updateQuoteUI();
   function addQuote(it){ const i=quote.items.findIndex(x=>x.id===it.id); if(i>-1) quote.items[i].qty+=it.qty; else quote.items.push(it); saveQuote(); }
@@ -380,11 +396,53 @@
     }
   }
 
+  function flyToCartAnimation(buttonEl) {
+    const card = buttonEl.closest('.card');
+    if (!card) return;
+  
+    const img = card.querySelector('.p-img');
+    if (!img) return;
+  
+    const imgRect = img.getBoundingClientRect();
+    const imgClone = img.cloneNode(true);
+  
+    const isMobile = window.getComputedStyle(cartbar).display !== 'none';
+    const target = isMobile ? $('#openSheet') : $('#openQuote');
+    if (!target) return;
+  
+    const targetRect = target.getBoundingClientRect();
+    
+    const translateX = targetRect.left + (targetRect.width / 2) - (imgRect.left + imgRect.width / 2);
+    const translateY = targetRect.top + (targetRect.height / 2) - (imgRect.top + imgRect.height / 2);
+  
+    imgClone.classList.add('fly-to-cart');
+    document.body.appendChild(imgClone);
+  
+    Object.assign(imgClone.style, {
+      top: `${imgRect.top}px`,
+      left: `${imgRect.left}px`,
+      width: `${imgRect.width}px`,
+      height: `${imgRect.height}px`,
+    });
+  
+    requestAnimationFrame(() => {
+      Object.assign(imgClone.style, {
+        transform: `translate(${translateX}px, ${translateY}px) scale(0.1)`,
+        opacity: '0',
+      });
+    });
+  
+    setTimeout(() => {
+      imgClone.remove();
+    }, 800);
+  }
+
   grid.addEventListener('click', (e)=>{
     const btn=e.target.closest('.add-quote'); if(!btn) return;
-    addQuote({ id:btn.dataset.id, title:btn.dataset.title, price:+btn.dataset.price, image:btn.dataset.image, qty:1 });
     
+    addQuote({ id:btn.dataset.id, title:btn.dataset.title, price:+btn.dataset.price, image:btn.dataset.image, qty:1 });
     showToast('견적서에 상품을 담았습니다.');
+    flyToCartAnimation(btn);
   });
 
   ['quoteList','quoteListM'].forEach(id=>{
@@ -396,23 +454,6 @@
     });
   });
 
-  /* ===== 견적 복사 기능 추가 ===== */
-  function generateQuoteText() {
-    const items = quote.items;
-    if (items.length === 0) return '';
-
-    const totalKRW = total();
-    const itemList = items.map(x => 
-      `- ${x.title} (${x.id}) x ${x.qty} = ${fmtKRW(x.price * x.qty)}`
-    ).join('\n');
-
-    return `[GOFITKOREA 비밀특가 견적]\n\n총 상품 금액: ${fmtKRW(totalKRW)}\n\n상품 목록:\n${itemList}`;
-  }
-
-  function showCopyAlert() {
-    alert('견적이 복사되었습니다.');
-  }
-
   async function copyQuoteToClipboard() {
     const textToCopy = generateQuoteText();
     if (!textToCopy) {
@@ -422,51 +463,32 @@
     
     try {
         await navigator.clipboard.writeText(textToCopy);
-        showCopyAlert();
+        showToast('견적이 복사되었습니다.');
     } catch (err) {
         console.error('복사 실패:', err);
-        const textArea = document.createElement("textarea");
-        textArea.value = textToCopy;
-        document.body.appendChild(textArea);
-        textArea.focus();
-        textArea.select();
-        try {
-            document.execCommand('copy');
-            showCopyAlert();
-        } catch (err) {
-            alert('복사 실패: 브라우저 권한을 확인해주세요.');
-        }
-        document.body.removeChild(textArea);
+        alert('복사에 실패했습니다.');
     }
   }
 
   if (copyQuoteBtn) copyQuoteBtn.addEventListener('click', copyQuoteToClipboard);
   if (copyQuoteMBtn) copyQuoteMBtn.addEventListener('click', copyQuoteToClipboard);
 
-  /* ===== 드로어/시트 + 오버레이 ===== */
-  function showOverlay(){ overlay.hidden=false; }
-  function hideOverlay(){ overlay.hidden=true; }
-  function openDrawer(){ closeSheet(); drawer.classList.add('open'); drawer.setAttribute('aria-hidden','false'); openQuoteBtn.setAttribute('aria-expanded','true'); showOverlay(); }
-  function closeDrawer(){ drawer.classList.remove('open'); drawer.setAttribute('aria-hidden','true'); openQuoteBtn.setAttribute('aria-expanded','false'); hideOverlay(); }
-  
-  function openSheet(){ 
-    closeDrawer(); 
-    sheet.classList.add('open'); 
-    sheet.setAttribute('aria-hidden','false'); 
-    document.body.style.overflow='hidden';
-    showOverlay(); 
-  }
-  
-  function closeSheet(){ 
-    sheet.classList.remove('open'); 
-    sheet.setAttribute('aria-hidden','true'); 
-    
-    if (modal.style.display !== 'grid' || modal.getAttribute('aria-hidden') === 'true') {
-      document.body.style.overflow='';
+  function showOverlay(){ overlay.hidden=false; document.body.classList.add('scroll-lock'); }
+  function hideOverlay(){ 
+    if(modal.getAttribute('aria-hidden') === 'true') {
+      document.body.classList.remove('scroll-lock'); 
     }
-
-    hideOverlay(); 
+    overlay.hidden=true; 
   }
+  
+  function openDrawer(){ closeAny(); drawer.classList.add('open'); drawer.setAttribute('aria-hidden','false'); openQuoteBtn.setAttribute('aria-expanded','true'); showOverlay(); }
+  function closeDrawer(){ drawer.classList.remove('open'); drawer.setAttribute('aria-hidden','true'); openQuoteBtn.setAttribute('aria-expanded','false'); if(!mobileNav.classList.contains('open')) hideOverlay(); }
+  
+  function openSheet(){ closeAny(); sheet.classList.add('open'); sheet.setAttribute('aria-hidden','false'); showOverlay(); }
+  function closeSheet(){ sheet.classList.remove('open'); sheet.setAttribute('aria-hidden','true'); if(!mobileNav.classList.contains('open')) hideOverlay(); }
+  
+  function openMobileNav() { closeAny(); mobileNav.classList.add('open'); mobileNav.setAttribute('aria-hidden', 'false'); hamburgerBtn.setAttribute('aria-expanded', 'true'); showOverlay(); }
+  function closeMobileNav() { mobileNav.classList.remove('open'); mobileNav.setAttribute('aria-hidden', 'true'); hamburgerBtn.setAttribute('aria-expanded', 'false'); if(!sheet.classList.contains('open') && !drawer.classList.contains('open')) hideOverlay(); }
   
   function isDesktop(){ return window.matchMedia('(min-width:1080px)').matches; }
 
@@ -474,19 +496,32 @@
   closeQuoteBtn.addEventListener('click', closeDrawer);
   openSheetBtn.addEventListener('click', openSheet);
   closeSheetBtn.addEventListener('click', closeSheet);
+  hamburgerBtn.addEventListener('click', openMobileNav);
+  closeMobileNavBtn.addEventListener('click', closeMobileNav);
 
-  const closeAny=()=>{ if(drawer.classList.contains('open')) closeDrawer(); if(sheet.classList.contains('open')) closeSheet(); };
+  const closeAny=()=>{
+    if (drawer.classList.contains('open')) closeDrawer();
+    if (sheet.classList.contains('open')) closeSheet();
+    if (mobileNav.classList.contains('open')) closeMobileNav();
+  };
   overlay.addEventListener('click', closeAny);
   overlay.addEventListener('touchstart', closeAny, {passive:true});
-  document.addEventListener('keydown', e=>{ if(e.key==='Escape') closeAny(); });
+  document.addEventListener('keydown', e=>{ if(e.key==='Escape') { closeAny(); closeForm(); } });
 
-  const mqDesktop=window.matchMedia('(min-width:1080px)');
+  const mqDesktop=window.matchMedia('(min-width:901px)');
   mqDesktop.addEventListener('change', e=>{
-    const sOpen=sheet.classList.contains('open'), dOpen=drawer.classList.contains('open');
-    if(e.matches){ if(sOpen){ closeSheet(); openDrawer(); } } else { if(dOpen){ closeDrawer(); openSheet(); } }
+    if (e.matches) {
+      if (mobileNav.classList.contains('open')) {
+        closeMobileNav();
+      }
+      const sOpen=sheet.classList.contains('open');
+      if(sOpen){ closeSheet(); openDrawer(); }
+    } else {
+      const dOpen=drawer.classList.contains('open');
+      if(dOpen){ closeDrawer(); openSheet(); }
+    }
   });
 
-  /* ===== 폼 모달 ===== */
   const modal = document.getElementById('quoteFormModal');
 
   function populateModalQuoteList() {
@@ -510,23 +545,22 @@
   }
 
   function openForm(){
-    document.body.style.overflow='hidden';
-
-    modal.style.display='grid'; modal.setAttribute('aria-hidden','false');
+    modal.setAttribute('aria-hidden','false');
     populateModalQuoteList();
+    document.body.classList.add('scroll-lock');
+    showOverlay();
   }
   function closeForm(){
-    modal.style.display='none'; modal.setAttribute('aria-hidden','true');
-    
-    if (!drawer.classList.contains('open') && !sheet.classList.contains('open')) {
-        document.body.style.overflow=''; 
+    modal.setAttribute('aria-hidden','true');
+    if (!sheet.classList.contains('open') && !drawer.classList.contains('open') && !mobileNav.classList.contains('open')) {
+      hideOverlay();
     }
   }
-  document.getElementById('submitQuote').addEventListener('click', openForm);
-  document.getElementById('submitQuoteM').addEventListener('click', openForm);
-  document.getElementById('cancelForm').addEventListener('click', closeForm);
+  $('#submitQuote').addEventListener('click', openForm);
+  $('#submitQuoteM').addEventListener('click', openForm);
+  $('#cancelForm').addEventListener('click', closeForm);
+  modal.addEventListener('click', (e) => { if (e.target === modal) closeForm(); });
 
-  /* 빈 공간 탭/클릭 시 입력 포커스 해제 */
   function blurOnOutsideTap(e){
     const ae = document.activeElement;
     if (!ae) return;
@@ -536,20 +570,19 @@
   document.addEventListener('touchstart', blurOnOutsideTap, {passive:true});
   document.addEventListener('mousedown', blurOnOutsideTap);
 
-  /* ===== 이메일 전송 공통 함수 ===== */
   async function handleFormSubmit(prefix, event) {
     event.preventDefault();
 
-    const form = event.target;
-    const name    = form.querySelector(`#${prefix}Name`).value.trim();
-    const email   = form.querySelector(`#${prefix}Email`).value.trim();
-    const tel     = form.querySelector(`#${prefix}Tel`).value.trim();
-    const company = form.querySelector(`#${prefix}Company`).value.trim();
-    const memo    = form.querySelector(`#${prefix}Memo`).value.trim();
+    const form = event.target.closest('form');
+    const name    = form.querySelector(`[id^="${prefix}Name"]`).value.trim();
+    const email   = form.querySelector(`[id^="${prefix}Email"]`).value.trim();
+    const tel     = form.querySelector(`[id^="${prefix}Tel"]`).value.trim();
+    const company = form.querySelector(`[id^="${prefix}Company"]`).value.trim();
+    const memo    = form.querySelector(`[id^="${prefix}Memo"]`).value.trim();
 
     const items = quote.items;
     const totalKRW = total();
-    const isQuote = items.length > 0;
+    const isQuote = items.length > 0 && prefix.startsWith('f');
     const subject = isQuote ? `[비밀특가 견적요청] ${name}` : `[일반 문의] ${name}`;
     const quoteText = isQuote ? `\n\n담긴상품\n${items.map(x => `- ${x.title} (${x.id}) x ${x.qty} = ${fmtKRW(x.price * x.qty)}`).join('\n')}\n\n총액: ${fmtKRW(totalKRW)}` : '';
 
@@ -584,17 +617,17 @@
       const text = (await res.text() || '').trim();
       if (text !== 'Success') throw new Error(`Unexpected response: ${text}`);
 
-      alert('문의가 접수되었습니다. 곧 메일로 안내드리겠습니다.');
+      showToast('문의가 성공적으로 접수되었습니다.');
       form.reset();
       
-      if (prefix === 'f') {
+      if (prefix.startsWith('f')) {
         closeForm();
         closeAny();
       }
 
     } catch (e) {
       console.error('submit error:', e);
-      alert('전송에 실패했습니다. 잠시 후 다시 시도해주세요.');
+      showToast('전송 실패. 잠시 후 다시 시도해주세요.');
     } finally {
       btn.textContent = oldLabel;
       btn.removeAttribute('aria-disabled');
@@ -602,7 +635,6 @@
     }
   }
 
-  /* 초기 실행 */
   (function init(){
     renderBanner();
     renderChannels();
@@ -616,7 +648,7 @@
     loadMoreProducts();
     
     $('#modalQuoteForm').addEventListener('submit', (e) => handleFormSubmit('f', e));
-    $('#inlineInquiryForm').addEventListener('submit', (e) => handleFormSubmit('inlineF', e));
+    $('#inlineInquiryForm').addEventListener('submit', (e) => handleFormSubmit('inline', e));
   })();
 
 })();
