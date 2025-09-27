@@ -390,7 +390,7 @@
 
     if (toastEl.classList.contains('show')) {
       toastEl.classList.remove('show');
-      toastResetTimeout = setTimeout(_show, 400);
+      toastResetTimeout = setTimeout(_show, 100);
     } else {
       _show();
     }
