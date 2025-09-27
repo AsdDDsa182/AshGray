@@ -1242,7 +1242,7 @@ footer {
   padding: 12px 20px;
   border-radius: 12px;
   font-weight: 700;
-  z-index: 200;
+  z-index: 201; /* 수정된 부분: 200 -> 201 */
   opacity: 0;
   transition: transform .4s ease, opacity .4s ease;
   box-shadow: var(--shadow);

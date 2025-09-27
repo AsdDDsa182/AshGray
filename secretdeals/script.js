@@ -212,9 +212,7 @@
   const cartTotal=$('#cartTotal'), cartCount=$('#cartCount'), quoteCount=$('#quoteCount');
   const submitQuoteBtn = $('#submitQuote');
   const submitQuoteMBtn = $('#submitQuoteM');
-  const copyQuoteBtn = $('#copyQuote');
-  const copyQuoteMBtn = $('#copyQuoteM');
-  
+
   const loadMoreBtn = $('#loadMoreBtn');
   
   const toastEl = $('#toastNotification');
@@ -453,25 +451,6 @@
       const step=e.target.closest('[data-step]'); if(step){ const id=step.dataset.id, dir=parseInt(step.dataset.step,10); const it=quote.items.find(x=>x.id===id); if(it){ it.qty=Math.max(1,(it.qty||1)+dir); saveQuote(); } }
     });
   });
-
-  async function copyQuoteToClipboard() {
-    const textToCopy = generateQuoteText();
-    if (!textToCopy) {
-        alert('복사할 상품이 없습니다.');
-        return;
-    }
-    
-    try {
-        await navigator.clipboard.writeText(textToCopy);
-        showToast('견적이 복사되었습니다.');
-    } catch (err) {
-        console.error('복사 실패:', err);
-        alert('복사에 실패했습니다.');
-    }
-  }
-
-  if (copyQuoteBtn) copyQuoteBtn.addEventListener('click', copyQuoteToClipboard);
-  if (copyQuoteMBtn) copyQuoteMBtn.addEventListener('click', copyQuoteToClipboard);
 
   function showOverlay(){ overlay.hidden=false; document.body.classList.add('scroll-lock'); }
   function hideOverlay(){ 
