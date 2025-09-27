@@ -548,14 +548,14 @@ textarea { caret-color: var(--text); }
 
 .sheet .sum { padding: 14px 16px; }
 
+/* ⭐ 수정된 부분: 원래 색상으로 복원 */
 .cartbar {
   position: fixed;
   left: 16px;
   right: 16px;
   bottom: calc(16px + env(safe-area-inset-bottom));
   z-index: 55;
-  background: var(--ok);
-  color: var(--bg);
+  background: linear-gradient(135deg, #17182a, #101223);
   border: 1px solid var(--border);
   border-radius: 16px;
   padding: 10px 12px;
