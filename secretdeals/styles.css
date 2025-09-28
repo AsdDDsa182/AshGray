@@ -65,7 +65,7 @@ header {
   position: fixed; /* 👈 최종 수정됨 */
   top: 0;
   width: 100%;
-  z-index: 50;
+  z-index: 40;
   background: linear-gradient(180deg, rgba(11,12,16,.95), rgba(11,12,16,.75));
   backdrop-filter: blur(8px);
   border-bottom: 1px solid var(--border);
