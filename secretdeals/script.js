@@ -44,10 +44,6 @@
   const $ = s => document.querySelector(s);
   const el = (html) => { const t=document.createElement('template'); t.innerHTML=html.trim(); return t.content.firstElementChild; };
 
-  // 전역 변수: 스크롤 위치 저장 및 요소 참조
-  let scrollPosition = 0;
-  const htmlEl = document.documentElement;
-
   const bannerRoot=$('#bannerRoot');
   const channelsGrid=$('#channelsGrid');
   const grid=$('#productGrid'), emptyState=$('#emptyState'), tpl=$('#productTpl');
@@ -67,8 +63,7 @@
   const hamburgerBtn = $('#hamburgerBtn');
   const mobileNav = $('#mobileNav');
   const closeMobileNavBtn = $('#closeMobileNavBtn');
-  const modal = document.getElementById('quoteFormModal');
-  
+
   const viewToggleContainer = $('.view-toggle-container');
   const durationToggleContainer = $('.duration-toggle-container');
   const rentalDisclaimer = $('.rental-disclaimer');
@@ -181,7 +176,7 @@
   const total=()=>quote.items.reduce((s,x)=>s+x.price*x.qty,0);
   const count=()=>quote.items.reduce((s,x)=>s+x.qty,0);
 
-  function rowHTML(it){ const priceText = it.price > 0 ? fmtKRW(it.price) : '별도 문의'; return ` <img src="${it.image}" alt="${it.title}" style="width:64px;height:64px;object-fit:cover;border-radius:10px;border:1px solid var(--quote-border)"> <div> <div style="font-weight:700">${it.title}</div> <div style="color:var(--muted);font-size:12px">${it.id.split('-').slice(0, -1).join('-')}</div> <div style="margin-top:6px;font-weight:700">${priceText}${it.isRental && it.price > 0 ? ' / 월' : ''}</div> </div> <div class="ctrl"> <div class="stepper"> <button class="step" data-step="-1" data-id="${it.id}" aria-label="수량 감소">−</button> <input type="number" min="1" value="${it.qty}" data-qid="${it.id}" inputmode="numeric" /> <button class="step" data-step="1" data-id="${it.id}" aria-label="수량 증가">+</button> </div> <button class="del" data-del="${it.id}">삭제</button> </div>`; }
+  function rowHTML(it){ const priceText = it.price > 0 ? fmtKRW(it.price) : '별도 문의'; return ` <img src="${it.image}" alt="${it.title}" style="width:64px;height:64px;object-fit:cover;border-radius:10px;border:1px solid var(--quote-border)"> <div> <div style="font-weight:700">${it.title}</div> <div style="color:var(--muted);font-size:12px">${it.id}</div> <div style="margin-top:6px;font-weight:700">${priceText}${it.isRental && it.price > 0 ? ' / 월' : ''}</div> </div> <div class="ctrl"> <div class="stepper"> <button class="step" data-step="-1" data-id="${it.id}" aria-label="수량 감소">−</button> <input type="number" min="1" value="${it.qty}" data-qid="${it.id}" inputmode="numeric" /> <button class="step" data-step="1" data-id="${it.id}" aria-label="수량 증가">+</button> </div> <button class="del" data-del="${it.id}">삭제</button> </div>`; }
   function renderQuoteList(target){ target.innerHTML=''; quote.items.forEach(it=>{ const row=document.createElement('div'); row.className='row'; row.innerHTML=rowHTML(it); target.appendChild(row); }); }
   
   function updateQuoteUI(){
@@ -234,81 +229,56 @@
 
   ['quoteList','quoteListM'].forEach(id=>{ const root=document.getElementById(id); root.addEventListener('input', e=>{ if(e.target.matches('input[type=number][data-qid]')) setQty(e.target.dataset.qid, +e.target.value); }); root.addEventListener('click', e=>{ const del=e.target.closest('[data-del]'); if(del){ delQuote(del.dataset.del); return; } const step=e.target.closest('[data-step]'); if(step){ const id=step.dataset.id, dir=parseInt(step.dataset.step,10); const it=quote.items.find(x=>x.id===id); if(it){ it.qty=Math.max(1,(it.qty||1)+dir); saveQuote(); } } }); });
   
-  // --- 스크롤 락 기능 수정 (position: fixed 기반, 모달 내부 스크롤 보장) ---
-  function showOverlay(){ overlay.hidden=false; }
+  function showOverlay(){ overlay.hidden=false; document.body.classList.add('scroll-lock'); }
   
-  // 스크롤 락 해제 및 위치 복원 로직
-  function releaseScrollLock() {
-    // 모든 패널이 닫혔을 때만 락 해제
-    if (modal.getAttribute('aria-hidden') === 'true' && !sheet.classList.contains('open') && !drawer.classList.contains('open') && !mobileNav.classList.contains('open')) {
-        document.body.classList.remove('scroll-lock');
-        document.body.style.top = '';
-        window.scrollTo(0, scrollPosition);
-        overlay.hidden = true;
-    }
+  // ✅ UPDATED
+  function hideOverlay(){
+    // 이제 이 함수는 모달의 상태와 관계없이, 견적서/메뉴 패널 전용으로만 동작합니다.
+    document.body.classList.remove('scroll-lock');
+    overlay.hidden=true;
   }
 
-  // 스크롤 락 적용 로직 (body를 fixed로 고정)
-  function applyScrollLock() {
-    if (!document.body.classList.contains('scroll-lock')) {
-        scrollPosition = window.pageYOffset;
-        document.body.style.top = `-${scrollPosition}px`;
-        document.body.classList.add('scroll-lock');
-    }
-  }
-
-  // hideOverlay 함수는 이제 내부에서 releaseScrollLock을 호출하도록 단순화
-  function hideOverlay(){ 
-    releaseScrollLock(); 
-  }
-  
-  function openDrawer(){ closeAny(); drawer.classList.add('open'); drawer.setAttribute('aria-hidden','false'); openQuoteBtn.setAttribute('aria-expanded','true'); applyScrollLock(); showOverlay(); }
-  function closeDrawer(){ drawer.classList.remove('open'); drawer.setAttribute('aria-hidden','true'); openQuoteBtn.setAttribute('aria-expanded','false'); releaseScrollLock(); }
-  function openSheet(){ closeAny(); sheet.classList.add('open'); sheet.setAttribute('aria-hidden','false'); applyScrollLock(); showOverlay(); }
-  function closeSheet(){ sheet.classList.remove('open'); sheet.setAttribute('aria-hidden','true'); releaseScrollLock(); }
-  function openMobileNav() { closeAny(); mobileNav.classList.add('open'); mobileNav.setAttribute('aria-hidden', 'false'); hamburgerBtn.setAttribute('aria-expanded', 'true'); applyScrollLock(); showOverlay(); }
-  function closeMobileNav() { mobileNav.classList.remove('open'); mobileNav.setAttribute('aria-hidden', 'true'); hamburgerBtn.setAttribute('aria-expanded', 'false'); releaseScrollLock(); }
+  function openDrawer(){ closeAny(); drawer.classList.add('open'); drawer.setAttribute('aria-hidden','false'); openQuoteBtn.setAttribute('aria-expanded','true'); showOverlay(); }
+  function closeDrawer(){ drawer.classList.remove('open'); drawer.setAttribute('aria-hidden','true'); openQuoteBtn.setAttribute('aria-expanded','false'); if(!mobileNav.classList.contains('open')) hideOverlay(); }
+  function openSheet(){ closeAny(); sheet.classList.add('open'); sheet.setAttribute('aria-hidden','false'); showOverlay(); }
+  function closeSheet(){ sheet.classList.remove('open'); sheet.setAttribute('aria-hidden','true'); if(!mobileNav.classList.contains('open')) hideOverlay(); }
+  function openMobileNav() { closeAny(); mobileNav.classList.add('open'); mobileNav.setAttribute('aria-hidden', 'false'); hamburgerBtn.setAttribute('aria-expanded', 'true'); showOverlay(); }
+  function closeMobileNav() { mobileNav.classList.remove('open'); mobileNav.setAttribute('aria-hidden', 'true'); hamburgerBtn.setAttribute('aria-expanded', 'false'); if(!sheet.classList.contains('open') && !drawer.classList.contains('open')) hideOverlay(); }
   function isDesktop(){ return window.matchMedia('(min-width:1080px)').matches; }
-
   openQuoteBtn.addEventListener('click', ()=>{ isDesktop()?openDrawer():openSheet(); });
   closeQuoteBtn.addEventListener('click', closeDrawer); openSheetBtn.addEventListener('click', openSheet); closeSheetBtn.addEventListener('click', closeSheet); hamburgerBtn.addEventListener('click', openMobileNav); closeMobileNavBtn.addEventListener('click', closeMobileNav);
-  
   const closeAny=()=>{ if (drawer.classList.contains('open')) closeDrawer(); if (sheet.classList.contains('open')) closeSheet(); if (mobileNav.classList.contains('open')) closeMobileNav(); };
   overlay.addEventListener('click', closeAny); overlay.addEventListener('touchstart', closeAny, {passive:true});
-  
   document.addEventListener('keydown', e=>{ if(e.key==='Escape') { closeAny(); closeForm(); } });
-  
   const mqDesktop=window.matchMedia('(min-width:901px)');
-  mqDesktop.addEventListener('change', e=>{ 
-    if (e.matches) { 
-      if (mobileNav.classList.contains('open')) { closeMobileNav(); } 
-      const sOpen=sheet.classList.contains('open'); 
-      if(sOpen){ closeSheet(); openDrawer(); } 
-    } else { 
-      const dOpen=drawer.classList.contains('open'); 
-      if(dOpen){ closeDrawer(); openSheet(); } 
-    } 
-  });
+  mqDesktop.addEventListener('change', e=>{ if (e.matches) { if (mobileNav.classList.contains('open')) { closeMobileNav(); } const sOpen=sheet.classList.contains('open'); if(sOpen){ closeSheet(); openDrawer(); } } else { const dOpen=drawer.classList.contains('open'); if(dOpen){ closeDrawer(); openSheet(); } } });
   
-  function populateModalQuoteList() { const listEl = $('#modalQuoteList'); const boxEl = listEl.closest('.quote-summary-box'); if (!listEl || !boxEl) return; listEl.innerHTML = ''; if (quote.items.length > 0) { quote.items.forEach(item => { const qtyText = item.qty > 1 ? ` (수량: ${item.qty})` : ''; const li = document.createElement('li'); li.textContent = `${item.title}${qtyText}`; listEl.appendChild(li); }); boxEl.hidden = false; } else { boxEl.hidden = true; } }
+  const modal = document.getElementById('quoteFormModal');
+  function populateModalQuoteList() { const listEl = $('#modalQuoteList'); const boxEl = listEl.closest('.quote-summary-box'); if (!listEl || !boxEl) return; listEl.innerHTML = ''; if (quote.items.length > 0) { quote.items.forEach(item => { const li = document.createElement('li'); const qtyText = item.qty > 1 ? ` (수량: ${item.qty})` : ''; li.textContent = `${item.title}${qtyText}`; listEl.appendChild(li); }); boxEl.hidden = false; } else { boxEl.hidden = true; } }
   
-  function openForm(){ 
-    modal.setAttribute('aria-hidden','false'); 
-    populateModalQuoteList(); 
-    applyScrollLock(); 
-    showOverlay(); 
+  // ✅ UPDATED
+  function openForm(){
+    modal.setAttribute('aria-hidden','false');
+    populateModalQuoteList();
+    document.body.classList.add('scroll-lock');
   }
-  
-  function closeForm(){ 
-    modal.setAttribute('aria-hidden','true'); 
-    releaseScrollLock(); 
+
+  // ✅ UPDATED
+  function closeForm(){
+    modal.setAttribute('aria-hidden','true');
+    // 모달을 닫을 때, 다른 오버레이(견적서, 메뉴 등)가 열려있지 않은 경우에만 스크롤 잠금을 해제합니다.
+    if (!sheet.classList.contains('open') && !drawer.classList.contains('open') && !mobileNav.classList.contains('open')) {
+      document.body.classList.remove('scroll-lock');
+    }
   }
-  
-  $('#submitQuote').addEventListener('click', openForm); $('#submitQuoteM').addEventListener('click', openForm); $('#cancelForm').addEventListener('click', closeForm);
+
+  $('#submitQuote').addEventListener('click', openForm);
+  $('#submitQuoteM').addEventListener('click', openForm);
+  $('#cancelForm').addEventListener('click', closeForm);
   modal.addEventListener('click', (e) => { if (e.target === modal) closeForm(); });
-  
   function blurOnOutsideTap(e){ const ae = document.activeElement; if (!ae) return; const isField = (el)=> el && (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA'); if (isField(ae) && !e.target.closest('input, textarea, .gate-card')) { ae.blur(); } }
-  document.addEventListener('touchstart', blurOnOutsideTap, {passive:true}); document.addEventListener('mousedown', blurOnOutsideTap);
+  document.addEventListener('touchstart', blurOnOutsideTap, {passive:true});
+  document.addEventListener('mousedown', blurOnOutsideTap);
 
   async function handleFormSubmit(prefix, event) {
     event.preventDefault();
