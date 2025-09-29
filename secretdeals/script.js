@@ -5,7 +5,7 @@
   const STORE_URL  = 'https://smartstore.naver.com/';
   const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyRAXNYclCAqOkzqXe8fIHc6Md0nQOIXcJeAC13xjKqobD3t7jdDZ-PjmtULNFJ5ZZr/exec';
 
-  const BANNER = { type:'video', src:'/intro.mp4', poster:'' };
+  const BANNER = { type:'video', src:'https://res.cloudinary.com/dpxjvtbss/video/upload/v1759107647/intro_qrfya9.mp4', poster:'' };
 
   const SOCIAL_LINKS = [
     { type:'home',    label:'홈페이지',    href:'https://gofitkorea.co.kr' },
