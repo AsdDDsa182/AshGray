@@ -36,16 +36,19 @@ html, body {
   font-family: 'Pretendard', system-ui, -apple-system, Segoe UI, Roboto, 'Noto Sans KR', sans-serif;
   touch-action: pan-y;
 }
-/* -- SCROLL LOCK FIX START -- */
-html:has(body.scroll-lock) {
-  overflow: hidden; /* 모달/드로어 스크롤 버그 해결을 위해 html에도 적용 */
-}
+/* -- SCROLL LOCK FIX START: body, html 스크롤 가능하게 유지하고 fixed 요소를 분리 -- */
 .scroll-lock {
   overflow: hidden !important;
-  position: fixed; /* iOS 키보드 버그 대응 및 스크롤 고정 */
+  position: fixed;
   top: 0;
   left: 0;
   right: 0;
+}
+.scroll-lock #contentWrapper { /* 메인 콘텐츠 래퍼를 숨김 */
+  display: none !important;
+}
+.scroll-lock #mainHeader { /* 헤더는 고정된 상태로 유지 */
+  z-index: 120;
 }
 /* -- SCROLL LOCK FIX END -- */
 a {
@@ -136,6 +139,7 @@ header {
   padding: 24px;
   border-left: 1px solid var(--quote-border);
   box-shadow: var(--shadow);
+  overflow-y: auto; /* 내부 스크롤 보장 */
 }
 .mobile-nav.open {
   transform: translateX(0);
@@ -699,6 +703,7 @@ section.mixed-inquiry-box {
   display: grid;
   grid-template-rows: auto 1fr auto auto;
   padding-bottom: env(safe-area-inset-bottom);
+  overflow-y: auto; /* 내부 스크롤 보장 */
 }
 .sheet.open {
   transform: translateY(0);
@@ -883,7 +888,7 @@ footer {
   width: 100%;
   max-width: 560px;
   max-height: 80vh;
-  overflow-y: auto;
+  overflow-y: auto; /* 내부 스크롤 보장 */
 }
 .modal[aria-hidden="false"] .gate-card {
   animation: slideUp 0.3s ease forwards;

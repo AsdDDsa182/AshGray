@@ -44,9 +44,10 @@
   const $ = s => document.querySelector(s);
   const el = (html) => { const t=document.createElement('template'); t.innerHTML=html.trim(); return t.content.firstElementChild; };
 
-  // 전역 변수: 스크롤 위치 저장 (스크롤 락 해결을 위함)
+  // 전역 변수: 스크롤 위치 저장 및 요소 참조
   let scrollPosition = 0;
-  
+  const htmlEl = document.documentElement;
+
   const bannerRoot=$('#bannerRoot');
   const channelsGrid=$('#channelsGrid');
   const grid=$('#productGrid'), emptyState=$('#emptyState'), tpl=$('#productTpl');
@@ -66,7 +67,7 @@
   const hamburgerBtn = $('#hamburgerBtn');
   const mobileNav = $('#mobileNav');
   const closeMobileNavBtn = $('#closeMobileNavBtn');
-  const modal = document.getElementById('quoteFormModal'); // 모달 요소 추가
+  const modal = document.getElementById('quoteFormModal');
   
   const viewToggleContainer = $('.view-toggle-container');
   const durationToggleContainer = $('.duration-toggle-container');
@@ -233,33 +234,32 @@
 
   ['quoteList','quoteListM'].forEach(id=>{ const root=document.getElementById(id); root.addEventListener('input', e=>{ if(e.target.matches('input[type=number][data-qid]')) setQty(e.target.dataset.qid, +e.target.value); }); root.addEventListener('click', e=>{ const del=e.target.closest('[data-del]'); if(del){ delQuote(del.dataset.del); return; } const step=e.target.closest('[data-step]'); if(step){ const id=step.dataset.id, dir=parseInt(step.dataset.step,10); const it=quote.items.find(x=>x.id===id); if(it){ it.qty=Math.max(1,(it.qty||1)+dir); saveQuote(); } } }); });
   
-  // --- 스크롤 락 기능 수정 (position: fixed 기반) ---
+  // --- 스크롤 락 기능 수정 (position: fixed 기반, 모달 내부 스크롤 보장) ---
   function showOverlay(){ overlay.hidden=false; }
-
-  // 모바일 환경에서만 document.body.classList.remove('scroll-lock')이 필요함.
-  // 모달 닫기 로직에서 scroll-lock 해제와 스크롤 위치 복원을 통합합니다.
+  
+  // 스크롤 락 해제 및 위치 복원 로직
   function releaseScrollLock() {
-    document.body.classList.remove('scroll-lock');
-    document.body.style.top = '';
-    window.scrollTo(0, scrollPosition);
-    if(modal.getAttribute('aria-hidden') === 'true' && !sheet.classList.contains('open') && !drawer.classList.contains('open') && !mobileNav.classList.contains('open')) { 
-        overlay.hidden=true; 
+    // 모든 패널이 닫혔을 때만 락 해제
+    if (modal.getAttribute('aria-hidden') === 'true' && !sheet.classList.contains('open') && !drawer.classList.contains('open') && !mobileNav.classList.contains('open')) {
+        document.body.classList.remove('scroll-lock');
+        document.body.style.top = '';
+        window.scrollTo(0, scrollPosition);
+        overlay.hidden = true;
     }
   }
 
+  // 스크롤 락 적용 로직 (body를 fixed로 고정)
   function applyScrollLock() {
-    scrollPosition = window.pageYOffset;
-    document.body.style.top = `-${scrollPosition}px`;
-    document.body.classList.add('scroll-lock');
+    if (!document.body.classList.contains('scroll-lock')) {
+        scrollPosition = window.pageYOffset;
+        document.body.style.top = `-${scrollPosition}px`;
+        document.body.classList.add('scroll-lock');
+    }
   }
 
+  // hideOverlay 함수는 이제 내부에서 releaseScrollLock을 호출하도록 단순화
   function hideOverlay(){ 
-    if(modal.getAttribute('aria-hidden') === 'true' && !sheet.classList.contains('open') && !drawer.classList.contains('open') && !mobileNav.classList.contains('open')) { 
-      document.body.classList.remove('scroll-lock'); 
-      document.body.style.top = ''; 
-      window.scrollTo(0, scrollPosition); 
-      overlay.hidden=true; 
-    } 
+    releaseScrollLock(); 
   }
   
   function openDrawer(){ closeAny(); drawer.classList.add('open'); drawer.setAttribute('aria-hidden','false'); openQuoteBtn.setAttribute('aria-expanded','true'); applyScrollLock(); showOverlay(); }
@@ -269,7 +269,7 @@
   function openMobileNav() { closeAny(); mobileNav.classList.add('open'); mobileNav.setAttribute('aria-hidden', 'false'); hamburgerBtn.setAttribute('aria-expanded', 'true'); applyScrollLock(); showOverlay(); }
   function closeMobileNav() { mobileNav.classList.remove('open'); mobileNav.setAttribute('aria-hidden', 'true'); hamburgerBtn.setAttribute('aria-expanded', 'false'); releaseScrollLock(); }
   function isDesktop(){ return window.matchMedia('(min-width:1080px)').matches; }
-  
+
   openQuoteBtn.addEventListener('click', ()=>{ isDesktop()?openDrawer():openSheet(); });
   closeQuoteBtn.addEventListener('click', closeDrawer); openSheetBtn.addEventListener('click', openSheet); closeSheetBtn.addEventListener('click', closeSheet); hamburgerBtn.addEventListener('click', openMobileNav); closeMobileNavBtn.addEventListener('click', closeMobileNav);
   
@@ -290,25 +290,23 @@
     } 
   });
   
-  // const modal = document.getElementById('quoteFormModal'); // 상단에 이미 선언됨
   function populateModalQuoteList() { const listEl = $('#modalQuoteList'); const boxEl = listEl.closest('.quote-summary-box'); if (!listEl || !boxEl) return; listEl.innerHTML = ''; if (quote.items.length > 0) { quote.items.forEach(item => { const qtyText = item.qty > 1 ? ` (수량: ${item.qty})` : ''; const li = document.createElement('li'); li.textContent = `${item.title}${qtyText}`; listEl.appendChild(li); }); boxEl.hidden = false; } else { boxEl.hidden = true; } }
   
-  // openForm/closeForm도 스크롤 락 로직을 applyScrollLock/releaseScrollLock로 변경
   function openForm(){ 
     modal.setAttribute('aria-hidden','false'); 
     populateModalQuoteList(); 
-    applyScrollLock(); // 스크롤 락 적용
+    applyScrollLock(); 
     showOverlay(); 
   }
+  
   function closeForm(){ 
     modal.setAttribute('aria-hidden','true'); 
-    releaseScrollLock(); // 스크롤 락 해제 및 위치 복원
+    releaseScrollLock(); 
   }
   
   $('#submitQuote').addEventListener('click', openForm); $('#submitQuoteM').addEventListener('click', openForm); $('#cancelForm').addEventListener('click', closeForm);
   modal.addEventListener('click', (e) => { if (e.target === modal) closeForm(); });
   
-  // blurOnOutsideTap 로직은 그대로 유지합니다. (스크롤 락은 이미 fixed로 해결됨)
   function blurOnOutsideTap(e){ const ae = document.activeElement; if (!ae) return; const isField = (el)=> el && (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA'); if (isField(ae) && !e.target.closest('input, textarea, .gate-card')) { ae.blur(); } }
   document.addEventListener('touchstart', blurOnOutsideTap, {passive:true}); document.addEventListener('mousedown', blurOnOutsideTap);
 
