@@ -8,10 +8,10 @@
   const BANNER = { type:'video', src:'https://res.cloudinary.com/dpxjvtbss/video/upload/v1759107647/intro_qrfya9.mp4', poster:'' };
 
   const SOCIAL_LINKS = [
-    { type:'home',    label:'홈페이지',    href:'https://gofitkorea.co.kr' },
-    { type:'youtube', label:'유튜브',      href:'https://youtube.com/' },
-    { type:'insta',   label:'인스타그램',  href:'https://instagram.com/' },
-    { type:'blog',    label:'블로그',      href:'https://blog.naver.com/' },
+    { type:'home',    label:'홈페이지',    href:'https://gofitkorea.com' },
+    { type:'youtube', label:'유튜브',      href:'https://www.youtube.com/@gofitkorea1' },
+    { type:'insta',   label:'인스타그램',  href:'https://www.instagram.com/gofitkorea/' },
+    { type:'blog',    label:'블로그',      href:'https://blog.naver.com/gofitkorea' },
   ];
 
   const PRODUCTS = [
