@@ -525,7 +525,8 @@ textarea { caret-color: var(--text); }
 
 .intro-card {
   background-color: #000;
-  background-image: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('https://images.unsplash.com/photo-15178363574GH3-d25dfeac3438?q=80&w=1200&auto=format&fit=crop');
+  /* 'GH'를 '6'으로 수정한 올바른 이미지 주소 */
+  background-image: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('https://images.unsplash.com/photo-1517836357463-d25dfeac3438?q=80&w=1200&auto=format&fit=crop');
   background-size: cover;
   background-position: center;
 }
@@ -1264,4 +1265,66 @@ footer {
               opacity 0.8s linear;
   pointer-events: none;
   transform-origin: center center;
+}
+
+/* Caution Tape Style (Background Animation) */
+
+.caution-tape-wrapper {
+  transform: rotate(-1.5deg);
+  margin-top: var(--space-inter);
+  margin-bottom: 24px;
+  border: 1px solid #444;
+  overflow: hidden;
+}
+
+.caution-tape {
+  height: 40px;
+  width: 100%;
+  background: repeating-linear-gradient(
+    45deg,
+    #f8d142,
+    #f8d142 30px,
+    #0b0c10 30px,
+    #0b0c10 60px
+  );
+  
+  background-size: 84.85px 84.85px;
+  
+  animation: scroll-tape-bg 2s linear infinite;
+}
+
+@keyframes scroll-tape-bg {
+  from {
+    background-position: 0 0;
+  }
+  to {
+    background-position: -84.85px 0;
+  }
+}
+
+/* 비밀 특가 타이틀 흐르는 그라데이션 효과 */
+#hero .section-title {
+  /* 이전과 동일한 그라데이션 기본 스타일 */
+  background: linear-gradient(90deg, var(--brand), var(--brand-2), var(--brand));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  display: inline-block;
+
+  /* 애니메이션을 위한 추가 스타일 */
+  background-size: 200% auto; /* 배경 그라데이션을 2배 크게 만듭니다 */
+  animation: gradient-flow 10s ease-in-out infinite; /* 애니메이션 적용 */
+}
+
+/* 그라데이션이 흐르는 효과를 정의하는 애니메이션 */
+@keyframes gradient-flow {
+  0% {
+    background-position: 0% center;
+  }
+  50% {
+    background-position: 100% center;
+  }
+  100% {
+    background-position: 0% center;
+  }
 }
