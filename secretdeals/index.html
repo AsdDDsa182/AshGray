@@ -101,39 +101,56 @@
           <p class="section-desc">기간 한정으로 제공되는 특별 혜택을 확인하세요.</p>
         </div>
         <div id="promoSliderContainer" class="promo-slider">
-          <div id="promoSliderTrack" class="promo-slider-track">
-            </div>
-          <button id="promoPrevBtn" class="promo-slider-nav prev" aria-label="이전 슬라이드">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
-          </button>
-          <button id="promoNextBtn" class="promo-slider-nav next" aria-label="다음 슬라이드">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
-          </button>
-          <div class="promo-slider-indicators" id="promoSliderIndicators">
-            </div>
+          <div id="promoSliderTrack" class="promo-slider-track"></div>
+          <button id="promoPrevBtn" class="promo-slider-nav prev" aria-label="이전 슬라이드"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg></button>
+          <button id="promoNextBtn" class="promo-slider-nav next" aria-label="다음 슬라이드"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg></button>
+          <div class="promo-slider-indicators" id="promoSliderIndicators"></div>
         </div>
       </section>
 
       <div class="section-sep" aria-hidden="true"></div>
 
-      <div class="caution-tape-wrapper" aria-hidden="true">
-        <div class="caution-tape"></div>
-      </div>
+      <div class="caution-tape-wrapper" aria-hidden="true"><div class="caution-tape"></div></div>
       
       <section class="hero" id="hero" aria-label="히어로">
         <div class="section-head">
           <h1 class="section-title">비밀 링크 전용 특가 공개</h1>
-          <p class="section-desc">특가 진행 중인 상품들은 수량 소진 시 예고없이 종료됩니다.</p>
+          <p class="section-desc">판매가/렌탈가를 선택하여 특별한 혜택을 확인하세요.<br>특가 상품은 수량 소진 시 예고없이 종료될 수 있습니다.</p>
         </div>
+        
+        <div class="view-toggle-container">
+          <button class="btn view-toggle active" data-view="sale">판매가 보기</button>
+          <button class="btn view-toggle" data-view="rental">렌탈가 보기</button>
+        </div>
+        <div class="duration-toggle-container" hidden>
+            <button class="btn duration-toggle" data-duration="3">3개월</button>
+            <button class="btn duration-toggle" data-duration="6">6개월</button>
+            <button class="btn duration-toggle" data-duration="12">12개월</button>
+            <button class="btn duration-toggle active" data-duration="24">24개월</button>
+            <button class="btn duration-toggle" data-duration="36">36개월</button>
+            <button class="btn duration-toggle" data-duration="48">48개월</button>
+            <button class="btn duration-toggle" data-duration="64">64개월</button>
+            <button class="btn duration-toggle" data-duration="etc">기타</button>
+        </div>
+        <p class="rental-disclaimer" hidden>※ 표시된 월 렌탈료는 예상 금액이며, 신용 심사 결과에 따라 변동될 수 있습니다.</p>
       </section>
       
       <section id="productSection" aria-label="특가 목록">
         <div class="grid" id="productGrid" aria-live="polite"></div>
-        
-        <div class="load-more-container" hidden>
-          <button id="loadMoreBtn" class="btn">더보기</button>
-        </div>
+        <div class="load-more-container" hidden><button id="loadMoreBtn" class="btn">더보기</button></div>
         <div class="empty" id="emptyState" hidden>등록된 특가 상품이 없습니다.</div>
+      </section>
+
+      <div class="section-sep" aria-hidden="true"></div>
+
+      <section id="mixedInquirySection" class="mixed-inquiry-box" aria-label="복합 문의 안내">
+        <div class="box-title-wrapper">
+          <div class="info-box-icon">💡</div>
+          <h3>구매와 렌탈을 함께 원하시나요?</h3>
+        </div>
+        <p>
+            웹사이트에서는 편의를 위해 구매와 렌탈 견적을 분리하여 제공하고 있습니다. 만약 두 가지 유형의 복합 견적이나 특별한 조건의 상담이 필요하시다면, 주저마시고 고객센터(<strong>1588-XXXX</strong>)로 연락 주세요. 전문 매니저가 맞춤형으로 친절히 안내해 드리겠습니다.
+        </p>
       </section>
 
       <div class="section-sep" aria-hidden="true"></div>
@@ -144,36 +161,10 @@
           <p class="section-desc">고객님의 필요에 맞는 최적의 솔루션을 제공합니다.</p>
         </div>
         <div class="service-grid">
-          <div class="service-card intro-card">
-            <h3>Shape Your Strength.</h3>
-            <p>
-              고핏코리아는 단순한 헬스기구 유통사를 넘어, 고객님의 공간을 최고의 피트니스 경험으로 채우는 파트너입니다. 우리는 혁신적인 기술과 디자인으로 당신의 잠재력을 최대한 이끌어냅니다.
-            </p>
-            <div class="consult-action">
-              <a href="https://gofitkorea.co.kr" class="consult-link" target="_blank" rel="noopener">홈페이지 보러가기</a>
-            </div>
-          </div>
-          <div class="service-card">
-            <h3>판매</h3>
-            <p>최신 헬스기구를 합리적인 가격에 구매하여 귀하의 공간을 최고의 피트니스 센터로 만드세요. 전문적인 컨설팅을 통해 최적의 제품을 추천해 드립니다.</p>
-            <div class="consult-action">
-              <a href="tel:1833-3745" class="consult-link">실시간 전화 상담</a>
-            </div>
-          </div>
-          <div class="service-card">
-            <h3>렌탈</h3>
-            <p>단기 이벤트, 특정 기간 집중 사용 등 유연한 운영이 필요할 때 이상적입니다. 최소한의 초기 비용으로 프리미엄 기구를 이용할 수 있습니다.</p>
-            <div class="consult-action">
-              <a href="tel:1833-3745" class="consult-link">실시간 전화 상담</a>
-            </div>
-          </div>
-          <div class="service-card">
-            <h3>리스</h3>
-            <p>초기 비용 부담 없이 월 납입금만으로 최신 기구를 장기적으로 사용하세요. 계약 종료 후 인수 또는 재리스 옵션을 선택할 수 있는 금융 솔루션입니다.</p>
-            <div class="consult-action">
-              <a href="tel:1833-3745" class="consult-link">실시간 전화 상담</a>
-            </div>
-          </div>
+          <div class="service-card intro-card"><h3>Shape Your Strength.</h3><p>고핏코리아는 단순한 헬스기구 유통사를 넘어, 고객님의 공간을 최고의 피트니스 경험으로 채우는 파트너입니다. 우리는 혁신적인 기술과 디자인으로 당신의 잠재력을 최대한 이끌어냅니다.</p><div class="consult-action"><a href="https://gofitkorea.co.kr" class="consult-link" target="_blank" rel="noopener">홈페이지 보러가기</a></div></div>
+          <div class="service-card"><h3>판매</h3><p>최신 헬스기구를 합리적인 가격에 구매하여 귀하의 공간을 최고의 피트니스 센터로 만드세요. 전문적인 컨설팅을 통해 최적의 제품을 추천해 드립니다.</p><div class="consult-action"><a href="tel:1833-3745" class="consult-link">실시간 전화 상담</a></div></div>
+          <div class="service-card"><h3>렌탈</h3><p>단기 이벤트, 특정 기간 집중 사용 등 유연한 운영이 필요할 때 이상적입니다. 최소한의 초기 비용으로 프리미엄 기구를 이용할 수 있습니다.</p><div class="consult-action"><a href="tel:1833-3745" class="consult-link">실시간 전화 상담</a></div></div>
+          <div class="service-card"><h3>리스</h3><p>초기 비용 부담 없이 월 납입금만으로 최신 기구를 장기적으로 사용하세요. 계약 종료 후 인수 또는 재리스 옵션을 선택할 수 있는 금융 솔루션입니다.</p><div class="consult-action"><a href="tel:1833-3745" class="consult-link">실시간 전화 상담</a></div></div>
         </div>
       </section>
 
@@ -184,46 +175,16 @@
           <h2 class="section-title">문의사항이 있으세요?</h2>
           <p class="section-desc">제품, 배송, AS 등 궁금한 점이 있다면 무엇이든 물어보세요.</p>
         </div>
-        
         <div class="inquiry-container">
-          <form id="inlineInquiryForm" class="gate-card inquiry-form">
-            <div class="form-row">
-              <div class="field"><label for="inlineFName">성함 <span class="required">*</span></label><input type="text" id="inlineFName" required maxlength="30" /></div>
-              <div class="field"><label for="inlineFEmail">이메일 <span class="required">*</span></label><input type="email" id="inlineFEmail" required placeholder="name@example.com" /></div>
-            </div>
-            <div class="form-row">
-              <div class="field"><label for="inlineFTel">전화번호 <span class="required">*</span></label><input type="tel" id="inlineFTel" required placeholder="010-1234-5678" pattern="0\d{1,2}-?\d{3,4}-?\d{4}" /></div>
-              <div class="field"><label for="inlineFCompany">회사/지점 (선택)</label><input type="text" id="inlineFCompany" maxlength="50" /></div>
-            </div>
-            <div class="field memo-field"><label for="inlineFMemo">요청사항 <span class="required">*</span></label><textarea id="inlineFMemo" rows="4" placeholder="설치 장소, 수량, 일정 등" required></textarea></div>
-            <div class="actions" style="display:flex;gap:8px;justify-content:flex-end">
-              <button type="submit" class="btn primary" id="inlineSendEmail">이메일로 보내기</button>
-            </div>
-          </form>
-
-          <div class="gate-card info-box">
-            <h4>빠른 답변을 원하시나요?</h4>
-            <p>유선 또는 이메일로 연락주시면 전담 매니저가 신속하게 상담을 도와드립니다.</p>
-            <div class="info-box-sep"></div>
-            <ul class="contact-list">
-              <li><strong>대표번호</strong><span>1588-XXXX</span></li>
-              <li><strong>AS/기술지원</strong><span>070-XXXX-XXXX</span></li>
-              <li><strong>제휴/B2B문의</strong><span>02-XXXX-XXXX</span></li>
-              <li><strong>이메일</strong><span>help@gofitkorea.co.kr</span></li>
-              <li><strong>상담시간</strong><span>평일 09:00 - 18:00</span></li>
-            </ul>
-          </div>
+          <form id="inlineInquiryForm" class="gate-card inquiry-form"><div class="form-row"><div class="field"><label for="inlineFName">성함 <span class="required">*</span></label><input type="text" id="inlineFName" required maxlength="30" /></div><div class="field"><label for="inlineFEmail">이메일 <span class="required">*</span></label><input type="email" id="inlineFEmail" required placeholder="name@example.com" /></div></div><div class="form-row"><div class="field"><label for="inlineFTel">전화번호 <span class="required">*</span></label><input type="tel" id="inlineFTel" required placeholder="010-1234-5678" pattern="0\d{1,2}-?\d{3,4}-?\d{4}" /></div><div class="field"><label for="inlineFCompany">회사/지점 (선택)</label><input type="text" id="inlineFCompany" maxlength="50" /></div></div><div class="field memo-field"><label for="inlineFMemo">요청사항 <span class="required">*</span></label><textarea id="inlineFMemo" rows="4" placeholder="설치 장소, 수량, 일정 등" required></textarea></div><div class="actions" style="display:flex;gap:8px;justify-content:flex-end"><button type="submit" class="btn primary" id="inlineSendEmail">이메일로 보내기</button></div></form>
+          <div class="gate-card info-box"><h4>빠른 답변을 원하시나요?</h4><p>유선 또는 이메일로 연락주시면 전담 매니저가 신속하게 상담을 도와드립니다.</p><div class="info-box-sep"></div><ul class="contact-list"><li><strong>대표번호</strong><span>1588-XXXX</span></li><li><strong>AS/기술지원</strong><span>070-XXXX-XXXX</span></li><li><strong>제휴/B2B문의</strong><span>02-XXXX-XXXX</span></li><li><strong>이메일</strong><span>help@gofitkorea.co.kr</span></li><li><strong>상담시간</strong><span>평일 09:00 - 18:00</span></li></ul></div>
         </div>
-
       </section>
 
       <div id="sepProducts" class="section-sep" aria-hidden="true"></div>
 
       <section id="channelsSection" class="channels" aria-label="고핏코리아 채널">
-        <div class="section-head">
-          <h2 class="section-title">고핏코리아 채널</h2>
-          <p class="section-desc">공식 홈페이지 및 SNS 채널로 이동</p>
-        </div>
+        <div class="section-head"><h2 class="section-title">고핏코리아 채널</h2><p class="section-desc">공식 홈페이지 및 SNS 채널로 이동</p></div>
         <div class="ch-grid" id="channelsGrid"></div>
       </section>
     </div>
@@ -233,89 +194,32 @@
         <div class="thumb"><div class="imgwrap"><img class="p-img" alt="" /></div></div>
         <div class="body">
           <h3 class="title p-title"></h3>
-          <div class="price"><span class="orig p-orig"></span><span class="sale p-sale"></span></div>
-          <div class="cta">
-            <button class="btn primary add-quote">견적서에 담기</button>
-            <div class="cta-split">
-              <a class="btn p-nshop" target="_blank" rel="noopener">N쇼핑</a>
-              <a class="btn p-link" target="_blank" rel="noopener" aria-label="상세보기">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
-              </a>
-            </div>
-          </div>
+          <div class="price"><span class="orig p-orig"></span><div class="sale-wrapper"><span class="sale p-sale"></span><span class="p-rental-info" hidden>/ 월</span></div></div>
+          <div class="cta"><button class="btn primary add-quote">견적서에 담기</button><div class="cta-split"><a class="btn p-nshop" target="_blank" rel="noopener">N쇼핑</a><a class="btn p-link" target="_blank" rel="noopener" aria-label="상세보기"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg></a></div></div>
         </div>
       </article>
     </template>
   </main>
 
   <aside id="quotePanel" class="quote" aria-hidden="true" aria-label="견적서">
-    <header class="head" style="padding:12px 16px">
-      <div style="display:flex;align-items:center;gap:10px">
-        <strong>견적서</strong>
-        <span id="quoteSub" style="color:var(--muted);font-size:12px"></span>
-      </div>
-      <button id="closeQuote" class="btn">닫기</button>
-    </header>
+    <header class="head" style="padding:12px 16px"><div style="display:flex;align-items:center;gap:10px"><strong>견적서</strong><span id="quoteSub" style="color:var(--muted);font-size:12px"></span></div><button id="closeQuote" class="btn">닫기</button></header>
     <div class="scr" id="quoteList"></div>
-    <div class="sum">
-      <div>
-        <div style="color:var(--muted);font-size:12px">총 상품금액</div>
-        <div id="quoteTotal" style="font-weight:800;font-size:18px">₩0</div>
-      </div>
-      <div style="display:flex;gap:8px">
-        <button id="submitQuote" class="btn primary">문의/견적 요청</button>
-      </div>
-    </div>
+    <div class="sum" id="quoteTotal"></div>
+    <div class="foot"><p class="quote-disclaimer" hidden>※ 렌탈료는 신용 심사 후 변동될 수 있습니다.</p><button id="submitQuote" class="btn primary">문의/견적 요청</button></div>
   </aside>
 
   <section id="quoteSheet" class="sheet" aria-hidden="true" aria-label="견적서(모바일)">
-    <header class="head" style="padding:12px 16px">
-      <div style="display:flex;align-items:center;gap:10px">
-        <strong>견적서</strong>
-        <span id="quoteSubM" style="color:var(--muted);font-size:12px"></span>
-      </div>
-      <button id="closeSheet" class="btn">닫기</button>
-    </header>
+    <header class="head" style="padding:12px 16px"><div style="display:flex;align-items:center;gap:10px"><strong>견적서</strong><span id="quoteSubM" style="color:var(--muted);font-size:12px"></span></div><button id="closeSheet" class="btn">닫기</button></header>
     <div class="scr" id="quoteListM"></div>
-    <div class="sum">
-      <div>
-        <div style="color:var(--muted);font-size:12px">총 상품금액</div>
-        <div id="quoteTotalM" style="font-weight:800;font-size:18px">₩0</div>
-      </div>
-      <div style="display:flex;gap:8px">
-        <button id="submitQuoteM" class="btn primary">문의/견적 요청</button>
-      </div>
-    </div>
+    <div class="sum" id="quoteTotalM"></div>
+    <div class="foot"><p class="quote-disclaimer" hidden>※ 렌탈료는 신용 심사 후 변동될 수 있습니다.</p><button id="submitQuoteM" class="btn primary">문의/견적 요청</button></div>
   </section>
 
-  <div class="cartbar" id="cartbar" aria-live="polite">
-    <div><span style="color:var(--muted);font-size:12px">총액</span><span class="tot" id="cartTotal">₩0</span></div>
-    <button id="openSheet" class="btn primary">견적서 열기 <span id="cartCount"></span></button>
-  </div>
+  <div class="cartbar" id="cartbar" aria-live="polite"><div><span class="tot" id="cartTotal">₩0</span></div><button id="openSheet" class="btn primary">견적서 열기 <span id="cartCount"></span></button></div>
 
   <div id="quoteFormModal" class="modal" aria-hidden="true">
     <div class="gate-card" role="dialog" aria-modal="true">
-      <form id="modalQuoteForm">
-        <h3 style="margin:0">문의/견적 요청</h3>
-        <div class="modal-sep" role="separator" aria-hidden="true"></div>
-
-        <div class="quote-summary-box" hidden>
-          <strong>견적 요청 제품</strong>
-          <div class="modal-sep" style="margin-top: 8px; margin-bottom: 12px;" role="separator" aria-hidden="true"></div>
-          <ul id="modalQuoteList"></ul>
-        </div>
-
-        <div class="field"><label for="fName">성함 <span class="required">*</span></label><input type="text" id="fName" required maxlength="30" /></div>
-        <div class="field"><label for="fEmail">이메일 <span class="required">*</span></label><input type="email" id="fEmail" required placeholder="name@example.com" /></div>
-        <div class="field"><label for="fTel">전화번호 <span class="required">*</span></label><input type="tel" id="fTel" required placeholder="010-1234-5678" pattern="0\d{1,2}-?\d{3,4}-?\d{4}"/></div>
-        <div class="field"><label for="fCompany">회사/지점 (선택)</label><input type="text" id="fCompany" maxlength="50" /></div>
-        <div class="field"><label for="fMemo">요청사항 (선택)</label><textarea id="fMemo" rows="4" placeholder="설치 장소, 수량, 일정 등"></textarea></div>
-
-        <div class="actions" style="display:flex;gap:8px;justify-content:flex-end">
-          <button type="button" class="btn" id="cancelForm">취소</button>
-          <button type="submit" class="btn primary" id="sendEmail">이메일로 보내기</button>
-        </div>
-      </form>
+      <form id="modalQuoteForm"><h3 style="margin:0">문의/견적 요청</h3><div class="modal-sep" role="separator" aria-hidden="true"></div><div class="quote-summary-box" hidden><strong>견적 요청 제품</strong><div class="modal-sep" style="margin-top: 8px; margin-bottom: 12px;" role="separator" aria-hidden="true"></div><ul id="modalQuoteList"></ul></div><div class="field"><label for="fName">성함 <span class="required">*</span></label><input type="text" id="fName" required maxlength="30" /></div><div class="field"><label for="fEmail">이메일 <span class="required">*</span></label><input type="email" id="fEmail" required placeholder="name@example.com" /></div><div class="field"><label for="fTel">전화번호 <span class="required">*</span></label><input type="tel" id="fTel" required placeholder="010-1234-5678" pattern="0\d{1,2}-?\d{3,4}-?\d{4}"/></div><div class="field"><label for="fCompany">회사/지점 (선택)</label><input type="text" id="fCompany" maxlength="50" /></div><div class="field"><label for="fMemo">요청사항 (선택)</label><textarea id="fMemo" rows="4" placeholder="설치 장소, 수량, 일정 등"></textarea></div><div class="actions" style="display:flex;gap:8px;justify-content:flex-end"><button type="button" class="btn" id="cancelForm">취소</button><button type="submit" class="btn primary" id="sendEmail">이메일로 보내기</button></div></form>
     </div>
   </div>
 
