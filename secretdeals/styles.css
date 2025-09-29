@@ -943,10 +943,10 @@ footer {
     color: var(--ok); 
     border-bottom-color: var(--ok); 
   } 
-.btn:not(.primary):not(.p-nshop):not(.active):hover { 
-  border-color: var(--brand); 
-  background: #1b1c2c; 
-}
+  .btn:not(.primary):not(.p-nshop):not(.active):hover { 
+    border-color: var(--brand); 
+    background: #1b1c2c; 
+  }
 }
 
 @media (min-width:720px) { 
@@ -1036,6 +1036,7 @@ footer {
   max-width: 560px; 
   max-height: 80vh; 
   overflow-y: auto; 
+  overscroll-behavior: contain;
 }
 
 .modal[aria-hidden="false"] .gate-card { 
@@ -1496,4 +1497,21 @@ footer {
   100% { 
     background-position: 0% center; 
   } 
+}
+
+/* ✅ UPDATED: 모바일 기기 전체 화면 모달 스타일 */
+@media (max-width: 1079px) {
+  .modal {
+    padding: 0;
+  }
+
+  .modal .gate-card {
+    max-width: none; /* 너비 제한 해제 */
+    height: 100dvh;
+    max-height: 100dvh;
+    border-radius: 0;
+    border: none;
+    /* 상단 상태바, 하단 제스처 영역 등을 고려한 패딩 조정 */
+    padding: 48px 24px 32px;
+  }
 }
