@@ -1273,7 +1273,6 @@ footer {
   transform: rotate(-1.5deg);
   margin-top: var(--space-inter);
   margin-bottom: 24px;
-  border: 1px solid #444;
   overflow: hidden;
 }
 
