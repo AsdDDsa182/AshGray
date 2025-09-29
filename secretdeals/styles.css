@@ -943,10 +943,10 @@ footer {
     color: var(--ok); 
     border-bottom-color: var(--ok); 
   } 
-  .btn:not(.primary):not(.p-nshop):hover { 
-    border-color: var(--brand); 
-    background: #1b1c2c; 
-  } 
+.btn:not(.primary):not(.p-nshop):not(.active):hover { 
+  border-color: var(--brand); 
+  background: #1b1c2c; 
+}
 }
 
 @media (min-width:720px) { 
