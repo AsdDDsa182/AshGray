@@ -68,7 +68,7 @@
   const durationToggleContainer = $('.duration-toggle-container');
   const rentalDisclaimer = $('.rental-disclaimer');
   
-  let keyboardUsed = false; // <<< [수정됨] '기록병' 변수 추가
+  let keyboardUsed = false; // [수정] '기록병' 변수 추가
 
   function setupPromoSlider() { const container = $('#promoSliderSection'); if (!container) return; const track = $('#promoSliderTrack'); const prevBtn = $('#promoPrevBtn'); const nextBtn = $('#promoNextBtn'); const indicatorsContainer = $('#promoSliderIndicators'); const isDesktop = window.matchMedia('(min-width: 720px)').matches; track.innerHTML = PROMO_IMAGES.map(promo => { const imageUrl = isDesktop ? promo.srcDesktop : promo.srcMobile; return `<a href="${promo.href}" target="_blank" rel="noopener" class="promo-slide" draggable="false"><img src="${imageUrl}" alt="프로모션 이미지" loading="lazy" draggable="false" /></a>`; }).join(''); const slides = track.querySelectorAll('.promo-slide'); if (slides.length <= 1) { if(prevBtn) prevBtn.hidden = true; if(nextBtn) nextBtn.hidden = true; if(indicatorsContainer) indicatorsContainer.hidden = true; return; } PROMO_IMAGES.forEach((_, index) => { const dot = document.createElement('button'); dot.className = 'promo-indicator-dot'; dot.dataset.index = index; dot.setAttribute('aria-label', `${index + 1}번 슬라이드로 이동`); indicatorsContainer.appendChild(dot); }); const dots = indicatorsContainer.querySelectorAll('.promo-indicator-dot'); let currentIndex = 0; let autoPlayInterval = null; let isDragging = false; let startPos = 0; let currentTranslate = 0; let prevTranslate = 0; let animationID; const updateIndicators = () => { dots.forEach((dot, index) => { dot.classList.toggle('active', index === currentIndex); }); }; const setSliderPosition = () => { track.style.transform = `translateX(${currentTranslate}px)`; }; const goToSlide = (slideIndex) => { currentIndex = (slideIndex + slides.length) % slides.length; const slideWidth = slides[0].getBoundingClientRect().width; currentTranslate = currentIndex * -slideWidth; prevTranslate = currentTranslate; track.style.transition = 'transform 0.5s ease-in-out'; setSliderPosition(); updateIndicators(); }; const startAutoPlay = () => { stopAutoPlay(); autoPlayInterval = setInterval(() => goToSlide(currentIndex + 1), 5000); }; const stopAutoPlay = () => clearInterval(autoPlayInterval); const getPositionX = (event) => { return event.type.includes('mouse') ? event.pageX : event.touches[0].clientX; }; const animation = () => { setSliderPosition(); if (isDragging) requestAnimationFrame(animation); }; const dragStart = (event) => { isDragging = true; startPos = getPositionX(event); animationID = requestAnimationFrame(animation); track.style.transition = 'none'; stopAutoPlay(); }; const drag = (event) => { if (isDragging) { const currentPosition = getPositionX(event); currentTranslate = prevTranslate + currentPosition - startPos; } }; const dragEnd = () => { if (!isDragging) return; isDragging = false; cancelAnimationFrame(animationID); const movedBy = currentTranslate - prevTranslate; if (movedBy < -50 && currentIndex < slides.length - 1) { currentIndex++; } if (movedBy > 50 && currentIndex > 0) { currentIndex--; } goToSlide(currentIndex); startAutoPlay(); }; prevBtn.addEventListener('click', () => { goToSlide(currentIndex - 1); startAutoPlay(); }); nextBtn.addEventListener('click', () => { goToSlide(currentIndex + 1); startAutoPlay(); }); indicatorsContainer.addEventListener('click', e => { if (e.target.matches('.promo-indicator-dot')) { const index = parseInt(e.target.dataset.index, 10); goToSlide(index); startAutoPlay(); } }); track.addEventListener('mousedown', dragStart); track.addEventListener('touchstart', dragStart, { passive: true }); track.addEventListener('mouseup', dragEnd); track.addEventListener('mouseleave', dragEnd); track.addEventListener('touchend', dragEnd); track.addEventListener('mousemove', drag); track.addEventListener('touchmove', drag, { passive: true }); window.addEventListener('resize', () => goToSlide(currentIndex)); const observer = new IntersectionObserver(entries => { if (entries[0].isIntersecting) { goToSlide(currentIndex); startAutoPlay(); } else { stopAutoPlay(); } }, { threshold: 0.5 }); observer.observe(container); updateIndicators(); }
   function renderBanner(){ bannerRoot.innerHTML=''; let mediaHTML = ''; if (BANNER.type === 'video' && BANNER.src){ mediaHTML = `<video class="vid" muted playsinline loop preload="metadata" ${BANNER.poster?`poster="${BANNER.poster}"`:''}></video>`; } else if (BANNER.src){ mediaHTML = `<img class="img" src="${BANNER.src}" alt="" loading="lazy" />`; } const node = el(`<div class="media">${mediaHTML}</div>`); bannerRoot.appendChild(node); if (BANNER.type === 'video' && BANNER.src){ const video = node.querySelector('video.vid'); const source = document.createElement('source'); source.src = BANNER.src; source.type='video/mp4'; video.appendChild(source); const io = new IntersectionObserver(entries=>{ entries.forEach(ent=>{ if(ent.isIntersecting) video.play().catch(()=>{}); else video.pause(); }); },{threshold:0.25}); io.observe(video); const toggle=()=>{ if(video.paused) video.play().catch(()=>{}); else video.pause(); }; video.addEventListener('click', toggle); video.addEventListener('touchstart', toggle, {passive:true}); } }
@@ -238,17 +238,48 @@
   }
 
   function openDrawer(){ closeAny(); drawer.classList.add('open'); drawer.setAttribute('aria-hidden','false'); openQuoteBtn.setAttribute('aria-expanded','true'); showOverlay(); }
-  function closeDrawer(){ drawer.classList.remove('open'); drawer.setAttribute('aria-hidden','true'); openQuoteBtn.setAttribute('aria-expanded','false'); if(!mobileNav.classList.contains('open')) hideOverlay(); }
+  function closeDrawer(){
+    drawer.classList.remove('open');
+    drawer.setAttribute('aria-hidden','true');
+    openQuoteBtn.setAttribute('aria-expanded','false');
+    if(!mobileNav.classList.contains('open')) hideOverlay();
+    
+    // [수정] 조건부 치료 로직 추가
+    if (keyboardUsed) {
+      setTimeout(() => { window.scrollTo(0, 0); }, 50);
+      keyboardUsed = false;
+    }
+  }
+
   function openSheet(){ closeAny(); sheet.classList.add('open'); sheet.setAttribute('aria-hidden','false'); showOverlay(); }
-  function closeSheet(){ sheet.classList.remove('open'); sheet.setAttribute('aria-hidden','true'); if(!mobileNav.classList.contains('open')) hideOverlay(); }
+  function closeSheet(){
+    sheet.classList.remove('open');
+    sheet.setAttribute('aria-hidden','true');
+    if(!mobileNav.classList.contains('open')) hideOverlay();
+
+    // [수정] 조건부 치료 로직 추가
+    if (keyboardUsed) {
+      setTimeout(() => { window.scrollTo(0, 0); }, 50);
+      keyboardUsed = false;
+    }
+  }
+
   function openMobileNav() { closeAny(); mobileNav.classList.add('open'); mobileNav.setAttribute('aria-hidden', 'false'); hamburgerBtn.setAttribute('aria-expanded', 'true'); showOverlay(); }
   function closeMobileNav() { mobileNav.classList.remove('open'); mobileNav.setAttribute('aria-hidden', 'true'); hamburgerBtn.setAttribute('aria-expanded', 'false'); if(!sheet.classList.contains('open') && !drawer.classList.contains('open')) hideOverlay(); }
   function isDesktop(){ return window.matchMedia('(min-width:1080px)').matches; }
   openQuoteBtn.addEventListener('click', ()=>{ isDesktop()?openDrawer():openSheet(); });
   closeQuoteBtn.addEventListener('click', closeDrawer); openSheetBtn.addEventListener('click', openSheet); closeSheetBtn.addEventListener('click', closeSheet); hamburgerBtn.addEventListener('click', openMobileNav); closeMobileNavBtn.addEventListener('click', closeMobileNav);
-  const closeAny=()=>{ if (drawer.classList.contains('open')) closeDrawer(); if (sheet.classList.contains('open')) closeSheet(); if (mobileNav.classList.contains('open')) closeMobileNav(); };
-  overlay.addEventListener('click', closeAny); overlay.addEventListener('touchstart', closeAny, {passive:true});
+  
+  const closeAny=()=>{
+    if (drawer.classList.contains('open')) closeDrawer();
+    if (sheet.classList.contains('open')) closeSheet();
+    if (mobileNav.classList.contains('open')) closeMobileNav();
+  };
+
+  overlay.addEventListener('click', closeAny);
+  overlay.addEventListener('touchstart', closeAny, {passive:true});
   document.addEventListener('keydown', e=>{ if(e.key==='Escape') { closeAny(); closeForm(); } });
+  
   const mqDesktop=window.matchMedia('(min-width:901px)');
   mqDesktop.addEventListener('change', e=>{ if (e.matches) { if (mobileNav.classList.contains('open')) { closeMobileNav(); } const sOpen=sheet.classList.contains('open'); if(sOpen){ closeSheet(); openDrawer(); } } else { const dOpen=drawer.classList.contains('open'); if(dOpen){ closeDrawer(); openSheet(); } } });
   
@@ -266,22 +297,17 @@
     if (!sheet.classList.contains('open') && !drawer.classList.contains('open') && !mobileNav.classList.contains('open')) {
       document.body.classList.remove('scroll-lock');
     }
+
+    // [수정] 조건부 치료 로직 추가
+    if (keyboardUsed) {
+      window.scrollTo(0, 0);
+      keyboardUsed = false;
+    }
   }
 
-  function transitionToForm() {
-    if (sheet.classList.contains('open')) {
-      closeSheet();
-    }
-    if (drawer.classList.contains('open')) {
-      closeDrawer();
-    }
-    setTimeout(openForm, 350);
-  }
-
-  $('#submitQuote').addEventListener('click', transitionToForm);
-  $('#submitQuoteM').addEventListener('click', transitionToForm);
+  $('#submitQuote').addEventListener('click', openForm);
+  $('#submitQuoteM').addEventListener('click', openForm);
   $('#cancelForm').addEventListener('click', closeForm);
-
   modal.addEventListener('click', (e) => { if (e.target === modal) closeForm(); });
   function blurOnOutsideTap(e){ const ae = document.activeElement; if (!ae) return; const isField = (el)=> el && (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA'); if (isField(ae) && !e.target.closest('input, textarea, .gate-card')) { ae.blur(); } }
   document.addEventListener('touchstart', blurOnOutsideTap, {passive:true});
@@ -361,5 +387,13 @@
     loadMoreProducts();
     $('#modalQuoteForm').addEventListener('submit', (e) => handleFormSubmit('f', e));
     $('#inlineInquiryForm').addEventListener('submit', (e) => handleFormSubmit('inline', e));
+
+    // [수정] '기록병' 로직 추가: 모달 내 입력 필드 감지
+    const modalInputs = document.querySelectorAll('#quoteFormModal input, #quoteFormModal textarea');
+    modalInputs.forEach(input => {
+      input.addEventListener('focus', () => {
+        keyboardUsed = true; // 입력창을 터치하면 '키보드 사용됨'으로 기록
+      });
+    });
   })();
 })();
