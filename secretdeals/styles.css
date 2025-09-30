@@ -142,7 +142,7 @@ header {
   top: 0;
   right: 0;
   width: min(320px, 80vw);
-  height: 100svh; /* Changed from dvh */
+  height: 100dvh; /* Changed from dvh */
   background: var(--quote-bg);
   z-index: 60;
   transform: translateX(100%);
@@ -689,7 +689,7 @@ section.mixed-inquiry-box {
   z-index: 50;
   right: 0;
   top: 0;
-  height: 100vh;
+  height: 100dvh;
   width: min(420px, 92vw);
   background: var(--quote-bg);
   border-left: 1px solid var(--quote-border);
@@ -815,7 +815,7 @@ section.mixed-inquiry-box {
   left: 0;
   right: 0;
   bottom: 0;
-  height: 72svh; /* Changed from vh */
+  height: 72dvh; /* Changed from vh */
   transform: translateY(105%);
   transition: transform .28s ease;
   z-index: 60;
@@ -1037,7 +1037,7 @@ footer {
 .modal .gate-card {
   width: 100%;
   max-width: 560px;
-  max-height: 80svh; /* Changed from vh */
+  max-height: 80dvh; /* Changed from vh */
   overflow-y: auto;
   overscroll-behavior: contain;
 }
