@@ -40,8 +40,12 @@ body {
   touch-action: pan-y; 
 }
 
-html.scroll-lock {
-  overflow: hidden;
+html:has(body.scroll-lock) { 
+  overflow: hidden; 
+}
+
+.scroll-lock { 
+  overflow: hidden !important; 
 }
 
 a { 
@@ -1495,17 +1499,19 @@ footer {
   } 
 }
 
+/* ✅ UPDATED: 모바일 기기 전체 화면 모달 스타일 */
 @media (max-width: 1079px) {
   .modal {
     padding: 0;
   }
 
   .modal .gate-card {
-    max-width: none;
-    height: 100%;
-    max-height: 100%;
+    max-width: none; /* 너비 제한 해제 */
+    height: 100dvh;
+    max-height: 100dvh;
     border-radius: 0;
     border: none;
-    padding: 32px;
+    /* 상단 상태바, 하단 제스처 영역 등을 고려한 패딩 조정 */
+    padding: 48px 24px 32px;
   }
 }
