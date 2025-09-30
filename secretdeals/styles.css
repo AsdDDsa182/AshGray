@@ -40,13 +40,13 @@ body {
   touch-action: pan-y; 
 }
 
-/* html:has(body.scroll-lock) { 
+html:has(body.scroll-lock) { 
   overflow: hidden; 
 }
 
 .scroll-lock { 
   overflow: hidden !important; 
-} */
+}
 
 a { 
   color: inherit; 
@@ -1507,7 +1507,6 @@ footer {
 
   .modal .gate-card {
     max-width: none; /* 너비 제한 해제 */
-    height: 100dvh;
     max-height: 100dvh;
     border-radius: 0;
     border: none;
