@@ -1,16 +1,3 @@
-// ✅ 이 코드를 script.js 맨 위에 추가하세요.
-let scrollPosition = 0;
-function enableScrollLock() {
-  scrollPosition = window.scrollY;
-  document.body.style.top = `-${scrollPosition}px`;
-  document.body.classList.add('scroll-lock');
-}
-function disableScrollLock() {
-  document.body.classList.remove('scroll-lock');
-  document.body.style.removeProperty('top');
-  window.scrollTo(0, scrollPosition);
-}
-
 (function(){
   'use strict';
 
@@ -242,16 +229,14 @@ function disableScrollLock() {
 
   ['quoteList','quoteListM'].forEach(id=>{ const root=document.getElementById(id); root.addEventListener('input', e=>{ if(e.target.matches('input[type=number][data-qid]')) setQty(e.target.dataset.qid, +e.target.value); }); root.addEventListener('click', e=>{ const del=e.target.closest('[data-del]'); if(del){ delQuote(del.dataset.del); return; } const step=e.target.closest('[data-step]'); if(step){ const id=step.dataset.id, dir=parseInt(step.dataset.step,10); const it=quote.items.find(x=>x.id===id); if(it){ it.qty=Math.max(1,(it.qty||1)+dir); saveQuote(); } } }); });
   
-  function showOverlay(){ 
-  overlay.hidden=false; 
-  enableScrollLock(); 
-}
+  function showOverlay(){ overlay.hidden=false; document.body.classList.add('scroll-lock'); }
   
   // ✅ UPDATED
-function hideOverlay(){
-  disableScrollLock();
-  overlay.hidden=true;
-}
+  function hideOverlay(){
+    // 이제 이 함수는 모달의 상태와 관계없이, 견적서/메뉴 패널 전용으로만 동작합니다.
+    document.body.classList.remove('scroll-lock');
+    overlay.hidden=true;
+  }
 
   function openDrawer(){ closeAny(); drawer.classList.add('open'); drawer.setAttribute('aria-hidden','false'); openQuoteBtn.setAttribute('aria-expanded','true'); showOverlay(); }
   function closeDrawer(){ drawer.classList.remove('open'); drawer.setAttribute('aria-hidden','true'); openQuoteBtn.setAttribute('aria-expanded','false'); if(!mobileNav.classList.contains('open')) hideOverlay(); }
@@ -272,19 +257,20 @@ function hideOverlay(){
   function populateModalQuoteList() { const listEl = $('#modalQuoteList'); const boxEl = listEl.closest('.quote-summary-box'); if (!listEl || !boxEl) return; listEl.innerHTML = ''; if (quote.items.length > 0) { quote.items.forEach(item => { const li = document.createElement('li'); const qtyText = item.qty > 1 ? ` (수량: ${item.qty})` : ''; li.textContent = `${item.title}${qtyText}`; listEl.appendChild(li); }); boxEl.hidden = false; } else { boxEl.hidden = true; } }
   
   // ✅ UPDATED
-function openForm(){
-  modal.setAttribute('aria-hidden','false');
-  populateModalQuoteList();
-  enableScrollLock();
-}
+  function openForm(){
+    modal.setAttribute('aria-hidden','false');
+    populateModalQuoteList();
+    document.body.classList.add('scroll-lock');
+  }
 
   // ✅ UPDATED
-function closeForm(){
-  modal.setAttribute('aria-hidden','true');
-  if (!sheet.classList.contains('open') && !drawer.classList.contains('open') && !mobileNav.classList.contains('open')) {
-    disableScrollLock();
+  function closeForm(){
+    modal.setAttribute('aria-hidden','true');
+    // 모달을 닫을 때, 다른 오버레이(견적서, 메뉴 등)가 열려있지 않은 경우에만 스크롤 잠금을 해제합니다.
+    if (!sheet.classList.contains('open') && !drawer.classList.contains('open') && !mobileNav.classList.contains('open')) {
+      document.body.classList.remove('scroll-lock');
+    }
   }
-}
 
   $('#submitQuote').addEventListener('click', openForm);
   $('#submitQuoteM').addEventListener('click', openForm);
