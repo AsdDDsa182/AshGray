@@ -231,9 +231,7 @@
   
   function showOverlay(){ overlay.hidden=false; document.body.classList.add('scroll-lock'); }
   
-  // ✅ UPDATED
   function hideOverlay(){
-    // 이제 이 함수는 모달의 상태와 관계없이, 견적서/메뉴 패널 전용으로만 동작합니다.
     document.body.classList.remove('scroll-lock');
     overlay.hidden=true;
   }
@@ -241,12 +239,14 @@
   function openDrawer(){ closeAny(); drawer.classList.add('open'); drawer.setAttribute('aria-hidden','false'); openQuoteBtn.setAttribute('aria-expanded','true'); showOverlay(); }
   function closeDrawer(){ drawer.classList.remove('open'); drawer.setAttribute('aria-hidden','true'); openQuoteBtn.setAttribute('aria-expanded','false'); if(!mobileNav.classList.contains('open')) hideOverlay(); }
   function openSheet(){ closeAny(); sheet.classList.add('open'); sheet.setAttribute('aria-hidden','false'); showOverlay(); }
-  function closeSheet(){ 
-    window.scrollTo(0, 0); // <<-- 여기에 동일한 코드를 추가했습니다.
-    sheet.classList.remove('open'); 
-    sheet.setAttribute('aria-hidden','true'); 
-    if(!mobileNav.classList.contains('open')) hideOverlay(); 
+  
+  function closeSheet(){
+    setTimeout(() => { window.scrollTo(0, 0); }, 50);
+    sheet.classList.remove('open');
+    sheet.setAttribute('aria-hidden','true');
+    if(!mobileNav.classList.contains('open')) hideOverlay();
   }
+
   function openMobileNav() { closeAny(); mobileNav.classList.add('open'); mobileNav.setAttribute('aria-hidden', 'false'); hamburgerBtn.setAttribute('aria-expanded', 'true'); showOverlay(); }
   function closeMobileNav() { mobileNav.classList.remove('open'); mobileNav.setAttribute('aria-hidden', 'true'); hamburgerBtn.setAttribute('aria-expanded', 'false'); if(!sheet.classList.contains('open') && !drawer.classList.contains('open')) hideOverlay(); }
   function isDesktop(){ return window.matchMedia('(min-width:1080px)').matches; }
@@ -261,18 +261,15 @@
   const modal = document.getElementById('quoteFormModal');
   function populateModalQuoteList() { const listEl = $('#modalQuoteList'); const boxEl = listEl.closest('.quote-summary-box'); if (!listEl || !boxEl) return; listEl.innerHTML = ''; if (quote.items.length > 0) { quote.items.forEach(item => { const li = document.createElement('li'); const qtyText = item.qty > 1 ? ` (수량: ${item.qty})` : ''; li.textContent = `${item.title}${qtyText}`; listEl.appendChild(li); }); boxEl.hidden = false; } else { boxEl.hidden = true; } }
   
-  // ✅ UPDATED
   function openForm(){
     modal.setAttribute('aria-hidden','false');
     populateModalQuoteList();
     document.body.classList.add('scroll-lock');
   }
 
-  // ✅ UPDATED
   function closeForm(){
-    window.scrollTo(0, 0); // <<-- 이 한 줄이 추가되었습니다.
+    setTimeout(() => { window.scrollTo(0, 0); }, 50);
     modal.setAttribute('aria-hidden','true');
-    // 모달을 닫을 때, 다른 오버레이(견적서, 메뉴 등)가 열려있지 않은 경우에만 스크롤 잠금을 해제합니다.
     if (!sheet.classList.contains('open') && !drawer.classList.contains('open') && !mobileNav.classList.contains('open')) {
       document.body.classList.remove('scroll-lock');
     }
@@ -360,5 +357,16 @@
     loadMoreProducts();
     $('#modalQuoteForm').addEventListener('submit', (e) => handleFormSubmit('f', e));
     $('#inlineInquiryForm').addEventListener('submit', (e) => handleFormSubmit('inline', e));
+
+    // '똑똑한 계획' 추가: 모달 내 입력 필드 감지
+    const modalInputs = document.querySelectorAll('#quoteFormModal input, #quoteFormModal textarea');
+    modalInputs.forEach(input => {
+      input.addEventListener('blur', () => {
+        // 키보드가 사라진 직후, 브라우저가 화면을 그릴 시간을 아주 약간 준 뒤 스크롤 위치를 바로잡습니다.
+        setTimeout(() => {
+          window.scrollTo(0, 0);
+        }, 0);
+      });
+    });
   })();
 })();
