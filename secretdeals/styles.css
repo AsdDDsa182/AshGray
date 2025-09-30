@@ -1034,7 +1034,7 @@ footer {
 .modal .gate-card { 
   width: 100%; 
   max-width: 560px; 
-  max-height: 80vh; 
+  max-height: 80svh; 
   overflow-y: auto; 
   overscroll-behavior: contain;
 }
