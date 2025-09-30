@@ -44,7 +44,9 @@ html:has(body.scroll-lock) {
   overflow: hidden; 
 }
 
-
+.scroll-lock { 
+  overflow: hidden !important; 
+}
 
 a { 
   color: inherit; 
@@ -670,7 +672,13 @@ section.mixed-inquiry-box {
   } 
 }
 
-
+.overlay { 
+  position: fixed; 
+  inset: 0; 
+  background: rgba(0,0,0,.45); 
+  backdrop-filter: blur(2px); 
+  z-index: 49; 
+}
 
 [hidden] { 
   display: none !important; 
@@ -809,7 +817,7 @@ section.mixed-inquiry-box {
   bottom: 0; 
   height: 72vh; 
   transform: translateY(105%); 
-  /* transition: transform .28s ease;  */
+  transition: transform .28s ease; 
   z-index: 60; 
   background: var(--quote-bg); 
   border-top: 1px solid var(--quote-border); 
