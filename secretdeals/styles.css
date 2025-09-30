@@ -852,12 +852,14 @@ section.mixed-inquiry-box {
   position: fixed;
   left: 16px;
   right: 16px;
-  bottom: calc(16px + env(safe-area-inset-bottom));
+  /* 기존: bottom: calc(16px + env(safe-area-inset-bottom)); */
+  bottom: 0; /* ✅ 수정: 화면 맨 아래에 고정 */
   z-index: 48;
   background: linear-gradient(135deg, #17182a, #101223);
   border: 1px solid var(--border);
   border-radius: 16px;
-  padding: 10px 12px;
+  /* 기존: padding: 10px 12px; */
+  padding: 10px 12px calc(10px + env(safe-area-inset-bottom)); /* ✅ 수정: 하단 패딩에 안전 영역 포함 */
   display: none;
   align-items: center;
   justify-content: space-between;
@@ -977,7 +979,7 @@ footer {
     display: flex;
   }
   footer {
-    padding-bottom: 80px; /* Added for mobile */
+    padding-bottom: 0px; /* Added for mobile */
   }
 }
 

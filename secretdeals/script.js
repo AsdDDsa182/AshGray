@@ -388,6 +388,8 @@ const unfreezeBody = () => {
   document.body.style.width = '';
   document.body.style.overflowY = '';
   window.scrollTo(0, savedScrollY);
+  // 👇👇👇 이 줄을 추가해 주세요! 👇👇👇
+  setTimeout(() => window.scrollTo(0, savedScrollY), 50); // ✅ 추가: 뷰포트 재보정을 위해 딜레이 후 스크롤 재시도
 };
 
 modalInputs.forEach(input => {
