@@ -354,69 +354,100 @@
     loadMoreProducts();
     $('#modalQuoteForm').addEventListener('submit', (e) => handleFormSubmit('f', e));
     $('#inlineInquiryForm').addEventListener('submit', (e) => handleFormSubmit('inline', e));
-// script.js 파일의 삭제된 부분 대신 붙여넣을 코드입니다:
-    // --- 모바일 키보드 문제 해결을 위한 최종 코드 (수정됨) ---
-const modal = document.getElementById('quoteFormModal');
-const modalInputs = modal.querySelectorAll('input, textarea');
-let savedScrollY = 0;
-
-const forceCartbarRecalculate = () => {
-    // 키보드가 내려간 후 cartbar의 위치를 강제로 재계산하도록 유도합니다.
-    if (cartbar) {
-        const originalBottom = cartbar.style.bottom;
-        cartbar.style.bottom = 'auto'; 
-        // 짧은 지연 시간(50ms)을 주어 브라우저가 env() 값을 재계산할 시간을 줍니다.
-        setTimeout(() => {
-            cartbar.style.bottom = originalBottom || 'calc(16px + env(safe-area-inset-bottom))';
-        }, 50); 
+    /* =========================================================
+   모바일 키보드/주소창 대응 "붙여넣기 전용" 패치
+   - 보이는 화면 높이 → CSS 변수 --vhpx 로 공급
+   - 모달 입력 포커스/블러/닫기 때 높이 재계산
+   - 바디 고정(fixed) 상태를 중립화(충돌 방지)
+   ========================================================= */
+(() => {
+  // 0) 유틸: 혹시 바디가 고정돼 있으면 즉시 해제 (기존 freezeBody가 있더라도 상쇄)
+  const neutralizeBodyLock = () => {
+    const s = document.body.style;
+    if (s.position === 'fixed') {
+      s.position = '';
+      s.top = '';
+      s.width = '';
+      s.overflowY = '';
+      // 스크롤 복구 시 savedScrollY가 내부에 있을 수 있으므로, 강제 점프는 생략
+      // (필요하면 window.scrollTo(0, parseInt(s.top||'0') * -1); 로 복구 로직 작성)
     }
-}
+  };
 
-const freezeBody = () => {
-  if (document.body.style.position === 'fixed') return;
-  savedScrollY = window.scrollY;
-  document.body.style.position = 'fixed';
-  document.body.style.top = `-${savedScrollY}px`;
-  document.body.style.width = '100%';
-  document.body.style.overflowY = 'scroll';
-};
+  // 1) 보이는 뷰포트 높이를 --vhpx 로 반영
+  const setVhpx = () => {
+    const vh = window.visualViewport
+      ? Math.round(window.visualViewport.height)
+      : window.innerHeight;
+    document.documentElement.style.setProperty('--vhpx', `${vh}px`);
+  };
+  setVhpx();
 
-const unfreezeBody = () => {
-  if (document.body.style.position !== 'fixed') return;
-  document.body.style.position = '';
-  document.body.style.top = '';
-  document.body.style.width = '';
-  document.body.style.overflowY = '';
-  window.scrollTo(0, savedScrollY);
-  // 👇👇👇 이 줄을 추가해 주세요! 👇👇👇
-  setTimeout(() => window.scrollTo(0, savedScrollY), 50); // ✅ 추가: 뷰포트 재보정을 위해 딜레이 후 스크롤 재시도
-};
-
-modalInputs.forEach(input => {
-  input.addEventListener('focus', () => {
-    if (window.innerWidth < 1080) { // 모바일에서만 동작
-      freezeBody();
-    }
-  });
-  
-  // ✅ 키보드 해제(blur) 시 cartbar 재계산을 강제합니다.
-  input.addEventListener('blur', () => {
-    if (window.innerWidth < 1080) {
-      setTimeout(forceCartbarRecalculate, 350); 
-    }
-  });
-});
-
-// 모달 닫기 시 unfreezeBody와 cartbar 재계산 함수를 연결합니다.
-document.getElementById('cancelForm').addEventListener('click', () => {
-  unfreezeBody();
-  forceCartbarRecalculate();
-});
-modal.addEventListener('click', (e) => {
-  if (e.target === modal) {
-    unfreezeBody();
-    forceCartbarRecalculate();
+  // 2) 브라우저/키보드 변화에 반응
+  window.addEventListener('resize', setVhpx, { passive: true });
+  if (window.visualViewport) {
+    window.visualViewport.addEventListener('resize', setVhpx, { passive: true });
+    window.visualViewport.addEventListener('scroll', setVhpx, { passive: true });
   }
-});
+
+  // 3) cartbar(하단 고정 바) 위치 재계산 트릭
+  const forceCartbarRecalculate = () => {
+    const bar = document.getElementById('cartbar');
+    if (!bar) return;
+    const prev = bar.style.bottom;
+    bar.style.bottom = 'auto';
+    setTimeout(() => {
+      bar.style.bottom = prev || 'calc(16px + env(safe-area-inset-bottom))';
+    }, 50);
+  };
+
+  // 4) 견적서 모달 내 입력요소 포커스/블러 시 처리
+  const modal = document.getElementById('quoteFormModal');
+  const inputs = modal
+    ? modal.querySelectorAll('input, textarea, select')
+    : [];
+
+  inputs.forEach((el) => {
+    el.addEventListener('focus', () => {
+      // 키보드 올라옴 → 즉시 보이는 높이 반영 + 바디 고정 중화
+      setVhpx();
+      // 기존 코드가 focus에서 freezeBody() 를 호출해도 아래로 상쇄
+      setTimeout(neutralizeBodyLock, 0);
+    });
+
+    el.addEventListener('blur', () => {
+      // iOS는 키보드 닫힌 뒤 1~2프레임 지나야 시각 뷰포트가 안정됨
+      setTimeout(() => {
+        setVhpx();
+        neutralizeBodyLock();
+        forceCartbarRecalculate();
+      }, 300);
+    });
+  });
+
+  // 5) 모달 닫을 때도 한 번 더 안정화
+  const cancelBtn = document.getElementById('cancelForm');
+  if (cancelBtn) {
+    cancelBtn.addEventListener('click', () => {
+      setTimeout(() => {
+        setVhpx();
+        neutralizeBodyLock();
+        forceCartbarRecalculate();
+      }, 200);
+    });
+  }
+  if (modal) {
+    modal.addEventListener('click', (e) => {
+      if (e.target === modal) {
+        setTimeout(() => {
+          setVhpx();
+          neutralizeBodyLock();
+          forceCartbarRecalculate();
+        }, 200);
+      }
+    });
+  }
+})();
+
   })();
 })();
