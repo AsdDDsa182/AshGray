@@ -354,5 +354,43 @@
     loadMoreProducts();
     $('#modalQuoteForm').addEventListener('submit', (e) => handleFormSubmit('f', e));
     $('#inlineInquiryForm').addEventListener('submit', (e) => handleFormSubmit('inline', e));
+    // --- 모바일 키보드 문제 해결을 위한 최종 코드 ---
+const modal = document.getElementById('quoteFormModal');
+const modalInputs = modal.querySelectorAll('input, textarea');
+let savedScrollY = 0;
+
+const freezeBody = () => {
+  if (document.body.style.position === 'fixed') return;
+  savedScrollY = window.scrollY;
+  document.body.style.position = 'fixed';
+  document.body.style.top = `-${savedScrollY}px`;
+  document.body.style.width = '100%';
+  document.body.style.overflowY = 'scroll';
+};
+
+const unfreezeBody = () => {
+  if (document.body.style.position !== 'fixed') return;
+  document.body.style.position = '';
+  document.body.style.top = '';
+  document.body.style.width = '';
+  document.body.style.overflowY = '';
+  window.scrollTo(0, savedScrollY);
+};
+
+modalInputs.forEach(input => {
+  input.addEventListener('focus', () => {
+    if (window.innerWidth < 1080) { // 모바일에서만 동작
+      freezeBody();
+    }
+  });
+});
+
+// 모달을 닫는 모든 동작에 unfreezeBody 함수를 연결합니다.
+document.getElementById('cancelForm').addEventListener('click', unfreezeBody);
+modal.addEventListener('click', (e) => {
+  if (e.target === modal) {
+    unfreezeBody();
+  }
+});
   })();
 })();
