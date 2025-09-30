@@ -810,22 +810,22 @@ section.mixed-inquiry-box {
   text-align: center; 
 }
 
-.sheet { 
-  position: fixed; 
-  left: 0; 
-  right: 0; 
-  bottom: 0; 
-  height: 72vh; 
-  transform: translateY(105%); 
-  transition: transform .28s ease; 
-  z-index: 60; 
-  background: var(--quote-bg); 
-  border-top: 1px solid var(--quote-border); 
-  border-radius: 20px 20px 0 0; 
-  box-shadow: var(--shadow); 
-  display: grid; 
-  grid-template-rows: auto 1fr auto auto; 
-  padding-bottom: env(safe-area-inset-bottom); 
+.sheet {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 72svh;
+  transform: translateY(105%);
+  transition: transform .28s ease;
+  z-index: 60;
+  background: var(--quote-bg);
+  border-top: 1px solid var(--quote-border);
+  border-radius: 20px 20px 0 0;
+  box-shadow: var(--shadow);
+  display: grid;
+  grid-template-rows: auto 1fr auto auto;
+  padding-bottom: env(safe-area-inset-bottom);
 }
 
 .sheet.open { 
