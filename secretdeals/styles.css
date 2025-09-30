@@ -825,7 +825,7 @@ section.mixed-inquiry-box {
   box-shadow: var(--shadow);
   display: grid;
   grid-template-rows: auto 1fr auto auto;
-  padding-bottom: env(safe-area-inset-bottom);
+  /* padding-bottom: env(safe-area-inset-bottom); */
 }
 
 .sheet.open {
