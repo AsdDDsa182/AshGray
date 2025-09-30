@@ -354,10 +354,23 @@
     loadMoreProducts();
     $('#modalQuoteForm').addEventListener('submit', (e) => handleFormSubmit('f', e));
     $('#inlineInquiryForm').addEventListener('submit', (e) => handleFormSubmit('inline', e));
-    // --- 모바일 키보드 문제 해결을 위한 최종 코드 ---
+// script.js 파일의 삭제된 부분 대신 붙여넣을 코드입니다:
+    // --- 모바일 키보드 문제 해결을 위한 최종 코드 (수정됨) ---
 const modal = document.getElementById('quoteFormModal');
 const modalInputs = modal.querySelectorAll('input, textarea');
 let savedScrollY = 0;
+
+const forceCartbarRecalculate = () => {
+    // 키보드가 내려간 후 cartbar의 위치를 강제로 재계산하도록 유도합니다.
+    if (cartbar) {
+        const originalBottom = cartbar.style.bottom;
+        cartbar.style.bottom = 'auto'; 
+        // 짧은 지연 시간(50ms)을 주어 브라우저가 env() 값을 재계산할 시간을 줍니다.
+        setTimeout(() => {
+            cartbar.style.bottom = originalBottom || 'calc(16px + env(safe-area-inset-bottom))';
+        }, 50); 
+    }
+}
 
 const freezeBody = () => {
   if (document.body.style.position === 'fixed') return;
@@ -383,13 +396,24 @@ modalInputs.forEach(input => {
       freezeBody();
     }
   });
+  
+  // ✅ 키보드 해제(blur) 시 cartbar 재계산을 강제합니다.
+  input.addEventListener('blur', () => {
+    if (window.innerWidth < 1080) {
+      setTimeout(forceCartbarRecalculate, 350); 
+    }
+  });
 });
 
-// 모달을 닫는 모든 동작에 unfreezeBody 함수를 연결합니다.
-document.getElementById('cancelForm').addEventListener('click', unfreezeBody);
+// 모달 닫기 시 unfreezeBody와 cartbar 재계산 함수를 연결합니다.
+document.getElementById('cancelForm').addEventListener('click', () => {
+  unfreezeBody();
+  forceCartbarRecalculate();
+});
 modal.addEventListener('click', (e) => {
   if (e.target === modal) {
     unfreezeBody();
+    forceCartbarRecalculate();
   }
 });
   })();
