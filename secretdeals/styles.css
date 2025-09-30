@@ -44,10 +44,13 @@ html:has(body.scroll-lock) {
   overflow: hidden; 
 }
 
+/* ✅ 이렇게 수정 */
 .scroll-lock {
   overflow: hidden !important;
-  position: fixed; /* 추가 */
-  width: 100%; /* 추가 */
+  position: fixed;
+  width: 100%;
+  left: 0;  /* 추가 */
+  right: 0; /* 추가 */
 }
 
 a { 
