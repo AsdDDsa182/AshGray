@@ -40,13 +40,13 @@ body {
   touch-action: pan-y; 
 }
 
-html:has(body.scroll-lock) { 
+/* html:has(body.scroll-lock) { 
   overflow: hidden; 
 }
 
 .scroll-lock { 
   overflow: hidden !important; 
-}
+} */
 
 a { 
   color: inherit; 

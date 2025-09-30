@@ -1,27 +1,3 @@
-// iOS viewport 버그 대응 패치 - cartbar 위치 보정
-  if ('visualViewport' in window && window.matchMedia('(max-width: 1079px)').matches) {
-    const cartbarEl = document.getElementById('cartbar');
-    const updateCartbarPosition = () => {
-      // 키보드가 올라와 visualViewport.height가 줄어든 경우
-      if (window.visualViewport.height < window.innerHeight) {
-        // cartbar를 뷰포트 최하단(bottom: 0)에 고정
-        const bottomOffset = window.innerHeight - window.visualViewport.height;
-        // iOS에서 dyanmic viewport가 복구되지 않았을 때 하단에 고정
-        cartbarEl.style.transform = `translateY(${bottomOffset}px)`;
-        cartbarEl.style.bottom = `${16 + bottomOffset}px`; // 기존 padding: 16px + bottomOffset
-      } else {
-        // 정상 상태에서는 스타일 제거
-        cartbarEl.style.transform = '';
-        cartbarEl.style.bottom = ''; // CSS에 정의된 기본값(calc(...))이 적용됨
-      }
-    };
-
-    // 뷰포트 크기가 변경될 때마다 위치 업데이트
-    window.visualViewport.addEventListener('resize', updateCartbarPosition);
-    // 스크롤 시에도 간혹 복구되므로 스크롤 이벤트에도 연결
-    window.addEventListener('scroll', updateCartbarPosition);
-  }
-
 (function(){
   'use strict';
 
@@ -255,16 +231,12 @@
   
   function showOverlay(){ overlay.hidden=false; document.body.classList.add('scroll-lock'); }
   
-// ✅ UPDATED
-function hideOverlay(){
-  // 이제 closeForm()에서 scroll-lock을 처리하므로, 
-  // 다른 패널이 닫힐 때만 (그리고 모달이 닫히지 않은 상태일 때) scroll-lock을 해제합니다.
-  const isModalOpen = modal.getAttribute('aria-hidden') === 'false'; 
-  if (!isModalOpen) {
+  // ✅ UPDATED
+  function hideOverlay(){
+    // 이제 이 함수는 모달의 상태와 관계없이, 견적서/메뉴 패널 전용으로만 동작합니다.
     document.body.classList.remove('scroll-lock');
+    overlay.hidden=true;
   }
-  overlay.hidden=true;
-}
 
   function openDrawer(){ closeAny(); drawer.classList.add('open'); drawer.setAttribute('aria-hidden','false'); openQuoteBtn.setAttribute('aria-expanded','true'); showOverlay(); }
   function closeDrawer(){ drawer.classList.remove('open'); drawer.setAttribute('aria-hidden','true'); openQuoteBtn.setAttribute('aria-expanded','false'); if(!mobileNav.classList.contains('open')) hideOverlay(); }
@@ -291,22 +263,14 @@ function hideOverlay(){
     document.body.classList.add('scroll-lock');
   }
 
-// ✅ UPDATED
-function closeForm(){
-  modal.setAttribute('aria-hidden','true');
-  
-  // 💡 패치: 모달을 닫는 순간 무조건 스크롤 잠금을 일시적으로 해제하여 
-  // 키보드 버그로 인해 밀려난 뷰포트 위치를 iOS가 즉시 복구하도록 유도합니다.
-  document.body.classList.remove('scroll-lock'); 
-  
-  // 만약 견적서 시트나 모바일 메뉴가 여전히 열려 있다면,
-  // 10ms 후 다시 스크롤 잠금을 복구합니다. (복구 지연시간: 10ms)
-  if (sheet.classList.contains('open') || drawer.classList.contains('open') || mobileNav.classList.contains('open')) {
-     setTimeout(() => {
-        document.body.classList.add('scroll-lock');
-     }, 10);
+  // ✅ UPDATED
+  function closeForm(){
+    modal.setAttribute('aria-hidden','true');
+    // 모달을 닫을 때, 다른 오버레이(견적서, 메뉴 등)가 열려있지 않은 경우에만 스크롤 잠금을 해제합니다.
+    if (!sheet.classList.contains('open') && !drawer.classList.contains('open') && !mobileNav.classList.contains('open')) {
+      document.body.classList.remove('scroll-lock');
+    }
   }
-}
 
   $('#submitQuote').addEventListener('click', openForm);
   $('#submitQuoteM').addEventListener('click', openForm);
