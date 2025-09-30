@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>문의/견적 요청 - GOFITKOREA</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="quote.css" />
+</head>
+<body>
+  <div id="toastNotification" class="toast"></div>
+
+  <header id="mainHeader">
+    <div class="head wrap">
+      <a href="index.html" class="logo" aria-label="메인 페이지로 돌아가기">
+        <img src="gofit_logo.png" alt="GOFITKOREA 로고" class="logo-img">
+        <span>GOFITKOREA Secret Deals</span>
+      </a>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <div id="quoteFormContainer">
+      <form id="quoteForm" class="gate-card">
+        <h3 style="margin:0">문의/견적 요청</h3>
+        <div class="modal-sep" role="separator" aria-hidden="true"></div>
+        <div class="quote-summary-box" hidden>
+          <strong>견적 요청 제품</strong>
+          <div class="modal-sep" style="margin-top: 8px; margin-bottom: 12px;" role="separator" aria-hidden="true"></div>
+          <ul id="quoteList"></ul>
+        </div>
+        <div class="field"><label for="fName">성함 <span class="required">*</span></label><input type="text" id="fName" required maxlength="30" /></div>
+        <div class="field"><label for="fEmail">이메일 <span class="required">*</span></label><input type="email" id="fEmail" required /></div>
+        <div class="field"><label for="fTel">전화번호 <span class="required">*</span></label><input type="tel" id="fTel" required pattern="0\d{1,2}-?\d{3,4}-?\d{4}"/></div>
+        <div class="field"><label for="fCompany">회사/지점 (선택)</label><input type="text" id="fCompany" maxlength="50" /></div>
+        <div class="field"><label for="fMemo">요청사항 (선택)</label><textarea id="fMemo" rows="4" placeholder="설치 장소, 수량, 일정 등 궁금하신 사항을 자유롭게 작성해주세요"></textarea></div>
+        <div class="actions">
+            <a href="index.html" class="btn">취소</a>
+            <button type="submit" class="btn primary">이메일로 보내기</button>
+        </div>
+      </form>
+    </div>
+  </main>
+
+  <script src="quote.js"></script>
+</body>
+</html>

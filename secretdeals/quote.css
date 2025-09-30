@@ -1,0 +1,51 @@
+/* quote.html 전용 스타일 */
+body {
+    padding-top: 80px; /* 헤더 높이만큼 여백 */
+}
+
+#quoteFormContainer {
+    padding-block: 24px;
+}
+
+#quoteForm {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    padding: 32px;
+}
+
+#quoteForm .actions {
+    display: flex;
+    gap: 8px;
+    justify-content: flex-end;
+    margin-top: 14px;
+}
+
+.modal-sep { 
+  height: 1px; 
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,.12), transparent); 
+  margin: 12px 0 16px; 
+}
+
+.quote-summary-box { 
+  background: #0f1020; 
+  border: 1px solid var(--border); 
+  border-radius: 12px; 
+  padding: 16px; 
+  margin-bottom: 16px; 
+}
+
+#quoteList { 
+  list-style: none; 
+  padding: 0; 
+  margin: 0; 
+  display: grid; 
+  gap: 8px; 
+  max-height: 200px; 
+  overflow-y: auto; 
+}
+
+.required { 
+  color: var(--danger); 
+  margin-left: 2px; 
+}
