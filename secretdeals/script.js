@@ -265,6 +265,7 @@
 
   // ✅ UPDATED
   function closeForm(){
+    window.scrollTo(0, 0); // <<-- 이 한 줄이 추가되었습니다.
     modal.setAttribute('aria-hidden','true');
     // 모달을 닫을 때, 다른 오버레이(견적서, 메뉴 등)가 열려있지 않은 경우에만 스크롤 잠금을 해제합니다.
     if (!sheet.classList.contains('open') && !drawer.classList.contains('open') && !mobileNav.classList.contains('open')) {
