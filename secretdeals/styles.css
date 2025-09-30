@@ -815,7 +815,7 @@ section.mixed-inquiry-box {
   left: 0; 
   right: 0; 
   bottom: 0; 
-  height: 72vh; 
+  height: 72dvh; /* ✅ 이렇게 수정 */
   transform: translateY(105%); 
   transition: transform .28s ease; 
   z-index: 60; 
