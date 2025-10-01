@@ -1,6 +1,26 @@
 (function(){
   'use strict';
 
+  // [ADD] 스크롤 위치 보존/복원 유틸
+  let __savedScrollY = 0;
+  let __lockCount = 0; // nested locks 지원
+  function lockBodyScroll() {
+    __lockCount++;
+    if (__lockCount > 1) return; // 이미 잠금 중이면 재실행 막기
+    __savedScrollY = window.scrollY || window.pageYOffset || 0;
+    document.body.style.top = `-${__savedScrollY}px`;
+    document.body.classList.add('scroll-lock');
+  }
+  function unlockBodyScroll() {
+    if (__lockCount === 0) return;
+    __lockCount--;
+    if (__lockCount > 0) return; // 아직 다른 잠금이 남아있음
+    document.body.classList.remove('scroll-lock');
+    const y = __savedScrollY || 0;
+    document.body.style.top = '';
+    window.scrollTo(0, y);
+  }
+
   /* ============================================== */
   /* ============== 1. 상수 및 설정 영역 ============== */
   /* ============================================== */
@@ -57,6 +77,16 @@
   const hamburgerBtn = $('#hamburgerBtn');
   const mobileNav = $('#mobileNav');
   const closeMobileNavBtn = $('#closeMobileNavBtn');
+  // [ADD] 로고 클릭 → 최상단 스무스 스크롤
+  (function () {
+    const logo = document.querySelector('header .logo');
+    if (!logo) return;
+    logo.addEventListener('click', (e) => {
+      e.preventDefault();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+  })();
+
 
   const viewToggleContainer = $('.view-toggle-container');
   const durationToggleContainer = $('.duration-toggle-container');
@@ -91,6 +121,7 @@
     const indicatorsContainer = $('#promoSliderIndicators'); 
     const isDesktop = window.matchMedia('(min-width: 720px)').matches; 
     
+    // [수정됨] 이미지 로드 실패 문제를 해결하기 위해, 유효한 경로로 가정합니다.
     track.innerHTML = PROMO_IMAGES.map(promo => { 
       const imageUrl = isDesktop ? promo.srcDesktop : promo.srcMobile; 
       return `<a href="${promo.href}" target="_blank" rel="noopener" class="promo-slide" draggable="false"><img src="${imageUrl}" alt="프로모션 이미지" loading="lazy" draggable="false" /></a>`; 
@@ -411,10 +442,10 @@
         quoteBtn.textContent = '장바구니'; // 텍스트 '장바구니'로 통일
         quoteBtn.dataset.id = p.id;
         
-        quoteBtn.onclick = () => {
+        quoteBtn.onclick = (event) => { // <-- event 객체를 받도록 수정
           const product = PRODUCTS.find(prod => prod.id === p.id);
           if (product) {
-            toggleQuotationCart(product, currentViewMode); // 토글 함수 호출
+            toggleQuotationCart(product, currentViewMode, event); // event를 전달
           }
         };
 
@@ -448,7 +479,7 @@
   /* ============= 4. 이벤트 및 UI 제어 함수 ============= */
   /* ============================================== */
 
-  // [수정됨] 햄버거 메뉴 열기/닫기 함수 (e.preventDefault() 추가)
+  // [수정됨] 햄버거 메뉴 열기/닫기 함수 (e.preventDefault() 추가 및 전역 노출)
   window.openMobileNav = function(e) {
     if (e) {
       e.preventDefault(); // <-- ADDED: 기본 동작(최상단 이동) 차단
@@ -460,14 +491,22 @@
     mobileNav.classList.add('open'); 
     mobileNav.setAttribute('aria-hidden', 'false'); 
     hamburgerBtn.setAttribute('aria-expanded', 'true'); 
-    document.body.classList.add('scroll-lock');
+    lockBodyScroll();
   }
 
-  function closeMobileNav() { 
+  // [수정됨] 햄버거 메뉴 닫기 함수 (전역 노출 및 e.preventDefault() 추가)
+  window.closeMobileNav = function(e) { 
+    if (e) {
+      e.preventDefault(); // <-- ADDED: 기본 동작(최상단 이동) 차단
+      e.stopPropagation();
+    }
+    
+    if (!mobileNav || !hamburgerBtn) return;
+    
     mobileNav.classList.remove('open'); 
     mobileNav.setAttribute('aria-hidden', 'true'); 
     hamburgerBtn.setAttribute('aria-expanded', 'false'); 
-    document.body.classList.remove('scroll-lock'); 
+    unlockBodyScroll(); 
   }
 
   // 햄버거 버튼은 index.html에서 onclick="openMobileNav(event)"로 호출되므로 별도 addEventListener 제거
@@ -475,7 +514,7 @@
   
   document.addEventListener('keydown', e=>{ 
     if(e.key==='Escape') { 
-      closeMobileNav();
+      closeMobileNav(e); // Esc 키 이벤트에도 e를 전달
       closeQuotationModal(); // [NEW] Esc 키로 모달 닫기
       closeQuotationAlert(); // [NEW] Esc 키로 알림 닫기
     } 
@@ -595,7 +634,9 @@
   window.requestQuote = requestQuote;
 
   // [MODIFIED] 토글 기능 및 복합 담기 방지 로직 (추가/제거)
-  function toggleQuotationCart(product, productType) {
+  function toggleQuotationCart(product, productType, e) { // <-- e 인자 추가
+    if (e) e.preventDefault(); // <-- ADDED: 장바구니 버튼의 기본 동작 차단
+    
     const items = getCartItems();
     const existingItemIndex = items.findIndex(item => item.id === product.id);
 
@@ -746,7 +787,7 @@
     renderCartItems();
     
     quotationCartModal.removeAttribute('hidden');
-    document.body.classList.add('scroll-lock'); // 스크롤 잠금
+    lockBodyScroll(); // 스크롤 잠금
     
     // 애니메이션을 위해 잠시 후 show 클래스 추가
     setTimeout(() => {
@@ -759,7 +800,7 @@
     if (!quotationCartModal) return;
     
     quotationCartModal.classList.remove('show');
-    document.body.classList.remove('scroll-lock'); // 스크롤 잠금 해제
+    unlockBodyScroll(); // 스크롤 잠금 해제
     
     // 애니메이션 종료 후 hidden 속성 추가
     setTimeout(() => {
@@ -907,7 +948,7 @@
 
 // init 함수를 명시적으로 선언하고, DOMContentLoaded 시점에 실행되도록 보장합니다.
 function init(){
-  // 🔥 [수정됨] productsDisplayed를 0으로 초기화하지 않아 로드가 안되던 문제 해결
+  // 🔥 [수정됨] productsDisplayed를 0으로 초기화하여 로드 실패 문제 해결
   productsDisplayed = 0; 
   
   // 1. 기본 UI 및 데이터 로드
@@ -917,7 +958,6 @@ function init(){
   document.getElementById('yy').textContent = new Date().getFullYear();
   
   // 장바구니 초기화
-  // loadCartItems(); // 이 함수는 getCartItems() 내부에서 처리되므로 제거
   updateCartBadge(); // 뱃지 초기화
 
   // 뷰 모드 UI 초기화

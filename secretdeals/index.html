@@ -14,7 +14,7 @@
 <body>
   <header id="mainHeader">
     <div class="head wrap">
-      <a href="javascript:void(0)" class="logo" aria-label="GOFITKOREA 홈페이지로 이동">
+      <a href="javascript:void(0)" class="logo" aria-label="GOFITKOREA 홈페이지로 이동" onclick="event.preventDefault();">
         <img src="gofit_logo.png" alt="GOFITKOREA 로고" class="logo-img">
         <span>GOFITKOREA Secret Deals</span>
       </a>
@@ -27,6 +27,7 @@
         </svg>
         <span class="cart-badge" id="cartBadge">0</span>
       </button>
+      
       <div class="header-actions">
         <a href="https://gofitkorea.com/" target="_blank" rel="noopener" class="btn header-link">공식 홈페이지</a>
         <a href="tel:1833-3745" class="btn primary" aria-label="대표번호로 전화 걸기">
@@ -40,7 +41,7 @@
   </header>
 
   <nav id="mobileNav" class="mobile-nav" aria-hidden="true">
-    <button id="closeMobileNavBtn" class="btn-close-nav" aria-label="메뉴 닫기" onclick="closeMobileNav()">&times;</button>
+    <button id="closeMobileNavBtn" class="btn-close-nav" aria-label="메뉴 닫기" onclick="closeMobileNav(event)">&times;</button>
     <div class="mobile-nav-content">
       <a href="https://gofitkorea.com/" target="_blank" rel="noopener" class="mobile-nav-link">고핏코리아 공식 홈페이지</a>
       <hr class="mobile-nav-divider">
