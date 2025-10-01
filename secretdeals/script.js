@@ -347,50 +347,12 @@
     });
   }
 
-// ✅ 위 코드를 삭제하고 이 최종 코드로 교체하세요.
-(function init(){
-  // --- [최종 수정] 키보드 이벤트 핸들러 ---
-  function keyboardEventHandler() {
-    if (!window.visualViewport) return;
-
-    const viewport = window.visualViewport;
-    // 모바일 환경에서만 핸들러가 동작하도록 설정
-    const isMobile = window.matchMedia('(max-width: 1079px)').matches;
-
-    function handleResize() {
-      // 모바일이 아니면 아무것도 하지 않음
-      if (!isMobile) return;
-
-      const viewportHeight = viewport.height;
-      const windowHeight = window.innerHeight;
-      const keyboardHeight = windowHeight - viewportHeight;
-
-      // 키보드가 활성화되었는지 판단 (일반적으로 높이 차이가 150px 이상)
-      const isKeyboardVisible = keyboardHeight > 150;
-
-      // body 태그에 'keyboard--visible' 클래스를 추가/제거
-      document.body.classList.toggle('keyboard--visible', isKeyboardVisible);
-
-      // 키보드가 사라졌을 때 (클래스가 제거됐을 때)
-      if (!isKeyboardVisible) {
-        // 페이지가 위로 밀려난 현상을 강제로 원상복구하기 위해 스크롤을 맨 위로 되돌림
-        // 헤더가 사라지는 문제를 이 코드가 해결합니다.
-        setTimeout(() => window.scrollTo(0, 0), 50);
-      }
-    }
-    // 화면 크기가 변할 때마다(키보드가 나타나거나 사라질 때) handleResize 함수 실행
-    viewport.addEventListener('resize', handleResize);
-  }
-  
-  // --- 기존의 초기화 코드들은 그대로 유지 ---
-  renderBanner(); renderChannels(); updateQuoteUI(); setupPromoSlider();
-  document.getElementById('yy').textContent = new Date().getFullYear();
-  if (loadMoreBtn) { loadMoreBtn.addEventListener('click', loadMoreProducts); }
-  loadMoreProducts();
-  $('#modalQuoteForm').addEventListener('submit', (e) => handleFormSubmit('f', e));
-  $('#inlineInquiryForm').addEventListener('submit', (e) => handleFormSubmit('inline', e));
-  
-  // --- 위에서 만든 새 핸들러를 실행 ---
-  keyboardEventHandler();
-})();
+  (function init(){
+    renderBanner(); renderChannels(); updateQuoteUI(); setupPromoSlider();
+    document.getElementById('yy').textContent = new Date().getFullYear();
+    if (loadMoreBtn) { loadMoreBtn.addEventListener('click', loadMoreProducts); }
+    loadMoreProducts();
+    $('#modalQuoteForm').addEventListener('submit', (e) => handleFormSubmit('f', e));
+    $('#inlineInquiryForm').addEventListener('submit', (e) => handleFormSubmit('inline', e));
+  })();
 })();
