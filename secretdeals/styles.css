@@ -1508,8 +1508,8 @@ footer {
 
   .modal .gate-card {
     max-width: none; /* 너비 제한 해제 */
-    height: 100dvh;
-    max-height: 100dvh;
+    height: 100%;
+    max-height: 100%;
     border-radius: 0;
     border: none;
     /* 상단 상태바, 하단 제스처 영역 등을 고려한 패딩 조정 */
