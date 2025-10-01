@@ -356,21 +356,23 @@
   $('#modalQuoteForm').addEventListener('submit', (e) => handleFormSubmit('f', e));
   $('#inlineInquiryForm').addEventListener('submit', (e) => handleFormSubmit('inline', e));
 
-  // [버그 수정] iOS 하단 바 위치 버그 해결 코드
-  // window.visualViewport API를 사용해 실제 보이는 화면 영역의 변화를 감지합니다.
-  if (window.visualViewport) {
-    window.visualViewport.addEventListener('resize', () => {
-      // 키보드가 사라지면 visualViewport의 높이는 window의 내부 높이와 거의 같아집니다.
-      // 이 순간을 감지하여 카트 바의 위치를 강제로 재계산(새로고침)합니다.
-      const isKeyboardDismissed = Math.abs(window.visualViewport.height - window.innerHeight) < 1;
+// [버그 수정 최종] iOS 하단 바 위치 버그 해결 코드
+// window.visualViewport API를 사용해 실제 보이는 화면 영역의 변화를 감지합니다.
+if (window.visualViewport) {
+  window.visualViewport.addEventListener('resize', () => {
+    // 키보드가 사라지는 순간을 감지합니다.
+    const isKeyboardDismissed = Math.abs(window.visualViewport.height - window.innerHeight) < 1;
 
-      if (isKeyboardDismissed && cartbar) {
-        // '새로고침' 트릭을 버그가 발생하는 정확한 타이밍에 실행합니다.
+    if (isKeyboardDismissed && cartbar) {
+      // 100밀리초(0.1초) 지연을 주어 브라우저의 UI 애니메이션이 완전히 끝난 후 실행되도록 합니다.
+      // 이것이 브라우저가 변경 사항을 무시하지 않게 하는 핵심입니다.
+      setTimeout(() => {
         cartbar.style.display = 'none';
         cartbar.offsetHeight;
         cartbar.style.display = '';
-      }
-    });
-  }
+      }, 100); 
+    }
+  });
+}
 })();
 })();
