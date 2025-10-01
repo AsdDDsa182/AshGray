@@ -243,6 +243,14 @@ body.scroll-lock {
   inset: 0;
 }
 
+/* 로고 서브텍스트 스타일 */
+@media (max-width: 420px) {
+  .logo-subtext {
+    display: block;
+    font-size: 0.8em;
+  }
+}
+
 /* ============================================== */
 /* ============= 3. 섹션 공통 스타일 ============== */
 /* ============================================== */
@@ -608,11 +616,12 @@ section[aria-label],
 }
 
 
-.view-toggle-container { 
-  background-color: var(--card); 
-  padding: 6px; 
-  border-radius: 14px; 
-  border: 1px solid var(--border); 
+.view-toggle-container,
+.duration-toggle-container {
+  background-color: var(--card);
+  padding: 6px;
+  border-radius: 14px;
+  border: 1px solid var(--border);
 }
 
 .view-toggle { 
@@ -631,13 +640,14 @@ section[aria-label],
   box-shadow: var(--shadow); 
 }
 
-.duration-toggle { 
-  background-color: var(--card); 
-  border: 1px solid var(--border); 
-  font-size: 13px; 
-  color: var(--muted); 
-  padding: 8px 14px; 
-  border-radius: 10px; 
+.duration-toggle {
+  flex-grow: 1; /* 이 줄을 추가하세요 */
+  background-color: var(--card);
+  border: 1px solid var(--border);
+  font-size: 13px;
+  color: var(--muted);
+  padding: 8px 14px;
+  border-radius: 10px;
 }
 
 .duration-toggle.active { 
@@ -995,7 +1005,7 @@ footer {
   border: 1px solid var(--border); 
   border-radius: 10px; 
   cursor: pointer; 
-  margin-right: 8px; /* 헤더 액션과의 간격 */
+  
   transition: all .2s;
   flex-shrink: 0;
 }
@@ -1081,12 +1091,6 @@ footer {
     color: var(--text);
     border-color: var(--brand);
     opacity: 0.8;
-  }
-  
-  /* 담기 버튼: 담긴 후 호버 효과 */
-  .btn.p-quote.active-in-cart:hover {
-    background: var(--brand-2); 
-    border-color: var(--brand-2);
   }
 }
 
@@ -1241,7 +1245,7 @@ footer {
 .modal-cart-type {
   font-size: 14px;
   font-weight: 700;
-  color: var(--brand);
+  color: var(--text); /* 기본 텍스트를 흰색으로 변경 */
   background: var(--quote-bg);
   border: 1px solid var(--quote-border);
   border-radius: 10px;
@@ -1373,9 +1377,9 @@ footer {
 
 /* --- 7. 요약 정보 --- */
 .modal-cart-summary {
-  padding: 16px 0;
+  padding: 16px 20px; /* 좌우 여백 추가 */
   border-top: 1px solid var(--border);
-  margin-top: 20px;
+  flex-shrink: 0; /* 내용이 많아져도 줄어들지 않도록 설정 */
 }
 
 .summary-row {
@@ -1455,6 +1459,17 @@ footer {
   font-size: 14px;
 }
 
+/* 모달 내 강조 텍스트 공통 스타일 */
+.modal-text-highlight {
+  font-weight: 700;
+}
+.type-sale {
+  color: var(--ok); /* 판매: 초록색 */
+}
+.type-rental {
+  color: var(--brand-2); /* 렌탈: 하늘색 */
+}
+
 /* PC 호버 */
 @media (hover: hover) {
   .modal-close-btn:hover {
@@ -1464,13 +1479,6 @@ footer {
     transform: rotate(0);
   }
 }
-
-
-
-
-
-
-
 
 
 
@@ -1490,9 +1498,9 @@ footer {
     color: var(--ok); 
     border-bottom-color: var(--ok); 
   } 
-  .btn:not(.primary):not(.p-nshop):not(.active):hover { 
-    border-color: var(--brand); 
-    background: #1b1c2c; 
+  .btn:not(.primary):not(.p-nshop):not(.active):not(.active-in-cart):hover {
+    border-color: var(--brand);
+    background: #1b1c2c;
   }
 }
 
@@ -1503,7 +1511,10 @@ footer {
 }
 
 @media (max-width:900px) { 
-  .header-actions { 
+  .logo {
+    margin-right: auto;
+  }
+  .header-actions a { 
     display: none; 
   } 
   .hamburger-btn { 
@@ -1528,4 +1539,35 @@ footer {
     transform: translateY(0); 
     opacity: 1; 
   } 
+}
+
+
+
+
+
+/* ============================================== */
+/* ============= 11. 토스트 알림 스타일 ============= */
+/* ============================================== */
+.toast {
+  position: fixed;
+  top: 120px;
+  left: 50%;
+  transform: translate(-50%, -150%);
+  background: var(--ok);
+  color: #0b0c10;
+  padding: 12px 20px;
+  border-radius: 12px;
+  font-weight: 700;
+  z-index: 2000;
+  opacity: 0;
+  transition: transform 0.4s cubic-bezier(0.2, 1, 0.3, 1), opacity 0.4s ease;
+  box-shadow: var(--shadow);
+  pointer-events: none;
+  font-size: 18px;
+  white-space: nowrap; /* 이 줄을 추가하세요 */
+}
+
+.toast.show {
+  transform: translate(-50%, 0);
+  opacity: 1;
 }

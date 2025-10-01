@@ -21,6 +21,29 @@
     const resultTitle = document.getElementById('resultModalTitle');
     const resultMessage = document.getElementById('resultModalMessage');
     
+    /* ▼▼▼ 헤더 스크롤 기능 추가 ▼▼▼ */
+    function setupHeaderScroll() {
+      const header = document.getElementById('mainHeader');
+      if (!header) return;
+
+      let lastScrollY = window.scrollY;
+
+      window.addEventListener('scroll', () => {
+        if (document.body.classList.contains('scroll-lock')) {
+          return;
+        }
+        const currentScrollY = window.scrollY;
+
+        if (currentScrollY > lastScrollY && currentScrollY > header.offsetHeight) {
+          header.classList.add('header--hidden');
+        } else {
+          header.classList.remove('header--hidden');
+        }
+        lastScrollY = currentScrollY;
+      }, { passive: true });
+    }
+    /* ▲▲▲ 여기까지 입니다 ▲▲▲ */
+
     // 유틸리티 함수
     const fmtKRW = n => new Intl.NumberFormat('ko-KR',{style:'currency',currency:'KRW',maximumFractionDigits:0}).format(n);
     
@@ -227,6 +250,7 @@
 
     // 초기화
     function init() {
+        setupHeaderScroll(); // 헤더 스크롤 기능 실행
         const cart = getCartData();
         renderQuoteSummary(cart);
         setupExitWarning(); // 페이지 이탈 경고 설정

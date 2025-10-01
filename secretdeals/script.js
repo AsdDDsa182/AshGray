@@ -107,6 +107,7 @@
   const alertTitle = $('#alertTitle'); 
   const alertMessage = $('#alertMessage');
   const alertConfirmBtn = $('#alertConfirmBtn');
+  const toastEl = $('#toastNotification'); // let pendingProduct = null; 
   let pendingProduct = null; 
   let pendingViewMode = null; 
   
@@ -524,6 +525,30 @@
   /* ============= 4. 이벤트 및 UI 제어 함수 ============= */
   /* ============================================== */
 
+  let toastTimeout;
+  let toastResetTimeout;
+  function showToast(message) {
+    if (!toastEl) return;
+    
+    clearTimeout(toastTimeout);
+    clearTimeout(toastResetTimeout);
+
+    const _show = () => {
+      toastEl.textContent = message;
+      toastEl.classList.add('show');
+      toastTimeout = setTimeout(() => {
+        toastEl.classList.remove('show');
+      }, 3000);
+    };
+
+    if (toastEl.classList.contains('show')) {
+      toastEl.classList.remove('show');
+      toastResetTimeout = setTimeout(_show, 150);
+    } else {
+      _show();
+    }
+  }
+
   /* 이 코드를 복사해서 4번 섹션 가장 위쪽에 붙여넣으세요 */
 function setupHeaderScroll() {
   const header = document.getElementById('mainHeader');
@@ -723,6 +748,7 @@ function setupHeaderScroll() {
 
     if (existingItemIndex > -1) {
       items.splice(existingItemIndex, 1);
+      showToast('견적함에서 상품을 뺐습니다.'); // saveCartItems(items);
       saveCartItems(items);
       
       if (items.length === 0 && quotationCartModal && quotationCartModal.classList.contains('show')) {
@@ -753,6 +779,7 @@ function setupHeaderScroll() {
       price: itemPrice, 
     });
 
+    showToast('견적함에 상품을 담았습니다.'); // saveCartItems(items);
     saveCartItems(items);
   }
 
@@ -859,7 +886,9 @@ function setupHeaderScroll() {
     const cartType = getCartType();
     const isRental = cartType === 'rental';
     
-    modalCartType.textContent = `현재 견적함은 "${isRental ? '렌탈' : '판매'}" 견적용입니다.`;
+    const typeLabel = isRental ? '렌탈' : '판매';
+    const styledTypeLabel = `<span class="modal-text-highlight type-${cartType}">${typeLabel}</span>`;
+    modalCartType.innerHTML = `현재 견적함은 ${styledTypeLabel} 견적용입니다.`;
     
     let totalPrice = 0;
     let totalQuantity = 0;
@@ -895,15 +924,15 @@ function setupHeaderScroll() {
     summaryTotalPrice.textContent = fmtKRW(totalPrice) + '원';
     
     if (isRental) {
-      summaryTotalLabel.textContent = '월 렌탈료 합계 (VAT 포함):';
+      summaryTotalLabel.textContent = '월 예상 총액 (VAT 포함):';
     } else {
-      summaryTotalLabel.textContent = '총 구매 금액 합계 (VAT 포함):';
+      summaryTotalLabel.textContent = '총액 (VAT 포함):';
     }
     
     requestQuoteBtn.disabled = false;
   }
 
-  /**
+/**
    * 경고 모달 표시 (제품 추가 시, 모드 변경 시 모두 사용)
    * @param {string} currentType 현재 장바구니 유형 ('sale' 또는 'rental')
    * @param {string} newType 시도하려는 제품/모드의 유형
@@ -915,17 +944,23 @@ function setupHeaderScroll() {
     const currentLabel = currentType === 'sale' ? '판매' : '렌탈';
     const newLabel = newType === 'sale' ? '판매' : '렌탈';
     
+    // [변경] 스타일이 적용된 라벨 HTML을 생성합니다.
+    const styledCurrentLabel = `<span class="modal-text-highlight type-${currentType}">${currentLabel}</span>`;
+    const styledNewLabel = `<span class="modal-text-highlight type-${newType}">${newLabel}</span>`;
+    
     let title = '';
     let messageHTML = '';
     let confirmBtnText = '';
     
     if (actionType === 'add') {
         title = `유형이 다른 제품입니다!`;
-        messageHTML = `현재 견적함에는 **${currentLabel}** 제품이 담겨있습니다.<br>새로운 **${newLabel}** 제품을 담으려면 기존 제품을 비워야 합니다.`;
+        // [변경] 별표(**)를 제거하고 스타일 라벨을 사용합니다.
+        messageHTML = `현재 견적함에는 ${styledCurrentLabel} 제품이 담겨있습니다.<br>새로운 ${styledNewLabel} 제품을 담으려면 기존 제품을 비워야 합니다.`;
         confirmBtnText = '기존 제품 비우고 담기';
     } else if (actionType === 'viewChange') {
         title = `견적함 초기화 안내`;
-        messageHTML = `현재 견적함에 **${currentLabel}** 제품이 담겨있습니다.<br>뷰 모드를 **${newLabel}**로 전환하려면<br>기존 견적함 내용을 비워야 합니다.`;
+        // [변경] 별표(**)를 제거하고 스타일 라벨을 사용합니다.
+        messageHTML = `현재 견적함에 ${styledCurrentLabel} 제품이 담겨있습니다.<br>뷰 모드를 ${styledNewLabel}로 전환하려면<br>기존 견적함 내용을 비워야 합니다.`;
         confirmBtnText = '비우고 전환';
     } else {
         return;

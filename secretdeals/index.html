@@ -16,19 +16,18 @@
     <div class="head wrap">
       <a href="javascript:void(0)" class="logo" aria-label="GOFITKOREA 홈페이지로 이동" onclick="event.preventDefault();">
         <img src="gofit_logo.png" alt="GOFITKOREA 로고" class="logo-img">
-        <span>GOFITKOREA Secret Deals</span>
+        <span>GOFITKOREA <span class="logo-subtext">Secret Deals</span></span>
       </a>
       
-      <button id="quotationCartIcon" class="btn header-link" aria-label="견적함 열기" onclick="openQuotationModal(event)">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="width: 20px; height: 20px;">
-          <circle cx="9" cy="21" r="1"></circle>
-          <circle cx="20" cy="21" r="1"></circle>
-          <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
-        </svg>
-        <span class="cart-badge" id="cartBadge">0</span>
-      </button>
-      
       <div class="header-actions">
+        <button id="quotationCartIcon" class="btn header-link" aria-label="견적함 열기" onclick="openQuotationModal(event)">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="width: 20px; height: 20px;">
+            <circle cx="9" cy="21" r="1"></circle>
+            <circle cx="20" cy="21" r="1"></circle>
+            <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+          </svg>
+          <span class="cart-badge" id="cartBadge">0</span>
+        </button>
         <a href="https://gofitkorea.com/" target="_blank" rel="noopener" class="btn header-link">공식 홈페이지</a>
         <a href="tel:1833-3745" class="btn primary" aria-label="대표번호로 전화 걸기">
           <span class="label-wrap"><span class="label">실시간 상담</span></span>
@@ -217,16 +216,16 @@
             <p>원하는 제품을 담고 견적을 요청해 보세요!</p>
           </div>
         </div>
-        
-        <div class="modal-cart-summary">
-          <div class="summary-row">
-            <span class="summary-label">총 수량:</span>
-            <span class="summary-value" id="summaryTotalCount">0개</span>
-          </div>
-          <div class="summary-row total-amount">
-            <span class="summary-label" id="summaryTotalLabel">총 금액 (VAT 포함):</span>
-            <span class="summary-value" id="summaryTotalPrice">0원</span>
-          </div>
+      </div>
+
+      <div class="modal-cart-summary">
+        <div class="summary-row">
+          <span class="summary-label">총 수량:</span>
+          <span class="summary-value" id="summaryTotalCount">0개</span>
+        </div>
+        <div class="summary-row total-amount">
+          <span class="summary-label" id="summaryTotalLabel">총 금액 (VAT 포함):</span>
+          <span class="summary-value" id="summaryTotalPrice">0원</span>
         </div>
       </div>
       
@@ -247,6 +246,7 @@
       </div>
     </div>
   </div>
+  <div class="toast" id="toastNotification" aria-live="assertive"></div>
   <footer>© <span id="yy"></span> GOFITKOREA<br>본 페이지는 초대한 고객만 볼 수 있는 비공개 특가입니다.</footer>
 
   <script src="script.js"></script>
