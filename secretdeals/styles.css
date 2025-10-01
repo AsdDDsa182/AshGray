@@ -1036,6 +1036,19 @@ footer {
   width: 100%; /* HTML 구조상 이미 100%이지만 명시적 지정 */
 }
 
+/* [NEW ADDITION] 렌탈 불가 시 장바구니 버튼 비활성화 스타일 */
+/* .btn.p-quote[disabled]는 .btn.p-quote.active-in-cart보다 우선순위가 높으므로 !important가 필요 없습니다. */
+.btn.p-quote[disabled] {
+  opacity: 0.5; /* 버튼을 흐릿하게 만듭니다. */
+  cursor: not-allowed;
+  pointer-events: none; /* 클릭 이벤트 완벽 차단 */
+  background: var(--card); /* 배경색을 기본색으로 강제 */
+  border-color: var(--border); /* 테두리색을 옅은색으로 강제 */
+  color: var(--muted); /* 글자색을 옅은색으로 강제 */
+  box-shadow: none;
+}
+
+
 /* [NEW] 장바구니에 담긴 상태 (색상 반전 및 그림자) */
 .btn.p-quote.active-in-cart {
   background: linear-gradient(135deg, var(--brand), var(--brand-2));
@@ -1451,6 +1464,14 @@ footer {
 
 
 
+
+
+
+
+
+
+
+
 /* ============================================== */
 /* ============== 9. 반응형 및 애니메이션 ============== */
 /* ============================================== */
@@ -1502,31 +1523,4 @@ footer {
     transform: translateY(0); 
     opacity: 1; 
   } 
-}
-
-/* ===== 토스트 알림 ===== */
-#toast {
-  visibility: hidden;
-  min-width: 200px;
-  max-width: 80%;
-  margin: 0 auto;
-  background: rgba(0, 0, 0, 0.85);
-  color: #fff;
-  text-align: center;
-  border-radius: 8px;
-  padding: 12px 16px;
-  position: fixed;
-  left: 50%;
-  bottom: 30px;
-  transform: translateX(-50%);
-  z-index: 9999;
-  font-size: 14px;
-  opacity: 0;
-  transition: opacity 0.5s, bottom 0.5s;
-}
-
-#toast.show {
-  visibility: visible;
-  opacity: 1;
-  bottom: 50px; /* 살짝 위로 올라오는 애니메이션 효과 */
 }
