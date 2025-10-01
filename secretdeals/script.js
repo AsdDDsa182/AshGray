@@ -240,8 +240,19 @@
 
   function openDrawer(){ closeAny(); drawer.classList.add('open'); drawer.setAttribute('aria-hidden','false'); openQuoteBtn.setAttribute('aria-expanded','true'); showOverlay(); }
   function closeDrawer(){ drawer.classList.remove('open'); drawer.setAttribute('aria-hidden','true'); openQuoteBtn.setAttribute('aria-expanded','false'); if(!mobileNav.classList.contains('open')) hideOverlay(); }
-  function openSheet(){ closeAny(); sheet.classList.add('open'); sheet.setAttribute('aria-hidden','false'); showOverlay(); }
-  function closeSheet(){ sheet.classList.remove('open'); sheet.setAttribute('aria-hidden','true'); if(!mobileNav.classList.contains('open')) hideOverlay(); }
+  function openSheet(){ 
+  closeAny(); 
+  if (sheet) sheet.style.display = 'grid'; // ✅ 추가: 숨겼던 패널을 다시 보이게 함
+  sheet.classList.add('open'); 
+  sheet.setAttribute('aria-hidden','false'); 
+  showOverlay(); 
+}
+  function closeSheet(){ 
+  if (sheet) sheet.style.display = 'none'; // ✅ 추가: 패널을 레이아웃에서 완전히 제거
+  sheet.classList.remove('open'); 
+  sheet.setAttribute('aria-hidden','true'); 
+  if(!mobileNav.classList.contains('open')) hideOverlay(); 
+}
   function openMobileNav() { closeAny(); mobileNav.classList.add('open'); mobileNav.setAttribute('aria-hidden', 'false'); hamburgerBtn.setAttribute('aria-expanded', 'true'); showOverlay(); }
   function closeMobileNav() { mobileNav.classList.remove('open'); mobileNav.setAttribute('aria-hidden', 'true'); hamburgerBtn.setAttribute('aria-expanded', 'false'); if(!sheet.classList.contains('open') && !drawer.classList.contains('open')) hideOverlay(); }
   function isDesktop(){ return window.matchMedia('(min-width:1080px)').matches; }
@@ -351,58 +362,16 @@ function closeForm(){
     });
   }
 
+// ✅ 위 코드를 삭제하고 이 코드로 교체하세요.
 (function init(){
-  // [버그 수정 최종] transform으로 하단 고정 요소 위치를 강제 지정하는 함수
-  function handleBottomElementsPosition() {
-    if (!window.visualViewport) return;
-    const viewportHeight = window.visualViewport.height;
+  if (sheet) sheet.style.display = 'none'; // ✅ 페이지 로딩 시 견적서함을 확실히 숨김
 
-    // 1. 카트바 위치 제어
-    if (cartbar) {
-      const cartbarY = viewportHeight - cartbar.offsetHeight - 16; // 16px은 하단 여백
-      cartbar.style.transform = `translateY(${cartbarY}px)`;
-    }
-
-    // 2. 견적서 패널 위치 제어
-    if (sheet) {
-      const sheetY = viewportHeight - sheet.offsetHeight;
-      // sheet가 화면에 보일 때와 안 보일 때를 구분해서 transform 값을 다르게 적용
-      const transformValue = sheet.classList.contains('open') 
-        ? `translateY(${sheetY}px)` 
-        : `translateY(${viewportHeight + 5}px)`; // 화면 아래로 확실히 숨김
-      sheet.style.transform = transformValue;
-    }
-  }
-
-  // --- 기존 초기화 코드들은 그대로 실행 ---
+  // --- 원래 페이지에 필요한 기능들만 실행 ---
   renderBanner(); renderChannels(); updateQuoteUI(); setupPromoSlider();
   document.getElementById('yy').textContent = new Date().getFullYear();
   if (loadMoreBtn) { loadMoreBtn.addEventListener('click', loadMoreProducts); }
   loadMoreProducts();
   $('#modalQuoteForm').addEventListener('submit', (e) => handleFormSubmit('f', e));
   $('#inlineInquiryForm').addEventListener('submit', (e) => handleFormSubmit('inline', e));
-
-  // --- 새 함수를 필요한 시점에 실행하도록 연결 ---
-  if (window.visualViewport) {
-    // 화면 크기가 변할 때마다 (키보드 나타날 때 등) 위치를 재계산
-    window.visualViewport.addEventListener('resize', handleBottomElementsPosition);
-    // 페이지가 처음 열릴 때도 위치를 잡아줌
-    handleBottomElementsPosition();
-  }
-
-  // 견적서가 열리고 닫힐 때도 위치를 다시 계산하도록 기존 함수 수정
-  const originalOpenSheet = openSheet;
-  openSheet = function() {
-    originalOpenSheet.apply(this, arguments);
-    setTimeout(handleBottomElementsPosition, 50); // CSS 애니메이션 시간 고려
-  }
-  const originalCloseSheet = closeSheet;
-  closeSheet = function() {
-    originalCloseSheet.apply(this, arguments);
-    setTimeout(handleBottomElementsPosition, 50); // CSS 애니메이션 시간 고려
-  }
-  // 수정된 함수를 실제 버튼 이벤트에 다시 연결
-  openSheetBtn.addEventListener('click', openSheet); 
-  closeSheetBtn.addEventListener('click', closeSheet);
 })();
 })();
