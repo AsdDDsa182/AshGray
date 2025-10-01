@@ -256,20 +256,25 @@
   const modal = document.getElementById('quoteFormModal');
   function populateModalQuoteList() { const listEl = $('#modalQuoteList'); const boxEl = listEl.closest('.quote-summary-box'); if (!listEl || !boxEl) return; listEl.innerHTML = ''; if (quote.items.length > 0) { quote.items.forEach(item => { const li = document.createElement('li'); const qtyText = item.qty > 1 ? ` (수량: ${item.qty})` : ''; li.textContent = `${item.title}${qtyText}`; listEl.appendChild(li); }); boxEl.hidden = false; } else { boxEl.hidden = true; } }
   
-  // ✅ UPDATED
-  function openForm(){
-    modal.setAttribute('aria-hidden','false');
-    populateModalQuoteList();
-
+// 수정 전
+function closeForm(){
+  modal.setAttribute('aria-hidden','true');
+  // 모달을 닫을 때, 다른 오버레이(견적서, 메뉴 등)가 열려있지 않은 경우에만 스크롤 잠금을 해제합니다.
+  if (!sheet.classList.contains('open') && !drawer.classList.contains('open') && !mobileNav.classList.contains('open')) {
+    document.body.classList.remove('scroll-lock');
   }
+}
 
-  // ✅ UPDATED
-  function closeForm(){
-    modal.setAttribute('aria-hidden','true');
-    // 모달을 닫을 때, 다른 오버레이(견적서, 메뉴 등)가 열려있지 않은 경우에만 스크롤 잠금을 해제합니다.
-
-    }
+// 수정 후
+function closeForm(){
+  modal.setAttribute('aria-hidden','true');
+  // 모달을 닫을 때, 다른 오버레이(견적서, 메뉴 등)가 열려있지 않은 경우에만 스크롤 잠금을 해제합니다.
+  /*
+  if (!sheet.classList.contains('open') && !drawer.classList.contains('open') && !mobileNav.classList.contains('open')) {
+    document.body.classList.remove('scroll-lock');
   }
+  */
+}
 
   $('#submitQuote').addEventListener('click', openForm);
   $('#submitQuoteM').addEventListener('click', openForm);
