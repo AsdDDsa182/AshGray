@@ -40,7 +40,13 @@ body {
   touch-action: pan-y; 
 }
 
+html:has(body.scroll-lock) { 
+  overflow: hidden; 
+}
 
+.scroll-lock { 
+  overflow: hidden !important; 
+}
 
 a { 
   color: inherit; 
@@ -790,6 +796,7 @@ section.mixed-inquiry-box {
 }
 
 .foot { 
+  margin-bottom: 20px;
   padding: 0 16px 14px; 
 }
 
@@ -808,8 +815,7 @@ section.mixed-inquiry-box {
   position: fixed; 
   left: 0; 
   right: 0; 
-  /* bottom: 0; */
-  top: 0; 
+  bottom: 0; 
   height: 72vh; 
   transform: translateY(105%); 
   transition: transform .28s ease; 
@@ -847,8 +853,7 @@ section.mixed-inquiry-box {
   position: fixed; 
   left: 16px; 
   right: 16px; 
-  /* bottom: calc(16px + env(safe-area-inset-bottom)); */
-  top: 0; 
+  bottom: calc(16px + env(safe-area-inset-bottom)); 
   z-index: 48; 
   background: linear-gradient(135deg, #17182a, #101223); 
   border: 1px solid var(--border); 
@@ -1504,9 +1509,21 @@ footer {
   .modal .gate-card {
     max-width: none; /* 너비 제한 해제 */
     height: 100dvh;
+    max-height: 100dvh;
     border-radius: 0;
     border: none;
     /* 상단 상태바, 하단 제스처 영역 등을 고려한 패딩 조정 */
     padding: 48px 24px 32px;
   }
+}
+
+/* ✅ 이 코드를 styles.css 파일 맨 아래에 추가하세요 */
+
+/* 키보드가 나타났을 때의 스타일 */
+.keyboard--visible .cartbar,
+.keyboard--visible .sheet {
+  /* 하단 UI 요소들을 보이지 않게 처리 */
+  visibility: hidden;
+  opacity: 0;
+  transition: all 0.2s ease;
 }

@@ -240,19 +240,8 @@
 
   function openDrawer(){ closeAny(); drawer.classList.add('open'); drawer.setAttribute('aria-hidden','false'); openQuoteBtn.setAttribute('aria-expanded','true'); showOverlay(); }
   function closeDrawer(){ drawer.classList.remove('open'); drawer.setAttribute('aria-hidden','true'); openQuoteBtn.setAttribute('aria-expanded','false'); if(!mobileNav.classList.contains('open')) hideOverlay(); }
-  function openSheet(){ 
-  closeAny(); 
-  if (sheet) sheet.style.display = 'grid'; // ✅ 추가: 숨겼던 패널을 다시 보이게 함
-  sheet.classList.add('open'); 
-  sheet.setAttribute('aria-hidden','false'); 
-  showOverlay(); 
-}
-  function closeSheet(){ 
-  if (sheet) sheet.style.display = 'none'; // ✅ 추가: 패널을 레이아웃에서 완전히 제거
-  sheet.classList.remove('open'); 
-  sheet.setAttribute('aria-hidden','true'); 
-  if(!mobileNav.classList.contains('open')) hideOverlay(); 
-}
+  function openSheet(){ closeAny(); sheet.classList.add('open'); sheet.setAttribute('aria-hidden','false'); showOverlay(); }
+  function closeSheet(){ sheet.classList.remove('open'); sheet.setAttribute('aria-hidden','true'); if(!mobileNav.classList.contains('open')) hideOverlay(); }
   function openMobileNav() { closeAny(); mobileNav.classList.add('open'); mobileNav.setAttribute('aria-hidden', 'false'); hamburgerBtn.setAttribute('aria-expanded', 'true'); showOverlay(); }
   function closeMobileNav() { mobileNav.classList.remove('open'); mobileNav.setAttribute('aria-hidden', 'true'); hamburgerBtn.setAttribute('aria-expanded', 'false'); if(!sheet.classList.contains('open') && !drawer.classList.contains('open')) hideOverlay(); }
   function isDesktop(){ return window.matchMedia('(min-width:1080px)').matches; }
@@ -267,25 +256,21 @@
   const modal = document.getElementById('quoteFormModal');
   function populateModalQuoteList() { const listEl = $('#modalQuoteList'); const boxEl = listEl.closest('.quote-summary-box'); if (!listEl || !boxEl) return; listEl.innerHTML = ''; if (quote.items.length > 0) { quote.items.forEach(item => { const li = document.createElement('li'); const qtyText = item.qty > 1 ? ` (수량: ${item.qty})` : ''; li.textContent = `${item.title}${qtyText}`; listEl.appendChild(li); }); boxEl.hidden = false; } else { boxEl.hidden = true; } }
   
-
-
-// ✅ UPDATED
-function openForm(){
-  modal.setAttribute('aria-hidden','false');
-  populateModalQuoteList();
-  // document.body.classList.add('scroll-lock'); // 스크롤 잠금 기능 비활성화
-}
-
-// ✅ UPDATED
-function closeForm(){
-  modal.setAttribute('aria-hidden','true');
-  // 스크롤 잠금 해제 기능 비활성화
-  /*
-  if (!sheet.classList.contains('open') && !drawer.classList.contains('open') && !mobileNav.classList.contains('open')) {
-    document.body.classList.remove('scroll-lock');
+  // ✅ UPDATED
+  function openForm(){
+    modal.setAttribute('aria-hidden','false');
+    populateModalQuoteList();
+    document.body.classList.add('scroll-lock');
   }
-  */
-}
+
+  // ✅ UPDATED
+  function closeForm(){
+    modal.setAttribute('aria-hidden','true');
+    // 모달을 닫을 때, 다른 오버레이(견적서, 메뉴 등)가 열려있지 않은 경우에만 스크롤 잠금을 해제합니다.
+    if (!sheet.classList.contains('open') && !drawer.classList.contains('open') && !mobileNav.classList.contains('open')) {
+      document.body.classList.remove('scroll-lock');
+    }
+  }
 
   $('#submitQuote').addEventListener('click', openForm);
   $('#submitQuoteM').addEventListener('click', openForm);
@@ -362,16 +347,50 @@ function closeForm(){
     });
   }
 
-// ✅ 위 코드를 삭제하고 이 코드로 교체하세요.
+// ✅ 위 코드를 삭제하고 이 최종 코드로 교체하세요.
 (function init(){
-  if (sheet) sheet.style.display = 'none'; // ✅ 페이지 로딩 시 견적서함을 확실히 숨김
+  // --- [최종 수정] 키보드 이벤트 핸들러 ---
+  function keyboardEventHandler() {
+    if (!window.visualViewport) return;
 
-  // --- 원래 페이지에 필요한 기능들만 실행 ---
+    const viewport = window.visualViewport;
+    // 모바일 환경에서만 핸들러가 동작하도록 설정
+    const isMobile = window.matchMedia('(max-width: 1079px)').matches;
+
+    function handleResize() {
+      // 모바일이 아니면 아무것도 하지 않음
+      if (!isMobile) return;
+
+      const viewportHeight = viewport.height;
+      const windowHeight = window.innerHeight;
+      const keyboardHeight = windowHeight - viewportHeight;
+
+      // 키보드가 활성화되었는지 판단 (일반적으로 높이 차이가 150px 이상)
+      const isKeyboardVisible = keyboardHeight > 150;
+
+      // body 태그에 'keyboard--visible' 클래스를 추가/제거
+      document.body.classList.toggle('keyboard--visible', isKeyboardVisible);
+
+      // 키보드가 사라졌을 때 (클래스가 제거됐을 때)
+      if (!isKeyboardVisible) {
+        // 페이지가 위로 밀려난 현상을 강제로 원상복구하기 위해 스크롤을 맨 위로 되돌림
+        // 헤더가 사라지는 문제를 이 코드가 해결합니다.
+        setTimeout(() => window.scrollTo(0, 0), 50);
+      }
+    }
+    // 화면 크기가 변할 때마다(키보드가 나타나거나 사라질 때) handleResize 함수 실행
+    viewport.addEventListener('resize', handleResize);
+  }
+  
+  // --- 기존의 초기화 코드들은 그대로 유지 ---
   renderBanner(); renderChannels(); updateQuoteUI(); setupPromoSlider();
   document.getElementById('yy').textContent = new Date().getFullYear();
   if (loadMoreBtn) { loadMoreBtn.addEventListener('click', loadMoreProducts); }
   loadMoreProducts();
   $('#modalQuoteForm').addEventListener('submit', (e) => handleFormSubmit('f', e));
   $('#inlineInquiryForm').addEventListener('submit', (e) => handleFormSubmit('inline', e));
+  
+  // --- 위에서 만든 새 핸들러를 실행 ---
+  keyboardEventHandler();
 })();
 })();
