@@ -263,11 +263,13 @@ function openForm(){
   modal.setAttribute('aria-hidden','false');
   populateModalQuoteList();
   // document.body.classList.add('scroll-lock'); // 스크롤 잠금 기능 비활성화
+  if (cartbar) cartbar.style.position = 'absolute'; // 👈 추가된 코드
 }
 
 // ✅ UPDATED
 function closeForm(){
   modal.setAttribute('aria-hidden','true');
+  if (cartbar) cartbar.style.position = 'fixed'; // 👈 추가된 코드
   // 스크롤 잠금 해제 기능 비활성화
   /*
   if (!sheet.classList.contains('open') && !drawer.classList.contains('open') && !mobileNav.classList.contains('open')) {
