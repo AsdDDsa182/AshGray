@@ -35,6 +35,8 @@ header .head {
     max-width: 800px;
     margin: 0 auto;
     padding-top: 60px; /* 헤더 높이 고려 */
+    /* 👇👇👇 모바일 가상 키보드 가림 문제 해결을 위한 패딩 추가 👇👇👇 */
+    padding-bottom: 500px; /* 키보드 높이만큼 스크롤 공간 확보 (기능 확인용) */
 }
 
 .contact-form {
