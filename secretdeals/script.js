@@ -524,6 +524,32 @@
   /* ============= 4. 이벤트 및 UI 제어 함수 ============= */
   /* ============================================== */
 
+  /* 이 코드를 복사해서 4번 섹션 가장 위쪽에 붙여넣으세요 */
+function setupHeaderScroll() {
+  const header = document.getElementById('mainHeader');
+  if (!header) return;
+
+  let lastScrollY = window.scrollY;
+
+  window.addEventListener('scroll', () => {
+    // 모바일 메뉴가 열렸을 때처럼 스크롤이 잠겨있으면 헤더를 움직이지 않습니다.
+    if (document.body.classList.contains('scroll-lock')) {
+      return;
+    }
+
+    const currentScrollY = window.scrollY;
+
+    // 아래로 스크롤하고, 헤더 높이보다 더 많이 내려갔을 때
+    if (currentScrollY > lastScrollY && currentScrollY > header.offsetHeight) {
+      header.classList.add('header--hidden'); // 헤더 숨김
+    } else {
+      header.classList.remove('header--hidden'); // 헤더 보임
+    }
+
+    lastScrollY = currentScrollY;
+  }, { passive: true });
+}
+
   window.openMobileNav = function(e) {
     if (e) {
       e.preventDefault(); 
@@ -984,6 +1010,8 @@
 
 function init(){
   productsDisplayed = 0; 
+
+  setupHeaderScroll(); // 이 줄을 추가해 주세요!
   
   renderBanner(); 
   renderChannels(); 

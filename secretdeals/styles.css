@@ -79,7 +79,12 @@ header {
   z-index: 40; 
   background: linear-gradient(180deg, rgba(11,12,16,.95), rgba(11,12,16,.75)); 
   backdrop-filter: blur(8px); 
-  border-bottom: 1px solid var(--border); 
+  border-bottom: 1px solid var(--border);
+  transition: transform 0.3s ease-in-out; /* 이 줄을 추가해 주세요! */
+}
+
+#mainHeader.header--hidden {
+  transform: translateY(-100%);
 }
 
 .head { 
