@@ -264,13 +264,28 @@
   }
 
   // ✅ UPDATED
-  function closeForm(){
-    modal.setAttribute('aria-hidden','true');
-    // 모달을 닫을 때, 다른 오버레이(견적서, 메뉴 등)가 열려있지 않은 경우에만 스크롤 잠금을 해제합니다.
-    if (!sheet.classList.contains('open') && !drawer.classList.contains('open') && !mobileNav.classList.contains('open')) {
-      document.body.classList.remove('scroll-lock');
+function closeForm(){
+  // 1) 모달 숨김
+  modal.setAttribute('aria-hidden','true');
+
+  // 2) iOS 키보드 복구용 '킥':
+  //    잠깐 scroll-lock을 풀었다가, 필요한 경우 다시 건다.
+  //    이렇게 해야 visual viewport가 원래 높이로 제대로 복원됨.
+  document.body.classList.remove('scroll-lock');
+
+  // 3) 패널/네비가 여전히 열려있다면 잠깐 뒤에 다시 잠금
+  //    (시트/드로어/모바일 네비 중 하나라도 열려 있으면 재잠금)
+  setTimeout(() => {
+    if (
+      sheet.classList.contains('open') ||
+      drawer.classList.contains('open') ||
+      mobileNav.classList.contains('open')
+    ) {
+      document.body.classList.add('scroll-lock');
     }
-  }
+  }, 150);
+}
+
 
   $('#submitQuote').addEventListener('click', openForm);
   $('#submitQuoteM').addEventListener('click', openForm);
@@ -347,32 +362,12 @@
     });
   }
 
-// ✅ 위 코드를 모두 지우고 이 최종 코드로 교체하세요.
-(function init(){
-  renderBanner(); renderChannels(); updateQuoteUI(); setupPromoSlider();
-  document.getElementById('yy').textContent = new Date().getFullYear();
-  if (loadMoreBtn) { loadMoreBtn.addEventListener('click', loadMoreProducts); }
-  loadMoreProducts();
-  $('#modalQuoteForm').addEventListener('submit', (e) => handleFormSubmit('f', e));
-  $('#inlineInquiryForm').addEventListener('submit', (e) => handleFormSubmit('inline', e));
-
-// [버그 수정 최종] iOS 하단 바 위치 버그 해결 코드
-// window.visualViewport API를 사용해 실제 보이는 화면 영역의 변화를 감지합니다.
-if (window.visualViewport) {
-  window.visualViewport.addEventListener('resize', () => {
-    // 키보드가 사라지는 순간을 감지합니다.
-    const isKeyboardDismissed = Math.abs(window.visualViewport.height - window.innerHeight) < 1;
-
-    if (isKeyboardDismissed && cartbar) {
-      // 100밀리초(0.1초) 지연을 주어 브라우저의 UI 애니메이션이 완전히 끝난 후 실행되도록 합니다.
-      // 이것이 브라우저가 변경 사항을 무시하지 않게 하는 핵심입니다.
-      setTimeout(() => {
-        cartbar.style.display = 'none';
-        cartbar.offsetHeight;
-        cartbar.style.display = '';
-      }, 100); 
-    }
-  });
-}
-})();
+  (function init(){
+    renderBanner(); renderChannels(); updateQuoteUI(); setupPromoSlider();
+    document.getElementById('yy').textContent = new Date().getFullYear();
+    if (loadMoreBtn) { loadMoreBtn.addEventListener('click', loadMoreProducts); }
+    loadMoreProducts();
+    $('#modalQuoteForm').addEventListener('submit', (e) => handleFormSubmit('f', e));
+    $('#inlineInquiryForm').addEventListener('submit', (e) => handleFormSubmit('inline', e));
+  })();
 })();
