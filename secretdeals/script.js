@@ -523,12 +523,15 @@
     if (!mobileNav || !hamburgerBtn) return;
     
     mobileNav.classList.add('open'); 
-    mobileNav.setAttribute('aria-hidden', 'false'); 
+    mobileNav.removeAttribute('aria-hidden'); // 메뉴를 열 때만 aria-hidden을 제거
     hamburgerBtn.setAttribute('aria-expanded', 'true'); 
     lockBodyScroll();
+    
+    // 포커스를 닫기 버튼으로 이동 (접근성 향상)
+    if (closeMobileNavBtn) closeMobileNavBtn.focus();
   }
 
-  // [수정됨] 햄버거 메뉴 닫기 함수 (전역 노출 및 e.preventDefault() 추가)
+  // [수정됨] 햄버거 메뉴 닫기 함수 (aria-hidden 적용 타이밍 지연)
   window.closeMobileNav = function(e) { 
     if (e) {
       e.preventDefault(); 
@@ -537,10 +540,20 @@
     
     if (!mobileNav || !hamburgerBtn) return;
     
+    // 현재 포커스된 요소가 메뉴 내부에 있었다면, 포커스를 잃게 함 (문서 본문으로 이동하거나 햄버거 버튼으로 이동시키면 좋음)
+    if (document.activeElement && mobileNav.contains(document.activeElement)) {
+        // 닫기 버튼으로 포커스 이동 후, 햄버거 버튼으로 복귀
+        hamburgerBtn.focus(); 
+    }
+    
     mobileNav.classList.remove('open'); 
-    mobileNav.setAttribute('aria-hidden', 'true'); 
     hamburgerBtn.setAttribute('aria-expanded', 'false'); 
     unlockBodyScroll(); 
+    
+    // 애니메이션이 끝난 후 aria-hidden="true"를 적용하여 오류를 방지합니다.
+    setTimeout(() => {
+        mobileNav.setAttribute('aria-hidden', 'true'); 
+    }, 300); // CSS transition 시간(0.3s)과 일치시켜야 합니다.
   }
 
   // 햄버거 버튼은 index.html에서 onclick="openMobileNav(event)"로 호출되므로 별도 addEventListener 제거
@@ -548,8 +561,13 @@
   
   document.addEventListener('keydown', e=>{ 
     if(e.key==='Escape') { 
-      closeMobileNav(e); 
-      closeQuotationModal(); 
+      // [수정됨] Esc 키를 눌러 닫을 때도 closeMobileNav를 호출하여 포커스 처리 로직을 따름
+      if (mobileNav.classList.contains('open')) {
+        closeMobileNav(e); 
+      }
+      if (quotationCartModal.classList.contains('show')) {
+        closeQuotationModal();
+      }
     } 
   });
   
@@ -695,7 +713,6 @@
       // 1. 이미 담겨 있으면 -> 제거합니다.
       items.splice(existingItemIndex, 1);
       saveCartItems(items);
-      // showRemovedNotification(product.title); // <--- 토스트 알림 제거
       
       if (items.length === 0 && quotationCartModal && quotationCartModal.classList.contains('show')) {
         closeQuotationModal();
@@ -728,7 +745,6 @@
     });
 
     saveCartItems(items);
-    // showAddedNotification(product.title); // <--- 토스트 알림 제거
   }
 
   // 견적함 비우기
@@ -785,11 +801,6 @@
       cartBadge.classList.toggle('has-items', count > 0); 
     }
   }
-
-  // --- [삭제됨] showAddedNotification(productName) 함수 ---
-
-  // --- [삭제됨] showRemovedNotification(productName) 함수 ---
-
 
   // [수정됨] 견적함 모달 열기 (e.preventDefault() 추가)
   window.openQuotationModal = function(e) { 
@@ -958,7 +969,6 @@
             });
             
             saveCartItems(items);
-            // showAddedNotification(product.title); // <--- 토스트 알림 제거
             pendingProduct = null;
 
         } else if (actionType === 'viewChange') {
