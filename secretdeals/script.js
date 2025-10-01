@@ -3,7 +3,7 @@
 
   /* ===== 설정 ===== */
   const STORE_URL  = 'https://smartstore.naver.com/';
-  const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyRAXNYclCAqOkzqXe8fIHc6Md0nQOIXcJeAC13xjKqobD3t7jdDZ-PjmtULNFJ5ZZr/exec';
+  const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyRAXNYclCAqOkzqXe8fIHcMd0nQOIXcJeAC13xjKqobD3t7jdDZ-PjmtULNFJ5ZZr/exec';
 
   const BANNER = { type:'video', src:'https://res.cloudinary.com/dpxjvtbss/video/upload/v1759107647/intro_qrfya9.mp4', poster:'' };
 
@@ -15,312 +15,573 @@
   ];
 
   const PRODUCTS = [
-    { id:'tm-900',  title:'GOFIT 트레드밀 TM-900', image:'https://images.unsplash.com/photo-1517836357463-d25dfeac3438?q=80&w=1200&auto=format&fit=crop', original:2990000, sale:1990000, link:STORE_URL, nshop:'https://smartstore.naver.com/gofitkorea/products/12463900656', rental:{3:159000, 6:139000, 12:119000, 24:99000, 36:89000, 48:79000, 64:69000} },
-    { id:'sb-plate',title:'GOFIT 스톤블랙 원판 세트 100kg', image:'https://images.unsplash.com/photo-1517836357463-d25dfeac3438?q=80&w=1200&auto=format&fit=crop', original: 890000, sale: 629000, link:STORE_URL, nshop:'#' },
-    { id:'rack-hr', title:'GOFIT 하프랙 PRO',            image:'https://images.unsplash.com/photo-1554284126-aa88f22d8b74?q=80&w=1200&auto=format&fit=crop', original:1590000, sale:1090000, link:'#', nshop:'#', rental:{3:89000, 6:79000, 12:69000, 24:59000, 36:49000, 48:39000} },
-    { id:'bench-pro', title:'GOFIT 조절식 벤치 PRO', image:'https://images.unsplash.com/photo-1574680096145-f844349f0409?q=80&w=1200&auto=format&fit=crop', original:450000, sale:320000, link:STORE_URL, nshop:'#' },
-    { id:'leg-press', title:'GOFIT 레그 프레스 머신', image:'https://images.unsplash.com/photo-1541534741688-6078c6bfb5c5?q=80&w=1200&auto=format&fit=crop', original:350000, sale:2800000, link:STORE_URL, nshop:'#', rental:{6:250000, 12:220000, 24:190000, 36:160000} },
-    { id:'cable-cross', title:'GOFIT 케이블 크로스오버', image:'https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?q=80&w=1200&auto=format&fit=crop', original:4200000, sale:3500000, link:STORE_URL, nshop:'#', rental:{6:320000, 12:290000, 24:260000, 36:230000, 48:200000} },
-    { id:'dumbbell-set', title:'GOFIT 육각 덤벨 세트', image:'https://images.unsplash.com/photo-1584735935682-2f2b69dff9d2?q=80&w=1200&auto=format&fit=crop', original:990000, sale:750000, link:STORE_URL, nshop:'#' },
-    { id:'smith-machine', title:'GOFIT 3D 스미스 머신', image:'https://images.unsplash.com/photo-1599058917212-d750089bc07e?q=80&w=1200&auto=format&fit=crop', original:5500000, sale:4800000, link:STORE_URL, nshop:'#' },
-    { id:'pull-up-bar', title:'GOFIT 프리미엄 치닝디핑', image:'https://images.unsplash.com/photo-1534258936925-c58bed479fcb?q=80&w=1200&auto=format&fit=crop', original:350000, sale:280000, link:STORE_URL, nshop:'#' },
-    { id:'yoga-mat', title:'GOFIT TPE 요가매트', image:'https://images.unsplash.com/photo-1591291621235-9152b02416f4?q=80&w=1200&auto=format&fit=crop', original:50000, sale:35000, link:STORE_URL, nshop:'#' },
-    { id:'rowing-machine', title:'GOFIT 로잉 머신 R-700', image:'https://images.unsplash.com/photo-1579758629938-03607ccdbaba?q=80&w=1200&auto=format&fit=crop', original:1200000, sale:950000, link:STORE_URL, nshop:'#' }
+    { id:'tm-900',  title:'GOFIT 트레드밀 TM-900', image:'https://images.unsplash.com/photo-1517836357463-d25dfeac34c0?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D', price:3800000, rental:{12:350000, 24:190000, 36:135000}, features:['IoT','Auto Incline','Commercial Grade'], category:'Cardio', type:'Treadmill', vat_ex: true, is_best:true, special_note: '3개월 무이자 할부 가능' },
+    { id:'ex-900',  title:'GOFIT 렉 EX-900', image:'https://images.unsplash.com/photo-1594911760416-08169994c64d?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D', price:2400000, rental:{12:220000, 24:120000, 36:85000}, features:['Full Rack','Safety Spotters','Multi Grip'], category:'Free Weights', type:'Power Rack', vat_ex: false },
+    { id:'sm-900',  title:'GOFIT 스미스머신 SM-900', image:'https://images.unsplash.com/photo-1552196563-55fd26079d37?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D', price:3200000, rental:{12:300000, 24:160000, 36:115000}, features:['Counter Balanced','Linear Bearings','Integrated Pulley'], category:'Free Weights', type:'Smith Machine', vat_ex: true },
+    { id:'du-900',  title:'GOFIT 덤벨 세트 DU-900', image:'https://images.unsplash.com/photo-1550995646-7c087948a39a?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D', price:1800000, rental:{12:160000, 24:85000, 36:60000}, features:['Hex Rubber','Ergonomic Handle','3kg ~ 25kg'], category:'Free Weights', type:'Dumbbells', vat_ex: false },
+    { id:'ab-900',  title:'GOFIT AB 슬링어 AB-900', image:'https://images.unsplash.com/photo-1549476483-149b5a26a457?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D', price:850000, rental:{12:80000, 24:45000, 36:30000}, features:['Adjustable','Padded','Commercial'], category:'Strength', type:'Abdominal', vat_ex: true },
+    { id:'bc-900',  title:'GOFIT 바벨 컬 머신 BC-900', image:'https://images.unsplash.com/photo-1549575402-45e334a17154?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D', price:1500000, rental:{12:140000, 24:75000, 36:55000}, features:['Plate Loaded','Comfort Pad','Isolation'], category:'Strength', type:'Biceps', vat_ex: false },
+    { id:'ro-900',  title:'GOFIT 로잉머신 RO-900', image:'https://images.unsplash.com/photo-1620614009088-75e11417036a?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D', price:4100000, rental:{12:380000, 24:200000, 36:140000}, features:['Air Resistance','Foldable','Monitor'], category:'Cardio', type:'Rower', vat_ex: true },
+    { id:'kb-900',  title:'GOFIT 케틀벨 세트 KB-900', image:'https://images.unsplash.com/photo-1581009146145-b5ef050c8e1e?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D', price:1200000, rental:{12:110000, 24:60000, 36:40000}, features:['Competition Style','Powder Coated','8kg ~ 32kg'], category:'Free Weights', type:'Kettlebells', vat_ex: false },
+    { id:'pu-900',  title:'GOFIT 풀리 머신 PU-900', image:'https://images.unsplash.com/photo-1628151551061-05342a77a949?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D', price:3500000, rental:{12:320000, 24:170000, 36:120000}, features:['Dual Pulley','Weight Stack','Adjustable Height'], category:'Strength', type:'Cable Machine', vat_best:true, vat_ex: true },
+    { id:'el-900',  title:'GOFIT 일립티컬 EL-900', image:'https://images.unsplash.com/photo-1605296839352-7108933b9cf7?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D', price:3000000, rental:{12:280000, 24:150000, 36:105000}, features:['Magnetic Resistance','Low Impact','Programmable'], category:'Cardio', type:'Elliptical', vat_ex: false },
+    { id:'pc-900',  title:'GOFIT 플레이트 로드 체스트 프레스 PC-900', image:'https://images.unsplash.com/photo-1628102491689-f521b4a3a606?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D', price:2100000, rental:{12:190000, 24:100000, 36:70000}, features:['Plate Loaded','Unilateral Movement','Adjustable Seat'], category:'Strength', type:'Chest Press', vat_ex: true },
+    { id:'bi-900',  title:'GOFIT 실내 자전거 BI-900', image:'https://images.unsplash.com/photo-1631518389650-20c2269a8435?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D', price:2700000, rental:{12:250000, 24:135000, 36:95000}, features:['Commercial Grade','Adjustable Resistance','Comfort Seat'], category:'Cardio', type:'Spin Bike', vat_ex: false },
   ];
 
-  const PRODUCTS_TO_SHOW = 8;
-  let productsDisplayed = 0;
-  
-  let currentViewMode = 'sale';
-  let currentRentalDuration = 24;
-
-  const PROMO_IMAGES = [
-    { srcDesktop: 'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?q=80&w=1600&h=700&auto=format&fit=crop', srcMobile: 'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?q=80&w=750&h=1000&auto=format&fit=crop', href: '#' },
-    { srcDesktop: 'https://images.unsplash.com/photo-1549060279-7e168fcee0c2?q=80&w=1600&h=700&auto=format&fit=crop', srcMobile: 'https://images.unsplash.com/photo-1549060279-7e168fcee0c2?q=80&w=750&h=1000&auto=format&fit=crop', href: '#' },
-    { srcDesktop: 'https://images.unsplash.com/photo-1571902943202-507ec2618e8f?q=80&w=1600&h=700&auto=format&fit=crop', srcMobile: 'https://images.unsplash.com/photo-1571902943202-507ec2618e8f?q=80&w=750&h=1000&auto=format&fit=crop', href: '#' }
+  const PROMO_SLIDER_ITEMS = [
+    { title: '무이자 할부 최대 12개월', desc: '특정 카드사 한정, 트레드밀 및 랙 상품 적용', icon: 'credit_card' },
+    { title: '전국 무료 배송 및 설치', desc: '도서 산간 지역 및 제주 지역 추가 비용 발생', icon: 'local_shipping' },
+    { title: '최대 48개월 렌탈', desc: '초기 비용 부담 없이 최신 기구를 경험하세요', icon: 'event_available' },
+    { title: 'A/S 2년 무상 제공', desc: '본사 규정에 따른 무상 보증 서비스', icon: 'build_circle' },
   ];
 
-  const fmtKRW = n => new Intl.NumberFormat('ko-KR',{style:'currency',currency:'KRW',maximumFractionDigits:0}).format(n);
-  const $ = s => document.querySelector(s);
-  const el = (html) => { const t=document.createElement('template'); t.innerHTML=html.trim(); return t.content.firstElementChild; };
+  /* ===== 변수 ===== */
+  let quoteData = JSON.parse(localStorage.getItem('gfk_quote_data')) || {};
+  let currentViewMode = localStorage.getItem('gfk_view_mode') || 'purchase'; // 'purchase' or 'rental'
+  let currentRentalDuration = parseInt(localStorage.getItem('gfk_rental_duration'), 10) || 36; // 12, 24, 36
 
-  const bannerRoot=$('#bannerRoot');
-  const channelsGrid=$('#channelsGrid');
-  const grid=$('#productGrid'), emptyState=$('#emptyState'), tpl=$('#productTpl');
-  const drawer=$('#quotePanel'), sheet=$('#quoteSheet'), cartbar=$('#cartbar');
-  const overlay=$('#overlay');
-  const quoteList=$('#quoteList'), quoteTotal=$('#quoteTotal'), quoteSub=$('#quoteSub');
-  const quoteListM=$('#quoteListM'), quoteTotalM=$('#quoteTotalM'), quoteSubM=$('#quoteSubM');
-  const openQuoteBtn=$('#openQuote'), closeQuoteBtn=$('#closeQuote');
-  const openSheetBtn=$('#openSheet'), closeSheetBtn=$('#closeSheet');
-  const cartTotal=$('#cartTotal'), cartCount=$('#cartCount'), quoteCount=$('#quoteCount');
-  const submitQuoteBtn = $('#submitQuote');
-  const submitQuoteMBtn = $('#submitQuoteM');
-  const loadMoreBtn = $('#loadMoreBtn');
-  const toastEl = $('#toastNotification');
-  let toastTimeout;
-  let toastResetTimeout;
-  const hamburgerBtn = $('#hamburgerBtn');
+  // UI 요소 캐시
+  const $ = (s) => document.querySelector(s);
+  const $$ = (s) => document.querySelectorAll(s);
+
+  const productGrid = $('#productGrid');
+  const quoteSheet = $('#quoteSheet');
+  const quoteSheetCloser = $('#quoteSheetCloser');
+  const quoteList = $('#quoteList');
+  const quoteListModal = $('#modalQuoteList');
+  const quoteSummary = $('#quoteSummary');
+  const quoteSummaryBox = $('.quote-summary-box');
+  const loadMoreBtn = $('#loadMoreProducts');
+  const viewToggleContainer = $('#viewToggleContainer');
+  const durationToggleContainer = $('#durationToggleContainer');
+  const rentalDisclaimer = $('#rentalDisclaimer');
+  const flyToCart = $('#flyToCart');
   const mobileNav = $('#mobileNav');
-  const closeMobileNavBtn = $('#closeMobileNavBtn');
+  const mobileNavOpener = $('#mobileNavOpener');
+  const mobileNavCloser = $('#mobileNavCloser');
+  const promoSlider = $('#promoSlider');
+  const modalQuoteForm = $('#modalQuoteForm');
 
-  const viewToggleContainer = $('.view-toggle-container');
-  const durationToggleContainer = $('.duration-toggle-container');
-  const rentalDisclaimer = $('.rental-disclaimer');
-  
-  function setupPromoSlider() { const container = $('#promoSliderSection'); if (!container) return; const track = $('#promoSliderTrack'); const prevBtn = $('#promoPrevBtn'); const nextBtn = $('#promoNextBtn'); const indicatorsContainer = $('#promoSliderIndicators'); const isDesktop = window.matchMedia('(min-width: 720px)').matches; track.innerHTML = PROMO_IMAGES.map(promo => { const imageUrl = isDesktop ? promo.srcDesktop : promo.srcMobile; return `<a href="${promo.href}" target="_blank" rel="noopener" class="promo-slide" draggable="false"><img src="${imageUrl}" alt="프로모션 이미지" loading="lazy" draggable="false" /></a>`; }).join(''); const slides = track.querySelectorAll('.promo-slide'); if (slides.length <= 1) { if(prevBtn) prevBtn.hidden = true; if(nextBtn) nextBtn.hidden = true; if(indicatorsContainer) indicatorsContainer.hidden = true; return; } PROMO_IMAGES.forEach((_, index) => { const dot = document.createElement('button'); dot.className = 'promo-indicator-dot'; dot.dataset.index = index; dot.setAttribute('aria-label', `${index + 1}번 슬라이드로 이동`); indicatorsContainer.appendChild(dot); }); const dots = indicatorsContainer.querySelectorAll('.promo-indicator-dot'); let currentIndex = 0; let autoPlayInterval = null; let isDragging = false; let startPos = 0; let currentTranslate = 0; let prevTranslate = 0; let animationID; const updateIndicators = () => { dots.forEach((dot, index) => { dot.classList.toggle('active', index === currentIndex); }); }; const setSliderPosition = () => { track.style.transform = `translateX(${currentTranslate}px)`; }; const goToSlide = (slideIndex) => { currentIndex = (slideIndex + slides.length) % slides.length; const slideWidth = slides[0].getBoundingClientRect().width; currentTranslate = currentIndex * -slideWidth; prevTranslate = currentTranslate; track.style.transition = 'transform 0.5s ease-in-out'; setSliderPosition(); updateIndicators(); }; const startAutoPlay = () => { stopAutoPlay(); autoPlayInterval = setInterval(() => goToSlide(currentIndex + 1), 5000); }; const stopAutoPlay = () => clearInterval(autoPlayInterval); const getPositionX = (event) => { return event.type.includes('mouse') ? event.pageX : event.touches[0].clientX; }; const animation = () => { setSliderPosition(); if (isDragging) requestAnimationFrame(animation); }; const dragStart = (event) => { isDragging = true; startPos = getPositionX(event); animationID = requestAnimationFrame(animation); track.style.transition = 'none'; stopAutoPlay(); }; const drag = (event) => { if (isDragging) { const currentPosition = getPositionX(event); currentTranslate = prevTranslate + currentPosition - startPos; } }; const dragEnd = () => { if (!isDragging) return; isDragging = false; cancelAnimationFrame(animationID); const movedBy = currentTranslate - prevTranslate; if (movedBy < -50 && currentIndex < slides.length - 1) { currentIndex++; } if (movedBy > 50 && currentIndex > 0) { currentIndex--; } goToSlide(currentIndex); startAutoPlay(); }; prevBtn.addEventListener('click', () => { goToSlide(currentIndex - 1); startAutoPlay(); }); nextBtn.addEventListener('click', () => { goToSlide(currentIndex + 1); startAutoPlay(); }); indicatorsContainer.addEventListener('click', e => { if (e.target.matches('.promo-indicator-dot')) { const index = parseInt(e.target.dataset.index, 10); goToSlide(index); startAutoPlay(); } }); track.addEventListener('mousedown', dragStart); track.addEventListener('touchstart', dragStart, { passive: true }); track.addEventListener('mouseup', dragEnd); track.addEventListener('mouseleave', dragEnd); track.addEventListener('touchend', dragEnd); track.addEventListener('mousemove', drag); track.addEventListener('touchmove', drag, { passive: true }); window.addEventListener('resize', () => goToSlide(currentIndex)); const observer = new IntersectionObserver(entries => { if (entries[0].isIntersecting) { goToSlide(currentIndex); startAutoPlay(); } else { stopAutoPlay(); } }, { threshold: 0.5 }); observer.observe(container); updateIndicators(); }
-  function renderBanner(){ bannerRoot.innerHTML=''; let mediaHTML = ''; if (BANNER.type === 'video' && BANNER.src){ mediaHTML = `<video class="vid" muted playsinline loop preload="metadata" ${BANNER.poster?`poster="${BANNER.poster}"`:''}></video>`; } else if (BANNER.src){ mediaHTML = `<img class="img" src="${BANNER.src}" alt="" loading="lazy" />`; } const node = el(`<div class="media">${mediaHTML}</div>`); bannerRoot.appendChild(node); if (BANNER.type === 'video' && BANNER.src){ const video = node.querySelector('video.vid'); const source = document.createElement('source'); source.src = BANNER.src; source.type='video/mp4'; video.appendChild(source); const io = new IntersectionObserver(entries=>{ entries.forEach(ent=>{ if(ent.isIntersecting) video.play().catch(()=>{}); else video.pause(); }); },{threshold:0.25}); io.observe(video); const toggle=()=>{ if(video.paused) video.play().catch(()=>{}); else video.pause(); }; video.addEventListener('click', toggle); video.addEventListener('touchstart', toggle, {passive:true}); } }
-  function channelIcon(type){ switch(type){ case 'home': return `<svg viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M21.71,11.29l-9-9a1,1,0,0,0-1.42,0l-9,9a1,1,0,0,0,1.42,1.42L12,4.41l8.29,8.3a1,1,0,0,0,1.42-1.42Z" opacity="0.5"/><path d="M19,22H5a3,3,0,0,1-3-3V12.41a1,1,0,0,1,.29-.71l3-3a1,1,0,0,1,1.42,1.42L4,12.41V19a1,1,0,0,0,1,1H19a1,1,0,0,0,1-1V12.41l-2.71-2.7a1,1,0,0,1,1.42-1.42l3,3A1,1,0,0,1,22,12.41V19A3,3,0,0,1,19,22Z"/></svg>`; case 'youtube': return `<svg viewBox="0 0 24 24"><path fill="#FF0000" d="M21.58 7.19A2.19 2.19 0 0 0 20 5.61C18.2 5 12 5 12 5s-6.2 0-8 .61A2.19 2.19 0 0 0 2.42 7.19C2 9.05 2 12 2 12s0 2.95.42 4.81a2.19 2.19 0 0 0 1.58 1.58C5.8 19 12 19 12 19s6.2 0 8-.61a2.19 2.19 0 0 0 1.58-1.58C22 14.95 22 12 22 12s0-2.95-.42-4.81zM10 15.34V8.66L15.68 12 10 15.34z"/></svg>`; case 'insta': return `<svg viewBox="0 0 24 24"><defs><radialGradient id="ig-grad" cx="0.3" cy="1" r="1.5"><stop offset="0" stop-color="#FCD674"/><stop offset="0.2" stop-color="#F6B864"/><stop offset="0.5" stop-color="#D9396D"/><stop offset="0.8" stop-color="#9C38B8"/><stop offset="1" stop-color="#4F5BD5"/></radialGradient></defs><path fill="url(#ig-grad)" d="M12 1.62c-3.26 0-3.67.01-4.95.07-1.28.06-2.16.25-2.93.56a4.8 4.8 0 00-1.74 1.74c-.3.77-.5 1.65-.56 2.93-.06 1.28-.07 1.69-.07 4.95s.01 3.67.07 4.95c.06 1.28.25 2.16.56 2.93a4.8 4.8 0 001.74 1.74c.77.3 1.65.5 2.93.56 1.28.06 1.69.07 4.95.07s3.67-.01 4.95-.07c1.28-.06 2.16-.25 2.93-.56a4.8 4.8 0 001.74-1.74c.3-.77.5-1.65.56-2.93.06-1.28.07-1.69.07-4.95s-.01-3.67-.07-4.95c-.06-1.28-.25-2.16-.56-2.93A4.8 4.8 0 0019.88 2.8c-.77-.3-1.65-.5-2.93-.56C15.67 1.63 15.26 1.62 12 1.62zM12 3.5c3.18 0 3.56.01 4.8.07 1.17.05 1.8.23 2.22.4.65.25.96.56 1.21 1.21.17.42.35 1.05.4 2.22.06 1.24.07 1.62.07 4.8s-.01 3.56-.07 4.8c-.05 1.17-.23 1.8-.4 2.22a2.93 2.93 0 01-1.21 1.21c-.42.17-1.05.35-2.22.4-1.24.06-1.62.07-4.8.07s-3.56-.01-4.8-.07c-1.17-.05-1.8-.23-2.22-.4a2.93 2.93 0 01-1.21-1.21c-.17-.42-.35-1.05-.4-2.22C3.51 15.56 3.5 15.18 3.5 12s.01-3.56.07-4.8c.05-1.17.23 1.8.4-2.22A2.93 2.93 0 015.18 3.9c.42-.17 1.05-.35 2.22-.4C8.44 3.51 8.82 3.5 12 3.5zM12 7a5 5 0 100 10 5 5 0 000-10zm0 8.12A3.12 3.12 0 1115.12 12 3.12 3.12 0 0112 15.12zM16.95 6a1.2 1.2 0 101.2 1.2 1.2 1.2 0 00-1.2-1.2z"/></svg>`; case 'blog': return `<svg viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M20,2H4A3,3,0,0,0,1,5V15a3,3,0,0,0,3,3H16.59l3.7,3.71A1,1,0,0,0,21,22a.84.84,0,0,0,.38-.08A1,1,0,0,0,22,21V5A3,3,0,0,0,19,2ZM20,19.59l-2.29-2.3A1,1,0,0,0,17,17H4a1,1,0,0,1-1-1V5A1,1,0,0,1,4,4H20Z" opacity="0.5"/><path d="M8,11a1,1,0,1,0,1,1A1,1,0,0,0,8,11Zm4,0a1,1,0,1,0,1,1A1,1,0,0,0,12,11Zm4,0a1,1,0,1,0,1,1A1,1,0,0,0,16,11Z"/></svg>`; default: return `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/></svg>`; } }
-  function renderChannels(){ channelsGrid.innerHTML=''; SOCIAL_LINKS.forEach(c=>{ const node = el(`<a class="ch" href="${c.href}" target="_blank" rel="noopener"><div class="ico">${channelIcon(c.type)}</div><div class="lab">${c.label}</div></a>`); channelsGrid.appendChild(node); }); }
+  /* ===== 헬퍼 함수 ===== */
+  function formatMoney(amount) {
+    if (typeof amount !== 'number') return amount;
+    return amount.toLocaleString('ko-KR') + '원';
+  }
+
+  function getPrice(product, mode, duration = 36) {
+    if (mode === 'rental') {
+      const price = product.rental[duration] || product.rental[Object.keys(product.rental)[0]];
+      return price ? price : '문의';
+    }
+    return product.price;
+  }
+
+  function showToast(message) {
+    const toast = $('#toastNotification');
+    toast.textContent = message;
+    toast.classList.add('show');
+    setTimeout(() => {
+      toast.classList.remove('show');
+    }, 3000);
+  }
+
+  // fly-to-cart 애니메이션
+  function handleFlyToCart(targetEl, callback) {
+    if (!targetEl || !flyToCart) {
+      if (callback) callback();
+      return;
+    }
+    const targetRect = targetEl.getBoundingClientRect();
+    const cartRect = quoteSummary.getBoundingClientRect();
+    const startX = targetRect.left + targetRect.width / 2;
+    const startY = targetRect.top + targetRect.height / 2;
+    const endX = cartRect.left + cartRect.width / 2;
+    const endY = cartRect.top + cartRect.height / 2;
+
+    flyToCart.style.left = `${startX}px`;
+    flyToCart.style.top = `${startY}px`;
+    flyToCart.style.transform = 'scale(1)';
+    flyToCart.style.opacity = '1';
+    
+    // 강제 리페인트
+    void flyToCart.offsetWidth;
+
+    // 최종 위치로 이동
+    flyToCart.style.transform = `translate(${endX - startX}px, ${endY - startY}px) scale(0)`;
+    flyToCart.style.opacity = '0';
+
+    setTimeout(() => {
+      flyToCart.style.transform = 'scale(0)';
+      flyToCart.style.left = '0';
+      flyToCart.style.top = '0';
+      if (callback) callback();
+    }, 800);
+  }
+
+  function updateQuoteUI() {
+    const itemCount = Object.keys(quoteData).length;
+    quoteSummary.dataset.count = itemCount;
+    quoteSummary.classList.toggle('has-items', itemCount > 0);
+    
+    // 견적서 패널 (Sheet/Drawer) 업데이트
+    let totalAmount = 0;
+    let totalRentalPrice = 0;
+    let rentalItemCount = 0;
+
+    quoteList.innerHTML = '';
+    quoteListModal.innerHTML = '';
+    
+    for (const id in quoteData) {
+      const item = quoteData[id];
+      const product = PRODUCTS.find(p => p.id === id);
+      if (!product) continue;
+
+      const price = product.price;
+      const rentalPrice = getPrice(product, 'rental', currentRentalDuration);
+      
+      if (item.mode === 'purchase') {
+        totalAmount += price;
+      } else if (item.mode === 'rental' && typeof rentalPrice === 'number') {
+        totalRentalPrice += rentalPrice;
+        rentalItemCount++;
+      }
+
+      // 견적서 리스트 템플릿
+      const listItemHTML = `
+        <li data-id="${id}" data-mode="${item.mode}">
+          <div class="title">${product.title} (${item.mode === 'purchase' ? '구매' : item.mode === 'rental' ? `${currentRentalDuration}개월 렌탈` : ''})</div>
+          <div class="price">${item.mode === 'purchase' ? formatMoney(price) : typeof rentalPrice === 'number' ? `${formatMoney(rentalPrice)}/월` : '문의'}</div>
+          <button type="button" class="remove-btn" data-id="${id}" aria-label="견적 목록에서 제거">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+          </button>
+        </li>
+      `;
+      quoteList.insertAdjacentHTML('beforeend', listItemHTML);
+      quoteListModal.insertAdjacentHTML('beforeend', listItemHTML);
+    }
+    
+    // 견적서 요약 업데이트
+    const quoteContent = [];
+    if (totalAmount > 0) {
+      quoteContent.push(`총 구매 금액: <strong>${formatMoney(totalAmount)}</strong>`);
+    }
+    if (totalRentalPrice > 0) {
+      quoteContent.push(`월 예상 렌탈료 (${currentRentalDuration}개월): <strong>${formatMoney(totalRentalPrice)}/월</strong>`);
+    }
+    if (totalAmount === 0 && totalRentalPrice === 0 && itemCount > 0) {
+      quoteContent.push('견적 금액은 문의 시 최종 확정됩니다.');
+    }
+    if (itemCount === 0) {
+      quoteContent.push('견적 목록에 제품을 추가해 주세요.');
+    }
+
+    quoteSheet.classList.toggle('has-items', itemCount > 0);
+    
+    quoteSummary.innerHTML = quoteContent.join('<span class="sep"></span>');
+    quoteSummaryBox.hidden = itemCount === 0;
+
+    // 견적 요청 폼에 견적 목록 데이터를 숨김 필드로 추가
+    const quoteDataInput = document.createElement('input');
+    quoteDataInput.type = 'hidden';
+    quoteDataInput.name = 'quoteData';
+    quoteDataInput.value = JSON.stringify(quoteData);
+    $('#modalQuoteForm').querySelector('[name="quoteData"]')?.remove();
+    $('#modalQuoteForm').appendChild(quoteDataInput);
+
+    // 견적서 목록 토글 (Drawer/Sheet)
+    if (itemCount > 0) {
+      quoteSheet.classList.add('active');
+    } else {
+      quoteSheet.classList.remove('active');
+    }
+    
+    // 견적 요청 폼의 견적 목록 제목 업데이트
+    $('#modalQuoteForm h3').textContent = itemCount > 0 ? '선택 제품 기반 문의/견적 요청' : '일반 문의 요청';
+  }
 
   function updateProductGridPrices() {
-    const cards = document.querySelectorAll('#productGrid .card');
-    cards.forEach(card => {
-      const productId = card.dataset.productId;
-      const product = PRODUCTS.find(p => p.id === productId);
+    $$('.product-card').forEach(card => {
+      const id = card.dataset.id;
+      const product = PRODUCTS.find(p => p.id === id);
       if (!product) return;
 
-      const priceOrigEl = card.querySelector('.p-orig');
-      const priceSaleEl = card.querySelector('.p-sale');
-      const rentalInfoEl = card.querySelector('.p-rental-info');
-      const addBtn = card.querySelector('.add-quote');
-      
-      priceSaleEl.classList.remove('price-unavailable');
-      addBtn.disabled = false;
-      addBtn.removeAttribute('aria-disabled');
+      const priceEl = card.querySelector('.price-main');
+      const unitEl = card.querySelector('.price-unit');
+      const unitRentalEl = card.querySelector('.price-unit-rental');
+      const vatExEl = card.querySelector('.vat-ex-note');
 
-      if (currentViewMode === 'sale') {
-        priceOrigEl.textContent = fmtKRW(product.original);
-        priceSaleEl.textContent = fmtKRW(product.sale);
-        rentalInfoEl.hidden = true;
-      } else { // rental
-        priceOrigEl.textContent = '';
-        const isAvailable = product.rental && product.rental[currentRentalDuration];
-        if (isAvailable) {
-          priceSaleEl.textContent = fmtKRW(product.rental[currentRentalDuration]);
-          rentalInfoEl.hidden = false;
-        } else if (currentRentalDuration === 'etc') {
-            priceSaleEl.textContent = '별도 문의';
-            rentalInfoEl.hidden = true;
+      const price = getPrice(product, currentViewMode, currentRentalDuration);
+      
+      if (currentViewMode === 'purchase') {
+        priceEl.textContent = formatMoney(product.price);
+        unitEl.textContent = '구매가';
+        unitRentalEl.textContent = '';
+      } else {
+        if (typeof price === 'number') {
+          priceEl.textContent = formatMoney(price);
+          unitEl.textContent = `${currentRentalDuration}개월 렌탈`;
+          unitRentalEl.textContent = '월';
         } else {
-          priceSaleEl.textContent = '렌탈 불가';
-          priceSaleEl.classList.add('price-unavailable');
-          rentalInfoEl.hidden = true;
-          addBtn.disabled = true;
-          addBtn.setAttribute('aria-disabled', 'true');
+          priceEl.textContent = '별도 문의';
+          unitEl.textContent = '가격 확인';
+          unitRentalEl.textContent = '';
         }
       }
+
+      vatExEl.textContent = product.vat_ex ? '(VAT 별도)' : '(VAT 포함)';
+      
+      // 장바구니 버튼 텍스트 업데이트
+      const button = card.querySelector('.add-to-quote-btn');
+      const inQuote = quoteData[id];
+      if (inQuote && inQuote.mode === currentViewMode) {
+        button.textContent = '견적 목록에 있음';
+        button.classList.add('in-quote');
+      } else {
+        button.textContent = currentViewMode === 'purchase' ? '견적 목록 추가 (구매)' : '견적 목록 추가 (렌탈)';
+        button.classList.remove('in-quote');
+      }
     });
+    
+    // UI 업데이트 (총액, 리스트 등)
+    updateQuoteUI();
+    // localStorage 업데이트
+    localStorage.setItem('gfk_view_mode', currentViewMode);
+    localStorage.setItem('gfk_rental_duration', currentRentalDuration.toString());
+  }
+
+  function handleProductAction(e) {
+    const btn = e.target.closest('.add-to-quote-btn');
+    if (!btn) return;
+
+    e.preventDefault();
+    const card = btn.closest('.product-card');
+    const id = card.dataset.id;
+    const product = PRODUCTS.find(p => p.id === id);
+    if (!product) return;
+
+    // 이미 목록에 있고 모드도 같다면 제거
+    const isRemove = quoteData[id] && quoteData[id].mode === currentViewMode;
+
+    if (isRemove) {
+      delete quoteData[id];
+      showToast(`${product.title}이(가) 견적 목록에서 제거되었습니다.`);
+      btn.classList.remove('in-quote');
+      btn.textContent = currentViewMode === 'purchase' ? '견적 목록 추가 (구매)' : '견적 목록 추가 (렌탈)';
+    } else {
+      // 추가 또는 모드 변경
+      quoteData[id] = { mode: currentViewMode };
+      showToast(`${product.title}이(가) 견적 목록에 추가되었습니다.`);
+      btn.classList.add('in-quote');
+      btn.textContent = '견적 목록에 있음';
+      
+      // fly-to-cart 애니메이션
+      handleFlyToCart(btn, () => {
+        updateQuoteUI();
+      });
+    }
+
+    localStorage.setItem('gfk_quote_data', JSON.stringify(quoteData));
     updateQuoteUI();
   }
-
-  function loadMoreProducts(){
-    const loadMoreContainer = loadMoreBtn ? loadMoreBtn.parentElement : null;
-    if (!PRODUCTS.length) { emptyState.hidden = false; if(loadMoreContainer) loadMoreContainer.hidden = true; return; }
-    emptyState.hidden = true;
-    const fragment = document.createDocumentFragment();
-    const productsToLoad = PRODUCTS.slice(productsDisplayed, productsDisplayed + PRODUCTS_TO_SHOW);
-    productsToLoad.forEach(p => {
-      const node = tpl.content.cloneNode(true);
-      const card = node.querySelector('.card');
-      card.dataset.productId = p.id;
-      const img=node.querySelector('.p-img'); img.src=p.image; img.alt=p.title; img.loading='lazy';
-      img.onerror=function(){ this.onerror=null; this.src=PRODUCTS[1].image; };
-      node.querySelector('.p-title').textContent=p.title;
-      const priceOrigEl = node.querySelector('.p-orig');
-      const priceSaleEl = node.querySelector('.p-sale');
-      const rentalInfoEl = node.querySelector('.p-rental-info');
-      const addBtn = card.querySelector('.add-quote');
-      
-      priceSaleEl.classList.remove('price-unavailable');
-      addBtn.disabled = false;
-      addBtn.removeAttribute('aria-disabled');
-
-      if (currentViewMode === 'sale') {
-        priceOrigEl.textContent = fmtKRW(p.original);
-        priceSaleEl.textContent = fmtKRW(p.sale);
-        rentalInfoEl.hidden = true;
-      } else {
-        priceOrigEl.textContent = '';
-        const isAvailable = p.rental && p.rental[currentRentalDuration];
-        if (isAvailable) {
-          priceSaleEl.textContent = fmtKRW(p.rental[currentRentalDuration]);
-          rentalInfoEl.hidden = false;
-        } else if (currentRentalDuration === 'etc') {
-          priceSaleEl.textContent = '별도 문의';
-          rentalInfoEl.hidden = true;
-        } else {
-          priceSaleEl.textContent = '렌탈 불가';
-          priceSaleEl.classList.add('price-unavailable');
-          rentalInfoEl.hidden = true;
-          addBtn.disabled = true;
-          addBtn.setAttribute('aria-disabled', 'true');
-        }
-      }
-      const nshopBtn = node.querySelector('.p-nshop');
-      if (p.nshop && p.nshop !== '#') { nshopBtn.href = p.nshop; } else { nshopBtn.href = '#'; nshopBtn.setAttribute('aria-disabled', 'true'); }
-      const linkBtn = node.querySelector('.p-link');
-      if (p.link && p.link !== '#') { linkBtn.href = p.link; } else { linkBtn.href = '#'; linkBtn.setAttribute('aria-disabled', 'true'); }
-      fragment.appendChild(node);
-    });
-    grid.appendChild(fragment);
-    productsDisplayed += productsToLoad.length;
-    if (productsDisplayed >= PRODUCTS.length) { if(loadMoreContainer) loadMoreContainer.hidden = true; } else { if(loadMoreContainer) loadMoreContainer.hidden = false; }
-  }
-
-  const quote={ items: [] };
-  const saveQuote=()=>updateQuoteUI();
-  function addQuote(it){ const i=quote.items.findIndex(x=>x.id===it.id); if(i>-1) quote.items[i].qty+=it.qty; else quote.items.push(it); saveQuote(); }
-  function delQuote(id){ quote.items=quote.items.filter(x=>x.id!==id); saveQuote(); }
-  function setQty(id,qty){ const it=quote.items.find(x=>x.id===id); if(it){ it.qty=Math.max(1,qty|0); saveQuote(); } }
-  const total=()=>quote.items.reduce((s,x)=>s+x.price*x.qty,0);
-  const count=()=>quote.items.reduce((s,x)=>s+x.qty,0);
-
-  function rowHTML(it){ const priceText = it.price > 0 ? fmtKRW(it.price) : '별도 문의'; return ` <img src="${it.image}" alt="${it.title}" style="width:64px;height:64px;object-fit:cover;border-radius:10px;border:1px solid var(--quote-border)"> <div> <div style="font-weight:700">${it.title}</div> <div style="color:var(--muted);font-size:12px">${it.id}</div> <div style="margin-top:6px;font-weight:700">${priceText}${it.isRental && it.price > 0 ? ' / 월' : ''}</div> </div> <div class="ctrl"> <div class="stepper"> <button class="step" data-step="-1" data-id="${it.id}" aria-label="수량 감소">−</button> <input type="number" min="1" value="${it.qty}" data-qid="${it.id}" inputmode="numeric" /> <button class="step" data-step="1" data-id="${it.id}" aria-label="수량 증가">+</button> </div> <button class="del" data-del="${it.id}">삭제</button> </div>`; }
-  function renderQuoteList(target){ target.innerHTML=''; quote.items.forEach(it=>{ const row=document.createElement('div'); row.className='row'; row.innerHTML=rowHTML(it); target.appendChild(row); }); }
   
-  function updateQuoteUI(){
-    const c=count(), t=fmtKRW(total());
-    const isCartEmpty = c === 0;
-    const totalLabelText = currentViewMode === 'sale' ? '총 상품금액' : '월 예상 렌탈료';
-    document.querySelectorAll('.quote-disclaimer').forEach(el => {
-      el.hidden = (currentViewMode !== 'rental' || isCartEmpty);
-    });
-    quoteCount.textContent = c > 0 ? `(${c})` : '';
-    cartCount.textContent = c > 0 ? `(${c})` : '';
-    const totalHTML = `<div><div style="color:var(--muted);font-size:12px">${totalLabelText}</div><div style="font-weight:800;font-size:18px">${t}</div></div>`;
-    renderQuoteList(quoteList); quoteTotal.innerHTML=totalHTML;
-    renderQuoteList(quoteListM); quoteTotalM.innerHTML=totalHTML;
-    const subText = !isCartEmpty ? `${quote.items.length}종, 총 ${c}개`:'담긴 상품이 없습니다';
-    quoteSub.textContent  = subText;
-    quoteSubM.textContent = subText;
-    cartTotal.textContent=t;
-    openQuoteBtn.classList.toggle('active', !isCartEmpty);
-    if (submitQuoteBtn) { submitQuoteBtn.disabled = isCartEmpty; submitQuoteBtn.setAttribute('aria-disabled', isCartEmpty.toString()); }
-    if (submitQuoteMBtn) { submitQuoteMBtn.disabled = isCartEmpty; submitQuoteMBtn.setAttribute('aria-disabled', isCartEmpty.toString()); }
+  function handleQuoteListAction(e) {
+    const btn = e.target.closest('.remove-btn');
+    if (!btn) return;
+    
+    e.preventDefault();
+    const id = btn.dataset.id;
+    const product = PRODUCTS.find(p => p.id === id);
+    
+    if (quoteData[id]) {
+      delete quoteData[id];
+      showToast(`${product.title}이(가) 견적 목록에서 제거되었습니다.`);
+      localStorage.setItem('gfk_quote_data', JSON.stringify(quoteData));
+      updateProductGridPrices();
+    }
   }
 
-  function showToast(message) { if (!toastEl) return; clearTimeout(toastTimeout); clearTimeout(toastResetTimeout); const _show = () => { toastEl.textContent = message; toastEl.classList.add('show'); toastTimeout = setTimeout(() => { toastEl.classList.remove('show'); }, 3000); }; if (toastEl.classList.contains('show')) { toastEl.classList.remove('show'); toastResetTimeout = setTimeout(_show, 100); } else { _show(); } }
-  function flyToCartAnimation(buttonEl) { const card = buttonEl.closest('.card'); if (!card) return; const img = card.querySelector('.p-img'); if (!img) return; const imgRect = img.getBoundingClientRect(); const imgClone = img.cloneNode(true); const isMobile = window.getComputedStyle(cartbar).display !== 'none'; const target = isMobile ? $('#openSheet') : $('#openQuote'); if (!target) return; const targetRect = target.getBoundingClientRect(); const translateX = targetRect.left + (targetRect.width / 2) - (imgRect.left + imgRect.width / 2); const translateY = targetRect.top + (targetRect.height / 2) - (imgRect.top + imgRect.height / 2); imgClone.classList.add('fly-to-cart'); document.body.appendChild(imgClone); Object.assign(imgClone.style, { top: `${imgRect.top}px`, left: `${imgRect.left}px`, width: `${imgRect.width}px`, height: `${imgRect.height}px`, }); requestAnimationFrame(() => { Object.assign(imgClone.style, { transform: `translate(${translateX}px, ${translateY}px) scale(0.1)`, opacity: '0', }); }); setTimeout(() => { imgClone.remove(); }, 800); }
+  let loadCount = 0;
+  function loadMoreProducts() {
+    const productsPerLoad = 6;
+    const startIndex = loadCount * productsPerLoad;
+    const endIndex = startIndex + productsPerLoad;
+    const productsToRender = PRODUCTS.slice(startIndex, endIndex);
 
-  grid.addEventListener('click', (e)=>{
-    const addBtn=e.target.closest('.add-quote'); if(!addBtn) return;
-    const card = addBtn.closest('.card');
-    const productId = card.dataset.productId;
-    const product = PRODUCTS.find(p => p.id === productId);
-    if (!product) return;
-    let itemToAdd;
-    if (currentViewMode === 'rental') {
-      if (currentRentalDuration === 'etc') {
-          itemToAdd = { id: `${product.id}-rental-etc`, title: `${product.title} (렌탈 기간 협의)`, price: 0, image: product.image, qty: 1, isRental: true };
-      } else {
-        if (!product.rental || !product.rental[currentRentalDuration]) {
-          showToast('해당 상품은 이 조건으로 렌탈할 수 없습니다.'); return;
+    if (productsToRender.length === 0) {
+      if (loadMoreBtn) loadMoreBtn.hidden = true;
+      return;
+    }
+
+    productsToRender.forEach(product => {
+      const is_best = product.is_best ? '<div class="badge best">BEST</div>' : '';
+      const is_new = product.is_new ? '<div class="badge new">NEW</div>' : '';
+      
+      const cardHTML = `
+        <div class="product-card" data-id="${product.id}">
+          <div class="card-badges">${is_best}${is_new}</div>
+          <div class="img-area">
+            <img src="${product.image}" alt="${product.title} 이미지" loading="lazy" />
+          </div>
+          <div class="card-body">
+            <div class="product-category">${product.category}</div>
+            <h3 class="product-title">${product.title}</h3>
+            <div class="product-features">
+              ${product.features.map(f => `<span>${f}</span>`).join('')}
+            </div>
+            <div class="price-area">
+              <div class="price-main"></div>
+              <div class="price-info">
+                <span class="price-unit"></span>
+                <span class="price-unit-rental"></span>
+                <span class="vat-ex-note"></span>
+              </div>
+            </div>
+            ${product.special_note ? `<p class="special-note">${product.special_note}</p>` : ''}
+            <button class="btn primary full-width add-to-quote-btn" data-id="${product.id}" aria-label="${product.title} 견적 목록에 추가"></button>
+          </div>
+        </div>
+      `;
+      productGrid.insertAdjacentHTML('beforeend', cardHTML);
+    });
+
+    loadCount++;
+    updateProductGridPrices();
+
+    if (endIndex >= PRODUCTS.length) {
+      if (loadMoreBtn) loadMoreBtn.hidden = true;
+    }
+  }
+
+  function handleFormSubmit(type, e) {
+    e.preventDefault();
+    const form = e.target;
+    const data = new FormData(form);
+    const submitBtn = form.querySelector('button[type="submit"]');
+
+    submitBtn.disabled = true;
+    submitBtn.textContent = '전송 중...';
+
+    // 견적 데이터 추가 (form data에 이미 hidden input으로 추가되어 있음)
+
+    // FormData를 객체로 변환
+    const object = {};
+    data.forEach((value, key) => {
+        object[key] = value;
+    });
+
+    // Google Apps Script로 전송
+    fetch(SCRIPT_URL, {
+        method: 'POST',
+        mode: 'no-cors', // CORS 문제 회피
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          formType: type === 'f' ? 'QuoteForm' : 'ContactForm',
+          timestamp: new Date().toISOString(),
+          ...object
+        })
+    })
+    .then(() => {
+        form.reset();
+        showToast('✅ 문의/견적 요청이 성공적으로 접수되었습니다. 곧 회신드리겠습니다.');
+        if (type === 'f') {
+          // 모달 폼 제출 시 견적 목록 초기화 및 모달 닫기
+          quoteData = {};
+          localStorage.removeItem('gfk_quote_data');
+          updateProductGridPrices(); // UI 업데이트 및 견적서 닫기
+          $('#modalQuoteFormContainer').classList.remove('active');
         }
-        itemToAdd = { id: `${product.id}-rental-${currentRentalDuration}`, title: `${product.title} (${currentRentalDuration}개월 렌탈)`, price: product.rental[currentRentalDuration], image: product.image, qty: 1, isRental: true };
+    })
+    .catch((error) => {
+        console.error('Form submission failed:', error);
+        showToast('❌ 전송에 실패했습니다. 잠시 후 다시 시도해 주세요.');
+    })
+    .finally(() => {
+        submitBtn.disabled = false;
+        submitBtn.textContent = type === 'f' ? '문의/견적 요청' : '문의 요청';
+    });
+  }
+
+  function renderBanner() {
+    const bannerContainer = $('#hero .wrap');
+    if (!bannerContainer) return;
+
+    if (BANNER.type === 'video') {
+      bannerContainer.insertAdjacentHTML('afterbegin', `
+        <video id="heroVideo" class="hero-bg-video" autoplay loop muted playsinline poster="${BANNER.poster}">
+          <source src="${BANNER.src}" type="video/mp4">
+        </video>
+      `);
+      // 로딩 후 재생 (iOS/Safari 대응)
+      const video = document.getElementById('heroVideo');
+      if (video) {
+        video.oncanplaythrough = () => {
+          video.play().catch(e => console.error("Video play failed:", e));
+        };
       }
     } else {
-      itemToAdd = { id: product.id, title: product.title, price: product.sale, image: product.image, qty: 1, isRental: false };
-    }
-    addQuote(itemToAdd);
-    showToast('견적서에 상품을 담았습니다.');
-    flyToCartAnimation(addBtn);
-  });
-
-  ['quoteList','quoteListM'].forEach(id=>{ const root=document.getElementById(id); root.addEventListener('input', e=>{ if(e.target.matches('input[type=number][data-qid]')) setQty(e.target.dataset.qid, +e.target.value); }); root.addEventListener('click', e=>{ const del=e.target.closest('[data-del]'); if(del){ delQuote(del.dataset.del); return; } const step=e.target.closest('[data-step]'); if(step){ const id=step.dataset.id, dir=parseInt(step.dataset.step,10); const it=quote.items.find(x=>x.id===id); if(it){ it.qty=Math.max(1,(it.qty||1)+dir); saveQuote(); } } }); });
-  
-  function showOverlay(){ overlay.hidden=false; document.body.classList.add('scroll-lock'); }
-  
-  // ✅ UPDATED
-  function hideOverlay(){
-    // 이제 이 함수는 모달의 상태와 관계없이, 견적서/메뉴 패널 전용으로만 동작합니다.
-    document.body.classList.remove('scroll-lock');
-    overlay.hidden=true;
-  }
-
-  function openDrawer(){ closeAny(); drawer.classList.add('open'); drawer.setAttribute('aria-hidden','false'); openQuoteBtn.setAttribute('aria-expanded','true'); showOverlay(); }
-  function closeDrawer(){ drawer.classList.remove('open'); drawer.setAttribute('aria-hidden','true'); openQuoteBtn.setAttribute('aria-expanded','false'); if(!mobileNav.classList.contains('open')) hideOverlay(); }
-  function openSheet(){ closeAny(); sheet.classList.add('open'); sheet.setAttribute('aria-hidden','false'); showOverlay(); }
-  function closeSheet(){ sheet.classList.remove('open'); sheet.setAttribute('aria-hidden','true'); if(!mobileNav.classList.contains('open')) hideOverlay(); }
-  function openMobileNav() { closeAny(); mobileNav.classList.add('open'); mobileNav.setAttribute('aria-hidden', 'false'); hamburgerBtn.setAttribute('aria-expanded', 'true'); showOverlay(); }
-  function closeMobileNav() { mobileNav.classList.remove('open'); mobileNav.setAttribute('aria-hidden', 'true'); hamburgerBtn.setAttribute('aria-expanded', 'false'); if(!sheet.classList.contains('open') && !drawer.classList.contains('open')) hideOverlay(); }
-  function isDesktop(){ return window.matchMedia('(min-width:1080px)').matches; }
-  openQuoteBtn.addEventListener('click', ()=>{ isDesktop()?openDrawer():openSheet(); });
-  closeQuoteBtn.addEventListener('click', closeDrawer); openSheetBtn.addEventListener('click', openSheet); closeSheetBtn.addEventListener('click', closeSheet); hamburgerBtn.addEventListener('click', openMobileNav); closeMobileNavBtn.addEventListener('click', closeMobileNav);
-  const closeAny=()=>{ if (drawer.classList.contains('open')) closeDrawer(); if (sheet.classList.contains('open')) closeSheet(); if (mobileNav.classList.contains('open')) closeMobileNav(); };
-  overlay.addEventListener('click', closeAny); overlay.addEventListener('touchstart', closeAny, {passive:true});
-  document.addEventListener('keydown', e=>{ if(e.key==='Escape') { closeAny(); closeForm(); } });
-  const mqDesktop=window.matchMedia('(min-width:901px)');
-  mqDesktop.addEventListener('change', e=>{ if (e.matches) { if (mobileNav.classList.contains('open')) { closeMobileNav(); } const sOpen=sheet.classList.contains('open'); if(sOpen){ closeSheet(); openDrawer(); } } else { const dOpen=drawer.classList.contains('open'); if(dOpen){ closeDrawer(); openSheet(); } } });
-  
-  const modal = document.getElementById('quoteFormModal');
-  function populateModalQuoteList() { const listEl = $('#modalQuoteList'); const boxEl = listEl.closest('.quote-summary-box'); if (!listEl || !boxEl) return; listEl.innerHTML = ''; if (quote.items.length > 0) { quote.items.forEach(item => { const li = document.createElement('li'); const qtyText = item.qty > 1 ? ` (수량: ${item.qty})` : ''; li.textContent = `${item.title}${qtyText}`; listEl.appendChild(li); }); boxEl.hidden = false; } else { boxEl.hidden = true; } }
-  
-  // ✅ UPDATED
-  function openForm(){
-    modal.setAttribute('aria-hidden','false');
-    populateModalQuoteList();
-    document.body.classList.add('scroll-lock');
-  }
-
-  // ✅ UPDATED
-  function closeForm(){
-    modal.setAttribute('aria-hidden','true');
-    // 모달을 닫을 때, 다른 오버레이(견적서, 메뉴 등)가 열려있지 않은 경우에만 스크롤 잠금을 해제합니다.
-    if (!sheet.classList.contains('open') && !drawer.classList.contains('open') && !mobileNav.classList.contains('open')) {
-      document.body.classList.remove('scroll-lock');
+      bannerContainer.style.backgroundImage = `url(${BANNER.src})`;
+      bannerContainer.style.backgroundSize = 'cover';
+      bannerContainer.style.backgroundPosition = 'center';
     }
   }
 
-  $('#submitQuote').addEventListener('click', openForm);
-  $('#submitQuoteM').addEventListener('click', openForm);
-  $('#cancelForm').addEventListener('click', closeForm);
-  modal.addEventListener('click', (e) => { if (e.target === modal) closeForm(); });
-  function blurOnOutsideTap(e){ const ae = document.activeElement; if (!ae) return; const isField = (el)=> el && (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA'); if (isField(ae) && !e.target.closest('input, textarea, .gate-card')) { ae.blur(); } }
+  function renderChannels() {
+    const channelContainer = $('#channelLinks');
+    if (!channelContainer) return;
+
+    SOCIAL_LINKS.forEach(link => {
+      channelContainer.insertAdjacentHTML('beforeend', `
+        <a href="${link.href}" target="_blank" class="channel-link ${link.type}" aria-label="${link.label}">
+          <i class="material-icons">${link.type === 'home' ? 'language' : link.type}</i>
+        </a>
+      `);
+    });
+  }
+  
+  function setupPromoSlider() {
+    if (!promoSlider) return;
+    
+    // 슬라이드 요소 생성
+    promoSlider.innerHTML = PROMO_SLIDER_ITEMS.map(item => `
+      <div class="promo-slide">
+        <div class="promo-icon"><i class="material-icons">${item.icon}</i></div>
+        <div class="promo-text">
+          <div class="promo-title">${item.title}</div>
+          <div class="promo-desc">${item.desc}</div>
+        </div>
+      </div>
+    `).join('');
+    
+    // Swiper와 유사한 간단한 무한 슬라이더 로직 (CSS animation으로 대체 가능하지만, JS로 구현)
+    let currentIndex = 0;
+    const slides = $$('#promoSlider .promo-slide');
+    const totalSlides = slides.length;
+    
+    if (totalSlides === 0) return;
+    
+    const updateSlider = () => {
+      promoSlider.style.transform = `translateX(${-currentIndex * 100}%)`;
+    };
+    
+    const nextSlide = () => {
+      currentIndex = (currentIndex + 1) % totalSlides;
+      updateSlider();
+    };
+    
+    setInterval(nextSlide, 5000); // 5초마다 자동 슬라이드
+  }
+
+  function blurOnOutsideTap(e){
+    const ae = document.activeElement; 
+    if (!ae) return; 
+    const isField = (el)=> el && (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA'); 
+    // .gate-card는 모달과 메인 문의 폼 모두에 적용되므로 로직 유지
+    if (isField(ae) && !e.target.closest('input, textarea, .gate-card')) { 
+      ae.blur(); 
+    } 
+  }
+
+  // NEW FUNCTION: 메인 문의 폼 모바일 키보드 스크롤 보정
+  /**
+   * 메인 페이지의 문의 폼 입력 필드에 포커스 시, 
+   * 가상 키보드가 입력 필드를 가리지 않도록 뷰포트 중앙으로 스크롤을 보정합니다.
+   */
+  function setupContactFormFocusScroll() {
+    const form = document.getElementById('contactForm');
+    if (!form) return;
+
+    // 메인 페이지 문의 폼의 모든 입력 필드
+    const inputs = form.querySelectorAll('input, textarea');
+
+    inputs.forEach(input => {
+      input.addEventListener('focus', function() {
+        // 가상 키보드가 열리는 시간을 기다린 후 스크롤을 수행합니다.
+        setTimeout(() => {
+          // 해당 입력 필드를 뷰포트의 중앙으로 부드럽게 스크롤합니다.
+          // 'center'는 키보드 위에 놓기에 가장 안전한 위치입니다.
+          this.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }, 300); // 300ms 딜레이
+      }, {passive: true}); // passive: true로 모바일 스크롤 성능 개선
+    });
+  }
+
   document.addEventListener('touchstart', blurOnOutsideTap, {passive:true});
   document.addEventListener('mousedown', blurOnOutsideTap);
 
-  async function handleFormSubmit(prefix, event) {
-    event.preventDefault();
-    const form = event.target.closest('form');
-    const name = form.querySelector(`[id^="${prefix}Name"]`).value.trim();
-    const email = form.querySelector(`[id^="${prefix}Email"]`).value.trim();
-    const tel = form.querySelector(`[id^="${prefix}Tel"]`).value.trim();
-    const company = form.querySelector(`[id^="${prefix}Company"]`).value.trim();
-    const memo = form.querySelector(`[id^="${prefix}Memo"]`).value.trim();
-    const items = quote.items; const totalKRW = total(); const isQuote = items.length > 0 && prefix.startsWith('f'); const quoteType = currentViewMode === 'rental' ? '렌탈' : '구매';
-    const durationText = currentViewMode === 'rental' ? (currentRentalDuration === 'etc' ? '기간 협의' : `${currentRentalDuration}개월`) : '';
-    const subject = isQuote ? `[비밀특가 ${quoteType}견적요청] ${name}` : `[일반 문의] ${name}`;
-    const quoteText = isQuote ? `\n\n--- 담긴상품 (${quoteType} ${durationText}) ---\n${items.map(x => `- ${x.title} x ${x.qty} = ${x.price > 0 ? fmtKRW(x.price * x.qty) : '별도문의'}${x.isRental && x.price > 0 ? '/월' : ''}`).join('\n')}\n\n${currentViewMode === 'rental' ? '월 예상 총액' : '총액'}: ${fmtKRW(totalKRW)}` : '';
-    const copiedText = `${subject}\n\n--- 고객정보 ---\n이름: ${name}\n이메일: ${email}\n전화: ${tel}\n회사/지점: ${company || '-'}\n요청사항: ${memo || '-'}` + quoteText;
-    const fd = new FormData();
-    fd.append('name', name); fd.append('email', email); fd.append('tel', tel); fd.append('company', company); fd.append('memo', memo); fd.append('totalKRW', String(totalKRW)); fd.append('itemsJSON', JSON.stringify(items)); fd.append('copiedText', copiedText);
-    const btn = form.querySelector('button[type="submit"]');
-    const oldLabel = btn.textContent;
-    btn.textContent = '전송 중…'; btn.setAttribute('aria-disabled', 'true'); btn.disabled = true;
-    try {
-      const res = await fetch(SCRIPT_URL, { method: 'POST', body: fd });
-      if (!res.ok) throw new Error(`HTTP ${res.status}`);
-      const text = (await res.text() || '').trim();
-      if (text !== 'Success') throw new Error(`Unexpected response: ${text}`);
-      showToast('문의가 성공적으로 접수되었습니다.');
-      form.reset();
-      if (prefix.startsWith('f')) { quote.items = []; saveQuote(); closeForm(); closeAny(); }
-    } catch (e) { console.error('submit error:', e); showToast('전송 실패. 잠시 후 다시 시도해주세요.'); } 
-    finally { btn.textContent = oldLabel; btn.removeAttribute('aria-disabled'); btn.disabled = false; }
+  /* ===== 이벤트 리스너 및 초기화 ===== */
+  if (productGrid) {
+    productGrid.addEventListener('click', handleProductAction);
+  }
+  
+  if (quoteList) {
+    quoteList.addEventListener('click', handleQuoteListAction);
+  }
+
+  if (quoteSheetCloser) {
+    quoteSheetCloser.addEventListener('click', (e) => {
+      e.preventDefault();
+      quoteSheet.classList.remove('active');
+    });
+  }
+  
+  if (quoteSummary) {
+    quoteSummary.addEventListener('click', (e) => {
+      // 모바일 (Sheet)에서는 닫힐 때만 다시 열리도록 처리
+      if (window.innerWidth < 1080 && !quoteSheet.classList.contains('active')) {
+        quoteSheet.classList.add('active');
+      }
+      
+      // 모달 열기 (Sheet/Drawer에 있는 견적 요청 버튼)
+      if (e.target.closest('.modal-opener')) {
+        const modalContainer = $('#modalQuoteFormContainer');
+        if (modalContainer) {
+          modalContainer.classList.add('active');
+          document.body.classList.add('modal-open');
+        }
+      }
+    });
+  }
+  
+  $$('.modal-closer').forEach(closer => {
+    closer.addEventListener('click', (e) => {
+      e.preventDefault();
+      const modalContainer = e.target.closest('.modal-container');
+      if (modalContainer) {
+        modalContainer.classList.remove('active');
+        document.body.classList.remove('modal-open');
+      }
+    });
+  });
+
+  if (mobileNavOpener) {
+    mobileNavOpener.addEventListener('click', () => {
+      mobileNav.classList.add('active');
+    });
+  }
+  if (mobileNavCloser) {
+    mobileNavCloser.addEventListener('click', () => {
+      mobileNav.classList.remove('active');
+    });
   }
 
   if (viewToggleContainer) {
     viewToggleContainer.addEventListener('click', (e) => {
       const btn = e.target.closest('.view-toggle');
       if (!btn) return;
+      
       const selectedView = btn.dataset.view;
       if (selectedView === currentViewMode) return;
-
-      if (quote.items.length > 0) {
-        const userConfirmed = window.confirm('보기 모드를 변경하면 현재 견적서에 담긴 모든 상품이 삭제됩니다. 계속하시겠습니까?');
-        if (!userConfirmed) return;
-        quote.items = [];
+      
+      // 뷰 모드 변경 시 견적서 목록 초기화 확인
+      if (Object.keys(quoteData).length > 0) {
+        if (!confirm('경고: 견적서 모드를 변경하면 기존 목록이 초기화됩니다. 계속하시겠습니까?')) {
+          return;
+        }
+        quoteData = {};
+        localStorage.removeItem('gfk_quote_data');
         showToast('견적서가 초기화되었습니다.');
       }
 
@@ -353,6 +614,8 @@
     if (loadMoreBtn) { loadMoreBtn.addEventListener('click', loadMoreProducts); }
     loadMoreProducts();
     $('#modalQuoteForm').addEventListener('submit', (e) => handleFormSubmit('f', e));
-    $('#inlineInquiryForm').addEventListener('submit', (e) => handleFormSubmit('inline', e));
+    $('#contactForm').addEventListener('submit', (e) => handleFormSubmit('c', e));
+    setupContactFormFocusScroll(); // 메인 페이지 문의 폼 스크롤 보정 함수 호출 추가
   })();
+
 })();
