@@ -2,12 +2,13 @@
     'use strict';
 
     // Google Apps Script 배포 URL (사용자 제공)
-    // 이 URL은 FormData 기반의 e.parameter 수신을 기대합니다.
     const GS_URL = 'https://script.google.com/macros/s/AKfycbxJIGA5Cd4oWuVwGxr30aDjb3Sy_lByNL-7Pbb1TFwk5D0-zb2uvA2pxOWTYff0H6A/exec';
     
     // 로컬 스토리지 키
     const QUOTATION_KEY = 'gofitQuotation';
     
+    // [MODIFIED] 폼 변경 감지 플래그는 사용하지 않습니다.
+
     // DOM 참조
     const form = document.getElementById('quotationForm');
     const submitBtn = document.getElementById('submitQuoteBtn');
@@ -32,11 +33,34 @@
         }
     }
 
-    // 폼 유효성 검사
+    // [ADD] 페이지 이탈 경고 설정 함수
+    function setupExitWarning() {
+        // [MODIFIED] 폼 제출 버튼이 비활성화되지 않은 상태(즉, 견적서 제출 가능 상태)라면
+        // 페이지 이탈 시 무조건 경고 메시지를 표시합니다.
+        window.addEventListener('beforeunload', (e) => {
+            // 제출이 완료된 후가 아니라면 (즉, 아직 폼이 유효한 상태라면) 경고
+            if (!submitBtn.disabled) {
+                // 브라우저에게 경고창을 띄우도록 요청
+                e.preventDefault();
+                e.returnValue = '견적서 작성을 그만두시겠습니까? 입력 중인 내용은 저장되지 않습니다.';
+            }
+        });
+        
+        // [ADD] 로고 클릭 시에도 경고를 띄웁니다. (beforeunload가 작동하도록 함)
+        const logo = document.querySelector('header .logo');
+        if(logo) {
+            logo.addEventListener('click', (e) => {
+                // submitBtn.disabled가 false인 상태라면 beforeunload가 자동으로 경고를 띄웁니다.
+                if (!submitBtn.disabled) {
+                    // 강제 리디렉션 방지 (브라우저 경고에 맡김)
+                }
+            });
+        }
+    }
+    
+    // 폼 유효성 검사 (이전 코드와 동일)
     function validateForm(formData) {
         let isValid = true;
-
-        // 폼 요소의 ID와 일치하도록 매핑을 사용합니다.
         const requiredFields = [
             { key: '이름', id: 'name' },
             { key: '이메일', id: 'email' },
@@ -51,7 +75,6 @@
             const value = formData.get(key); 
             
             if (!field) {
-                // 이 에러는 HTML 구조 문제이므로 사용자에게는 안 보이지만 로그에는 남깁니다.
                 console.error(`Error: Required field element with ID '${id}' not found in the DOM.`);
                 isValid = false;
                 return;
@@ -97,7 +120,7 @@
         return isValid;
     }
 
-    // 견적 요약 카드 렌더링
+    // 견적 요약 카드 렌더링 (이전 코드와 동일)
     function renderQuoteSummary(cart) {
         if (cart.items.length === 0) {
             window.location.href = '../index.html';
@@ -134,7 +157,6 @@
     async function handleSubmit(e) {
         e.preventDefault();
 
-        // HTML 폼의 데이터를 가져옵니다.
         const htmlFormData = new FormData(form);
         const cartData = getCartData();
         const isRental = cartData.type === 'rental';
@@ -143,27 +165,22 @@
             return;
         }
 
-        // 버튼 비활성화 및 로딩 상태 표시
         submitBtn.disabled = true;
         submitBtn.innerHTML = '<span class="loading-spinner"></span> 제출 중...';
         
-        // 1. Google Apps Script 표준 수신 방식(e.parameter)에 맞게 FormData를 재구성합니다.
-        //    이 과정에서 견적 정보를 추가합니다.
         const fd = new FormData();
         
-        // 1-1. 사용자 입력 필드를 FormData에 추가 (HTML name 속성 사용)
+        // 사용자 입력 필드를 FormData에 추가
         fd.append('이름', htmlFormData.get('이름'));
         fd.append('이메일', htmlFormData.get('이메일'));
-        // 전화번호는 하이픈 제거 후 추가
         fd.append('전화번호', (htmlFormData.get('전화번호') || '').replace(/-/g, ''));
         fd.append('회사/직장명', htmlFormData.get('회사/직장명'));
         fd.append('문의내용', htmlFormData.get('문의내용'));
 
-        // 1-2. 견적함 내용 필드를 FormData에 추가 (Apps Script가 읽을 수 있는 키로)
+        // 견적함 내용 필드를 FormData에 추가
         fd.append('견적유형', isRental ? '렌탈' : '판매');
-        fd.append('총금액', summaryTotalPriceEl.textContent); // 렌더링된 총 금액 사용
+        fd.append('총금액', summaryTotalPriceEl.textContent); 
         
-        // 상세 견적 목록 생성 (Apps Script에서 파싱할 수 있도록 JSON 문자열로)
         const detailedItems = cartData.items.map(item => {
             const priceType = isRental ? '월 렌탈료' : '판매가(VAT포함)';
             const itemPrice = isRental ? item.price : Math.round(item.price * 1.1);
@@ -178,19 +195,17 @@
         
         fd.append('상세견적목록', JSON.stringify(detailedItems));
         
-        // 2. Apps Script로 전송 (FormData 방식 - JSON 헤더 필요 없음)
         try {
             const response = await fetch(GS_URL, {
                 method: 'POST',
-                mode: 'no-cors', // 필수
+                mode: 'no-cors',
                 cache: 'no-cache',
-                body: fd // 🔥 FormData를 body에 직접 전달
+                body: fd
             });
             
-            // no-cors에서는 성공 응답을 직접 확인할 수 없으므로,
-            // 에러가 발생하지 않았다면 성공으로 간주하고 처리합니다.
-
-            // 3. 성공 처리
+            // [MODIFIED] 폼 제출 성공 시 submitBtn을 비활성화하여 beforeunload 경고 방지
+            submitBtn.disabled = true; // 성공적으로 제출되었으므로 버튼 비활성화 유지
+            
             localStorage.removeItem(QUOTATION_KEY); 
 
             resultTitle.textContent = '견적 요청 성공! 🎉';
@@ -199,14 +214,15 @@
 
         } catch (error) {
             console.error('견적 요청 전송 실패:', error);
-            // 4. 실패 처리
+            
             resultTitle.textContent = '요청 실패';
             resultMessage.innerHTML = '데이터 전송에 문제가 발생했습니다. 잠시 후 다시 시도해 주세요.<br>문제가 계속될 경우 1833-3745로 직접 연락 주시기 바랍니다.';
             showResultModal();
         } finally {
-            // 버튼 상태 복구
-            submitBtn.disabled = false;
-            submitBtn.innerHTML = '견적 요청서 최종 제출하기';
+            // 실패 시에만 버튼 복구
+            if (!submitBtn.disabled) {
+                submitBtn.innerHTML = '견적 요청서 최종 제출하기';
+            }
         }
     }
 
@@ -218,6 +234,7 @@
     function init() {
         const cart = getCartData();
         renderQuoteSummary(cart);
+        setupExitWarning(); // [ADD] 페이지 이탈 경고 설정
         form.addEventListener('submit', handleSubmit);
     }
 
