@@ -7,7 +7,8 @@
     // 로컬 스토리지 키
     const QUOTATION_KEY = 'gofitQuotation';
     
-    // [MODIFIED] 폼 변경 감지 플래그는 사용하지 않습니다.
+    // 폼 제출 성공 플래그
+    let submissionSuccessful = false; 
 
     // DOM 참조
     const form = document.getElementById('quotationForm');
@@ -33,29 +34,22 @@
         }
     }
 
-    // [ADD] 페이지 이탈 경고 설정 함수
+    // [MODIFIED] 페이지 이탈 경고 설정 함수
     function setupExitWarning() {
-        // [MODIFIED] 폼 제출 버튼이 비활성화되지 않은 상태(즉, 견적서 제출 가능 상태)라면
-        // 페이지 이탈 시 무조건 경고 메시지를 표시합니다.
+        
+        // 1. 브라우저 UI(뒤로가기, 탭 닫기) 경고 설정
+        // 오직 브라우저의 표준 경고만 뜨도록 e.returnValue를 빈 문자열로 설정합니다.
         window.addEventListener('beforeunload', (e) => {
-            // 제출이 완료된 후가 아니라면 (즉, 아직 폼이 유효한 상태라면) 경고
-            if (!submitBtn.disabled) {
-                // 브라우저에게 경고창을 띄우도록 요청
+            if (!submissionSuccessful) { 
                 e.preventDefault();
-                e.returnValue = '견적서 작성을 그만두시겠습니까? 입력 중인 내용은 저장되지 않습니다.';
+                e.returnValue = ''; // 표준 경고 활성화 (커스텀 메시지 없음)
+                return '';          // 표준 경고 활성화 (커스텀 메시지 없음)
             }
         });
         
-        // [ADD] 로고 클릭 시에도 경고를 띄웁니다. (beforeunload가 작동하도록 함)
-        const logo = document.querySelector('header .logo');
-        if(logo) {
-            logo.addEventListener('click', (e) => {
-                // submitBtn.disabled가 false인 상태라면 beforeunload가 자동으로 경고를 띄웁니다.
-                if (!submitBtn.disabled) {
-                    // 강제 리디렉션 방지 (브라우저 경고에 맡김)
-                }
-            });
-        }
+        // 2. 인페이지 링크(로고) 클릭 시 처리
+        // [MODIFIED] 경고 없이 바로 이동하도록 로고 클릭 이벤트 핸들러를 제거합니다.
+        // HTML의 기본 동작(로고 클릭 시 메인으로 이동)을 그대로 따릅니다.
     }
     
     // 폼 유효성 검사 (이전 코드와 동일)
@@ -203,8 +197,8 @@
                 body: fd
             });
             
-            // [MODIFIED] 폼 제출 성공 시 submitBtn을 비활성화하여 beforeunload 경고 방지
-            submitBtn.disabled = true; // 성공적으로 제출되었으므로 버튼 비활성화 유지
+            // 폼 제출 성공 시 플래그 설정
+            submissionSuccessful = true; 
             
             localStorage.removeItem(QUOTATION_KEY); 
 
@@ -219,8 +213,9 @@
             resultMessage.innerHTML = '데이터 전송에 문제가 발생했습니다. 잠시 후 다시 시도해 주세요.<br>문제가 계속될 경우 1833-3745로 직접 연락 주시기 바랍니다.';
             showResultModal();
         } finally {
-            // 실패 시에만 버튼 복구
-            if (!submitBtn.disabled) {
+            // 실패 시 버튼 복구
+            if (!submissionSuccessful) { 
+                submitBtn.disabled = false;
                 submitBtn.innerHTML = '견적 요청서 최종 제출하기';
             }
         }
@@ -234,7 +229,7 @@
     function init() {
         const cart = getCartData();
         renderQuoteSummary(cart);
-        setupExitWarning(); // [ADD] 페이지 이탈 경고 설정
+        setupExitWarning(); // 페이지 이탈 경고 설정
         form.addEventListener('submit', handleSubmit);
     }
 
