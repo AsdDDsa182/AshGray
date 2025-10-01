@@ -263,23 +263,13 @@
     document.body.classList.add('scroll-lock');
   }
 
-  // ✅ 이 코드를 복사해서 붙여넣으세요
+  // ✅ UPDATED
   function closeForm(){
     modal.setAttribute('aria-hidden','true');
-
+    // 모달을 닫을 때, 다른 오버레이(견적서, 메뉴 등)가 열려있지 않은 경우에만 스크롤 잠금을 해제합니다.
     if (!sheet.classList.contains('open') && !drawer.classList.contains('open') && !mobileNav.classList.contains('open')) {
       document.body.classList.remove('scroll-lock');
     }
-
-    // 👇 [버그 수정 코드] 모달이 닫힐 때 하단 UI(카트 바, 견적서)가 밀리는 현상을 해결합니다.
-    // 두 요소의 display 속성을 잠시 바꿨다가 되돌려 브라우저가 위치를 강제로 새로 그리게 만듭니다.
-    [cartbar, sheet].forEach(el => {
-      if (el) {
-        el.style.display = 'none';
-        el.offsetHeight; // 이 코드가 브라우저의 재계산을 유도하는 핵심입니다.
-        el.style.display = ''; // CSS에 지정된 원래 display 속성으로 되돌립니다.
-      }
-    });
   }
 
   $('#submitQuote').addEventListener('click', openForm);
@@ -357,12 +347,30 @@
     });
   }
 
-  (function init(){
-    renderBanner(); renderChannels(); updateQuoteUI(); setupPromoSlider();
-    document.getElementById('yy').textContent = new Date().getFullYear();
-    if (loadMoreBtn) { loadMoreBtn.addEventListener('click', loadMoreProducts); }
-    loadMoreProducts();
-    $('#modalQuoteForm').addEventListener('submit', (e) => handleFormSubmit('f', e));
-    $('#inlineInquiryForm').addEventListener('submit', (e) => handleFormSubmit('inline', e));
-  })();
+// ✅ 위 코드를 모두 지우고 이 최종 코드로 교체하세요.
+(function init(){
+  renderBanner(); renderChannels(); updateQuoteUI(); setupPromoSlider();
+  document.getElementById('yy').textContent = new Date().getFullYear();
+  if (loadMoreBtn) { loadMoreBtn.addEventListener('click', loadMoreProducts); }
+  loadMoreProducts();
+  $('#modalQuoteForm').addEventListener('submit', (e) => handleFormSubmit('f', e));
+  $('#inlineInquiryForm').addEventListener('submit', (e) => handleFormSubmit('inline', e));
+
+  // [버그 수정] iOS 하단 바 위치 버그 해결 코드
+  // window.visualViewport API를 사용해 실제 보이는 화면 영역의 변화를 감지합니다.
+  if (window.visualViewport) {
+    window.visualViewport.addEventListener('resize', () => {
+      // 키보드가 사라지면 visualViewport의 높이는 window의 내부 높이와 거의 같아집니다.
+      // 이 순간을 감지하여 카트 바의 위치를 강제로 재계산(새로고침)합니다.
+      const isKeyboardDismissed = Math.abs(window.visualViewport.height - window.innerHeight) < 1;
+
+      if (isKeyboardDismissed && cartbar) {
+        // '새로고침' 트릭을 버그가 발생하는 정확한 타이밍에 실행합니다.
+        cartbar.style.display = 'none';
+        cartbar.offsetHeight;
+        cartbar.style.display = '';
+      }
+    });
+  }
+})();
 })();
