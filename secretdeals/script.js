@@ -256,36 +256,25 @@
   const modal = document.getElementById('quoteFormModal');
   function populateModalQuoteList() { const listEl = $('#modalQuoteList'); const boxEl = listEl.closest('.quote-summary-box'); if (!listEl || !boxEl) return; listEl.innerHTML = ''; if (quote.items.length > 0) { quote.items.forEach(item => { const li = document.createElement('li'); const qtyText = item.qty > 1 ? ` (수량: ${item.qty})` : ''; li.textContent = `${item.title}${qtyText}`; listEl.appendChild(li); }); boxEl.hidden = false; } else { boxEl.hidden = true; } }
   
-  // ✅ UPDATED
-  function openForm(){
-    modal.setAttribute('aria-hidden','false');
-    populateModalQuoteList();
-    document.body.classList.add('scroll-lock');
-  }
+// function closeForm()을 찾아서...
 
-  // ✅ UPDATED
 function closeForm(){
-  // 1) 모달 숨김
   modal.setAttribute('aria-hidden','true');
+  if (cartbar) cartbar.hidden = false; // ✅ 이 줄을 추가하세요
 
-  // 2) iOS 키보드 복구용 '킥':
-  //    잠깐 scroll-lock을 풀었다가, 필요한 경우 다시 건다.
-  //    이렇게 해야 visual viewport가 원래 높이로 제대로 복원됨.
-  document.body.classList.remove('scroll-lock');
-
-  // 3) 패널/네비가 여전히 열려있다면 잠깐 뒤에 다시 잠금
-  //    (시트/드로어/모바일 네비 중 하나라도 열려 있으면 재잠금)
-  setTimeout(() => {
-    if (
-      sheet.classList.contains('open') ||
-      drawer.classList.contains('open') ||
-      mobileNav.classList.contains('open')
-    ) {
-      document.body.classList.add('scroll-lock');
-    }
-  }, 150);
+  if (!sheet.classList.contains('open') && !drawer.classList.contains('open') && !mobileNav.classList.contains('open')) {
+    document.body.classList.remove('scroll-lock');
+  }
 }
 
+  // ✅ UPDATED
+  function closeForm(){
+    modal.setAttribute('aria-hidden','true');
+    // 모달을 닫을 때, 다른 오버레이(견적서, 메뉴 등)가 열려있지 않은 경우에만 스크롤 잠금을 해제합니다.
+    if (!sheet.classList.contains('open') && !drawer.classList.contains('open') && !mobileNav.classList.contains('open')) {
+      document.body.classList.remove('scroll-lock');
+    }
+  }
 
   $('#submitQuote').addEventListener('click', openForm);
   $('#submitQuoteM').addEventListener('click', openForm);
