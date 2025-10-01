@@ -240,8 +240,9 @@ header {
 section[aria-label], 
 .hero, 
 #productSection, 
-#channelsSection, 
-#inquirySection { 
+#channelsSection
+/* 삭제된 부분: #inquirySection */
+ { 
   padding-block: var(--space-intra); 
 }
 
@@ -357,14 +358,16 @@ textarea {
   gap: 32px; 
 }
 
-.modal .field, 
-#inquirySection .field { 
+.modal .field
+/* 삭제된 부분: , #inquirySection .field */
+{ 
   display: grid; 
   gap: 6px; 
 }
 
-.modal .field label, 
-#inquirySection .field label { 
+.modal .field label
+/* 삭제된 부분: , #inquirySection .field label */
+{ 
   text-align: left; 
   color: var(--muted); 
   font-size: 12px; 
@@ -372,9 +375,9 @@ textarea {
 }
 
 .modal input, 
-.modal textarea, 
-#inquirySection input, 
-#inquirySection textarea { 
+.modal textarea
+/* 삭제된 부분: , #inquirySection input, #inquirySection textarea */
+{ 
   width: 100%; 
   padding: 14px 16px; 
   border-radius: 12px; 
@@ -384,24 +387,25 @@ textarea {
 }
 
 .modal input:focus, 
-.modal textarea:focus, 
-#inquirySection input:focus, 
-#inquirySection textarea:focus { 
+.modal textarea:focus
+/* 삭제된 부분: , #inquirySection input:focus, #inquirySection textarea:focus */
+{ 
   outline: none; 
   box-shadow: none; 
 }
 
 .modal input:focus-visible, 
-.modal textarea:focus-visible, 
-#inquirySection input:focus-visible, 
-#inquirySection textarea:focus-visible { 
+.modal textarea:focus-visible
+/* 삭제된 부분: , #inquirySection input:focus-visible, #inquirySection textarea:focus-visible */
+{ 
   outline: none; 
   border-color: var(--brand); 
   box-shadow: 0 0 0 4px rgba(124,92,255,.15); 
 }
 
-.modal input::placeholder, 
-#inquirySection input::placeholder { 
+.modal input::placeholder
+/* 삭제된 부분: , #inquirySection input::placeholder */
+{ 
   color: #8b90a6; 
 }
 
@@ -796,7 +800,6 @@ section.mixed-inquiry-box {
 }
 
 .foot { 
-  margin-bottom: 20px;
   padding: 0 16px 14px; 
 }
 
@@ -1051,15 +1054,17 @@ footer {
   gap: 16px; 
 }
 
-.modal .gate-card .actions, 
-#inquirySection .gate-card .actions { 
+.modal .gate-card .actions
+/* 삭제된 부분: , #inquirySection .gate-card .actions */
+{ 
   margin-top: 14px; 
   flex-shrink: 0; 
 }
 
 @media (min-width:1080px) { 
-  .modal .gate-card .actions, 
-  #inquirySection .gate-card .actions { 
+  .modal .gate-card .actions
+  /* 삭제된 부분: , #inquirySection .gate-card .actions */
+  { 
     margin-top: 16px; 
   } 
 }
@@ -1188,88 +1193,7 @@ footer {
   margin-left: 2px; 
 }
 
-.inquiry-container { 
-  display: grid; 
-  grid-template-columns: 1fr; 
-  gap: 24px; 
-}
-
-.inquiry-container > .gate-card { 
-  margin-top: 0; 
-  max-width: none; 
-}
-
-.inquiry-form { 
-  display: flex; 
-  flex-direction: column; 
-  gap: 16px; 
-  padding: 32px; 
-}
-
-.inquiry-form .form-row { 
-  display: flex; 
-  flex-direction: column; 
-  gap: 16px; 
-}
-
-.inquiry-form .form-row > .field { 
-  flex: 1; 
-}
-
-.inquiry-form .memo-field { 
-  flex-grow: 1; 
-  display: grid; 
-  grid-template-rows: auto 1fr; 
-  gap: 6px; 
-}
-
-.info-box { 
-  display: block; 
-}
-
-.info-box h4 { 
-  margin-top: 0; 
-  margin-bottom: 8px; 
-  font-size: 18px; 
-}
-
-.info-box p { 
-  margin-top: 0; 
-  margin-bottom: 20px; 
-  font-size: 14px; 
-  color: var(--muted); 
-  line-height: 1.6; 
-}
-
-.info-box .info-box-sep { 
-  height: 1px; 
-  background: var(--border); 
-  margin: 20px 0; 
-}
-
-.info-box .contact-list { 
-  list-style: none; 
-  padding: 0; 
-  margin: 0; 
-  display: grid; 
-  gap: 12px; 
-  font-size: 14px; 
-}
-
-.info-box .contact-list li { 
-  background: #0f1020; 
-  border: 1px solid var(--border); 
-  padding: 12px 14px; 
-  border-radius: 12px; 
-}
-
-.info-box .contact-list strong { 
-  display: block; 
-  color: var(--muted); 
-  font-size: 11px; 
-  margin-bottom: 4px; 
-  font-weight: 600; 
-}
+/* 삭제된 스타일: .inquiry-container, .inquiry-container > .gate-card, .inquiry-form, .inquiry-form .form-row, .inquiry-form .form-row > .field, .inquiry-form .memo-field, .info-box, .info-box h4, .info-box p, .info-box .info-box-sep, .info-box .contact-list, .info-box .contact-list li, .info-box .contact-list strong */
 
 .quote-summary-box { 
   background: #0f1020; 
@@ -1299,17 +1223,17 @@ footer {
 }
 
 @media (min-width: 720px) { 
-  .inquiry-form .form-row { 
+  /* .inquiry-form .form-row { 
     flex-direction: row; 
     gap: 18px; 
-  } 
+  } */
 }
 
 @media (min-width: 1080px) { 
-  .inquiry-container { 
+  /* .inquiry-container { 
     grid-template-columns: 2fr 1fr; 
     gap: 32px; 
-  } 
+  } */
 }
 
 .pulsing-circles-container { 
@@ -1508,8 +1432,8 @@ footer {
 
   .modal .gate-card {
     max-width: none; /* 너비 제한 해제 */
-    height: 100%;
-    max-height: 100%;
+    height: 100dvh;
+    max-height: 100dvh;
     border-radius: 0;
     border: none;
     /* 상단 상태바, 하단 제스처 영역 등을 고려한 패딩 조정 */
