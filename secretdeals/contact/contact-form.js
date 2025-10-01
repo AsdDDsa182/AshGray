@@ -20,8 +20,6 @@
     const resultModal = document.getElementById('resultModalOverlay');
     const resultTitle = document.getElementById('resultModalTitle');
     const resultMessage = document.getElementById('resultModalMessage');
-    // 👇 키보드 높이만큼 패딩을 줄 주 컨테이너 (main 태그)
-    const mainContent = document.querySelector('main.wrap'); 
     
     // 유틸리티 함수
     const fmtKRW = n => new Intl.NumberFormat('ko-KR',{style:'currency',currency:'KRW',maximumFractionDigits:0}).format(n);
@@ -36,58 +34,53 @@
         }
     }
 
-    // [MODIFIED] 페이지 이탈 경고 설정 함수
-    function setupExitWarning() {
-        
-        // 1. 브라우저 UI(뒤로가기, 탭 닫기) 경고 설정
-        window.addEventListener('beforeunload', (e) => {
-            if (!submissionSuccessful) { 
-                e.preventDefault();
-                e.returnValue = ''; // 표준 경고 활성화 (커스텀 메시지 없음)
-                return '';          // 표준 경고 활성화 (커스텀 메시지 없음)
-            }
-        });
-        
-        // 2. 인페이지 링크(로고) 클릭 시 처리 (수정 없음)
-    }
-    
-    // 💡 [NEW/MODIFIED] visualViewport를 이용한 키보드 높이 동적 패딩 조정
-    function setupVisualViewportFix() {
-        if (!window.visualViewport || !mainContent) return; // 지원하지 않거나 요소가 없으면 종료
-        
-        // 키보드 등장/사라짐에 따라 뷰포트 크기가 바뀔 때마다 실행
-        window.visualViewport.addEventListener('resize', () => {
-            const viewport = window.visualViewport;
-            const originalHeight = window.innerHeight; // 초기 뷰포트 높이 (iOS에서는 주소창 포함)
-            const currentHeight = viewport.height;    // 키보드가 나타난 후의 뷰포트 높이
-            
-            // 키보드가 올라와서 뷰포트 높이가 줄어든 경우 (차이가 50px 이상일 때 키보드로 간주)
-            if (originalHeight - currentHeight > 50) {
-                // 키보드가 차지하는 픽셀 높이를 계산
-                const keyboardHeight = originalHeight - currentHeight;
-                
-                // main 컨텐츠에 키보드 높이만큼 하단 패딩을 추가하여 밀어 올릴 공간을 만듭니다.
-                // 여기에 약간의 여백(20px)을 더해 입력 필드가 키보드와 너무 붙지 않게 합니다.
-                mainContent.style.paddingBottom = `${keyboardHeight + 20}px`;
-                
-                // 💡 [추가] 키보드 등장 시 해당 필드가 중앙에 오도록 스크롤 (safari의 자동 스크롤이 실패하는 경우 보조)
-                // 현재 포커스된 입력 필드를 찾습니다.
-                const activeElement = document.activeElement;
-                if (activeElement && (activeElement.tagName === 'INPUT' || activeElement.tagName === 'TEXTAREA')) {
-                    // 키보드가 올라온 후 스크롤이 적용되도록 약간의 지연 시간을 줍니다.
-                    setTimeout(() => {
-                        // 'start'로 스크롤하면 헤더 바로 밑에 입력 필드가 위치하므로, 키보드 때문에 가려지지 않습니다.
-                        activeElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                    }, 50); 
-                }
-            } else {
-                // 키보드가 사라진 경우: 하단 패딩을 원래대로 (0px) 복구합니다.
-                mainContent.style.paddingBottom = '0';
-            }
+    // ========================================================================
+    // [ ✨ NEW ] 모바일 가상 키보드 문제 해결을 위한 핸들러 추가
+    // ========================================================================
+    function setupKeyboardHandlers() {
+        // 키보드를 활성화시키는 모든 입력 요소를 선택합니다.
+        const formInputs = document.querySelectorAll(
+            '.contact-form input[type="text"], .contact-form input[type="email"], .contact-form input[type="tel"], .contact-form textarea'
+        );
+
+        // 입력창에 포커스가 갔을 때 (터치했을 때) 실행되는 함수
+        const handleFocus = (e) => {
+            // 1. 입력창 가림 문제 해결:
+            // 키보드 애니메이션이 끝난 후, 해당 입력창이 화면 중앙에 오도록 부드럽게 스크롤합니다.
+            setTimeout(() => {
+                e.target.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }, 300); // 0.3초의 지연 시간은 키보드가 완전히 올라오는 것을 기다리기 위함입니다.
+        };
+
+        // 입력창에서 포커스가 벗어났을 때 (입력 완료 후 다른 곳 터치 시) 실행되는 함수
+        const handleBlur = () => {
+            // 2. 헤더 이탈 문제 해결:
+            // 키보드가 사라지면서 발생하는 iOS의 렌더링 버그를 바로잡기 위해,
+            // 현재 스크롤 위치로 다시 스크롤하라는 명령을 내려 화면을 강제로 갱신합니다.
+            setTimeout(() => {
+                window.scrollTo(window.scrollX, window.scrollY);
+            }, 10); // 아주 짧은 지연 후 실행하여 안정성을 높입니다.
+        };
+
+        // 각 입력 요소에 'focus'와 'blur' 이벤트 리스너를 추가합니다.
+        formInputs.forEach(input => {
+            input.addEventListener('focus', handleFocus);
+            input.addEventListener('blur', handleBlur);
         });
     }
 
-    // 폼 유효성 검사 (이전 코드와 동일)
+    // [MODIFIED] 페이지 이탈 경고 설정 함수
+    function setupExitWarning() {
+        window.addEventListener('beforeunload', (e) => {
+            if (!submissionSuccessful) { 
+                e.preventDefault();
+                e.returnValue = '';
+                return '';
+            }
+        });
+    }
+    
+    // 폼 유효성 검사
     function validateForm(formData) {
         let isValid = true;
         const requiredFields = [
@@ -99,10 +92,9 @@
         requiredFields.forEach(fieldInfo => {
             const key = fieldInfo.key;
             const id = fieldInfo.id;
-            
             const field = document.getElementById(id); 
             const value = formData.get(key); 
-            
+
             if (!field) {
                 console.error(`Error: Required field element with ID '${id}' not found in the DOM.`);
                 isValid = false;
@@ -110,7 +102,6 @@
             }
 
             const parent = field.closest('.form-group');
-            
             parent.classList.remove('error');
             
             if (!value.trim()) {
@@ -149,7 +140,7 @@
         return isValid;
     }
 
-    // 견적 요약 카드 렌더링 (이전 코드와 동일)
+    // 견적 요약 카드 렌더링
     function renderQuoteSummary(cart) {
         if (cart.items.length === 0) {
             window.location.href = '../index.html';
@@ -165,7 +156,6 @@
             const itemPrice = isRental ? item.price : Math.round(item.price * 1.1); 
             const subtotal = itemPrice * item.quantity;
             totalPrice += subtotal;
-            
             const priceLabel = isRental ? `월 ${fmtKRW(itemPrice)}` : fmtKRW(itemPrice);
             
             return `
@@ -177,15 +167,13 @@
         }).join('');
         
         summaryList.innerHTML = listHTML;
-        
         summaryTotalLabelEl.textContent = isRental ? '월 렌탈료 합계 (VAT 포함):' : '총 구매 금액 합계 (VAT 포함):';
-        summaryTotalPriceEl.textContent = fmtKRW(totalPrice) + '원';
+        summaryTotalPriceEl.textContent = fmtKRW(totalPrice);
     }
 
-    // 견적 요청 제출 핸들러 (이전 코드와 동일)
+    // 견적 요청 제출 핸들러
     async function handleSubmit(e) {
         e.preventDefault();
-
         const htmlFormData = new FormData(form);
         const cartData = getCartData();
         const isRental = cartData.type === 'rental';
@@ -198,15 +186,11 @@
         submitBtn.innerHTML = '<span class="loading-spinner"></span> 제출 중...';
         
         const fd = new FormData();
-        
-        // 사용자 입력 필드를 FormData에 추가
         fd.append('이름', htmlFormData.get('이름'));
         fd.append('이메일', htmlFormData.get('이메일'));
         fd.append('전화번호', (htmlFormData.get('전화번호') || '').replace(/-/g, ''));
         fd.append('회사/직장명', htmlFormData.get('회사/직장명'));
         fd.append('문의내용', htmlFormData.get('문의내용'));
-
-        // 견적함 내용 필드를 FormData에 추가
         fd.append('견적유형', isRental ? '렌탈' : '판매');
         fd.append('총금액', summaryTotalPriceEl.textContent); 
         
@@ -232,9 +216,7 @@
                 body: fd
             });
             
-            // 폼 제출 성공 시 플래그 설정
             submissionSuccessful = true; 
-            
             localStorage.removeItem(QUOTATION_KEY); 
 
             resultTitle.textContent = '견적 요청 성공! 🎉';
@@ -248,7 +230,6 @@
             resultMessage.innerHTML = '데이터 전송에 문제가 발생했습니다. 잠시 후 다시 시도해 주세요.<br>문제가 계속될 경우 1833-3745로 직접 연락 주시기 바랍니다.';
             showResultModal();
         } finally {
-            // 실패 시 버튼 복구
             if (!submissionSuccessful) { 
                 submitBtn.disabled = false;
                 submitBtn.innerHTML = '견적 요청서 최종 제출하기';
@@ -264,8 +245,8 @@
     function init() {
         const cart = getCartData();
         renderQuoteSummary(cart);
-        setupExitWarning(); // 페이지 이탈 경고 설정
-        setupVisualViewportFix(); // 💡 visualViewport를 이용한 키보드 높이 동적 패딩 설정
+        setupExitWarning();
+        setupKeyboardHandlers(); // [ ✨ MODIFIED ] 페이지 초기화 시 키보드 핸들러를 실행합니다.
         form.addEventListener('submit', handleSubmit);
     }
 
