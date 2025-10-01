@@ -17,7 +17,7 @@
     if (__lockCount > 0) return; // 아직 다른 잠금이 남아있음
     document.body.classList.remove('scroll-lock');
     const y = __savedScrollY || 0;
-    document.body.style.top = '';
+    document.body.top = '';
     window.scrollTo(0, y);
   }
 
@@ -26,7 +26,7 @@
   /* ============================================== */
   const STORE_URL  = 'https://smartstore.naver.com/';
   
-  const QUOTATION_KEY = 'gofitQuotation'; // [NEW] 로컬 스토리지 키 정의
+  const QUOTATION_KEY = 'gofitQuotation'; 
 
   const BANNER = { type:'video', src:'https://res.cloudinary.com/dpxjvtbss/video/upload/v1759107647/intro_qrfya9.mp4', poster:'' };
 
@@ -353,7 +353,7 @@
       const rentalInfoEl = card.querySelector('.p-rental-info');
       const quoteBtn = card.querySelector('.p-quote');
       
-      let isRentalUnavailable = false; // [NEW] 렌탈 불가 상태 변수
+      let isRentalUnavailable = false; 
 
       priceSaleEl.classList.remove('price-unavailable');
       quoteBtn.removeAttribute('disabled'); // 버튼 상태 초기화
@@ -375,7 +375,7 @@
           priceSaleEl.textContent = '렌탈 불가';
           priceSaleEl.classList.add('price-unavailable');
           rentalInfoEl.hidden = true;
-          isRentalUnavailable = true; // [NEW] 렌탈 불가 상태 설정
+          isRentalUnavailable = true; 
         }
       }
 
@@ -386,7 +386,7 @@
         // 1. 렌탈 불가 시 버튼 비활성화
         if (isRentalUnavailable) {
             quoteBtn.setAttribute('disabled', 'true');
-            quoteBtn.classList.remove('active-in-cart'); // 비활성화되면 담긴 상태 해제
+            quoteBtn.classList.remove('active-in-cart'); 
         } 
         // 2. 정상 상태일 때 담긴 상태 체크
         else {
@@ -434,9 +434,9 @@
       const priceOrigEl = node.querySelector('.p-orig');
       const priceSaleEl = node.querySelector('.p-sale');
       const rentalInfoEl = node.querySelector('.p-rental-info');
-      const quoteBtn = node.querySelector('.p-quote'); // [ADD] 버튼 참조
+      const quoteBtn = node.querySelector('.p-quote'); 
       
-      let isRentalUnavailable = false; // [NEW] 렌탈 불가 상태 변수
+      let isRentalUnavailable = false; 
 
       priceSaleEl.classList.remove('price-unavailable');
       quoteBtn.removeAttribute('disabled'); // 버튼 상태 초기화
@@ -458,7 +458,7 @@
           priceSaleEl.textContent = '렌탈 불가';
           priceSaleEl.classList.add('price-unavailable');
           rentalInfoEl.hidden = true;
-          isRentalUnavailable = true; // [NEW] 렌탈 불가 상태 설정
+          isRentalUnavailable = true; 
         }
       }
       
@@ -683,7 +683,7 @@
   function toggleQuotationCart(product, productType, e) { 
     if (e) e.preventDefault(); 
     
-    // [NEW] 버튼 비활성화 상태 체크 추가
+    // 버튼 비활성화 상태 체크 추가
     if (e.target.getAttribute('disabled') === 'true') {
       return; // 비활성화된 버튼은 동작하지 않음
     }
@@ -695,7 +695,7 @@
       // 1. 이미 담겨 있으면 -> 제거합니다.
       items.splice(existingItemIndex, 1);
       saveCartItems(items);
-      showRemovedNotification(product.title);
+      // showRemovedNotification(product.title); // <--- 토스트 알림 제거
       
       if (items.length === 0 && quotationCartModal && quotationCartModal.classList.contains('show')) {
         closeQuotationModal();
@@ -728,7 +728,7 @@
     });
 
     saveCartItems(items);
-    showAddedNotification(product.title);
+    // showAddedNotification(product.title); // <--- 토스트 알림 제거
   }
 
   // 견적함 비우기
@@ -786,47 +786,13 @@
     }
   }
 
-  // 제품 추가 알림 (토스트)
-  function showAddedNotification(productName) {
-    const msg = el(`<div class="gfnew-notification">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width: 16px; height: 16px;"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
-      <span>"${productName}" 제품을 장바구니에 담았습니다!</span>
-    </div>`);
+  // --- [삭제됨] showAddedNotification(productName) 함수 ---
 
-    document.body.appendChild(msg);
-    
-    setTimeout(() => {
-      msg.classList.add('show');
-    }, 10);
-    
-    setTimeout(() => {
-      msg.classList.remove('show');
-      setTimeout(() => msg.remove(), 300);
-    }, 3000);
-  }
-
-  // [NEW] 제품 제거 알림 (토스트)
-  function showRemovedNotification(productName) {
-    const msg = el(`<div class="gfnew-notification removed" style="background: linear-gradient(135deg, #c0392b, #e74c3c);">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width: 16px; height: 16px;"><circle cx="12" cy="12" r="10"></circle><line x1="15" y1="9" x2="9" y2="15"></line><line x1="9" y1="9" x2="15" y2="15"></line></svg>
-      <span>"${productName}" 제품을 장바구니에서 해제했습니다.</span>
-    </div>`);
-    
-    document.body.appendChild(msg);
-    
-    setTimeout(() => {
-      msg.classList.add('show');
-    }, 10);
-    
-    setTimeout(() => {
-      msg.classList.remove('show');
-      setTimeout(() => msg.remove(), 300);
-    }, 3000);
-  }
+  // --- [삭제됨] showRemovedNotification(productName) 함수 ---
 
 
   // [수정됨] 견적함 모달 열기 (e.preventDefault() 추가)
-  window.openQuotationModal = function(e) { // <-- e 인자 추가
+  window.openQuotationModal = function(e) { 
     if (e) {
       e.preventDefault(); 
       e.stopPropagation(); 
@@ -992,7 +958,7 @@
             });
             
             saveCartItems(items);
-            showAddedNotification(product.title);
+            // showAddedNotification(product.title); // <--- 토스트 알림 제거
             pendingProduct = null;
 
         } else if (actionType === 'viewChange') {
