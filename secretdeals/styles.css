@@ -808,7 +808,8 @@ section.mixed-inquiry-box {
   position: fixed; 
   left: 0; 
   right: 0; 
-  bottom: 0; 
+  /* bottom: 0; */
+  top: 0; 
   height: 72vh; 
   transform: translateY(105%); 
   transition: transform .28s ease; 
@@ -846,7 +847,8 @@ section.mixed-inquiry-box {
   position: fixed; 
   left: 16px; 
   right: 16px; 
-  bottom: calc(16px + env(safe-area-inset-bottom)); 
+  /* bottom: calc(16px + env(safe-area-inset-bottom)); */
+  top: 0; 
   z-index: 48; 
   background: linear-gradient(135deg, #17182a, #101223); 
   border: 1px solid var(--border); 
