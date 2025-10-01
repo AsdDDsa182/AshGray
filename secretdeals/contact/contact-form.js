@@ -20,8 +20,8 @@
     const resultModal = document.getElementById('resultModalOverlay');
     const resultTitle = document.getElementById('resultModalTitle');
     const resultMessage = document.getElementById('resultModalMessage');
-    const inputFields = form.querySelectorAll('input, textarea'); // 모든 입력 필드를 선택
-
+    // 👇 키보드 높이만큼 패딩을 줄 주 컨테이너 (main 태그)
+    const mainContent = document.querySelector('main.wrap'); 
     
     // 유틸리티 함수
     const fmtKRW = n => new Intl.NumberFormat('ko-KR',{style:'currency',currency:'KRW',maximumFractionDigits:0}).format(n);
@@ -36,38 +36,58 @@
         }
     }
 
-    // [NEW] iOS 키보드 대응: Focus 시 스크롤 조정
-    function setupIOSKeyboardFix() {
-        inputFields.forEach(field => {
-            field.addEventListener('focus', () => {
-                // 키보드가 완전히 올라올 시간을 기다립니다. (200ms)
-                setTimeout(() => {
-                    // 해당 입력 필드가 뷰포트 중앙에 오도록 부드럽게 스크롤합니다.
-                    // 'center'를 사용하면 상단 고정 헤더에 의해 가려지지 않도록 확실하게 위치시킵니다.
-                    field.scrollIntoView({ 
-                        behavior: 'smooth', 
-                        block: 'center' // 화면 중앙에 오도록 스크롤
-                    });
-                }, 200); 
-            });
-        });
-    }
-
-    // [ORIGINAL] 페이지 이탈 경고 설정 함수
+    // [MODIFIED] 페이지 이탈 경고 설정 함수
     function setupExitWarning() {
+        
         // 1. 브라우저 UI(뒤로가기, 탭 닫기) 경고 설정
         window.addEventListener('beforeunload', (e) => {
             if (!submissionSuccessful) { 
                 e.preventDefault();
-                e.returnValue = ''; // 표준 경고 활성화
-                return '';          // 표준 경고 활성화
+                e.returnValue = ''; // 표준 경고 활성화 (커스텀 메시지 없음)
+                return '';          // 표준 경고 활성화 (커스텀 메시지 없음)
             }
         });
         
         // 2. 인페이지 링크(로고) 클릭 시 처리 (수정 없음)
     }
     
-    // 폼 유효성 검사 (변경 없음)
+    // 💡 [NEW/MODIFIED] visualViewport를 이용한 키보드 높이 동적 패딩 조정
+    function setupVisualViewportFix() {
+        if (!window.visualViewport || !mainContent) return; // 지원하지 않거나 요소가 없으면 종료
+        
+        // 키보드 등장/사라짐에 따라 뷰포트 크기가 바뀔 때마다 실행
+        window.visualViewport.addEventListener('resize', () => {
+            const viewport = window.visualViewport;
+            const originalHeight = window.innerHeight; // 초기 뷰포트 높이 (iOS에서는 주소창 포함)
+            const currentHeight = viewport.height;    // 키보드가 나타난 후의 뷰포트 높이
+            
+            // 키보드가 올라와서 뷰포트 높이가 줄어든 경우 (차이가 50px 이상일 때 키보드로 간주)
+            if (originalHeight - currentHeight > 50) {
+                // 키보드가 차지하는 픽셀 높이를 계산
+                const keyboardHeight = originalHeight - currentHeight;
+                
+                // main 컨텐츠에 키보드 높이만큼 하단 패딩을 추가하여 밀어 올릴 공간을 만듭니다.
+                // 여기에 약간의 여백(20px)을 더해 입력 필드가 키보드와 너무 붙지 않게 합니다.
+                mainContent.style.paddingBottom = `${keyboardHeight + 20}px`;
+                
+                // 💡 [추가] 키보드 등장 시 해당 필드가 중앙에 오도록 스크롤 (safari의 자동 스크롤이 실패하는 경우 보조)
+                // 현재 포커스된 입력 필드를 찾습니다.
+                const activeElement = document.activeElement;
+                if (activeElement && (activeElement.tagName === 'INPUT' || activeElement.tagName === 'TEXTAREA')) {
+                    // 키보드가 올라온 후 스크롤이 적용되도록 약간의 지연 시간을 줍니다.
+                    setTimeout(() => {
+                        // 'start'로 스크롤하면 헤더 바로 밑에 입력 필드가 위치하므로, 키보드 때문에 가려지지 않습니다.
+                        activeElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    }, 50); 
+                }
+            } else {
+                // 키보드가 사라진 경우: 하단 패딩을 원래대로 (0px) 복구합니다.
+                mainContent.style.paddingBottom = '0';
+            }
+        });
+    }
+
+    // 폼 유효성 검사 (이전 코드와 동일)
     function validateForm(formData) {
         let isValid = true;
         const requiredFields = [
@@ -129,7 +149,7 @@
         return isValid;
     }
 
-    // 견적 요약 카드 렌더링 (변경 없음)
+    // 견적 요약 카드 렌더링 (이전 코드와 동일)
     function renderQuoteSummary(cart) {
         if (cart.items.length === 0) {
             window.location.href = '../index.html';
@@ -162,7 +182,7 @@
         summaryTotalPriceEl.textContent = fmtKRW(totalPrice) + '원';
     }
 
-    // 견적 요청 제출 핸들러 (변경 없음)
+    // 견적 요청 제출 핸들러 (이전 코드와 동일)
     async function handleSubmit(e) {
         e.preventDefault();
 
@@ -245,7 +265,7 @@
         const cart = getCartData();
         renderQuoteSummary(cart);
         setupExitWarning(); // 페이지 이탈 경고 설정
-        setupIOSKeyboardFix(); // 💡 iOS 키보드 대응 스크롤 설정 추가
+        setupVisualViewportFix(); // 💡 visualViewport를 이용한 키보드 높이 동적 패딩 설정
         form.addEventListener('submit', handleSubmit);
     }
 
