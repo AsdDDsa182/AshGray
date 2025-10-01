@@ -1,0 +1,1526 @@
+/* ============================================== */
+/* ============ 1. 전역 스타일 및 변수 ============ */
+/* ============================================== */
+:root {
+  --bg: #0b0c10;
+  --card: #111218;
+  --muted: #a9afc3;
+  --text: #f2f5ff;
+  --brand: #7c5cff;
+  --brand-2: #4cc9f0;
+  --ok: #00e091;
+  --danger: #ff5470;
+  --border: #232536;
+  --radius: 18px;
+  --shadow: 0 10px 30px rgba(0,0,0,.35);
+  --quote-bg: #1b2033;
+  --quote-border: #2a3252;
+  --h-size: clamp(24px, 3.6vw, 42px);
+  --p-size: 14px;
+  --space-title-gap: 12px;
+  --space-intra: 2px;
+  --space-inter: 44px;
+}
+@media (min-width:1080px) {
+  :root { 
+    --p-size: 15px; 
+    --space-title-gap: 14px; 
+    --space-intra: 4px; 
+    --space-inter: 56px; 
+  }
+}
+
+* { 
+  box-sizing: border-box; 
+}
+
+html, 
+body { 
+  margin: 0; 
+  background: var(--bg); 
+  color: var(--text); 
+  font-family: 'Pretendard', system-ui, -apple-system, Segoe UI, Roboto, 'Noto Sans KR', sans-serif; 
+  touch-action: pan-y; 
+}
+
+a { 
+  color: inherit; 
+  text-decoration: none; 
+}
+
+img, 
+video { 
+  display: block; 
+  max-width: 100%; 
+  height: auto; 
+}
+
+.wrap { 
+  max-width: 1200px; 
+  margin: 0 auto; 
+  padding: 12px;
+}
+
+input, 
+textarea, 
+button, 
+a { 
+  -webkit-tap-highlight-color: transparent; 
+}
+
+/* ============================================== */
+/* ============ 2. 헤더 및 네비게이션 ============ */
+/* ============================================== */
+
+header { 
+  position: fixed; 
+  top: 0; 
+  width: 100%; 
+  z-index: 40; 
+  background: linear-gradient(180deg, rgba(11,12,16,.95), rgba(11,12,16,.75)); 
+  backdrop-filter: blur(8px); 
+  border-bottom: 1px solid var(--border); 
+}
+
+.head { 
+  display: flex; 
+  align-items: center; 
+  justify-content: space-between; 
+  gap: 16px; 
+  padding: 12px 24px; 
+}
+
+.logo { 
+  display: flex; 
+  align-items: center; 
+  gap: 12px; 
+  font-weight: 800; 
+}
+
+.logo-img { 
+  width: 36px; 
+  height: 36px; 
+}
+
+.header-actions { 
+  display: flex; 
+  align-items: center; 
+  gap: 8px; 
+}
+
+.header-link { 
+  background: transparent; 
+  font-size: 13px; 
+  padding: 8px 14px; 
+  border: 1px solid transparent; 
+}
+
+.header-link:hover { 
+  border-color: var(--border); 
+  background: var(--card); 
+}
+
+#callToConsult {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  padding: 8px 12px;
+  font-size: 14px;
+  line-height: 1;
+}
+
+.hamburger-btn { 
+  display: none; 
+  width: 36px; 
+  height: 36px; 
+  padding: 8px; 
+  background: transparent; 
+  border: 1px solid var(--border); 
+  border-radius: 10px; 
+  cursor: pointer; 
+}
+
+.hamburger-btn .line { 
+  display: block; 
+  width: 100%; 
+  height: 2px; 
+  background-color: var(--text); 
+  border-radius: 2px; 
+}
+
+.hamburger-btn .line:not(:last-child) { 
+  margin-bottom: 5px; 
+}
+
+.mobile-nav { 
+  position: fixed; 
+  top: 0; 
+  right: 0; 
+  width: min(320px, 80vw); 
+  height: 100dvh; 
+  background: var(--quote-bg); 
+  z-index: 60; 
+  transform: translateX(100%); 
+  transition: transform 0.3s ease; 
+  padding: 24px; 
+  border-left: 1px solid var(--quote-border); 
+  box-shadow: var(--shadow); 
+}
+
+.mobile-nav.open { 
+  transform: translateX(0); 
+}
+
+.btn-close-nav { 
+  position: absolute; 
+  top: 16px; 
+  right: 16px; 
+  background: var(--card); 
+  border: 1px solid var(--border); 
+  color: var(--text); 
+  width: 36px; 
+  height: 36px; 
+  border-radius: 10px; 
+  cursor: pointer; 
+  font-size: 24px; 
+  line-height: 1; 
+  padding: 0; 
+  display: grid; 
+  place-items: center; 
+  z-index: 61; 
+}
+
+.mobile-nav-content { 
+  margin-top: 50px; 
+}
+
+.mobile-nav-link { 
+  display: block; 
+  font-size: 18px; 
+  font-weight: 700; 
+  padding: 12px; 
+  background: var(--card); 
+  border: 1px solid var(--border); 
+  border-radius: 12px; 
+  text-align: center; 
+}
+
+.mobile-nav-divider { 
+  border: 0; 
+  height: 1px; 
+  background: var(--quote-border); 
+  margin: 24px 0; 
+}
+
+.contact-info { 
+  display: grid; 
+  gap: 16px; 
+  font-size: 14px; 
+  color: var(--muted); 
+}
+
+.contact-item { 
+  display: flex; 
+  justify-content: space-between; 
+}
+
+.contact-item strong { 
+  font-weight: 600; 
+  color: var(--text); 
+}
+
+/* 모바일 메뉴 오픈 시 바디 스크롤 잠금 */
+body.scroll-lock {
+  position: fixed;
+  overflow: hidden;
+  width: 100%;
+  inset: 0;
+}
+
+/* ============================================== */
+/* ============= 3. 섹션 공통 스타일 ============== */
+/* ============================================== */
+
+.section-title { 
+  font-size: var(--h-size); 
+  line-height: 1.1; 
+  font-weight: 800; 
+  margin: 0; 
+}
+
+#welcomeTitle { 
+  font-size: clamp(30px, 4.5vw, 52px); 
+}
+
+.section-desc { 
+  margin: var(--space-title-gap) 0 0; 
+  color: var(--muted); 
+  font-size: var(--p-size); 
+  line-height: 1.6; 
+}
+
+.section-head { 
+  margin-top: 32px; 
+  margin-bottom: 32px; 
+}
+
+section[aria-label], 
+.hero, 
+#productSection, 
+#channelsSection { 
+  padding-block: var(--space-intra); 
+}
+
+.section-sep { 
+  height: 1px; 
+  margin-block: var(--space-inter); 
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,.14), transparent); 
+}
+
+.btn { 
+  padding: 12px 14px; 
+  border-radius: 12px; 
+  border: 1px solid var(--border); 
+  background: #121325; 
+  color: var(--text); 
+  cursor: pointer; 
+  font-weight: 700; 
+  display: inline-block; 
+  transition: all .2s; 
+  text-align: center; 
+  font-size: 14px; 
+}
+
+.btn.primary { 
+  background: linear-gradient(135deg, var(--brand), var(--brand-2)); 
+  border: 0; 
+}
+
+.btn[aria-disabled="true"] { 
+  opacity: .5; 
+  pointer-events: none; 
+}
+
+/* ============================================== */
+/* ============= 4. 배너 및 파트너 스타일 ============= */
+/* ============================================== */
+
+.pulsing-circles-container { 
+  position: relative; 
+  width: 100%; 
+  height: 80px; 
+  margin-top: 84px; 
+  margin-bottom: -10px; 
+}
+
+.pulsing-circles-container .circle { 
+  position: absolute; 
+  border-radius: 50%; 
+  background: #115E59; 
+  animation: pulse 2.5s infinite ease-in-out; 
+}
+
+.pulsing-circles-container .circle:nth-child(1) { 
+  width: 50px; 
+  height: 50px; 
+  top: 15px; 
+  left: 0; 
+  animation-delay: 0s; 
+}
+
+.pulsing-circles-container .circle:nth-child(2) { 
+  width: 65px; 
+  height: 65px; 
+  top: 5px; 
+  left: 40px; 
+  animation-delay: 0.4s; 
+}
+
+.pulsing-circles-container .circle:nth-child(3) { 
+  width: 45px; 
+  height: 45px; 
+  top: 25px; 
+  left: 85px; 
+  animation-delay: 0.8s; 
+}
+
+.pulsing-circles-container .circle:nth-child(4) { 
+  width: 55px; 
+  height: 55px; 
+  top: 10px; 
+  left: 110px; 
+  animation-delay: 1.2s; 
+}
+
+@keyframes pulse { 
+  0%, 100% { 
+    transform: scale(1); 
+  } 
+  50% { 
+    transform: scale(1.15); 
+  } 
+}
+
+.media { 
+  position: relative; 
+  width: 100%; 
+  aspect-ratio: 16/9; 
+  border-radius: 20px; 
+  overflow: hidden; 
+  background: #121325; 
+  border: 1px solid var(--border); 
+  box-shadow: var(--shadow); 
+  isolation: isolate; 
+}
+
+.media .img, 
+.media .vid { 
+  position: absolute; 
+  inset: 0; 
+  width: 100%; 
+  height: 100%; 
+  object-fit: cover; 
+  object-position: center; 
+}
+
+#partnersSection { 
+  padding-block: var(--space-intra); 
+  margin-top: 32px; 
+  overflow-x: hidden; 
+}
+
+.partners-slider-container { 
+  overflow: hidden; 
+  position: relative; 
+  -webkit-mask-image: linear-gradient(to right, transparent, black 15%, black 85%, transparent); 
+  mask-image: linear-gradient(to right, transparent, black 15%, black 85%, transparent); 
+}
+
+.partners-slider-track { 
+  display: flex; 
+  align-items: center; 
+  gap: 48px; 
+  width: max-content; 
+  animation: scroll 40s linear infinite; 
+}
+
+.partners-slider-track img { 
+  height: 44px; 
+  max-width: none; 
+  flex-shrink: 0; 
+  filter: brightness(0) invert(1); 
+}
+
+@keyframes scroll { 
+  from { 
+    transform: translateX(0); 
+  } 
+  to { 
+    transform: translateX(-50%); 
+  } 
+}
+
+@media (min-width: 720px) { 
+  .partners-slider-track { 
+    gap: 72px; 
+  } 
+}
+
+/* ============================================== */
+/* =========== 5. 프로모션 슬라이더 스타일 ========== */
+/* ============================================== */
+
+#promoSliderSection { 
+  padding-block: var(--space-intra); 
+}
+
+.promo-slider { 
+  position: relative; 
+  aspect-ratio: 3 / 4; 
+  border-radius: 20px; 
+  overflow: hidden; 
+  background: var(--card); 
+  border: 1px solid var(--border); 
+  box-shadow: var(--shadow); 
+  isolation: isolate; 
+}
+
+@media (min-width: 720px) { 
+  .promo-slider { 
+    aspect-ratio: 16 / 7; 
+  } 
+}
+
+.promo-slider-track { 
+  display: flex; 
+  height: 100%; 
+  transition: transform 0.5s ease-in-out; 
+}
+
+.promo-slide { 
+  flex: 0 0 100%; 
+  width: 100%; 
+  height: 100%; 
+}
+
+.promo-slide img { 
+  width: 100%; 
+  height: 100%; 
+  object-fit: cover; 
+  display: block; 
+}
+
+.promo-slider-nav { 
+  position: absolute; 
+  top: 50%; 
+  transform: translateY(-50%); 
+  z-index: 10; 
+  width: 44px; 
+  height: 44px; 
+  padding: 0; 
+  border-radius: 50%; 
+  background: rgba(11, 12, 16, 0.6); 
+  border: 1px solid var(--border); 
+  backdrop-filter: blur(4px); 
+  color: var(--text); 
+  cursor: pointer; 
+  display: grid; 
+  place-items: center; 
+  transition: all .2s; 
+}
+
+.promo-slider-nav:active { 
+  transform: translateY(-50%) scale(0.95); 
+  background: rgba(42, 45, 62, 0.8); 
+}
+
+.promo-slider-nav.prev { 
+  left: 16px; 
+}
+
+.promo-slider-nav.next { 
+  right: 16px; 
+}
+
+.promo-slider-nav svg { 
+  width: 20px; 
+  height: 20px; 
+}
+
+.promo-slider-indicators { 
+  position: absolute; 
+  bottom: 16px; 
+  left: 50%; 
+  transform: translateX(-50%); 
+  display: flex; 
+  gap: 8px; 
+  z-index: 10; 
+}
+
+.promo-indicator-dot { 
+  width: 10px; 
+  height: 10px; 
+  padding: 0; 
+  border: 0; 
+  border-radius: 50%; 
+  background: rgba(255, 255, 255, 0.35); 
+  cursor: pointer; 
+  transition: all .3s ease; 
+}
+
+.promo-indicator-dot.active { 
+  background: var(--text); 
+  transform: scale(1.2); 
+}
+
+/* ============================================== */
+/* =========== 6. 제품 목록 및 필터 스타일 ========== */
+/* ============================================== */
+
+.caution-tape-wrapper { 
+  transform: rotate(-1.5deg); 
+  margin-top: var(--space-inter); 
+  margin-bottom: 24px; 
+  overflow: hidden; 
+}
+
+.caution-tape { 
+  height: 40px; 
+  width: 100%; 
+  background: repeating-linear-gradient( 45deg, #f8d142, #f8d142 30px, #0b0c10 30px, #0b0c10 60px ); 
+  background-size: 84.85px 84.85px; 
+  animation: scroll-tape-bg 2s linear infinite; 
+}
+
+@keyframes scroll-tape-bg { 
+  from { 
+    background-position: 0 0; 
+  } 
+  to { 
+    background-position: -84.85px 0; 
+  } 
+}
+
+.hero { 
+  display: grid; 
+  gap: 0; 
+}
+
+#hero .section-title { 
+  background: linear-gradient(90deg, var(--brand), var(--brand-2), var(--brand)); 
+  -webkit-background-clip: text; 
+  background-clip: text; 
+  color: transparent; 
+  display: inline-block; 
+  background-size: 200% auto; 
+  animation: gradient-flow 10s ease-in-out infinite; 
+}
+
+@keyframes gradient-flow { 
+  0% { 
+    background-position: 0% center; 
+  } 
+  50% { 
+    background-position: 100% center; 
+  } 
+  100% { 
+    background-position: 0% center; 
+  } 
+}
+
+.view-toggle-container, 
+.duration-toggle-container { 
+  display: flex; 
+  flex-wrap: wrap; 
+  gap: 8px; 
+  margin-bottom: 16px; 
+  justify-content: center; 
+}
+
+.duration-toggle-container[hidden] {
+    display: none;
+}
+
+
+.view-toggle-container { 
+  background-color: var(--card); 
+  padding: 6px; 
+  border-radius: 14px; 
+  border: 1px solid var(--border); 
+}
+
+.view-toggle { 
+  flex-grow: 1; 
+  border: 0; 
+  background: transparent; 
+  padding: 10px 16px; 
+  font-size: 14px; 
+  border-radius: 10px; 
+  color: var(--muted); 
+}
+
+.view-toggle.active { 
+  background: linear-gradient(135deg, var(--brand), var(--brand-2)); 
+  color: var(--text); 
+  box-shadow: var(--shadow); 
+}
+
+.duration-toggle { 
+  background-color: var(--card); 
+  border: 1px solid var(--border); 
+  font-size: 13px; 
+  color: var(--muted); 
+  padding: 8px 14px; 
+  border-radius: 10px; 
+}
+
+.duration-toggle.active { 
+  color: var(--ok); 
+  border-color: var(--ok); 
+  box-shadow: 0 0 0 3px rgba(0, 224, 145, 0.15); 
+}
+
+.rental-disclaimer { 
+  font-size: 12px; 
+  color: var(--muted); 
+  text-align: center; 
+  margin: 0 0 24px; 
+}
+
+.grid { 
+  display: grid; 
+  grid-template-columns: repeat(2, 1fr); 
+  gap: 12px; 
+  align-items: stretch; 
+}
+
+.card { 
+  grid-column: span 1; 
+  background: var(--card); 
+  border: 1px solid var(--border); 
+  border-radius: 20px; 
+  box-shadow: var(--shadow); 
+  padding: 12px; 
+  display: flex; 
+  flex-direction: column; 
+  min-width: 0; 
+}
+
+.thumb { 
+  border-radius: 16px; 
+  overflow: hidden; 
+  flex-shrink: 0; 
+}
+
+.thumb .imgwrap { 
+  position: relative; 
+  width: 100%; 
+  padding-top: 100%; 
+  overflow: hidden; 
+  background: #0e0f1b; 
+}
+
+.thumb img { 
+  position: absolute; 
+  inset: 0; 
+  width: 100%; 
+  height: 100%; 
+  object-fit: cover; 
+}
+
+.body { 
+  padding: 0; 
+  margin-top: 16px; 
+  display: flex; 
+  flex-direction: column; 
+  flex-grow: 1; 
+  min-height: 1px; 
+}
+
+.title { 
+  font-size: clamp(14px, 4.2vw, 18px); 
+  font-weight: 700; 
+  line-height: 1.4; 
+  margin: 0; 
+  height: calc(1.4em * 2); 
+  overflow: hidden; 
+}
+
+.price { 
+  display: flex; 
+  flex-direction: column; 
+  align-items: flex-start; 
+  gap: 4px; 
+  margin-top: 12px; 
+  margin-bottom: 0; 
+  min-height: 60px; 
+}
+
+.price .orig { 
+  font-size: clamp(12px, 3.3vw, 14px); 
+  color: var(--muted); 
+  text-decoration: line-through; 
+  height: 1.2em; 
+}
+
+.sale-wrapper { 
+  display: flex; 
+  align-items: baseline; 
+  gap: 4px; 
+}
+
+.price .sale { 
+  font-size: clamp(16px, 5.2vw, 22px); 
+  font-weight: 800; 
+  color: var(--ok); 
+}
+
+.price .sale.price-unavailable { 
+  color: var(--danger); 
+  font-size: 16px; 
+}
+
+.p-rental-info { 
+  font-size: 14px; 
+  font-weight: 600; 
+  color: var(--muted); 
+}
+
+.cta { 
+  display: grid; 
+  gap: 8px; 
+  margin-top: 12px; 
+  flex-shrink: 0; 
+}
+
+.btn.p-nshop { 
+  background-color: #03C75A; 
+  border-color: transparent; 
+  color: #fff; 
+}
+
+.cta-split { 
+  display: flex; 
+  gap: 8px; 
+}
+
+.cta-split > .btn { 
+  flex: 1; 
+}
+
+.cta-split .p-link { 
+  display: grid; 
+  place-items: center; 
+  padding: 10px; 
+}
+
+.cta-split .p-link svg { 
+  width: 18px; 
+  height: 18px; 
+}
+
+.empty { 
+  color: var(--muted); 
+  text-align: center; 
+  padding: 40px; 
+  border: 1px dashed var(--border); 
+  border-radius: 16px; 
+}
+
+.load-more-container { 
+  text-align: center; 
+  margin-top: 32px; 
+}
+
+#loadMoreBtn { 
+  padding: 14px 28px; 
+  font-size: 16px; 
+}
+
+/* ============================================== */
+/* =========== 7. 서비스 및 문의 스타일 =========== */
+/* ============================================== */
+
+section.mixed-inquiry-box {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 24px;
+  text-align: left;
+}
+
+.mixed-inquiry-box .box-title-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.mixed-inquiry-box .info-box-icon {
+  font-size: 24px;
+  margin: 0;
+}
+
+.mixed-inquiry-box h3 {
+  font-size: 20px;
+  margin: 0;
+}
+
+.mixed-inquiry-box p {
+  color: var(--muted);
+  line-height: 1.7;
+  margin: 0;
+  padding-left: 12px;
+}
+
+.mixed-inquiry-box strong { 
+  color: var(--ok); 
+}
+
+.service-grid { 
+  display: grid; 
+  grid-template-columns: 1fr; 
+  gap: 18px; 
+}
+
+.service-card { 
+  background: var(--card); 
+  border: 1px solid var(--border); 
+  border-radius: var(--radius); 
+  padding: 24px; 
+  display: flex; 
+  flex-direction: column; 
+}
+
+.service-card h3 { 
+  font-size: 20px; 
+  font-weight: 700; 
+  margin: 0 0 10px; 
+  color: var(--ok); 
+}
+
+.service-card p { 
+  margin: 0; 
+  color: var(--muted); 
+  font-size: 14px; 
+  line-height: 1.6; 
+  flex-grow: 1; 
+}
+
+.consult-action { 
+  margin-top: 20px; 
+  text-align: right; 
+}
+
+.consult-link { 
+  display: inline-block; 
+  color: var(--muted); 
+  font-size: 13px; 
+  font-weight: 600; 
+  text-decoration: none; 
+  padding-bottom: 5px; 
+  border-bottom: 1px solid var(--muted); 
+  transition: all 0.2s ease; 
+}
+
+.intro-card { 
+  background-color: #000; 
+  background-image: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('https://images.unsplash.com/photo-1517836357463-d25dfeac3438?q=80&w=1200&auto=format&fit=crop'); 
+  background-size: cover; 
+  background-position: center; 
+}
+
+.intro-card h3 { 
+  color: var(--text); 
+  font-size: 24px; 
+}
+
+@media (min-width: 900px) { 
+  .service-grid { 
+    grid-template-columns: repeat(3, 1fr); 
+  } 
+  .service-grid .intro-card { 
+    grid-column: 1 / -1; 
+  } 
+}
+
+/* ============================================== */
+/* ============== 8. 채널 및 푸터 스타일 ============== */
+/* ============================================== */
+
+.channels { 
+  display: grid; 
+}
+
+.ch-grid { 
+  display: grid; 
+  gap: 12px; 
+  grid-template-columns: 1fr; 
+}
+
+@media (min-width:720px) { 
+  .ch-grid { 
+    grid-template-columns: 1fr 1fr; 
+  } 
+}
+@media (min-width:1080px) { 
+  .ch-grid { 
+    grid-template-columns: repeat(4, 1fr); 
+  } 
+}
+
+.ch { 
+  display: flex; 
+  align-items: center; 
+  gap: 12px; 
+  padding: 14px; 
+  border-radius: 14px; 
+  background: #121325; 
+  border: 1px solid var(--border); 
+}
+
+.ch .ico { 
+  width: 36px; 
+  height: 36px; 
+  border-radius: 10px; 
+  display: grid; 
+  place-items: center; 
+  background: #0f1122; 
+  color: #e9edff; 
+}
+
+.ch .ico svg { 
+  width: 18px; 
+  height: 18px; 
+  display: block; 
+}
+
+.ch .lab { 
+  font-weight: 700; 
+}
+
+footer { 
+  margin: 20px 0 20px; 
+  color: var(--muted); 
+  font-size: 14px; 
+  text-align: center; 
+}
+
+
+
+
+
+/*
+==============================================
+=========== [NEW] 10. 견적함 모달 및 버튼 스타일 ============
+==============================================
+*/
+
+/* --- 1. 헤더 견적함 아이콘 (Mobile-First) --- */
+#quotationCartIcon { 
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  width: 36px;
+  height: 36px;
+  padding: 8px;
+  background: transparent; 
+  border: 1px solid var(--border); 
+  border-radius: 10px; 
+  cursor: pointer; 
+  margin-right: 8px; /* 헤더 액션과의 간격 */
+  transition: all .2s;
+  flex-shrink: 0;
+}
+
+#quotationCartIcon:hover {
+  border-color: var(--brand); 
+  background: var(--card);
+}
+
+.cart-badge {
+  position: absolute;
+  top: -4px;
+  right: -4px;
+  min-width: 18px;
+  height: 18px;
+  background: var(--danger);
+  color: var(--text);
+  border-radius: 999px;
+  font-size: 10px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 4px;
+  transform-origin: center;
+  transform: scale(0);
+  transition: transform 0.2s ease, background 0.2s ease;
+}
+
+.cart-badge.has-items {
+  transform: scale(1);
+}
+
+/* --- 2. 제품 카드 내 '장바구니' 버튼 및 레이아웃 (Mobile-First) --- */
+
+/* 장바구니 버튼 (1줄) - 항상 100% 너비 */
+.btn.p-quote.full-width {
+  background: var(--card);
+  border-color: var(--brand);
+  color: var(--brand);
+  font-weight: 700;
+  font-size: 14px;
+  width: 100%; /* HTML 구조상 이미 100%이지만 명시적 지정 */
+}
+
+/* [NEW ADDITION] 렌탈 불가 시 장바구니 버튼 비활성화 스타일 */
+/* .btn.p-quote[disabled]는 .btn.p-quote.active-in-cart보다 우선순위가 높으므로 !important가 필요 없습니다. */
+.btn.p-quote[disabled] {
+  opacity: 0.5; /* 버튼을 흐릿하게 만듭니다. */
+  cursor: not-allowed;
+  pointer-events: none; /* 클릭 이벤트 완벽 차단 */
+  background: var(--card); /* 배경색을 기본색으로 강제 */
+  border-color: var(--border); /* 테두리색을 옅은색으로 강제 */
+  color: var(--muted); /* 글자색을 옅은색으로 강제 */
+  box-shadow: none;
+}
+
+
+/* [NEW] 장바구니에 담긴 상태 (색상 반전 및 그림자) */
+.btn.p-quote.active-in-cart {
+  background: linear-gradient(135deg, var(--brand), var(--brand-2));
+  border-color: var(--brand);
+  color: var(--text);
+  box-shadow: 0 0 0 3px rgba(124, 92, 255, 0.2);
+}
+
+/* N쇼핑 + 돋보기 버튼 (2줄) - 장바구니 버튼과 분리되어 배치 */
+.card .cta-split {
+  display: flex;
+  gap: 8px;
+  margin-top: 8px; 
+}
+
+.card .cta-split > .btn { 
+  flex: 1;
+}
+
+/* PC 호버 */
+@media (hover: hover) {
+  /* 담기 버튼: 담기 전 호버 효과 */
+  .btn.p-quote:not(.active-in-cart):hover {
+    background: var(--brand);
+    color: var(--text);
+    border-color: var(--brand);
+    opacity: 0.8;
+  }
+  
+  /* 담기 버튼: 담긴 후 호버 효과 */
+  .btn.p-quote.active-in-cart:hover {
+    background: var(--brand-2); 
+    border-color: var(--brand-2);
+  }
+}
+
+/* 모바일 터치 피드백 */
+.btn.p-quote:active {
+  transform: scale(0.98);
+}
+
+/* PC/태블릿: 버튼 크기 고정 (720px 이상) */
+@media (min-width: 720px) {
+  .card .cta-split {
+    display: grid;
+    grid-template-columns: 1fr 40px; /* N쇼핑(1fr), 돋보기(40px) */
+  }
+  
+  /* 상세 버튼의 크기 고정 및 위치 조정 */
+  .card .cta-split .p-link {
+    width: 40px;
+    height: auto;
+    padding: 0;
+  }
+}
+
+
+/* --- 3. 견적함 모달 오버레이 및 박스 스타일 (Mobile-First) --- */
+
+.quotation-modal-overlay,
+.quotation-alert-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.85);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+  padding: 0; /* 모바일 풀스크린 대비 */
+}
+
+.quotation-modal-overlay.show,
+.quotation-alert-overlay.show {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* 모달 컨테이너 - 모바일 풀스크린 */
+.quotation-modal {
+  width: 100%;
+  height: 100dvh;
+  max-width: none;
+  max-height: none;
+  background: var(--bg);
+  border-radius: 0;
+  display: flex;
+  flex-direction: column;
+  transform: translateY(100%);
+  transition: transform 0.3s ease;
+  padding-top: 0; /* safe-area-inset은 JS에서 처리 */
+}
+
+.quotation-modal-overlay.show .quotation-modal {
+  transform: translateY(0);
+}
+
+/* PC/태블릿 스타일 오버라이드 */
+@media (min-width: 768px) {
+  .quotation-modal {
+    width: min(90vw, 550px);
+    height: min(90vh, 750px);
+    border-radius: 20px;
+    border: 1px solid var(--border);
+    box-shadow: var(--shadow);
+    transform: scale(0.9);
+    transition: transform 0.3s ease, opacity 0.3s ease;
+  }
+  .quotation-modal-overlay.show .quotation-modal {
+    transform: scale(1);
+  }
+}
+
+/* --- 4. 모달 헤더/푸터 --- */
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 20px; /* 모바일 우선 여백 */
+  border-bottom: 1px solid var(--border);
+  flex-shrink: 0;
+  /* 모바일 safe area 대응 */
+  padding-top: calc(16px + env(safe-area-inset-top));
+}
+
+.modal-title {
+  font-size: clamp(16px, 4vw, 20px);
+  font-weight: 800;
+  margin: 0;
+}
+
+.modal-close-btn {
+  background: var(--card); 
+  border: 1px solid var(--border); 
+  color: var(--text); 
+  width: 36px; 
+  height: 36px; 
+  border-radius: 10px; 
+  cursor: pointer; 
+  font-size: 24px; 
+  line-height: 1; 
+  padding: 0; 
+  display: grid; 
+  place-items: center; 
+  transition: all .2s;
+}
+
+.modal-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 20px;
+  border-top: 1px solid var(--border);
+  flex-shrink: 0;
+  gap: 12px;
+  /* 모바일 safe area 대응 */
+  padding-bottom: calc(16px + env(safe-area-inset-bottom));
+}
+
+.modal-footer .btn {
+  flex: 1;
+  padding: 12px 14px;
+}
+
+.modal-footer .btn.secondary {
+  background: transparent;
+  color: var(--muted);
+  border-color: var(--muted);
+}
+
+/* --- 5. 모달 바디 및 목록 --- */
+
+.modal-body {
+  flex-grow: 1;
+  overflow-y: auto;
+  padding: 20px;
+}
+
+.modal-cart-type {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--brand);
+  background: var(--quote-bg);
+  border: 1px solid var(--quote-border);
+  border-radius: 10px;
+  padding: 10px 14px;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+/* .modal-cart-list {} */
+
+.modal-empty-state {
+  text-align: center;
+  padding: 40px 20px;
+  color: var(--muted);
+  border: 1px dashed var(--border);
+  border-radius: 12px;
+}
+
+.modal-empty-state svg {
+  width: 40px;
+  height: 40px;
+  stroke: var(--muted);
+  margin-bottom: 16px;
+}
+
+.modal-empty-state p {
+  margin: 4px 0;
+  font-size: 14px;
+}
+
+/* --- 6. 견적함 아이템 (모바일 가로형) --- */
+
+.modal-cart-item {
+  display: flex;
+  align-items: center;
+  padding: 14px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  margin-bottom: 12px;
+  gap: 12px;
+}
+
+.cart-item-img {
+  width: 60px;
+  height: 60px;
+  object-fit: cover;
+  border-radius: 10px;
+  flex-shrink: 0;
+}
+
+.cart-item-info {
+  flex-grow: 1;
+  min-width: 0;
+}
+
+.cart-item-title {
+  font-size: 14px;
+  font-weight: 700;
+  margin: 0 0 4px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.cart-item-price {
+  font-size: 13px;
+  color: var(--ok);
+  font-weight: 600;
+  margin: 0;
+}
+
+.cart-item-controls {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+.cart-item-controls .qty-control {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  background: var(--quote-bg);
+  border: 1px solid var(--quote-border);
+  border-radius: 8px;
+  padding: 4px;
+}
+
+.qty-control button {
+  width: 24px;
+  height: 24px;
+  background: transparent;
+  border: 0;
+  color: var(--text);
+  font-weight: 700;
+  cursor: pointer;
+  border-radius: 6px;
+  font-size: 16px;
+  display: grid;
+  place-items: center;
+}
+
+.qty-control span {
+  font-size: 13px;
+  font-weight: 600;
+  min-width: 20px;
+  text-align: center;
+}
+
+.cart-item-delete {
+  background: transparent;
+  border: 1px solid var(--danger);
+  color: var(--danger);
+  width: 28px;
+  height: 28px;
+  border-radius: 6px;
+  font-size: 12px;
+  cursor: pointer;
+  transition: all .2s;
+  display: grid;
+  place-items: center;
+}
+
+.cart-item-delete:hover {
+  background: rgba(255, 84, 112, 0.1);
+}
+
+/* --- 7. 요약 정보 --- */
+.modal-cart-summary {
+  padding: 16px 0;
+  border-top: 1px solid var(--border);
+  margin-top: 20px;
+}
+
+.summary-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.summary-row.total-amount {
+  border-top: 1px dashed var(--border);
+  padding-top: 12px;
+  margin-top: 12px;
+  color: var(--ok);
+}
+
+.summary-label {
+  font-size: 14px;
+  color: var(--muted);
+}
+
+.summary-row.total-amount .summary-label {
+  color: var(--ok);
+}
+
+.summary-value {
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.summary-row.total-amount .summary-value {
+  font-size: 20px;
+  font-weight: 800;
+}
+
+/* --- 8. 복합 담기 방지 알림 모달 --- */
+
+.quotation-alert-box {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 30px;
+  width: 90%;
+  max-width: 400px;
+  text-align: center;
+  transform: scale(0.8);
+  transition: transform 0.3s ease;
+}
+
+.quotation-alert-overlay.show .quotation-alert-box {
+  transform: scale(1);
+}
+
+.alert-title {
+  color: var(--danger);
+  font-size: 20px;
+  font-weight: 800;
+  margin: 0 0 10px;
+}
+
+.alert-message {
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 1.6;
+  margin: 0 0 20px;
+}
+
+.alert-actions {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+}
+
+.alert-actions .btn {
+  flex: 1;
+  max-width: 150px;
+  font-size: 14px;
+}
+
+/* PC 호버 */
+@media (hover: hover) {
+  .modal-close-btn:hover {
+    background: var(--danger);
+    color: var(--text);
+    border-color: var(--danger);
+    transform: rotate(0);
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* ============================================== */
+/* ============== 9. 반응형 및 애니메이션 ============== */
+/* ============================================== */
+
+@media (hover: hover) { 
+  .promo-slider-nav:hover { 
+    background: rgba(30, 32, 45, 0.8); 
+    border-color: var(--brand); 
+  } 
+  .consult-link:hover { 
+    color: var(--ok); 
+    border-bottom-color: var(--ok); 
+  } 
+  .btn:not(.primary):not(.p-nshop):not(.active):hover { 
+    border-color: var(--brand); 
+    background: #1b1c2c; 
+  }
+}
+
+@media (min-width:720px) { 
+  .grid { 
+    grid-template-columns: repeat(4, 1fr); 
+  } 
+}
+
+@media (max-width:900px) { 
+  .header-actions { 
+    display: none; 
+  } 
+  .hamburger-btn { 
+    display: flex; 
+    flex-direction: column; 
+    justify-content: center; 
+  } 
+}
+
+
+@keyframes fadeIn { 
+  from { opacity: 0; } 
+  to { opacity: 1; } 
+}
+
+@keyframes slideUp { 
+  from { 
+    transform: translateY(20px); 
+    opacity: 0; 
+  } 
+  to { 
+    transform: translateY(0); 
+    opacity: 1; 
+  } 
+}

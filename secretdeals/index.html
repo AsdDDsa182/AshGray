@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no, interactive-widget=resizes-content" />
+  <title>GOFITKOREA Secret Deals</title>
+  <meta name="description" content="비밀 링크 전용: GOFITKOREA 헬스기구 파격 특가 랜딩페이지" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;600;700&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header id="mainHeader">
+    <div class="head wrap">
+      <a href="javascript:void(0)" class="logo" aria-label="GOFITKOREA 홈페이지로 이동" onclick="event.preventDefault();">
+        <img src="gofit_logo.png" alt="GOFITKOREA 로고" class="logo-img">
+        <span>GOFITKOREA Secret Deals</span>
+      </a>
+      
+      <button id="quotationCartIcon" class="btn header-link" aria-label="견적함 열기" onclick="openQuotationModal(event)">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="width: 20px; height: 20px;">
+          <circle cx="9" cy="21" r="1"></circle>
+          <circle cx="20" cy="21" r="1"></circle>
+          <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+        </svg>
+        <span class="cart-badge" id="cartBadge">0</span>
+      </button>
+      
+      <div class="header-actions">
+        <a href="https://gofitkorea.com/" target="_blank" rel="noopener" class="btn header-link">공식 홈페이지</a>
+        <a href="tel:1833-3745" class="btn primary" aria-label="대표번호로 전화 걸기">
+          <span class="label-wrap"><span class="label">실시간 상담</span></span>
+        </a>
+      </div>
+      <button id="hamburgerBtn" class="hamburger-btn" aria-label="메뉴 열기" aria-expanded="false" aria-controls="mobileNav" onclick="openMobileNav(event)">
+        <span class="line"></span><span class="line"></span><span class="line"></span>
+      </button>
+    </div>
+  </header>
+
+  <nav id="mobileNav" class="mobile-nav" aria-hidden="true">
+    <button id="closeMobileNavBtn" class="btn-close-nav" aria-label="메뉴 닫기" onclick="closeMobileNav(event)">&times;</button>
+    <div class="mobile-nav-content">
+      <a href="https://gofitkorea.com/" target="_blank" rel="noopener" class="mobile-nav-link">고핏코리아 공식 홈페이지</a>
+      <hr class="mobile-nav-divider">
+      <div class="contact-info">
+        <div class="contact-item"><strong>대표번호:</strong><span>1833-3745</span></div>
+        <div class="contact-item"><strong>기술/영업 1팀:</strong><span>010-7135-3745</span></div>
+        <div class="contact-item"><strong>기술/영업 2팀:</strong><span>010-9012-2599</span></div>
+        <div class="contact-item"><strong>이메일:</strong><span>gofitkorea@naver.com</span></div>
+      </div>
+    </div>
+  </nav>
+
+  <main class="wrap">
+    <div id="contentWrapper">
+      
+      <section id="bannerSection" aria-label="프로모션 배너">
+        <div class="pulsing-circles-container">
+          <div class="circle"></div>
+          <div class="circle"></div>
+          <div class="circle"></div>
+          <div class="circle"></div>
+        </div>
+        <div class="section-head">
+          <h2 class="section-title" id="welcomeTitle">고객님, 환영합니다!</h2>
+        </div>
+        <div id="bannerRoot"></div>
+      </section>
+
+      <section id="partnersSection" aria-label="파트너사">
+        <div class="partners-slider-container">
+          <div class="partners-slider-track">
+            <img src="partners/logo_01.png" alt="파트너사 로고 1">
+            <img src="partners/logo_02.png" alt="파트너사 로고 2">
+            <img src="partners/logo_03.png" alt="파트너사 로고 3">
+            <img src="partners/logo_04.png" alt="파트너사 로고 4">
+            <img src="partners/logo_05.png" alt="파트너사 로고 5">
+            <img src="partners/logo_06.png" alt="파트너사 로고 6">
+            <img src="partners/logo_07.png" alt="파트너사 로고 7">
+            <img src="partners/logo_08.png" alt="파트너사 로고 8">
+            <img src="partners/logo_09.png" alt="파트너사 로고 9">
+            <img src="partners/logo_10.png" alt="파트너사 로고 10">
+            <img src="partners/logo_11.png" alt="파트너사 로고 11">
+            <img src="partners/logo_12.png" alt="파트너사 로고 12">
+            <img src="partners/logo_01.png" alt="파트너사 로고 1" aria-hidden="true">
+            <img src="partners/logo_02.png" alt="파트너사 로고 2" aria-hidden="true">
+            <img src="partners/logo_03.png" alt="파트너사 로고 3" aria-hidden="true">
+            <img src="partners/logo_04.png" alt="파트너사 로고 4" aria-hidden="true">
+            <img src="partners/logo_05.png" alt="파트너사 로고 5" aria-hidden="true">
+            <img src="partners/logo_06.png" alt="파트너사 로고 6" aria-hidden="true">
+            <img src="partners/logo_07.png" alt="파트너사 로고 7" aria-hidden="true">
+            <img src="partners/logo_08.png" alt="파트너사 로고 8" aria-hidden="true">
+            <img src="partners/logo_09.png" alt="파트너사 로고 9" aria-hidden="true">
+            <img src="partners/logo_10.png" alt="파트너사 로고 10" aria-hidden="true">
+            <img src="partners/logo_11.png" alt="파트너사 로고 11" aria-hidden="true">
+            <img src="partners/logo_12.png" alt="파트너사 로고 12" aria-hidden="true">
+          </div>
+        </div>
+      </section>
+      <div id="sepBanner" class="section-sep" aria-hidden="true"></div>
+      
+      <section id="promoSliderSection" aria-label="진행중인 프로모션">
+        <div class="section-head">
+          <h2 class="section-title">진행중인 프로모션</h2>
+          <p class="section-desc">기간 한정으로 제공되는 특별 혜택을 확인하세요.</p>
+        </div>
+        <div id="promoSliderContainer" class="promo-slider">
+          <div id="promoSliderTrack" class="promo-slider-track"></div>
+          <button id="promoPrevBtn" class="promo-slider-nav prev" aria-label="이전 슬라이드"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg></button>
+          <button id="promoNextBtn" class="promo-slider-nav next" aria-label="다음 슬라이드"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg></button>
+          <div class="promo-slider-indicators" id="promoSliderIndicators"></div>
+        </div>
+      </section>
+
+      <div class="section-sep" aria-hidden="true"></div>
+
+      <div class="caution-tape-wrapper" aria-hidden="true"><div class="caution-tape"></div></div>
+      
+      <section class="hero" id="hero" aria-label="히어로">
+        <div class="section-head">
+          <h1 class="section-title">비밀 링크 전용 특가 진행중</h1>
+          <p class="section-desc">판매가/렌탈가를 선택하여 특별한 혜택을 확인하세요!<br>제품은 수량 소진 시 예고없이 종료될 수 있습니다.</p>
+        </div>
+        
+        <div class="view-toggle-container">
+          <button class="btn view-toggle active" data-view="sale">판매가 보기</button>
+          <button class="btn view-toggle" data-view="rental">렌탈가 보기</button>
+        </div>
+        <div class="duration-toggle-container" hidden>
+            <button class="btn duration-toggle" data-duration="3">3개월</button>
+            <button class="btn duration-toggle" data-duration="6">6개월</button>
+            <button class="btn duration-toggle" data-duration="12">12개월</button>
+            <button class="btn duration-toggle" data-duration="24">24개월</button> 
+            <button class="btn duration-toggle" data-duration="36">36개월</button>
+            <button class="btn duration-toggle" data-duration="48">48개월</button>
+            <button class="btn duration-toggle" data-duration="64">64개월</button>
+            <button class="btn duration-toggle" data-duration="etc">기타</button>
+        </div>
+        <p class="rental-disclaimer" hidden>※ 표시된 월 렌탈료는 예상 금액이며, 신용 심사 결과에 따라 변동될 수 있습니다.</p>
+      </section>
+      
+      <section id="productSection" aria-label="특가 목록">
+        <div class="grid" id="productGrid" aria-live="polite"></div>
+        <div class="load-more-container" hidden><button id="loadMoreBtn" class="btn">더보기</button></div>
+        <div class="empty" id="emptyState" hidden>등록된 특가 상품이 없습니다.</div>
+      </section>
+
+      <div class="section-sep" aria-hidden="true"></div>
+
+      <section id="mixedInquirySection" class="mixed-inquiry-box" aria-label="복합 문의 안내">
+        <div class="box-title-wrapper">
+          <div class="info-box-icon">💡</div>
+          <h3>구매와 렌탈을 함께 원하시나요?</h3>
+        </div>
+        <p>
+            판매/렌탈 복합 견적이나 특별한 조건의 상담이 필요하시다면, 고객센터(<strong>1833-3745</strong>)로 연락 주세요! 전문 상담원이 친절히 안내해 드리겠습니다.
+        </p>
+      </section>
+
+      <div class="section-sep" aria-hidden="true"></div>
+
+      <section id="serviceInfoSection" aria-label="소개 및 서비스 안내">
+        <div class="section-head">
+          <h2 class="section-title">고핏코리아 서비스 안내</h2>
+          <p class="section-desc">고객님의 필요에 맞는 최적의 솔루션을 제공합니다.</p>
+        </div>
+        <div class="service-grid">
+          <div class="service-card intro-card"><h3>Dreaming of a challenge.</h3><p>고핏코리아는 단순한 헬스 기구 유통사가 아닌, 고객님의 공간과 목표에 가장 완벽한 솔루션을 선사하여 꿈꾸는 최고의 피트니스 환경을 큐레이션 능력으로 실현하는 전문 파트너입니다.</p><div class="consult-action"><a href="https://gofitkorea.com/" class="consult-link" target="_blank" rel="noopener">홈페이지 보러가기</a></div></div>
+          <div class="service-card"><h3>판매</h3><p>인기 헬스기구를 합리적인 가격에 구매하여 귀하의 공간을 최고의 피트니스 센터로 만들어보세요! 전문적인 컨설팅을 통해 최적의 제품을 추천해 드립니다.</p><div class="consult-action"><a href="tel:1833-3745" class="consult-link">실시간 전화 상담</a></div></div>
+          <div class="service-card"><h3>렌탈</h3><p>단기 이벤트, 특정 기간 집중 사용 등 유연한 운영이 필요할 때 이상적입니다. 최소한의 초기 비용으로 프리미엄 기구를 이용할 수 있습니다.</p><div class="consult-action"><a href="tel:1833-3745" class="consult-link">실시간 전화 상담</a></div></div>
+          <div class="service-card"><h3>리스</h3><p>초기 비용 부담 없이 월 납입금만으로 최신 기구를 장기적으로 사용하세요. 계약 종료 후 인수 또는 재리스 옵션을 선택할 수 있는 금융 솔루션입니다.</p><div class="consult-action"><a href="tel:1833-3745" class="consult-link">실시간 전화 상담</a></div></div>
+        </div>
+      </section>
+
+      <div class="section-sep" aria-hidden="true"></div>
+
+      <section id="channelsSection" class="channels" aria-label="고핏코리아 채널">
+        <div class="section-head"><h2 class="section-title">고핏코리아 공식 채널</h2><p class="section-desc">고핏코리아 공식 홈페이지 및 SNS 채널</p></div>
+        <div class="ch-grid" id="channelsGrid"></div>
+      </section>
+    </div>
+
+    <template id="productTpl">
+      <article class="card">
+        <div class="thumb"><div class="imgwrap"><img class="p-img" alt="" /></div></div>
+        <div class="body">
+          <h3 class="title p-title"></h3>
+          <div class="price"><span class="orig p-orig"></span><div class="sale-wrapper"><span class="sale p-sale"></span><span class="p-rental-info" hidden>/ 월</span></div></div>
+          <div class="cta">
+            <button class="btn p-quote full-width" data-id="" aria-label="장바구니에 담기">장바구니</button>
+            <div class="cta-split">
+              <a class="btn primary p-nshop" target="_blank" rel="noopener">N쇼핑</a>
+              <a class="btn p-link" target="_blank" rel="noopener" aria-label="상세보기"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg></a>
+            </div>
+          </div>
+        </div>
+      </article>
+    </template>
+    </main>
+
+  <div class="quotation-modal-overlay" id="quotationCartModal" role="dialog" aria-modal="true" aria-labelledby="modalTitle" hidden>
+    <div class="quotation-modal" role="document">
+      <div class="modal-header">
+        <h3 id="modalTitle" class="modal-title">나의 견적함 (<span id="modalCartCount">0</span>개)</h3>
+        <button class="modal-close-btn" onclick="closeQuotationModal()" aria-label="견적함 닫기">&times;</button>
+      </div>
+      
+      <div class="modal-body">
+        <div class="modal-cart-type" id="modalCartType"></div>
+        <div class="modal-cart-list" id="modalCartList">
+          <div class="modal-empty-state">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><path d="M16 16s-1.5-2-4-2-4 2-4 2"></path><line x1="9" y1="9" x2="9.01" y2="9"></line><line x1="15" y1="9" x2="15.01" y2="9"></line></svg>
+            <p>견적함이 비어있습니다.</p>
+            <p>원하는 제품을 담고 견적을 요청해 보세요!</p>
+          </div>
+        </div>
+        
+        <div class="modal-cart-summary">
+          <div class="summary-row">
+            <span class="summary-label">총 수량:</span>
+            <span class="summary-value" id="summaryTotalCount">0개</span>
+          </div>
+          <div class="summary-row total-amount">
+            <span class="summary-label" id="summaryTotalLabel">총 금액 (VAT 포함):</span>
+            <span class="summary-value" id="summaryTotalPrice">0원</span>
+          </div>
+        </div>
+      </div>
+      
+      <div class="modal-footer">
+        <button class="btn secondary" onclick="clearCart(true)">견적함 비우기</button>
+        <button class="btn primary" id="requestQuoteBtn" disabled onclick="requestQuote()">견적 요청하기</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="quotation-alert-overlay" id="quotationAlertModal" role="alertdialog" aria-modal="true" aria-labelledby="alertTitle" hidden>
+    <div class="quotation-alert-box">
+      <h3 id="alertTitle" class="alert-title">유형이 다른 제품입니다!</h3>
+      <p class="alert-message" id="alertMessage">현재 견적함에는 **판매** 제품이 담겨있습니다. 이 제품을 담으려면 기존 제품을 비워야 합니다.</p>
+      <div class="alert-actions">
+        <button class="btn secondary" onclick="closeQuotationAlert()">취소</button>
+        <button class="btn primary" id="alertConfirmBtn">기존 제품 비우고 담기</button>
+      </div>
+    </div>
+  </div>
+  <footer>© <span id="yy"></span> GOFITKOREA<br>본 페이지는 초대한 고객만 볼 수 있는 비공개 특가입니다.</footer>
+
+  <script src="script.js"></script>
+  
+</body>
+</html>
