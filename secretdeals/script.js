@@ -113,6 +113,28 @@
   /* ============================================== */
   /* =============== 3. UI 렌더링 함수 ============== */
   /* ============================================== */
+  
+  // [ ✨ NEW ] Visual Viewport API를 이용한 실시간 높이 보정 함수
+  function setupVisualViewport() {
+    // visualViewport를 지원하지 않는 구형 브라우저에서는 아무것도 하지 않음
+    if (!window.visualViewport) {
+      return;
+    }
+  
+    const handleViewportResize = () => {
+      // 실제 보이는 영역의 높이를 측정하여 --vh CSS 변수로 설정
+      // 이 변수는 styles.css에서 body의 min-height를 설정하는 데 사용됩니다.
+      const vh = window.visualViewport.height;
+      document.documentElement.style.setProperty('--vh', `${vh}px`);
+    };
+  
+    // 뷰포트 크기가 변할 때마다(예: 키보드 등장/퇴장) 높이를 다시 계산
+    window.visualViewport.addEventListener('resize', handleViewportResize);
+  
+    // 페이지가 처음 로드될 때 한 번 실행하여 초기값을 설정
+    handleViewportResize();
+  }
+
 
   function setupPromoSlider() { 
     const container = $('#promoSliderSection'); 
@@ -123,7 +145,6 @@
     const indicatorsContainer = $('#promoSliderIndicators'); 
     const isDesktop = window.matchMedia('(min-width: 720px)').matches; 
     
-    // [수정됨] 이미지 로드 실패 문제를 해결하기 위해, 유효한 경로로 가정합니다.
     track.innerHTML = PROMO_IMAGES.map(promo => { 
       const imageUrl = isDesktop ? promo.srcDesktop : promo.srcMobile; 
       return `<a href="${promo.href}" target="_blank" rel="noopener" class="promo-slide" draggable="false"><img src="${imageUrl}" alt="프로모션 이미지" loading="lazy" draggable="false" /></a>`; 
@@ -308,7 +329,6 @@
   function updateViewModeUI() {
       const isRental = currentViewMode === 'rental';
       
-      // 1. 뷰 토글 버튼 활성화
       viewToggleContainer.querySelectorAll('.view-toggle').forEach(b => {
           b.classList.remove('active');
       });
@@ -317,7 +337,6 @@
           activeViewBtn.classList.add('active');
       }
 
-      // 2. 렌탈 기간 선택 및 고지사항 표시/숨김
       if (durationToggleContainer) {
         durationToggleContainer.hidden = !isRental; 
         
@@ -356,13 +375,13 @@
       let isRentalUnavailable = false; 
 
       priceSaleEl.classList.remove('price-unavailable');
-      quoteBtn.removeAttribute('disabled'); // 버튼 상태 초기화
+      quoteBtn.removeAttribute('disabled');
 
       if (currentViewMode === 'sale') {
         priceOrigEl.textContent = fmtKRW(product.original);
         priceSaleEl.textContent = fmtKRW(product.sale);
         rentalInfoEl.hidden = true;
-      } else { // rental
+      } else { 
         priceOrigEl.textContent = '';
         const isAvailable = product.rental && product.rental[currentRentalDuration];
         if (isAvailable) {
@@ -379,16 +398,13 @@
         }
       }
 
-      // [MODIFIED] 장바구니 버튼 상태 업데이트 
       if (quoteBtn) {
         quoteBtn.textContent = '장바구니'; 
         
-        // 1. 렌탈 불가 시 버튼 비활성화
         if (isRentalUnavailable) {
             quoteBtn.setAttribute('disabled', 'true');
             quoteBtn.classList.remove('active-in-cart'); 
         } 
-        // 2. 정상 상태일 때 담긴 상태 체크
         else {
             if (cartItems.some(item => item.id === productId)) {
               quoteBtn.classList.add('active-in-cart'); 
@@ -401,9 +417,8 @@
   }
 
   function loadMoreProducts(){
-    // 🔥 [보강됨] 제품 로드 시점을 정확히 통제합니다.
     if (productsDisplayed === 0) {
-      grid.innerHTML = ''; // 그리드 내용을 비웁니다.
+      grid.innerHTML = '';
     }
 
     const loadMoreContainer = loadMoreBtn ? loadMoreBtn.parentElement : null;
@@ -439,13 +454,13 @@
       let isRentalUnavailable = false; 
 
       priceSaleEl.classList.remove('price-unavailable');
-      quoteBtn.removeAttribute('disabled'); // 버튼 상태 초기화
+      quoteBtn.removeAttribute('disabled');
 
       if (currentViewMode === 'sale') {
         priceOrigEl.textContent = fmtKRW(p.original);
         priceSaleEl.textContent = fmtKRW(p.sale);
         rentalInfoEl.hidden = true;
-      } else { // rental
+      } else {
         priceOrigEl.textContent = '';
         const isAvailable = p.rental && p.rental[currentRentalDuration];
         if (isAvailable) {
@@ -462,18 +477,15 @@
         }
       }
       
-      // [MODIFIED] 견적서 담기 버튼 처리 (토글 로직 및 비활성화 반영)
       if (quoteBtn) {
         quoteBtn.textContent = '장바구니'; 
         quoteBtn.dataset.id = p.id;
         
-        // 1. 렌탈 불가 시 버튼 비활성화 및 이벤트 처리 제거
         if (isRentalUnavailable) {
             quoteBtn.setAttribute('disabled', 'true');
-            quoteBtn.onclick = (event) => { event.preventDefault(); }; // 클릭 방지
+            quoteBtn.onclick = (event) => { event.preventDefault(); };
             quoteBtn.classList.remove('active-in-cart');
         } 
-        // 2. 정상 상태일 때 이벤트 리스너 할당
         else {
             quoteBtn.onclick = (event) => { 
               const product = PRODUCTS.find(prod => prod.id === p.id);
@@ -482,7 +494,6 @@
               }
             };
 
-            // 장바구니에 담긴 제품은 .active-in-cart 클래스 추가
             if (cartItems.some(item => item.id === p.id)) {
               quoteBtn.classList.add('active-in-cart');
             } else {
@@ -513,7 +524,6 @@
   /* ============= 4. 이벤트 및 UI 제어 함수 ============= */
   /* ============================================== */
 
-  // [수정됨] 햄버거 메뉴 열기/닫기 함수 (e.preventDefault() 추가 및 전역 노출)
   window.openMobileNav = function(e) {
     if (e) {
       e.preventDefault(); 
@@ -523,15 +533,13 @@
     if (!mobileNav || !hamburgerBtn) return;
     
     mobileNav.classList.add('open'); 
-    mobileNav.removeAttribute('aria-hidden'); // 메뉴를 열 때만 aria-hidden을 제거
+    mobileNav.removeAttribute('aria-hidden');
     hamburgerBtn.setAttribute('aria-expanded', 'true'); 
     lockBodyScroll();
     
-    // 포커스를 닫기 버튼으로 이동 (접근성 향상)
     if (closeMobileNavBtn) closeMobileNavBtn.focus();
   }
 
-  // [수정됨] 햄버거 메뉴 닫기 함수 (aria-hidden 적용 타이밍 지연)
   window.closeMobileNav = function(e) { 
     if (e) {
       e.preventDefault(); 
@@ -540,9 +548,7 @@
     
     if (!mobileNav || !hamburgerBtn) return;
     
-    // 현재 포커스된 요소가 메뉴 내부에 있었다면, 포커스를 잃게 함 (문서 본문으로 이동하거나 햄버거 버튼으로 이동시키면 좋음)
     if (document.activeElement && mobileNav.contains(document.activeElement)) {
-        // 닫기 버튼으로 포커스 이동 후, 햄버거 버튼으로 복귀
         hamburgerBtn.focus(); 
     }
     
@@ -550,18 +556,15 @@
     hamburgerBtn.setAttribute('aria-expanded', 'false'); 
     unlockBodyScroll(); 
     
-    // 애니메이션이 끝난 후 aria-hidden="true"를 적용하여 오류를 방지합니다.
     setTimeout(() => {
         mobileNav.setAttribute('aria-hidden', 'true'); 
-    }, 300); // CSS transition 시간(0.3s)과 일치시켜야 합니다.
+    }, 300);
   }
 
-  // 햄버거 버튼은 index.html에서 onclick="openMobileNav(event)"로 호출되므로 별도 addEventListener 제거
   closeMobileNavBtn.addEventListener('click', closeMobileNav);
   
   document.addEventListener('keydown', e=>{ 
     if(e.key==='Escape') { 
-      // [수정됨] Esc 키를 눌러 닫을 때도 closeMobileNav를 호출하여 포커스 처리 로직을 따름
       if (mobileNav.classList.contains('open')) {
         closeMobileNav(e); 
       }
@@ -595,13 +598,10 @@
       if (!btn) return;
       const selectedView = btn.dataset.view;
       
-      // 1. 이미 선택된 모드인 경우
       if (selectedView === currentViewMode) return;
 
-      // 2. 장바구니 상태 확인
       const currentCartType = getCartType();
       
-      // 3. 장바구니가 비어 있거나 유형이 같은 경우: 즉시 전환
       if (!currentCartType || currentCartType === selectedView) {
           currentViewMode = selectedView;
           updateViewModeUI();
@@ -609,9 +609,8 @@
           return;
       }
       
-      // 4. 장바구니에 제품이 있고 유형이 다른 경우: 경고 모달 띄우기
       if (currentCartType && currentCartType !== selectedView) {
-          pendingViewMode = selectedView; // 전환하려던 모드를 임시 저장
+          pendingViewMode = selectedView;
           showAlertModalForViewChange(currentCartType, selectedView);
           return;
       }
@@ -631,7 +630,6 @@
     });
   }
   
-  // [NEW] 견적함 모달 오버레이 클릭 시 닫기
   if (quotationCartModal) {
     quotationCartModal.addEventListener('click', function(e) {
       if (e.target.classList.contains('quotation-modal-overlay')) {
@@ -640,12 +638,9 @@
     });
   }
   
-  // [MODIFIED] 복합 담기 알림 오버레이 클릭 시 닫기 (밖 클릭 방지)
   if (quotationAlertModal) {
     quotationAlertModal.addEventListener('click', function(e) {
-      // 오버레이 클릭 시 닫지 않음. (취소 버튼으로만 닫도록)
       if (e.target.classList.contains('quotation-alert-overlay')) {
-        // closeQuotationAlert(); 
       }
     });
   }
@@ -655,62 +650,52 @@
   /* ========= [NEW] 10. 견적함 관리 로직 ========= */
   /* ============================================== */
 
-  // 견적함 데이터 가져오기 (로컬 스토리지)
   function getCartItems() {
     try {
       const data = localStorage.getItem(QUOTATION_KEY);
       const cart = JSON.parse(data);
-      // items가 배열인지 확인하고, 없으면 빈 배열 반환
       return Array.isArray(cart.items) ? cart.items : [];
     } catch (e) {
-      // 로드 실패 시 빈 배열 반환
       return [];
     }
   }
 
-  // 견적함 데이터 저장하기
   function saveCartItems(items) {
     const cart = {
         items: items,
-        // 첫 번째 아이템의 유형을 전체 장바구니 유형으로 사용
         type: items.length > 0 ? items[0].type : null 
     };
     
     try {
       localStorage.setItem(QUOTATION_KEY, JSON.stringify(cart));
       updateCartBadge();
-      updateProductGridPrices(); // 가격 및 버튼 상태 업데이트
+      updateProductGridPrices();
     } catch (e) {
       console.error("장바구니 저장 실패:", e);
     }
   }
 
-  // 견적함의 현재 유형(sale 또는 rental)을 반환
   function getCartType() {
     const items = getCartItems();
     return items.length > 0 ? items[0].type : null;
   }
   
-  // 외부 노출을 위해 전역으로 등록
   window.clearCart = clearCart;
   window.removeCartItem = removeCartItem;
   window.changeCartQuantity = changeCartQuantity;
   window.requestQuote = requestQuote;
 
-  // [MODIFIED] 토글 기능 및 복합 담기 방지 로직 (제품 추가/제거)
   function toggleQuotationCart(product, productType, e) { 
     if (e) e.preventDefault(); 
     
-    // 버튼 비활성화 상태 체크 추가
     if (e.target.getAttribute('disabled') === 'true') {
-      return; // 비활성화된 버튼은 동작하지 않음
+      return;
     }
 
     const items = getCartItems();
     const existingItemIndex = items.findIndex(item => item.id === product.id);
 
     if (existingItemIndex > -1) {
-      // 1. 이미 담겨 있으면 -> 제거합니다.
       items.splice(existingItemIndex, 1);
       saveCartItems(items);
       
@@ -720,17 +705,15 @@
       return;
     }
     
-    // 2. 새로 담는 경우 -> 복합 담기 방지 로직 실행
     const currentType = getCartType();
     const newType = productType;
 
     if (currentType && currentType !== newType) {
-      pendingProduct = { product, productType }; // 임시 저장
-      showAlertModal(currentType, newType, 'add'); // 'add' 액션 타입을 전달하여 제품 추가 로직 실행
+      pendingProduct = { product, productType };
+      showAlertModal(currentType, newType, 'add');
       return;
     }
     
-    // 3. 정상적으로 추가 (수량은 1로 고정)
     const productData = PRODUCTS.find(p => p.id === product.id);
     const itemPrice = newType === 'sale' ? productData.sale : (productData.rental ? productData.rental[currentRentalDuration] : 0);
     const itemImage = productData.image;
@@ -740,22 +723,20 @@
       name: product.title,
       image: itemImage,
       type: newType,
-      quantity: 1, // 수량은 1로 고정
+      quantity: 1,
       price: itemPrice, 
     });
 
     saveCartItems(items);
   }
 
-  // 견적함 비우기
   function clearCart(shouldRender = false) {
     saveCartItems([]);
     if (shouldRender) {
-      renderCartItems(); // 모달 UI 업데이트
+      renderCartItems();
     }
   }
   
-  // 견적함 수량 변경
   function changeCartQuantity(index, change) {
     const items = getCartItems();
     let quantity = (items[index].quantity || 1) + change;
@@ -766,23 +747,19 @@
     
     items[index].quantity = quantity;
     saveCartItems(items);
-    renderCartItems(); // UI 즉시 업데이트
+    renderCartItems();
   }
 
-  // 견적함 제품 삭제
   function removeCartItem(index) {
     const items = getCartItems();
     items.splice(index, 1);
     saveCartItems(items);
-    renderCartItems(); // UI 즉시 업데이트
+    renderCartItems();
   }
 
-  // 견적 요청 (모달 푸터 버튼)
   function requestQuote() {
     const cartType = getCartType();
     if (cartType) {
-      // [수정 없음] 견적함 유형에 따라 contact/contact.html로 이동
-      // (index.html 기준 상대 경로)
       window.location.href = `contact/contact.html?tab=${cartType}`;
     }
   }
@@ -792,17 +769,14 @@
   /* ========= [NEW] 11. 견적함 UI 및 모달 로직 ========= */
   /* ============================================== */
 
-  // 견적함 아이콘 배지 업데이트
   function updateCartBadge() {
     const count = getCartItems().length;
     if (cartBadge) {
       cartBadge.textContent = count;
-      // 0개 이상이면 .has-items 클래스 추가
       cartBadge.classList.toggle('has-items', count > 0); 
     }
   }
 
-  // [수정됨] 견적함 모달 열기 (e.preventDefault() 추가)
   window.openQuotationModal = function(e) { 
     if (e) {
       e.preventDefault(); 
@@ -814,28 +788,24 @@
     renderCartItems();
     
     quotationCartModal.removeAttribute('hidden');
-    lockBodyScroll(); // 스크롤 잠금
+    lockBodyScroll();
     
-    // 애니메이션을 위해 잠시 후 show 클래스 추가
     setTimeout(() => {
       quotationCartModal.classList.add('show');
     }, 10);
   }
 
-  // 견적함 모달 닫기
   window.closeQuotationModal = function() {
     if (!quotationCartModal) return;
     
     quotationCartModal.classList.remove('show');
-    unlockBodyScroll(); // 스크롤 잠금 해제
+    unlockBodyScroll();
     
-    // 애니메이션 종료 후 hidden 속성 추가
     setTimeout(() => {
       quotationCartModal.setAttribute('hidden', '');
     }, 300);
   }
 
-  // 견적함 내용 렌더링
   function renderCartItems() {
     const items = getCartItems();
     const count = items.length;
@@ -844,7 +814,6 @@
     
     modalCartCount.textContent = count;
     
-    // 비어있는 경우
     if (count === 0) {
       modalCartList.innerHTML = `
         <div class="modal-empty-state">
@@ -864,16 +833,13 @@
     const cartType = getCartType();
     const isRental = cartType === 'rental';
     
-    // 견적함 유형 표시
     modalCartType.textContent = `현재 견적함은 "${isRental ? '렌탈' : '판매'}" 견적용입니다.`;
     
     let totalPrice = 0;
     let totalQuantity = 0;
     
     modalCartList.innerHTML = items.map((item, index) => {
-      // NOTE: 렌탈 제품의 경우 렌탈 기간이 저장되어 있지 않아 currentRentalDuration을 사용하거나, 
-      // 장바구니에 저장 시점의 가격을 사용해야 합니다. 현재는 저장 시점의 price를 사용합니다.
-      const itemPrice = isRental ? item.price : Math.round(item.price * 1.1); // 판매가만 VAT 10% 추가
+      const itemPrice = isRental ? item.price : Math.round(item.price * 1.1);
       const subtotal = itemPrice * item.quantity;
       totalPrice += subtotal;
       totalQuantity += item.quantity;
@@ -899,7 +865,6 @@
       `;
     }).join('');
     
-    // 요약 정보 업데이트
     summaryTotalCount.textContent = `${totalQuantity}개`;
     summaryTotalPrice.textContent = fmtKRW(totalPrice) + '원';
     
@@ -937,23 +902,20 @@
         messageHTML = `현재 견적함에 **${currentLabel}** 제품이 담겨있습니다.<br>뷰 모드를 **${newLabel}**로 전환하려면<br>기존 견적함 내용을 비워야 합니다.`;
         confirmBtnText = '비우고 전환';
     } else {
-        return; // 정의되지 않은 액션 타입
+        return;
     }
     
     alertTitle.textContent = title;
     alertMessage.innerHTML = messageHTML;
     alertConfirmBtn.textContent = confirmBtnText;
 
-    // '확인' 버튼 이벤트 핸들러 설정
     alertConfirmBtn.onclick = () => {
-        // 1. 기존 장바구니 비우기
         clearCart();
         
         if (actionType === 'add') {
-            // 제품 추가 로직 (기존 toggleQuotationCart에서 분리)
             const product = pendingProduct.product;
             const newType = pendingProduct.productType;
-            const items = getCartItems(); // 비워진 상태의 배열
+            const items = getCartItems();
             
             const productData = PRODUCTS.find(p => p.id === product.id);
             const itemPrice = newType === 'sale' ? productData.sale : (productData.rental ? productData.rental[currentRentalDuration] : 0);
@@ -972,22 +934,18 @@
             pendingProduct = null;
 
         } else if (actionType === 'viewChange') {
-            // 모드 전환 로직
             currentViewMode = pendingViewMode;
             updateViewModeUI();
             updateProductGridPrices();
             pendingViewMode = null;
         }
 
-        // 3. 모달 닫기
         closeQuotationAlert();
     };
 
-    // '취소' 버튼은 closeQuotationAlert() 함수 호출 (모드 전환 시에는 pendingViewMode가 유지되므로 현재 모드 유지됨)
     const alertCancelBtn = quotationAlertModal.querySelector('.alert-actions .secondary');
     if (alertCancelBtn) {
         alertCancelBtn.onclick = () => {
-            // 뷰 모드 전환을 취소하면 pendingViewMode만 초기화합니다.
             if (actionType === 'viewChange') {
                 pendingViewMode = null;
             }
@@ -997,26 +955,22 @@
     
     quotationAlertModal.removeAttribute('hidden');
     lockBodyScroll();
-    // 애니메이션을 위해 잠시 후 show 클래스 추가
     setTimeout(() => {
       quotationAlertModal.classList.add('show');
     }, 10);
   }
 
-  // [NEW] 뷰 모드 전환 전용 알림 표시 함수
   function showAlertModalForViewChange(currentType, newType) {
-      // showAlertModal 함수를 'viewChange' 액션 타입으로 재활용합니다.
       showAlertModal(currentType, newType, 'viewChange');
   }
 
 
-  // 복합 담기 경고 모달 닫기
   window.closeQuotationAlert = function() {
     if (!quotationAlertModal) return;
     
     quotationAlertModal.classList.remove('show');
-    pendingProduct = null; // 취소 시 임시 제품 데이터 삭제 (제품 추가 로직을 위함)
-    pendingViewMode = null; // 취소 시 임시 뷰 모드 데이터 삭제
+    pendingProduct = null;
+    pendingViewMode = null;
     unlockBodyScroll();
     
     setTimeout(() => {
@@ -1028,32 +982,25 @@
 /* ================= 5. 초기화 함수 ================= */
 /* ============================================== */
 
-// init 함수를 명시적으로 선언하고, DOMContentLoaded 시점에 실행되도록 보장합니다.
 function init(){
-  // 🔥 [수정됨] productsDisplayed를 0으로 초기화하여 로드 실패 문제 해결
   productsDisplayed = 0; 
   
-  // 1. 기본 UI 및 데이터 로드
   renderBanner(); 
   renderChannels(); 
   setupPromoSlider();
   document.getElementById('yy').textContent = new Date().getFullYear();
   
-  // 장바구니 초기화
-  updateCartBadge(); // 뱃지 초기화
+  updateCartBadge();
 
-  // 뷰 모드 UI 초기화
   updateViewModeUI(); 
 
   if (loadMoreBtn) { 
     loadMoreBtn.addEventListener('click', loadMoreProducts); 
   }
   
-  // 2. 최종 제품 목록 로드
-  loadMoreProducts(); // <--- 제품 로드 함수 호출
+  loadMoreProducts();
 }
 
-// DOM 로드 상태를 확인하여 init 함수를 호출합니다.
 if (document.readyState === 'loading') {
   document.addEventListener('DOMContentLoaded', init);
 } else {
