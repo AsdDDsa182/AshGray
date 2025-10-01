@@ -1,7 +1,7 @@
 (function(){
   'use strict';
 
-  // [ADD] 스크롤 위치 보존/복원 유틸
+  // [ADD] 스크롤 위치 보존/복원 유틸 (모바일 점프 현상 해결)
   let __savedScrollY = 0;
   let __lockCount = 0; // nested locks 지원
   function lockBodyScroll() {
@@ -20,6 +20,7 @@
     document.body.style.top = '';
     window.scrollTo(0, y);
   }
+
 
   /* ============================================== */
   /* ============== 1. 상수 및 설정 영역 ============== */
@@ -77,16 +78,6 @@
   const hamburgerBtn = $('#hamburgerBtn');
   const mobileNav = $('#mobileNav');
   const closeMobileNavBtn = $('#closeMobileNavBtn');
-  // [ADD] 로고 클릭 → 최상단 스무스 스크롤
-  (function () {
-    const logo = document.querySelector('header .logo');
-    if (!logo) return;
-    logo.addEventListener('click', (e) => {
-      e.preventDefault();
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    });
-  })();
-
 
   const viewToggleContainer = $('.view-toggle-container');
   const durationToggleContainer = $('.duration-toggle-container');
@@ -107,6 +98,46 @@
   const alertMessage = $('#alertMessage');
   const alertConfirmBtn = $('#alertConfirmBtn');
   let pendingProduct = null; // 복합 담기 로직을 위한 임시 저장소
+
+  // [ADD] 스크롤 위치 보존/복원 유틸
+  let savedScrollY = 0;
+  let lockCount = 0; // nested locks 지원
+  
+  function lockBodyScroll() {
+    lockCount++;
+    if (lockCount > 1) return; // 이미 잠금 중이면 재실행 막기
+    savedScrollY = window.scrollY || window.pageYOffset || 0;
+    document.body.style.top = `-${savedScrollY}px`;
+    document.body.classList.add('scroll-lock');
+  }
+  
+  function unlockBodyScroll() {
+    if (lockCount === 0) return;
+    lockCount--;
+    if (lockCount > 0) return; // 아직 다른 잠금이 남아있음
+    document.body.classList.remove('scroll-lock');
+    const y = savedScrollY || 0;
+    document.body.style.top = '';
+    window.scrollTo(0, y);
+  }
+
+  // [ADD] 로고 클릭 → 최상단 스무스 스크롤
+  window.scrollToTop = function(e) {
+    if (e) e.preventDefault();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  // [ADD] 토스트 알림
+  function showToast(message) {
+    // 임시 토스트 구현 (HTML에 #toast 요소가 있다고 가정)
+    const toast = document.getElementById('toast');
+    if (!toast) return;
+    toast.textContent = message;
+    toast.classList.add('show');
+    setTimeout(() => {
+      toast.classList.remove('show');
+    }, 3000);
+  }
   
   /* ============================================== */
   /* =============== 3. UI 렌더링 함수 ============== */
@@ -327,6 +358,28 @@
       if (rentalDisclaimer) {
         rentalDisclaimer.hidden = !isRental;
       }
+      
+      // [NEW] 뷰 모드 전환 시 장바구니 초기화 로직 (경고 포함)
+      const currentCartType = getCartType();
+      const newMode = currentViewMode;
+      
+      // 장바구니에 제품이 있고, 유형이 다를 경우 경고 및 초기화
+      if (currentCartType && currentCartType !== newMode) {
+          const ok = confirm(
+              `현재 장바구니에는 '${currentCartType === "sale" ? "판매가" : "렌탈가"}' 제품이 담겨있습니다.\n'${newMode === "sale" ? "판매가" : "렌탈가"} 보기'로 전환하면 장바구니가 초기화됩니다.\n전환하시겠습니까?`
+          );
+          if (ok) {
+              clearCart();
+              showToast("장바구니가 초기화되었습니다.");
+          } else {
+              // 사용자가 취소하면 뷰 모드를 되돌림
+              const oldMode = newMode === "sale" ? "rental" : "sale";
+              currentViewMode = oldMode;
+              document.querySelector(`.view-toggle[data-view="${oldMode}"]`).classList.add("active");
+              document.querySelector(`.view-toggle[data-view="${newMode}"]`).classList.remove("active");
+              return; 
+          }
+      }
   }
 
 
@@ -491,7 +544,7 @@
     mobileNav.classList.add('open'); 
     mobileNav.setAttribute('aria-hidden', 'false'); 
     hamburgerBtn.setAttribute('aria-expanded', 'true'); 
-    lockBodyScroll();
+    lockBodyScroll(); // 스크롤 잠금
   }
 
   // [수정됨] 햄버거 메뉴 닫기 함수 (전역 노출 및 e.preventDefault() 추가)
@@ -506,7 +559,7 @@
     mobileNav.classList.remove('open'); 
     mobileNav.setAttribute('aria-hidden', 'true'); 
     hamburgerBtn.setAttribute('aria-expanded', 'false'); 
-    unlockBodyScroll(); 
+    unlockBodyScroll(); // 스크롤 잠금 해제
   }
 
   // 햄버거 버튼은 index.html에서 onclick="openMobileNav(event)"로 호출되므로 별도 addEventListener 제거
@@ -543,6 +596,26 @@
       const btn = e.target.closest('.view-toggle');
       if (!btn) return;
       const selectedView = btn.dataset.view;
+      
+      // [NEW] 뷰 모드 전환 시 장바구니 초기화 경고 로직 통합
+      const currentCartType = getCartType();
+      if (currentCartType && currentCartType !== selectedView) {
+          const currentLabel = currentCartType === "sale" ? "판매가" : "렌탈가";
+          const newLabel = selectedView === "sale" ? "판매가" : "렌탈가";
+          
+          const ok = confirm(
+              `현재 장바구니에는 '${currentLabel}' 제품이 담겨있습니다.\n'${newLabel} 보기'로 전환하면 장바구니가 초기화됩니다.\n전환하시겠습니까?`
+          );
+          if (!ok) {
+              // 사용자가 취소하면 UI 업데이트를 중단하고 함수 종료
+              return; 
+          }
+          // 전환 확정 → 카트 비우기
+          clearCart();
+          showToast("장바구니가 초기화되었습니다.");
+      }
+      // END: 장바구니 초기화 로직
+
       if (selectedView === currentViewMode) return;
       
       currentViewMode = selectedView;
@@ -644,7 +717,7 @@
       // 1. 이미 담겨 있으면 -> 제거합니다.
       items.splice(existingItemIndex, 1);
       saveCartItems(items);
-      showRemovedNotification(product.title);
+      showToast(`"${product.title}" 제품을 장바구니에서 해제했습니다.`);
       
       // 제거 후 장바구니가 비었을 때, 모달이 열려있다면 닫아줍니다.
       if (items.length === 0 && quotationCartModal && quotationCartModal.classList.contains('show')) {
@@ -678,7 +751,7 @@
     });
 
     saveCartItems(items);
-    showAddedNotification(product.title);
+    showToast(`"${product.title}" 제품을 장바구니에 담았습니다.`);
   }
 
   // 견적함 비우기
@@ -736,46 +809,10 @@
     }
   }
 
-  // 제품 추가 알림 (토스트)
-  function showAddedNotification(productName) {
-    const msg = el(`<div class="gfnew-notification">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width: 16px; height: 16px;"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
-      <span>"${productName}" 제품을 장바구니에 담았습니다!</span>
-    </div>`);
-
-    document.body.appendChild(msg);
-    
-    setTimeout(() => {
-      msg.classList.add('show');
-    }, 10);
-    
-    setTimeout(() => {
-      msg.classList.remove('show');
-      setTimeout(() => msg.remove(), 300);
-    }, 3000);
-  }
-
-  // [NEW] 제품 제거 알림 (토스트)
-  function showRemovedNotification(productName) {
-    const msg = el(`<div class="gfnew-notification removed" style="background: linear-gradient(135deg, #c0392b, #e74c3c);">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width: 16px; height: 16px;"><circle cx="12" cy="12" r="10"></circle><line x1="15" y1="9" x2="9" y2="15"></line><line x1="9" y1="9" x2="15" y2="15"></line></svg>
-      <span>"${productName}" 제품을 장바구니에서 해제했습니다.</span>
-    </div>`);
-    
-    document.body.appendChild(msg);
-    
-    setTimeout(() => {
-      msg.classList.add('show');
-    }, 10);
-    
-    setTimeout(() => {
-      msg.classList.remove('show');
-      setTimeout(() => msg.remove(), 300);
-    }, 3000);
-  }
-
-
-  // [수정됨] 견적함 모달 열기 (e.preventDefault() 추가)
+  // [NEW] 토스트 알림을 통합 (기존 showAddedNotification/showRemovedNotification 대체)
+  // 토스트는 별도 HTML 구조가 필요하므로, 여기서는 showToast로 호출만 대체합니다.
+  
+  // [수정됨] 견적함 모달 열기 (e.preventDefault() 및 스크롤 락 로직 추가)
   window.openQuotationModal = function(e) { // <-- e 인자 추가
     if (e) {
       e.preventDefault(); // <-- ADDED: 기본 동작(최상단 이동) 차단
@@ -786,8 +823,9 @@
     
     renderCartItems();
     
-    quotationCartModal.removeAttribute('hidden');
     lockBodyScroll(); // 스크롤 잠금
+    
+    quotationCartModal.removeAttribute('hidden');
     
     // 애니메이션을 위해 잠시 후 show 클래스 추가
     setTimeout(() => {
@@ -917,7 +955,7 @@
       });
       
       saveCartItems(items);
-      showAddedNotification(product.title);
+      showToast(`"${product.title}" 제품을 장바구니에 담았습니다.`);
       
       // 3. 모달 닫기
       closeQuotationAlert();
