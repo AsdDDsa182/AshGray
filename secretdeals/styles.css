@@ -357,20 +357,24 @@ textarea {
   gap: 32px; 
 }
 
-.field { 
+.modal .field, 
+#inquirySection .field { 
   display: grid; 
   gap: 6px; 
 }
 
-.field label { 
+.modal .field label, 
+#inquirySection .field label { 
   text-align: left; 
   color: var(--muted); 
   font-size: 12px; 
   font-weight: 600; 
 }
 
-input, 
-textarea { 
+.modal input, 
+.modal textarea, 
+#inquirySection input, 
+#inquirySection textarea { 
   width: 100%; 
   padding: 14px 16px; 
   border-radius: 12px; 
@@ -379,21 +383,25 @@ textarea {
   color: var(--text); 
 }
 
-input:focus, 
-textarea:focus { 
+.modal input:focus, 
+.modal textarea:focus, 
+#inquirySection input:focus, 
+#inquirySection textarea:focus { 
   outline: none; 
   box-shadow: none; 
 }
 
-input:focus-visible, 
-textarea:focus-visible { 
+.modal input:focus-visible, 
+.modal textarea:focus-visible, 
+#inquirySection input:focus-visible, 
+#inquirySection textarea:focus-visible { 
   outline: none; 
   border-color: var(--brand); 
   box-shadow: 0 0 0 4px rgba(124,92,255,.15); 
 }
 
-input::placeholder, 
-textarea::placeholder { 
+.modal input::placeholder, 
+#inquirySection input::placeholder { 
   color: #8b90a6; 
 }
 
@@ -1008,6 +1016,33 @@ footer {
   border: 0; /* 테두리 완전히 제거 */
 }
 
+.modal { 
+  position: fixed; 
+  inset: 0; 
+  z-index: 110; 
+  display: none; 
+  place-items: center; 
+  background: rgba(0,0,0,.45); 
+  padding: 0 16px; 
+}
+
+.modal[aria-hidden="false"] { 
+  display: grid; 
+  animation: fadeIn 0.3s ease forwards; 
+}
+
+.modal .gate-card { 
+  width: 100%; 
+  max-width: 560px; 
+  max-height: 80vh; 
+  overflow-y: auto; 
+  overscroll-behavior: contain;
+}
+
+.modal[aria-hidden="false"] .gate-card { 
+  animation: slideUp 0.3s ease forwards; 
+}
+
 #modalQuoteForm { 
   display: flex; 
   flex-direction: column; 
@@ -1015,13 +1050,15 @@ footer {
   gap: 16px; 
 }
 
-.actions { 
+.modal .gate-card .actions, 
+#inquirySection .gate-card .actions { 
   margin-top: 14px; 
   flex-shrink: 0; 
 }
 
 @media (min-width:1080px) { 
-  .actions { 
+  .modal .gate-card .actions, 
+  #inquirySection .gate-card .actions { 
     margin-top: 16px; 
   } 
 }
@@ -1460,4 +1497,21 @@ footer {
   100% { 
     background-position: 0% center; 
   } 
+}
+
+/* ✅ UPDATED: 모바일 기기 전체 화면 모달 스타일 */
+@media (max-width: 1079px) {
+  .modal {
+    padding: 0;
+  }
+
+  .modal .gate-card {
+    max-width: none; /* 너비 제한 해제 */
+    height: 100dvh;
+    max-height: 100dvh;
+    border-radius: 0;
+    border: none;
+    /* 상단 상태바, 하단 제스처 영역 등을 고려한 패딩 조정 */
+    padding: 48px 24px 32px;
+  }
 }

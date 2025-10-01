@@ -231,7 +231,9 @@
   
   function showOverlay(){ overlay.hidden=false; document.body.classList.add('scroll-lock'); }
   
+  // ✅ UPDATED
   function hideOverlay(){
+    // 이제 이 함수는 모달의 상태와 관계없이, 견적서/메뉴 패널 전용으로만 동작합니다.
     document.body.classList.remove('scroll-lock');
     overlay.hidden=true;
   }
@@ -247,24 +249,43 @@
   closeQuoteBtn.addEventListener('click', closeDrawer); openSheetBtn.addEventListener('click', openSheet); closeSheetBtn.addEventListener('click', closeSheet); hamburgerBtn.addEventListener('click', openMobileNav); closeMobileNavBtn.addEventListener('click', closeMobileNav);
   const closeAny=()=>{ if (drawer.classList.contains('open')) closeDrawer(); if (sheet.classList.contains('open')) closeSheet(); if (mobileNav.classList.contains('open')) closeMobileNav(); };
   overlay.addEventListener('click', closeAny); overlay.addEventListener('touchstart', closeAny, {passive:true});
-  document.addEventListener('keydown', e=>{ if(e.key==='Escape') { closeAny(); } });
+  document.addEventListener('keydown', e=>{ if(e.key==='Escape') { closeAny(); closeForm(); } });
   const mqDesktop=window.matchMedia('(min-width:901px)');
   mqDesktop.addEventListener('change', e=>{ if (e.matches) { if (mobileNav.classList.contains('open')) { closeMobileNav(); } const sOpen=sheet.classList.contains('open'); if(sOpen){ closeSheet(); openDrawer(); } } else { const dOpen=drawer.classList.contains('open'); if(dOpen){ closeDrawer(); openSheet(); } } });
   
-  function goToQuotePage() {
-    if (quote.items.length === 0) {
-      showToast('견적서에 담긴 상품이 없습니다.');
-      return;
-    }
-    localStorage.setItem('quoteForSubmission', JSON.stringify(quote));
-    localStorage.setItem('quoteType', currentViewMode);
-    localStorage.setItem('rentalDuration', currentViewMode === 'rental' ? currentRentalDuration : '');
-    window.location.href = 'quote.html';
+  const modal = document.getElementById('quoteFormModal');
+  function populateModalQuoteList() { const listEl = $('#modalQuoteList'); const boxEl = listEl.closest('.quote-summary-box'); if (!listEl || !boxEl) return; listEl.innerHTML = ''; if (quote.items.length > 0) { quote.items.forEach(item => { const li = document.createElement('li'); const qtyText = item.qty > 1 ? ` (수량: ${item.qty})` : ''; li.textContent = `${item.title}${qtyText}`; listEl.appendChild(li); }); boxEl.hidden = false; } else { boxEl.hidden = true; } }
+  
+  // ✅ UPDATED
+  function openForm(){
+    modal.setAttribute('aria-hidden','false');
+    populateModalQuoteList();
+    document.body.classList.add('scroll-lock');
   }
 
-  $('#submitQuote').addEventListener('click', goToQuotePage);
-  $('#submitQuoteM').addEventListener('click', goToQuotePage);
+  // ✅ 이 코드를 복사해서 붙여넣으세요
+  function closeForm(){
+    modal.setAttribute('aria-hidden','true');
 
+    if (!sheet.classList.contains('open') && !drawer.classList.contains('open') && !mobileNav.classList.contains('open')) {
+      document.body.classList.remove('scroll-lock');
+    }
+
+    // 👇 [버그 수정 코드] 모달이 닫힐 때 하단 UI(카트 바, 견적서)가 밀리는 현상을 해결합니다.
+    // 두 요소의 display 속성을 잠시 바꿨다가 되돌려 브라우저가 위치를 강제로 새로 그리게 만듭니다.
+    [cartbar, sheet].forEach(el => {
+      if (el) {
+        el.style.display = 'none';
+        el.offsetHeight; // 이 코드가 브라우저의 재계산을 유도하는 핵심입니다.
+        el.style.display = ''; // CSS에 지정된 원래 display 속성으로 되돌립니다.
+      }
+    });
+  }
+
+  $('#submitQuote').addEventListener('click', openForm);
+  $('#submitQuoteM').addEventListener('click', openForm);
+  $('#cancelForm').addEventListener('click', closeForm);
+  modal.addEventListener('click', (e) => { if (e.target === modal) closeForm(); });
   function blurOnOutsideTap(e){ const ae = document.activeElement; if (!ae) return; const isField = (el)=> el && (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA'); if (isField(ae) && !e.target.closest('input, textarea, .gate-card')) { ae.blur(); } }
   document.addEventListener('touchstart', blurOnOutsideTap, {passive:true});
   document.addEventListener('mousedown', blurOnOutsideTap);
@@ -294,7 +315,7 @@
       if (text !== 'Success') throw new Error(`Unexpected response: ${text}`);
       showToast('문의가 성공적으로 접수되었습니다.');
       form.reset();
-      if (prefix.startsWith('f')) { quote.items = []; saveQuote(); }
+      if (prefix.startsWith('f')) { quote.items = []; saveQuote(); closeForm(); closeAny(); }
     } catch (e) { console.error('submit error:', e); showToast('전송 실패. 잠시 후 다시 시도해주세요.'); } 
     finally { btn.textContent = oldLabel; btn.removeAttribute('aria-disabled'); btn.disabled = false; }
   }
@@ -341,7 +362,7 @@
     document.getElementById('yy').textContent = new Date().getFullYear();
     if (loadMoreBtn) { loadMoreBtn.addEventListener('click', loadMoreProducts); }
     loadMoreProducts();
-    // 'f' prefix is no longer valid as the form is on another page. This listener is only for the inline form.
+    $('#modalQuoteForm').addEventListener('submit', (e) => handleFormSubmit('f', e));
     $('#inlineInquiryForm').addEventListener('submit', (e) => handleFormSubmit('inline', e));
   })();
 })();
