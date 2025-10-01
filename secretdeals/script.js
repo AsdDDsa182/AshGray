@@ -256,19 +256,19 @@
   const modal = document.getElementById('quoteFormModal');
   function populateModalQuoteList() { const listEl = $('#modalQuoteList'); const boxEl = listEl.closest('.quote-summary-box'); if (!listEl || !boxEl) return; listEl.innerHTML = ''; if (quote.items.length > 0) { quote.items.forEach(item => { const li = document.createElement('li'); const qtyText = item.qty > 1 ? ` (수량: ${item.qty})` : ''; li.textContent = `${item.title}${qtyText}`; listEl.appendChild(li); }); boxEl.hidden = false; } else { boxEl.hidden = true; } }
   
-// 수정 전
-function closeForm(){
-  modal.setAttribute('aria-hidden','true');
-  // 모달을 닫을 때, 다른 오버레이(견적서, 메뉴 등)가 열려있지 않은 경우에만 스크롤 잠금을 해제합니다.
-  if (!sheet.classList.contains('open') && !drawer.classList.contains('open') && !mobileNav.classList.contains('open')) {
-    document.body.classList.remove('scroll-lock');
-  }
+// ✅ 1단계에서 붙여넣은 코드를 이 코드로 통째로 교체하세요.
+
+// ✅ UPDATED
+function openForm(){
+  modal.setAttribute('aria-hidden','false');
+  populateModalQuoteList();
+  // document.body.classList.add('scroll-lock'); // 스크롤 잠금 기능 비활성화
 }
 
-// 수정 후
+// ✅ UPDATED
 function closeForm(){
   modal.setAttribute('aria-hidden','true');
-  // 모달을 닫을 때, 다른 오버레이(견적서, 메뉴 등)가 열려있지 않은 경우에만 스크롤 잠금을 해제합니다.
+  // 스크롤 잠금 해제 기능 비활성화
   /*
   if (!sheet.classList.contains('open') && !drawer.classList.contains('open') && !mobileNav.classList.contains('open')) {
     document.body.classList.remove('scroll-lock');
