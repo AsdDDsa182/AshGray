@@ -1,0 +1,266 @@
+/* ============================================== */
+/* ============ 1. 전역 스타일 및 변수 ============ */
+/* ============================================== */
+:root {
+  --bg: #0b0c10;
+  --card: #111218;
+  --muted: #a9afc3;
+  --text: #f2f5ff;
+  --brand: #7c5cff;
+  --brand-2: #4cc9f0;
+  --ok: #00e091;
+  --danger: #ff5470;
+  --border: #232536;
+  --radius: 18px;
+  --shadow: 0 10px 30px rgba(0,0,0,.35);
+  --quote-bg: #1b2033;
+  --quote-border: #2a3252;
+}
+/* ============================================== */
+/* =========== 1. contact.html 전용 스타일 ========== */
+/* ============================================== */
+
+/* 메인 헤더 오버라이드 (contact 페이지에서는 메뉴 및 카트 아이콘 제거) */
+header .head {
+    max-width: 800px; /* 폼 컨테이너와 일치 */
+    margin: 0 auto;
+}
+
+#callToConsult {
+    display: inline-flex;
+}
+
+/* ================== 폼 컨테이너 ================== */
+#contactFormSection {
+    max-width: 800px;
+    margin: 0 auto;
+    padding-top: 100px; /* 헤더 높이 고려 */
+}
+
+.contact-form {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 30px 20px;
+    margin-top: 24px;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    font-size: 14px;
+    font-weight: 700;
+    margin-bottom: 8px;
+    color: var(--text);
+}
+
+.form-group .required {
+    color: var(--danger);
+}
+
+.contact-form input[type="text"],
+.contact-form input[type="email"],
+.contact-form input[type="tel"],
+.contact-form textarea {
+    width: 100%;
+    padding: 12px 14px;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    background: var(--bg);
+    color: var(--text);
+    font-size: 15px;
+    transition: border-color 0.2s;
+}
+
+.contact-form input:focus,
+.contact-form textarea:focus {
+    outline: none;
+    border-color: var(--brand);
+}
+
+.contact-form textarea {
+    resize: vertical;
+}
+
+.form-actions {
+    margin-top: 30px;
+}
+
+.btn.full-width {
+    width: 100%;
+    padding: 14px;
+    font-size: 16px;
+}
+
+.privacy-note {
+    font-size: 12px;
+    color: var(--muted);
+    text-align: center;
+    margin-top: 16px;
+}
+
+/* ================== 유효성 검사 오류 ================== */
+.form-group.error input,
+.form-group.error textarea {
+    border-color: var(--danger);
+}
+
+.error-message {
+    font-size: 12px;
+    color: var(--danger);
+    margin-top: 4px;
+    margin-bottom: 0;
+    display: none;
+}
+
+.form-group.error .error-message {
+    display: block;
+}
+
+
+/* ================== 2. 견적 요약 카드 ================== */
+.quote-summary-card {
+    background: var(--quote-bg);
+    border: 1px solid var(--quote-border);
+    border-radius: 16px;
+    padding: 20px;
+    margin-bottom: 24px;
+}
+
+.summary-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px dashed var(--quote-border);
+    padding-bottom: 10px;
+    margin-bottom: 10px;
+}
+
+.summary-title {
+    font-size: 18px;
+    font-weight: 800;
+    margin: 0;
+}
+
+.summary-type {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--brand);
+    background: var(--bg);
+    padding: 4px 10px;
+    border-radius: 8px;
+}
+
+.summary-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    max-height: 250px;
+    overflow-y: auto;
+    font-size: 14px;
+    color: var(--muted);
+}
+
+.summary-list li {
+    padding: 8px 0;
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 1px dotted rgba(255, 255, 255, 0.05);
+}
+
+.summary-list li:last-child {
+    border-bottom: none;
+}
+
+.item-info {
+    font-weight: 600;
+    color: var(--text);
+}
+
+.item-price {
+    font-size: 13px;
+    color: var(--ok);
+}
+
+.summary-total {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 15px;
+    margin-top: 15px;
+    border-top: 1px solid var(--quote-border);
+    font-size: 18px;
+    font-weight: 800;
+    color: var(--ok);
+}
+
+
+/* ================== 3. 결과 모달 ================== */
+.result-modal-overlay {
+    /* 🔥 페이지 로드 시 숨기기 */
+    display: none; 
+    
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.85);
+    align-items: center;
+    justify-content: center;
+    z-index: 2000;
+}
+
+/* 🔥 JS에서 hidden 속성을 제거했을 때만 표시 (display: flex) */
+.result-modal-overlay:not([hidden]) {
+    display: flex;
+}
+
+.result-modal-box {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 40px 30px;
+    width: 90%;
+    max-width: 400px;
+    text-align: center;
+}
+
+.result-modal-box h3 {
+    color: var(--ok);
+    font-size: 24px;
+    font-weight: 800;
+    margin: 0 0 10px;
+}
+
+.result-modal-box p {
+    color: var(--muted);
+    font-size: 14px;
+    line-height: 1.6;
+    margin: 0 0 30px;
+}
+
+.modal-actions .btn {
+    padding: 12px 30px;
+}
+
+/* 로딩 스피너 (선택적) */
+.loading-spinner {
+    border: 4px solid rgba(255, 255, 255, 0.3);
+    border-top: 4px solid var(--brand);
+    border-radius: 50%;
+    width: 24px;
+    height: 24px;
+    animation: spin 1s linear infinite;
+    display: inline-block;
+    margin-right: 8px;
+    vertical-align: middle;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
