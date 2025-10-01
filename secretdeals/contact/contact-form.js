@@ -20,6 +20,8 @@
     const resultModal = document.getElementById('resultModalOverlay');
     const resultTitle = document.getElementById('resultModalTitle');
     const resultMessage = document.getElementById('resultModalMessage');
+    const inputFields = form.querySelectorAll('input, textarea'); // 모든 입력 필드를 선택
+
     
     // 유틸리티 함수
     const fmtKRW = n => new Intl.NumberFormat('ko-KR',{style:'currency',currency:'KRW',maximumFractionDigits:0}).format(n);
@@ -34,25 +36,38 @@
         }
     }
 
-    // [MODIFIED] 페이지 이탈 경고 설정 함수
+    // [NEW] iOS 키보드 대응: Focus 시 스크롤 조정
+    function setupIOSKeyboardFix() {
+        inputFields.forEach(field => {
+            field.addEventListener('focus', () => {
+                // 키보드가 완전히 올라올 시간을 기다립니다. (200ms)
+                setTimeout(() => {
+                    // 해당 입력 필드가 뷰포트 중앙에 오도록 부드럽게 스크롤합니다.
+                    // 'center'를 사용하면 상단 고정 헤더에 의해 가려지지 않도록 확실하게 위치시킵니다.
+                    field.scrollIntoView({ 
+                        behavior: 'smooth', 
+                        block: 'center' // 화면 중앙에 오도록 스크롤
+                    });
+                }, 200); 
+            });
+        });
+    }
+
+    // [ORIGINAL] 페이지 이탈 경고 설정 함수
     function setupExitWarning() {
-        
         // 1. 브라우저 UI(뒤로가기, 탭 닫기) 경고 설정
-        // 오직 브라우저의 표준 경고만 뜨도록 e.returnValue를 빈 문자열로 설정합니다.
         window.addEventListener('beforeunload', (e) => {
             if (!submissionSuccessful) { 
                 e.preventDefault();
-                e.returnValue = ''; // 표준 경고 활성화 (커스텀 메시지 없음)
-                return '';          // 표준 경고 활성화 (커스텀 메시지 없음)
+                e.returnValue = ''; // 표준 경고 활성화
+                return '';          // 표준 경고 활성화
             }
         });
         
-        // 2. 인페이지 링크(로고) 클릭 시 처리
-        // [MODIFIED] 경고 없이 바로 이동하도록 로고 클릭 이벤트 핸들러를 제거합니다.
-        // HTML의 기본 동작(로고 클릭 시 메인으로 이동)을 그대로 따릅니다.
+        // 2. 인페이지 링크(로고) 클릭 시 처리 (수정 없음)
     }
     
-    // 폼 유효성 검사 (이전 코드와 동일)
+    // 폼 유효성 검사 (변경 없음)
     function validateForm(formData) {
         let isValid = true;
         const requiredFields = [
@@ -114,7 +129,7 @@
         return isValid;
     }
 
-    // 견적 요약 카드 렌더링 (이전 코드와 동일)
+    // 견적 요약 카드 렌더링 (변경 없음)
     function renderQuoteSummary(cart) {
         if (cart.items.length === 0) {
             window.location.href = '../index.html';
@@ -147,7 +162,7 @@
         summaryTotalPriceEl.textContent = fmtKRW(totalPrice) + '원';
     }
 
-    // 견적 요청 제출 핸들러
+    // 견적 요청 제출 핸들러 (변경 없음)
     async function handleSubmit(e) {
         e.preventDefault();
 
@@ -230,6 +245,7 @@
         const cart = getCartData();
         renderQuoteSummary(cart);
         setupExitWarning(); // 페이지 이탈 경고 설정
+        setupIOSKeyboardFix(); // 💡 iOS 키보드 대응 스크롤 설정 추가
         form.addEventListener('submit', handleSubmit);
     }
 
