@@ -1283,17 +1283,6 @@ window.addEventListener('resize', handleResize);
     }
 
     window.addEventListener('unload', () => {
-        window.removeEventListener('scroll', handleScroll);
-        window.removeEventListener('resize', handleResize);
-    });
-
-    if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', init);
-    } else {
-        init();
-    }
-
-    window.addEventListener('unload', () => {
         if (animationFrameId) {
             cancelAnimationFrame(animationFrameId);
         }
