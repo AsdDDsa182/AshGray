@@ -1,18 +1,6 @@
 // 문서가 로드되면 실행
 document.addEventListener('DOMContentLoaded', function() {
 
-    // 인앱 브라우저 호환성 및 vh 문제 해결을 위한 스크립트
-    function setViewportHeight() {
-        const vh = window.innerHeight * 0.01;
-        document.documentElement.style.setProperty('--vh', `${vh}px`);
-    }
-
-    // 초기 로드 시 실행
-    setViewportHeight();
-
-    // 리사이즈 및 오리엔테이션 변경 시 실행 (안정성 확보)
-    window.addEventListener('resize', setViewportHeight);
-
     const intro = document.getElementById('intro');
     const introLogo = document.getElementById('intro-logo').querySelector('img');
     const mainContent = document.getElementById('main-content');
