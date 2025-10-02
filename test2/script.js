@@ -40,6 +40,10 @@ document.addEventListener('DOMContentLoaded', function() {
                 // 메인 콘텐츠가 로드된 후 스크롤 가능하게 설정
                 document.body.style.overflow = '';
                 document.documentElement.style.overflow = '';
+
+                initializeEventSlider(); 
+
+                
             }, 2000); // intro 페이드아웃 시간
         }, 1000); // 로딩 바 페이드아웃 시간
     }, 2000); // 로고와 로딩 바 애니메이션 완료 후 실행
@@ -1852,3 +1856,170 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 });
+
+
+
+
+
+
+
+// ⭐⭐⭐ 1. 이벤트 팝업 슬라이더 기능 시작 (타이밍 개선) ⭐⭐⭐
+
+function initializeEventSlider() {
+    const modal = document.getElementById('event-popup-modal');
+    if (!modal) return;
+    
+    // 쿠키 확인 (오늘 하루 보지 않기)
+    const doNotShow = localStorage.getItem('gfk_event_popup_hide');
+    if (doNotShow === 'true') {
+        return; 
+    }
+
+    const content = modal.querySelector('.popup-content');
+    const sliderWrapper = modal.querySelector('.event-slider-wrapper');
+    const slides = modal.querySelectorAll('.event-slide');
+    const prevButton = modal.querySelector('.prev-slide');
+    const nextButton = modal.querySelector('.next-slide');
+    const closeButton = modal.querySelector('#close-popup-btn');
+    const doNotShowCheckbox = modal.querySelector('#do-not-show-today');
+    const dotsContainer = modal.querySelector('.event-dots-container');
+
+    if (slides.length === 0) {
+        return; 
+    }
+
+    let currentIndex = 0;
+    let slideInterval;
+    const slideDuration = 6000; // ⭐ 4초에서 6초로 늘려 타이밍을 여유롭게 조정
+    const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+
+    // 인디케이터(점) 생성
+    slides.forEach((_, index) => {
+        const dot = document.createElement('span');
+        dot.classList.add('event-dot');
+        if (index === 0) dot.classList.add('active');
+        dot.addEventListener('click', () => {
+            goToSlide(index);
+            resetSlideInterval(); // ⭐ 수동 조작 시 타이머 리셋
+        });
+        dotsContainer.appendChild(dot);
+    });
+    const dots = dotsContainer.querySelectorAll('.event-dot');
+
+    // 슬라이드 이동 함수
+    function goToSlide(index) {
+        currentIndex = (index + slides.length) % slides.length;
+        sliderWrapper.style.transform = `translateX(-${currentIndex * 100}%)`;
+        updateDots();
+    }
+
+    // 인디케이터 업데이트
+    function updateDots() {
+        dots.forEach((dot, index) => {
+            dot.classList.toggle('active', index === currentIndex);
+        });
+    }
+
+    // 자동 슬라이드 시작
+    function startSlideShow() {
+        if (slides.length <= 1) return;
+        slideInterval = setInterval(() => goToSlide(currentIndex + 1), slideDuration);
+    }
+
+    // 자동 슬라이드 중지
+    function stopSlideShow() {
+        clearInterval(slideInterval);
+    }
+
+    // ⭐ 자동 슬라이드 재시작 (핵심 로직)
+    function resetSlideInterval() {
+        stopSlideShow(); // 기존 타이머 멈춤
+        startSlideShow(); // 새 타이머 시작
+    }
+
+    // 네비게이션 버튼 이벤트
+    prevButton.addEventListener('click', () => {
+        goToSlide(currentIndex - 1);
+        resetSlideInterval(); // ⭐ 버튼 클릭 시 타이머 리셋
+    });
+
+    nextButton.addEventListener('click', () => {
+        goToSlide(currentIndex + 1);
+        resetSlideInterval(); // ⭐ 버튼 클릭 시 타이머 리셋
+    });
+
+    // 팝업 닫기 함수
+    function closePopup() {
+        stopSlideShow(); // 팝업 닫을 때 타이머 멈춤
+        if (doNotShowCheckbox.checked) {
+            localStorage.setItem('gfk_event_popup_hide', 'true');
+        }
+        modal.classList.remove('show');
+        setTimeout(() => {
+            modal.style.display = 'none';
+            document.body.style.overflow = '';
+            document.documentElement.style.overflow = '';
+        }, 300);
+    }
+
+    // 팝업 닫기 이벤트 등... (나머지 코드는 이전과 동일)
+    closeButton.addEventListener('click', closePopup);
+
+    modal.addEventListener('click', function(e) {
+        if (e.target === modal) {
+            closePopup();
+        }
+    });
+
+    document.addEventListener('keydown', function(e) {
+        if (e.key === "Escape" && modal.style.display === "flex") {
+            closePopup();
+        }
+    });
+
+    // 터치 스와이프 구현
+    let touchStartX = 0;
+
+    sliderWrapper.addEventListener('touchstart', (e) => {
+        touchStartX = e.touches[0].clientX;
+        stopSlideShow(); // 스와이프 시작 시 타이머 즉시 멈춤
+    });
+
+    sliderWrapper.addEventListener('touchend', (e) => {
+        const touchEndX = e.changedTouches[0].clientX;
+        const swipeThreshold = 50;
+        const swipeDistance = touchStartX - touchEndX;
+
+        if (Math.abs(swipeDistance) > swipeThreshold) {
+            if (swipeDistance > 0) {
+                goToSlide(currentIndex + 1);
+            } else {
+                goToSlide(currentIndex - 1);
+            }
+        }
+        resetSlideInterval(); // ⭐ 스와이프 종료 시 타이머 리셋
+    });
+
+    // PC 환경 (터치 디바이스가 아닐 때)에서 마우스 호버 시 자동 슬라이드 중지
+    if (!isTouchDevice) {
+        content.addEventListener('mouseenter', stopSlideShow);
+        content.addEventListener('mouseleave', resetSlideInterval); // ⭐ 호버 해제 시 타이머 리셋
+    }
+
+
+    // 팝업 표시
+    modal.style.display = 'flex';
+    setTimeout(() => {
+        modal.classList.add('show');
+        document.body.style.overflow = 'hidden';
+        document.documentElement.style.overflow = 'hidden';
+    }, 10);
+    startSlideShow(); // 최초 시작
+}
+
+// 기존 코드를 보면, 인트로 애니메이션 끝에 다음 코드가 있습니다.
+// 이 부분은 이미 이전 단계에서 수정했으므로, 이 함수 정의만 교체하면 됩니다.
+// document.addEventListener('DOMContentLoaded', function() {
+// ...
+// }, 2000); // 로고와 로딩 바 애니메이션 완료 후 실행
+// 이 부분은 그대로 두세요.

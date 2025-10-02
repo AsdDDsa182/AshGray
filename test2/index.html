@@ -66,6 +66,7 @@
                         <li class="sub-item"><a href="https://www.youtube.com/@gofitkorea1">유튜브</a></li>
                         <li class="sub-item"><a href="https://www.instagram.com/gofitkorea/">인스타그램</a></li>
                         <li class="sub-item"><a href="https://blog.naver.com/gofitkorea">네이버 블로그</a></li>
+                        <li class="sub-item"><a href="/layout/basic/main.html">쇼핑몰(구)</a></li>
                     </ul>
                 </li>
                 <li class="nav-item"><a href="https://smartstore.naver.com/gofitkorea">스마트 스토어</a></li>
@@ -77,8 +78,8 @@
                         <span class="balloon">최저가 견적 진행 중</span>
                     </li>
             
-                    <!-- "자체 쇼핑몰(구)" 항목 추가 -->
-                    <li class="nav-item"><a href="/layout/basic/main.html" class="nav-item">쇼핑몰(구)</a></li>
+                    <!-- 피치빌더로 변경 -->
+                    <li class="nav-item"><a href="/pitchbuilder.html" class="nav-item">피치빌더</a></li>
                 </li>
             </ul>
             
@@ -893,7 +894,7 @@
                             <i class="fas fa-map-marker-alt"></i>
                         </div>
                         <h3>찾아오시는 길</h3>
-                        <p>경기 양주시 봉양동 450-1 고핏코리아</p>
+                        <p>경기도 양주시 봉양동 632-2</p>
                     </div>
                     <div class="info-card">
                         <p class="icon-title">Phone</p>
@@ -943,7 +944,7 @@
                 <a href="https://blog.naver.com/gofitkorea" target="_blank"><i class="fas fa-blog"></i></a>
             </div>
             <div class="footer-info">
-                <p>경기 양주시 봉양동 450-1 고핏코리아</p>
+                <p>경기 양주시 봉양동 632-2 고핏코리아</p>
                 <p>대표 번호 1833-3745 | gofitkorea@naver.com</p>
             </div>
             <div class="footer-copyright">
@@ -951,6 +952,42 @@
             </div>
         </div>
     </footer>
+    
+<div id="event-popup-modal" class="popup-overlay">
+        <div class="popup-content">
+            
+            <div class="event-slider-container">
+                <div class="event-slider-wrapper">
+                    
+                    <a href="https://smartstore.naver.com/gofitkorea/products/999999999" target="_blank" class="event-slide">
+                        <img src="/123.jpg" alt="Event Banner 1"> <!-- 750 x 1000 -->
+                    </a>
+                    
+                    <a href="https://smartstore.naver.com/gofitkorea/products/999999999" target="_blank" class="event-slide">
+                        <img src="123.jpg" alt="Event Banner 2"> <!-- 750 x 1000 -->
+                    </a>
+                    
+                    <a href="https://smartstore.naver.com/gofitkorea/products/999999999" target="_blank" class="event-slide">
+                        <img src="123.jpg" alt="Event Banner 3"> <!-- 750 x 1000 -->
+                    </a>
+
+                </div>
+                
+                <button class="prev-slide slider-nav-btn">❮</button>
+                <button class="next-slide slider-nav-btn">❯</button>
+                
+                <div class="event-dots-container"></div>
+            </div>
+            
+            <div class="popup-footer">
+                <label>
+                    <input type="checkbox" id="do-not-show-today"> 오늘 하루 보지 않기
+                </label>
+                <button class="close-btn" id="close-popup-btn">닫기</button>
+            </div>
+        </div>
+    </div>
+    </body>
     
     <script src="script.js"></script>
 </body>
