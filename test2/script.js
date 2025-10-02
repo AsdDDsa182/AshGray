@@ -1260,7 +1260,7 @@ window.addEventListener('resize', handleResize);
         handleScroll();
         
         // 스크롤과 리사이즈 이벤트에만 의존하도록 변경
-        window.addEventListener('scroll', handleScroll, { passive: true }); 
+        window.addEventListener('scroll', handleScroll);
         window.addEventListener('resize', handleResize);
     }
 
