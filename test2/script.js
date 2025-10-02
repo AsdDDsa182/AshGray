@@ -1,17 +1,10 @@
-// ==================================================================================================
-// ============================= G O F I T K O R E A : S C R I P T . J S =============================
-// ==================================================================================================
-
-// ====================================================================
-// SECTION 1: 초기 로딩 및 인트로 애니메이션
-// ====================================================================
-
+// 문서가 로드되면 실행
 document.addEventListener('DOMContentLoaded', function() {
 
     const intro = document.getElementById('intro');
     const introLogo = document.getElementById('intro-logo').querySelector('img');
     const mainContent = document.getElementById('main-content');
-    const loadingBar = document.getElementById('loading-bar');
+    const loadingBar = document.getElementById('loading-bar'); // 로딩 바
     
     if (!intro || !introLogo || !mainContent || !loadingBar) {
         console.error('Required element not found');
@@ -57,6 +50,9 @@ document.addEventListener('DOMContentLoaded', function() {
     
 
 
+
+
+
     // 네비게이션 관련 요소들 선택
     const navbar = document.querySelector('.navbar');
     const hamburgerMenu = document.getElementById('hamburger-menu');
@@ -67,21 +63,16 @@ document.addEventListener('DOMContentLoaded', function() {
     let lastScrollY = 0;
     const scrollThreshold = 100; // 헤더 숨김/보이기 시작 스크롤 값 (100px)
 
-
-// ====================================================================
-// SECTION 2: 네비게이션 바 및 헤더 스크롤 로직
-// ====================================================================
-
-    // 스크롤 방향 감지 및 배경색 변경
+    // 스크롤 방향 감지 및 배경색 변경 (새로운 로직)
     window.addEventListener('scroll', function() {
         const currentScrollY = window.scrollY;
         const isScrollingDown = currentScrollY > lastScrollY;
         const isScrolledPastThreshold = currentScrollY > scrollThreshold;
 
-        // 1. 네비게이션 바 배경색 변경 로직
+        // 1. 네비게이션 바 배경색 변경 로직 (기존 기능 유지)
         navbar.style.backgroundColor = (currentScrollY > 0) ? 'var(--navbar-bg-color-scrolled)' : 'var(--navbar-bg-color)';
 
-        // 2. 헤더 숨기기/보이기 로직 (Fixed 헤더의 동적 조작)
+        // 2. 헤더 숨기기/보이기 로직
         if (isScrolledPastThreshold) {
             if (isScrollingDown) {
                 // 아래로 스크롤 시 숨김
@@ -209,9 +200,6 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
 
-// ====================================================================
-// SECTION 3: 비디오 및 파트너 로고 (Vimeo, Logo Scroll)
-// ====================================================================
 
     // Vimeo 플레이어 초기화
     const iframe = document.querySelector('#vimeo-player');
@@ -229,7 +217,10 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     
     
-    // 파트너 로고 애니메이션 변수 및 로직
+    
+    
+    
+
     let animationId;
     let resizeId;
     const logosTrack = document.querySelector('.logos-track');
@@ -306,6 +297,7 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // 초기화 및 이벤트 리스너 등록
     initAndResizeLogos();
+    window.addEventListener('resize', handleResize);
     
     // 애니메이션 루프 함수
     function animate() {
@@ -318,10 +310,10 @@ document.addEventListener('DOMContentLoaded', function() {
     
 
 
-// ====================================================================
-// SECTION 4: About Us 섹션 로직 (슬라이드쇼, 텍스트 확장)
-// ====================================================================
 
+
+
+// About Us 섹션 애니메이션
 function handleAboutUsAnimation() {
     const aboutSection = document.querySelector('#about-us');
     if (!aboutSection) return;
@@ -459,6 +451,14 @@ function handleAboutUsAnimation() {
         }
     }
 
+    // 디바운스 함수
+    function debounce(func, wait) {
+        let timeout;
+        return function (...args) {
+            clearTimeout(timeout);
+            timeout = setTimeout(() => func.apply(this, args), wait);
+        };
+    }
 
     // 이벤트 리스너 등록
     elements.readMoreBtn.addEventListener('click', () => {
@@ -467,10 +467,12 @@ function handleAboutUsAnimation() {
         elements.readMoreBtn.textContent = isExpanded ? '접기' : '더보기';
     });
 
+    window.addEventListener('resize', debounce(() => {
+        goToSlide(currentSlide);
+        adjustText();
+    }, 250));
 
-    // *주의: 이전에 debounce 로직이 있었으나, 현재는 제거되고 clean한 상태입니다.
-    window.addEventListener('scroll', adjustText); 
-
+    window.addEventListener('scroll', debounce(adjustText, 250));
 
     // 초기화
     adjustText();
@@ -503,10 +505,14 @@ preloadImages(() => {
 });
 
 
-// ====================================================================
-// SECTION 5: 타임라인 (3D 배경 및 GSAP 애니메이션)
-// ====================================================================
 
+
+
+
+
+
+
+// 타임라인 애니메이션
 // GSAP 및 ScrollTrigger 초기화
 gsap.registerPlugin(ScrollTrigger);
 
@@ -581,14 +587,14 @@ function initTimelineBackground() {
     camera.position.z = 1000;
 
     // 애니메이션 함수
-    function animateTimeline() {
-        requestAnimationFrame(animateTimeline);
+    function animate() {
+        requestAnimationFrame(animate);
         particles.rotation.x += 0.0001;
         particles.rotation.y += 0.0002;
         renderer.render(scene, camera);
     }
 
-    animateTimeline();
+    animate();
 
     // 윈도우 리사이즈 대응
     window.addEventListener('resize', onWindowResize, false);
@@ -675,9 +681,9 @@ gsap.to(particles.rotation, {
     
 
 
-// ====================================================================
-// SECTION 7: 패럴랙스 스크롤 애니메이션 (스크롤 애니메이션 섹션)
-// ====================================================================
+
+
+// 패럴랙스 스크롤 애니메이션
 (function() {
     const canvas = document.getElementById("hero-lightpass");
     const context = canvas.getContext("2d");
@@ -909,9 +915,9 @@ gsap.to(particles.rotation, {
 
 
 
-// ====================================================================
-// SECTION 8: inquiry-intro 섹션 코드
-// ====================================================================
+
+
+// inquiry-intro 섹션 코드
 // DOM 요소 선택
 const inquiryIntroSection = document.getElementById('inquiry-intro');
 const textItems = document.querySelectorAll('#inquiry-intro .text-item');
@@ -923,7 +929,7 @@ const textContainer = document.querySelector('#inquiry-intro .text-animation-con
 const CONSTANTS = {
     totalItems: textItems.length,
     visibleItems: 4,
-    // scrollSensitivity: 1.2, <-- 삭제됨
+    scrollSensitivity: 1.2,
     throttleDelay: 16 // 약 60fps에 해당하는 값
 };
 
@@ -939,7 +945,7 @@ function updateItemHeight() {
 
 // 텍스트 아이템 업데이트 함수
 function updateTextItems(scrollFraction, itemHeight, mainContentVisible) {
-    const currentIndex = Math.floor(scrollFraction * (CONSTANTS.totalItems - 1) * 1.0); // scrollSensitivity 대신 1.0 사용
+    const currentIndex = Math.floor(scrollFraction * (CONSTANTS.totalItems - 1) * CONSTANTS.scrollSensitivity);
     
     textItems.forEach((item, index) => {
         const distance = index - currentIndex;
@@ -965,8 +971,7 @@ function updateTextItems(scrollFraction, itemHeight, mainContentVisible) {
 
 // 메인 콘텐츠(타이틀, 설명) 업데이트 함수
 function updateMainContent(scrollFraction) {
-    // scrollSensitivity 대신 1.0 사용
-    const lastItemFullyVisibleFraction = (CONSTANTS.totalItems - 1) / CONSTANTS.totalItems / 1.0; 
+    const lastItemFullyVisibleFraction = (CONSTANTS.totalItems - 1) / CONSTANTS.totalItems / CONSTANTS.scrollSensitivity;
     const contentStartFraction = lastItemFullyVisibleFraction + 0.2;
 
     let mainContentVisible = false;
@@ -977,6 +982,7 @@ function updateMainContent(scrollFraction) {
 
         mainTitle.style.opacity = easedProgress;
         mainDescription.style.opacity = easedProgress;
+        // 여기서 scaleY를 완전히 제거했습니다.
         mainTitle.style.transform = `translateY(${30 * (1 - easedProgress)}px)`;
         mainDescription.style.transform = `translateY(${30 * (1 - easedProgress)}px)`;
 
@@ -984,6 +990,7 @@ function updateMainContent(scrollFraction) {
     } else {
         mainTitle.style.opacity = 0;
         mainDescription.style.opacity = 0;
+        // 여기서도 scaleY를 제거했습니다.
         mainTitle.style.transform = 'translateY(30px)';
         mainDescription.style.transform = 'translateY(30px)';
     }
@@ -1003,10 +1010,16 @@ function handleScroll() {
 
 
 
-
+// 리사이즈 이벤트 핸들러
+function handleResize() {
+    const currentItemHeight = updateItemHeight();
+    textContainer.style.height = `${currentItemHeight * CONSTANTS.visibleItems * 1.5}px`;
+    handleScroll();
+}
 
 // 이벤트 리스너 등록
 window.addEventListener('scroll', handleScroll, { passive: true }); 
+window.addEventListener('resize', handleResize);
 
 // 초기 설정
 handleResize();
@@ -1016,9 +1029,8 @@ handleScroll();
 
 
 
-// ====================================================================
-// SECTION 9: Our Services 섹션 애니메이션 및 로직
-// ====================================================================
+
+// Our Services 섹션 애니메이션
 function handleServicesAnimation() {
     const servicesSection = document.querySelector('#our-services');
     if (servicesSection) {
@@ -1127,12 +1139,15 @@ window.addEventListener('load', () => {
     initializeServiceBoxes();
 });
 
+// 윈도우 리사이즈 이벤트 리스너
+window.addEventListener('resize', handleResize);
 
 
 
-// ====================================================================
-// SECTION 10: Best Section 코드 (스크롤 이벤트 기반 애니메이션)
-// ====================================================================
+
+
+
+// Best Section 코드
 (function() {
     const bestServicesSection = document.getElementById('best-services');
     if (!bestServicesSection) return;
@@ -1184,13 +1199,13 @@ window.addEventListener('load', () => {
         });
     }
 
-    // 스크롤 이벤트 기반으로 변경된 handleScroll 함수
+    // requestAnimationFrame 무한 루프 대신 이벤트 기반으로 변경
     function handleScroll() {
         const rect = bestServicesSection.getBoundingClientRect();
         const viewportHeight = window.innerHeight;
         const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
 
-        // Best Services 섹션에 대한 스크롤 처리 로직
+        // Best Services 섹션에 대한 스크롤 처리 로직 (이전 handleScroll 내용 유지)
         if (rect.top <= 0 && rect.bottom >= 0) {
             const sectionProgress = Math.abs(rect.top) / (rect.height - viewportHeight);
             const newImageIndex = Math.min(Math.floor(sectionProgress * totalImages), totalImages - 1);
@@ -1232,7 +1247,7 @@ window.addEventListener('load', () => {
         updateImagePositions(0);
         handleScroll();
         
-        // 스크롤 이벤트에만 의존하도록 변경
+        // 스크롤과 리사이즈 이벤트에만 의존하도록 변경
         window.addEventListener('scroll', handleScroll);
         window.addEventListener('resize', handleResize);
     }
@@ -1253,9 +1268,9 @@ window.addEventListener('load', () => {
 
 
 
-// ====================================================================
-// SECTION 11: Counting Content 코드
-// ====================================================================
+
+
+// Counting Content 코드
 function handleCountingContentAnimation() {
     // counting-content 섹션을 선택합니다.
     const section = document.querySelector('#counting-content');
@@ -1304,6 +1319,9 @@ function handleCountingContentAnimation() {
 
 // 텍스트 애니메이션 함수
 function animateText(textElement) {
+    // 초기 상태 설정 부분 제거
+    // textElement.style.opacity = '0';
+    // textElement.style.transform = 'translateY(50px)';
     
     // 애니메이션 시작
     setTimeout(() => {
@@ -1387,9 +1405,9 @@ handleCountingContentAnimation();
 
     
     
-// ====================================================================
-// SECTION 12: Results 섹션 애니메이션 및 모달
-// ====================================================================
+
+    
+    
     
     // Results 섹션 애니메이션 처리 함수
     function handleResultsAnimation() {
@@ -1444,7 +1462,7 @@ handleCountingContentAnimation();
     handleResultsAnimation();
     
     
-// 프로젝트 이미지 모달 로직
+// 프로젝트 이미지 모달
 const projectItems = document.querySelectorAll('.project-box');
 const modal = document.getElementById('image-modal');
 const modalImages = document.querySelector('.modal-images');
@@ -1550,9 +1568,16 @@ function handleModalSwipe() {
 }
 
 
-// ====================================================================
-// SECTION 13: 문의 폼 및 Contact Us 애니메이션
-// ====================================================================
+
+
+
+
+
+
+
+
+
+
 
 /* 이메일 발송 부분 코드 */
         const form = document.getElementById('inquiryForm');
@@ -1627,7 +1652,7 @@ if (contactSection) {
             });
 
             setTimeout(() => {
-                // mapContainer.classList.add('animate'); // 지도 컨테이너가 없으므로 주석 처리
+                mapContainer.classList.add('animate');
             }, 200 * (infoCards.length + 1));
 
             contactObserver.unobserve(contactSection);
@@ -1702,7 +1727,7 @@ function updateScrollIndicator(indicator, scrollFraction) {
         indicator.classList.add('hide');
     } else {
         indicator.classList.remove('hide');
-        // 크기 동적 조절
+        // 크기 동적 조절 (모든 인디케이터에 동일한 크기 적용)
         indicator.style.width = '60px';
         indicator.style.height = '120px';
         indicator.style.borderWidth = '4px';
@@ -1735,9 +1760,12 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 
-// ====================================================================
-// SECTION 14: 이벤트 팝업 슬라이더 기능
-// ====================================================================
+
+
+
+
+
+// ⭐⭐⭐ 1. 이벤트 팝업 슬라이더 기능 시작 (인디케이터 버그 수정) ⭐⭐⭐
 
 function initializeEventSlider() {
     const modal = document.getElementById('event-popup-modal');
@@ -1896,6 +1924,4 @@ function initializeEventSlider() {
     startSlideShow(); // 최초 시작
 }
 
-// ====================================================================
-// SECTION 15: 기타 DOMContentLoaded 로직 및 종료
-// ====================================================================
+// ⭐⭐⭐ 이벤트 팝업 슬라이더 기능 끝 ⭐⭐⭐

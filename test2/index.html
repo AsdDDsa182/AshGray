@@ -1,116 +1,120 @@
 <!DOCTYPE html>
 <html lang="ko">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no, interactive-widget=resizes-content" />
-    <title>GOFITKOREA - 고핏코리아</title>
+    <head>
+        <meta name="naver-site-verification" content="bd0e970459c1ca36ecd01a25e1b8b3adc150dca8" />
+        <meta charset="UTF-8">
+          <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no, interactive-widget=resizes-content" />
+        <title>GOFITKOREA - 고핏코리아</title>
+    
+        <!-- 사이트 설명 추가 -->
+        <meta name="description" content="고핏코리아는 최고의 피트니스 장비를 제공하며, 전문가 지원을 통해 고객님께 무한한 신뢰를 드리고자 합니다.">
+    
+        <!-- Open Graph 메타 태그 추가 -->
+        <meta property="og:type" content="website">
+        <meta property="og:title" content="GOFITKOREA - 최고의 피트니스 업체">
+        <meta property="og:description" content="피트니스 장비 전문 업체 고핏코리아는 신뢰를 중심으로 고객님과 소통합니다!">
+        <meta property="og:image" content="http://www.gofitkorea.com/images/fitness_equipment.jpg"> <!-- 적절한 이미지 경로로 교체 -->
+        <meta property="og:url" content="http://www.gofitkorea.com">
+    
+        <link rel="stylesheet" href="styles.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+        <script src="https://player.vimeo.com/api/player.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/gsap.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/ScrollTrigger.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/gsap.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/ScrollTrigger.min.js"></script>
 
-    <meta name="naver-site-verification" content="bd0e970459c1ca36ecd01a25e1b8b3adc150dca8" />
-    <meta name="description" content="고핏코리아는 최고의 피트니스 장비를 제공하며, 전문가 지원을 통해 고객님께 무한한 신뢰를 드리고자 합니다.">
-    <meta name="google-site-verification" content="O8h3s23CQZtk9yACW_BLt-_D58a4FD-raLoXqbqVbaE" />
-
-    <meta property="og:type" content="website">
-    <meta property="og:title" content="GOFITKOREA - 최고의 피트니스 업체">
-    <meta property="og:description" content="피트니스 장비 전문 업체 고핏코리아는 신뢰를 중심으로 고객님과 소통합니다!">
-    <meta property="og:image" content="http://www.gofitkorea.com/images/fitness_equipment.jpg">
-    <meta property="og:url" content="http://www.gofitkorea.com">
-
-    <link rel="stylesheet" href="styles.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <script src="https://player.vimeo.com/api/player.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/gsap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/ScrollTrigger.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/gsap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/ScrollTrigger.min.js"></script>
-</head>
-
+        <meta name="google-site-verification" content="O8h3s23CQZtk9yACW_BLt-_D58a4FD-raLoXqbqVbaE" />
+    </head>
+    
 <body>
-
-    <div id="intro">
-        <div id="intro-logo">
-            <img src="https://gofitkorea.netlify.app/gofit.webp" alt="Logo">
-        </div>
-        <div id="loading-bar">
-            <div class="progress"></div>
-        </div>
+<!-- 인트로 섹션 -->
+<div id="intro">
+    <div id="intro-logo">
+        <img src="https://gofitkorea.netlify.app/gofit.webp" alt="Logo">
     </div>
-    <div id="main-content" style="display: none;"></div>
-
-
-    <header>
-        <nav class="navbar">
-            <div class="navbar-container">
-                <div class="navbar-logo">
-                    <a href="/"><img src="https://gofitkorea.netlify.app/gofit.webp" alt="Logo"></a>
-                </div>
-                <ul class="navbar-left">
-                    <li class="nav-item"><a href="#about-us" class="nav-item">About Us</a></li>
-                    <li class="nav-item"><a href="#our-services" class="nav-item">Our Services</a></li>
-                    <li class="nav-item"><a href="#results" class="nav-item">Results</a></li>
-                    <li class="nav-item"><a href="#contact-us" class="nav-item">Contact Us</a></li>
-                </ul>
-
-                <div class="hamburger-menu" id="hamburger-menu">
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                </div>
-
-                <ul class="navbar-right">
+    <div id="loading-bar">
+        <div class="progress"></div>
+    </div>
+</div>
+<div id="main-content" style="display: none;"></div>
+<header>
+    <nav class="navbar">
+        <div class="navbar-container">
+            <div class="navbar-logo">
+                <a href="/"><img src="https://gofitkorea.netlify.app/gofit.webp" alt="Logo"></a>
+            </div>
+            <ul class="navbar-left">
+                <li class="nav-item"><a href="#about-us" class="nav-item">About Us</a></li>
+                <li class="nav-item"><a href="#our-services" class="nav-item">Our Services</a></li>
+                <li class="nav-item"><a href="#results" class="nav-item">Results</a></li>
+                <li class="nav-item"><a href="#contact-us" class="nav-item">Contact Us</a></li>
+            </ul>
+            <div class="hamburger-menu" id="hamburger-menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+            <ul class="navbar-right">
+                <li class="nav-item has-submenu">
+                    <!-- 클릭해도 반응하지 않도록 href 속성을 제거 -->
+                    <a href="javascript:void(0);" class="product-menu-link">소셜&미디어
+                        <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld2JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9IndoaXRlIiBzdHJva2Utd2lkdGg9IjIiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIgY2xhc3M9ImNoZXZyb24tZG93biI+PHBhdGggZD0ibTYgOSA2IDYgNi02Ij48L3BhdGg+PC9zdmc+" class="chevron-down">
+                    </a>
+                    <ul class="sub-menu">
+                        <li class="sub-item"><a href="https://www.youtube.com/@gofitkorea1">유튜브</a></li>
+                        <li class="sub-item"><a href="https://www.instagram.com/gofitkorea/">인스타그램</a></li>
+                        <li class="sub-item"><a href="https://blog.naver.com/gofitkorea">네이버 블로그</a></li>
+                        <li class="sub-item"><a href="/layout/basic/main.html">쇼핑몰(구)</a></li>
+                    </ul>
+                </li>
+                <li class="nav-item"><a href="https://smartstore.naver.com/gofitkorea">스마트 스토어</a></li>
+                
+                <!-- "온라인 견적" 항목과 "최저가 견적 진행 중" -->
+                <li class="nav-item estimate-item">
+                    <li class="nav-item">
+                        <a href="#inquiry-section" class="nav-item">온라인 견적</a>
+                        <span class="balloon">최저가 견적 진행 중</span>
+                    </li>
+            
+                    <!-- 피치빌더로 변경 -->
+                    <li class="nav-item"><a href="/gointro/pitchbuilder.html" class="nav-item">피치빌더</a></li>
+                </li>
+            </ul>
+            
+        </div>
+        <div class="navbar-mobile" id="navbar-mobile">
+            <div class="navbar-mobile-content">
+                <ul>
+                    <li class="nav-item"><a href="#about-us">About Us</a></li>
+                    <li class="nav-item"><a href="#our-services">Our Services</a></li>
+                    <li class="nav-item"><a href="#results">results</a></li>
+                    <li class="nav-item"><a href="#contact-us">Contact Us</a></li>
                     <li class="nav-item has-submenu">
-                        <a href="javascript:void(0);" class="product-menu-link">소셜&미디어
+                        <!-- 모바일 메뉴에서도 "소셜 & 미디어" 클릭 무반응 처리 -->
+                        <a href="javascript:void(0);">소셜&미디어
                             <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld2JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9IndoaXRlIiBzdHJva2Utd2lkdGg9IjIiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIgY2xhc3M9ImNoZXZyb24tZG93biI+PHBhdGggZD0ibTYgOSA2IDYgNi02Ij48L3BhdGg+PC9zdmc+" class="chevron-down">
                         </a>
                         <ul class="sub-menu">
                             <li class="sub-item"><a href="https://www.youtube.com/@gofitkorea1">유튜브</a></li>
                             <li class="sub-item"><a href="https://www.instagram.com/gofitkorea/">인스타그램</a></li>
                             <li class="sub-item"><a href="https://blog.naver.com/gofitkorea">네이버 블로그</a></li>
-                            <li class="sub-item"><a href="/layout/basic/main.html">쇼핑몰(구)</a></li>
                         </ul>
                     </li>
-
                     <li class="nav-item"><a href="https://smartstore.naver.com/gofitkorea">스마트 스토어</a></li>
-
-                    <li class="nav-item estimate-item">
-                        <a href="#inquiry-section" class="nav-item">온라인 견적</a>
-                        <span class="balloon">최저가 견적 진행 중</span>
-                    </li>
-
-                    <li class="nav-item"><a href="/gointro/pitchbuilder.html" class="nav-item">피치빌더</a></li>
+                    <li class="nav-item"><a href="#inquiry-section">온라인 견적</a></li>
+                    <!-- "자체 사이트" 추가 -->
+                    <li class="nav-item"><a href="https://gofitkorea.com/">쇼핑몰(구)</a></li>
                 </ul>
-
             </div>
-
-            <div class="navbar-mobile" id="navbar-mobile">
-                <div class="navbar-mobile-content">
-                    <ul>
-                        <li class="nav-item"><a href="#about-us">About Us</a></li>
-                        <li class="nav-item"><a href="#our-services">Our Services</a></li>
-                        <li class="nav-item"><a href="#results">Results</a></li>
-                        <li class="nav-item"><a href="#contact-us">Contact Us</a></li>
-                        <li class="nav-item has-submenu">
-                            <a href="javascript:void(0);">소셜&미디어
-                                <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld2JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9IndoaXRlIiBzdHJva2Utd2lkdGg9IjIiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIgY2xhc3M9ImNoZXZyb24tZG93biI+PHBhdGggZD0ibTYgOSA2IDYgNi02Ij48L3BhdGg+PC9zdmc+" class="chevron-down">
-                            </a>
-                            <ul class="sub-menu">
-                                <li class="sub-item"><a href="https://www.youtube.com/@gofitkorea1">유튜브</a></li>
-                                <li class="sub-item"><a href="https://www.instagram.com/gofitkorea/">인스타그램</a></li>
-                                <li class="sub-item"><a href="https://blog.naver.com/gofitkorea">네이버 블로그</a></li>
-                            </ul>
-                        </li>
-                        <li class="nav-item"><a href="https://smartstore.naver.com/gofitkorea">스마트 스토어</a></li>
-                        <li class="nav-item"><a href="#inquiry-section">온라인 견적</a></li>
-                        <li class="nav-item"><a href="https://gofitkorea.com/">쇼핑몰(구)</a></li>
-                    </ul>
-                </div>
-                <div class="bottom-bar-container">
-                    <div class="bottom-bar"></div>
-                    <div class="bottom-bar"></div>
-                </div>
+            <div class="bottom-bar-container">
+                <div class="bottom-bar"></div>
+                <div class="bottom-bar"></div>
             </div>
-        </nav>
-    </header>
+        </div>
+    </nav>
+</header>
 
 
     <section id="video-section" class="section">
@@ -129,12 +133,16 @@
     </section>
 
 
+
+    
+    <!-- 협력사 로고 배너 섹션 -->
     <section id="partner-logos" class="partner-logos-section">
         <div class="container">
             <div class="logos-container">
                 <div class="gradient-overlay left"></div>
                 <div class="gradient-overlay right"></div>
                 <div class="logos-track">
+                    <!-- 로고 이미지들 -->
                     <img src="https://gofitkorea.netlify.app/partners/logo_01.webp" alt="Partner 1">
                     <img src="https://gofitkorea.netlify.app/partners/logo_02.webp" alt="Partner 2">
                     <img src="https://gofitkorea.netlify.app/partners/logo_03.webp" alt="Partner 3">
@@ -147,368 +155,404 @@
                     <img src="https://gofitkorea.netlify.app/partners/logo_10.webp" alt="Partner 10">
                     <img src="https://gofitkorea.netlify.app/partners/logo_11.webp" alt="Partner 11">
                     <img src="https://gofitkorea.netlify.app/partners/logo_12.webp" alt="Partner 12">
-                    </div>
-            </div>
-        </div>
-    </section>
-
-
-    <section id="about-us" class="section">
-        <div class="container">
-            <div class="section-content">
-                <div class="image-content">
-                    <div class="slideshow-container">
-                        <div class="slide-wrapper">
-                            <div class="slide">
-                                <img src="https://gofitkorea.netlify.app/aboutus/1.webp" alt="About Us Image 1">
-                            </div>
-                            <div class="slide">
-                                <img src="https://gofitkorea.netlify.app/aboutus/2.webp" alt="About Us Image 2">
-                            </div>
-                            <div class="slide">
-                                <img src="https://gofitkorea.netlify.app/aboutus/3.webp" alt="About Us Image 3">
-                            </div>
-                            <div class="slide">
-                                <img src="https://gofitkorea.netlify.app/aboutus/4.webp" alt="About Us Image 4">
-                            </div>
-                            <div class="slide">
-                                <img src="https://gofitkorea.netlify.app/aboutus/5.webp" alt="About Us Image 5">
-                            </div>
-                            <div class="slide">
-                                <img src="https://gofitkorea.netlify.app/aboutus/6.webp" alt="About Us Image 6">
-                            </div>
-                            <div class="slide">
-                                <img src="https://gofitkorea.netlify.app/aboutus/7.webp" alt="About Us Image 7">
-                            </div>
-                            <div class="slide">
-                                <img src="https://gofitkorea.netlify.app/aboutus/8.webp" alt="About Us Image 8">
-                            </div>
-                            <div class="slide">
-                                <img src="https://gofitkorea.netlify.app/aboutus/9.webp" alt="About Us Image 9">
-                            </div>
-                        </div>
-                        <div class="slide-controls">
-                            <button class="prev">❮</button>
-                            <button class="next">❯</button>
-                        </div>
-                        <div class="progress-bar">
-                            <div class="progress"></div>
-                        </div>
-                    </div>
-                    <div class="dots-container"></div>
-                </div>
-
-                <div class="text-content">
-                    <h2 class="section-title about-us-title">About Us <span class="section-subtitle"></span></h2>
-                    <div class="text-wrapper" id="aboutText">
-                        <p>
-                            고핏코리아는 <span class="highlight">새로운 도전에 대한 열정</span>을 가지고 고객과 함께 나아갑니다.
-                            우리는 <span class="highlight">전 세계에서 엄선한 피트니스 용품, 헬스 기구, 필라테스 운동기구</span>를 직접 수입하여 국내 시장에 유통함으로써 다양한 선택지를 제공합니다.
-                            <span class="highlight">최상의 품질과 기술을 갖춘 제품을 경쟁력 있는 가격</span>에 제공하기 위해, 국제적인 무역 네트워크를 통해 신뢰할 수 있는 공급자와 협력합니다.
-                            우리는 운동을 통해 더 나은 자신을 만들어가는 모든 이들의 도전을 응원하며, <span class="highlight">최고의 제품과 맞춤형 서비스</span>를 제공하기 위해 항상 노력합니다.
-                            고객이 목표를 이루는 과정에서 <span class="highlight">최고의 파트너</span>가 되기 위해, 최신 트렌드를 반영한 제품과 솔루션을 빠르게 도입하여 고객의 다양한 요구를 충족시킵니다.
-                        </p>
-                    </div>
-                    <button class="read-more-btn">더보기</button>
-                </div>
-
-                <div class="scroll-arrow-container">
-                    <div class="scroll-arrow"></div>
-                    <span class="scroll-text">Scroll for more</span>
+                    <!-- 무한 루프를 위해 로고들을 JavaScript로 복제합니다 -->
                 </div>
             </div>
         </div>
     </section>
 
 
-    <section id="timeline">
-        <div class="timeline-container">
-            <div class="timeline-line"></div>
-            <div class="timeline-item left">
-                <div class="timeline-circle"></div>
-                <div class="timeline-content" style="background-image: url('https://gofitkorea.netlify.app/timeline/1.webp');">
-                    <h3 class="year">2020</h3>
-                    <h4 class="event">고핏코리아 설립</h4>
-                    <p class="description">피트니스 산업의 새로운 목표를 가진 고핏코리아가 설립되어 도약을 시작했습니다.</p>
+
+
+
+<!-- About Us 섹션 -->
+<section id="about-us" class="section">
+    <div class="container">
+        <div class="section-content">
+            <div class="image-content">
+                <div class="slideshow-container">
+                    <div class="slide-wrapper">
+                        <div class="slide">
+                            <img src="https://gofitkorea.netlify.app/aboutus/1.webp" alt="About Us Image 1">
+                        </div>
+                        <div class="slide">
+                            <img src="https://gofitkorea.netlify.app/aboutus/2.webp" alt="About Us Image 2">
+                        </div>
+                        <div class="slide">
+                            <img src="https://gofitkorea.netlify.app/aboutus/3.webp" alt="About Us Image 3">
+                        </div>
+                        <div class="slide">
+                            <img src="https://gofitkorea.netlify.app/aboutus/4.webp" alt="About Us Image 4">
+                        </div>
+                        <div class="slide">
+                            <img src="https://gofitkorea.netlify.app/aboutus/5.webp" alt="About Us Image 5">
+                        </div>
+                        <div class="slide">
+                            <img src="https://gofitkorea.netlify.app/aboutus/6.webp" alt="About Us Image 6">
+                        </div>
+                        <div class="slide">
+                            <img src="https://gofitkorea.netlify.app/aboutus/7.webp" alt="About Us Image 7">
+                        </div>
+                        <div class="slide">
+                            <img src="https://gofitkorea.netlify.app/aboutus/8.webp" alt="About Us Image 8">
+                        </div>
+                        <div class="slide">
+                            <img src="https://gofitkorea.netlify.app/aboutus/9.webp" alt="About Us Image 9" 
+                            >
+                        </div>
+                    </div>
+                    <div class="slide-controls">
+                        <button class="prev">❮</button>
+                        <button class="next">❯</button>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress"></div>
+                    </div>
+                </div>
+                <div class="dots-container"></div>
+            </div>
+            <div class="text-content">
+                <h2 class="section-title about-us-title">About Us <span class="section-subtitle"></span></h2>
+                <div class="text-wrapper" id="aboutText">
+                    <p>
+                        고핏코리아는 <span class="highlight">새로운 도전에 대한 열정</span>을 가지고 고객과 함께 나아갑니다. 
+                        우리는 <span class="highlight">전 세계에서 엄선한 피트니스 용품, 헬스 기구, 필라테스 운동기구</span>를 직접 수입하여 국내 시장에 유통함으로써 다양한 선택지를 제공합니다.
+                        <span class="highlight">최상의 품질과 기술을 갖춘 제품을 경쟁력 있는 가격</span>에 제공하기 위해, 국제적인 무역 네트워크를 통해 신뢰할 수 있는 공급자와 협력합니다.
+                        우리는 운동을 통해 더 나은 자신을 만들어가는 모든 이들의 도전을 응원하며, <span class="highlight">최고의 제품과 맞춤형 서비스</span>를 제공하기 위해 항상 노력합니다.
+                        고객이 목표를 이루는 과정에서 <span class="highlight">최고의 파트너</span>가 되기 위해, 최신 트렌드를 반영한 제품과 솔루션을 빠르게 도입하여 고객의 다양한 요구를 충족시킵니다.
+                    </p>
+                </div>
+                <button class="read-more-btn">더보기</button>
+            </div>
+            <div class="scroll-arrow-container">
+                <div class="scroll-arrow"></div>
+                <span class="scroll-text">Scroll for more</span>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+    
+
+
+
+<!-- 타임라인 섹션 -->
+<section id="timeline">
+    <div class="timeline-container">
+        <!-- 타임라인 중앙선 -->
+        <div class="timeline-line"></div>
+        <!-- 왼쪽 타임라인 아이템 -->
+        <div class="timeline-item left">
+            <div class="timeline-circle"></div>
+            <div class="timeline-content" style="background-image: url('https://gofitkorea.netlify.app/timeline/1.webp');">
+                <h3 class="year">2020</h3>
+                <h4 class="event">고핏코리아 설립</h4>
+                <p class="description">피트니스 산업의 새로운 목표를 가진 고핏코리아가 설립되어 도약을 시작했습니다.</p>
+            </div>
+        </div>
+        <!-- 오른쪽 타임라인 아이템 -->
+        <div class="timeline-item right">
+            <div class="timeline-circle"></div>
+            <div class="timeline-content" style="background-image: url('https://gofitkorea.netlify.app/timeline/2.webp');">
+                <h3 class="year">2021</h3>
+                <h4 class="event">온/오프라인 판매 개시</h4>
+                <p class="description">온/오프라인 판매로 보다 편리하게 이용할 수 있는 멀티 서비스를 시작하였습니다.</p>
+            </div>
+        </div>
+        <!-- 왼쪽 타임라인 아이템 -->
+        <div class="timeline-item left">
+            <div class="timeline-circle"></div>
+            <div class="timeline-content" style="background-image: url('https://gofitkorea.netlify.app/timeline/3.webp');">
+                <h3 class="year">2021</h3>
+                <h4 class="event">디랙스 우수 파트너 업체 선정</h4>
+                <p class="description">높은 판매량과 서비스 만족도를 인정받아 디랙스의 우수 파트너 업체로 선정되었습니다.</p>
+            </div>
+        </div>
+        <!-- 오른쪽 타임라인 아이템 -->
+        <div class="timeline-item right">
+            <div class="timeline-circle"></div>
+            <div class="timeline-content" style="background-image: url('https://gofitkorea.netlify.app/timeline/4.webp');">
+                <h3 class="year">2022</h3>
+                <h4 class="event">고핏코리아 2공장 확장</h4>
+                <p class="description">증가하는 수요에 대응하기 위해 제 2공장을 추가로 설립하였습니다.</p>
+            </div>
+        </div>
+        <!-- 왼쪽 타임라인 아이템 -->
+        <div class="timeline-item left">
+            <div class="timeline-circle"></div>
+            <div class="timeline-content" style="background-image: url('https://gofitkorea.netlify.app/timeline/5.webp');">
+                <h3 class="year">2022</h3>
+                <h4 class="event">고핏코리아 디자인실 신설</h4>
+                <p class="description">다양한 디자인과 개발을 위한 전문 디자인실을 설립하여 경쟁력을 강화하였습니다.</p>
+            </div>
+        </div>
+        <!-- 오른쪽 타임라인 아이템 -->
+        <div class="timeline-item right">
+            <div class="timeline-circle"></div>
+            <div class="timeline-content" style="background-image: url('https://gofitkorea.netlify.app/timeline/6.webp');">
+                <h3 class="year">2023</h3>
+                <h4 class="event">국내 협력 업체 상생 파트너 TOP 100 선정</h4>
+                <p class="description">협력사와의 상생협력 노력을 인정받아 파트너 TOP 100 기업으로 선정되었습니다.</p>
+            </div>
+        </div>
+        <!-- 왼쪽 타임라인 아이템 -->
+        <div class="timeline-item left">
+            <div class="timeline-circle"></div>
+            <div class="timeline-content" style="background-image: url('https://gofitkorea.netlify.app/timeline/7.webp');">
+                <h3 class="year">2024</h3>
+                <h4 class="event">천우 고무블럭 국내 독점 공급</h4>
+                <p class="description">고품질의 바닥재인 천우 고무블럭의 국내 독점 공급권을 확보하여 제품 라인업을 강화하였습니다.</p>
+            </div>
+        </div>
+        <!-- 오른쪽 타임라인 아이템 -->
+        <div class="timeline-item right">
+            <div class="timeline-circle"></div>
+            <div class="timeline-content" style="background-image: url('https://gofitkorea.netlify.app/timeline/8.webp');">
+                <h3 class="year">2024</h3>
+                <h4 class="event">국내 피트니스 파트너쉽 300곳 달성</h4>
+                <p class="description">전국적인 네트워크 확장으로 300개의 피트니스 협력 업체와 파트너십을 구축하였습니다.</p>
+            </div>
+        </div>
+        <!-- 왼쪽 타임라인 아이템 -->
+        <div class="timeline-item left">
+            <div class="timeline-circle"></div>
+            <div class="timeline-content" style="background-image: url('https://gofitkorea.netlify.app/timeline/9.webp');">
+                <h3 class="year">2024</h3>
+                <h4 class="event">디랙스 파트너 최우수상 수상</h4>
+                <p class="description">디랙스 파트너스에서 2024년 최우수상을 수상하였습니다.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+
+<!-- Scroll Animation 섹션 -->
+<section id="scroll-animation-section" class="section">
+    <div class="scroll-indicator1">
+        <div class="scroll-text1">SCROLL DOWN</div>
+    </div>
+
+    <div class="scroll-container">
+        <div id="canvas-container">
+            <canvas id="hero-lightpass"></canvas>
+        </div>
+
+        <div class="content-wrapper">
+            <div id="section1" class="scroll-content">
+                <h1>나를 위한 최적의 환경</h1>
+                <p>오직 당신만을 위한 공간을 만들어드립니다.</p>
+            </div>
+        
+            <div id="section2" class="scroll-content">
+                <h1>맞춤형 장비, 최첨단 피트니스</h1>
+                <p>최고의 제품으로 내게 맞는 운동을 즐겨보세요.</p>
+            </div>
+        
+            <div id="section3" class="scroll-content">
+                <h1>새로운 목표의 실현</h1>
+                <p>업계 최고 전문가들의 설계로 당신의 목표에 더 빠르게.</p>
+            </div>
+        
+            <!-- 새로 추가된 섹션 -->
+            <div id="section4" class="scroll-content special-section">
+                <h1>도전을 꿈꾸다</h1>
+                <p>변화의 시작은 작은 한 걸음, 고핏코리아와 <br>함께 새로운 도전을 시작하세요.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+
+<!-- inquiry-intro 섹션 -->
+<section id="inquiry-intro" class="section">
+    <canvas id="particles-canvas"></canvas>
+    <div class="scroll-container">
+        <div class="content-wrapper">
+            <div id="inquiry-intro-content" class="scroll-display">
+                <div class="text-animation-container">
+                    <div class="text-item">고객 만족도 <span class="highlight">1위</span></div>
+                    <div class="text-item"><span class="highlight">365일 </span>고객 지원</div>
+                    <div class="text-item"><span class="highlight">신속</span>한 서비스</div>
+                    <div class="text-item"><span class="highlight">꼼꼼한</span> 솔루션</div>
+                    <div class="text-item"><span class="highlight">정확한</span> 견적과</div>
+                    <div class="text-item"><span class="highlight">전문가</span>의 설계</div>
+                    <div class="text-item">최다 <span class="highlight">프로모션</span></div>
+                    <div class="text-item"><span class="highlight">신뢰</span>할 수 있는 파트너</div>
+                </div>
+                <h1 class="main-title">DREAM OF CHALLENGE</h1>
+                <p class="main-description">도전을 꿈꾸세요!<br class="mobile-break">고핏코리아가 도와드리겠습니다.</p>
+                <div class="vertical-line"></div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<!-- Our Services 섹션 -->
+<section id="our-services" class="section">
+    <div class="container">
+        <!-- 섹션 타이틀 -->
+        <h2 class="section-title">
+            Our Services <span class="section-subtitle"></span>
+        </h2>
+        
+        <!-- 서비스 박스 컨테이너 -->
+        <div class="services-content">
+            <!-- 서비스 박스 1 -->
+            <div class="service-box">
+                <div class="service-front">
+                    <div class="icon-box">
+                        <i class="fas fa-laptop-code"></i>
+                    </div>
+                    <h3 class="service-title">기술 지원</h3>
+                    <p class="service-subtitle">Technical Support</p>
+                    <div class="underline"></div>
+                    <button class="btn-details">자세히 보기</button>
+                </div>
+                <div class="service-back">
+                    <div class="icon-box">
+                        <i class="fas fa-laptop-code"></i>
+                    </div>
+                    <h3 class="service-title">기술 지원</h3>
+                    <p class="service-subtitle">Technical Support</p>
+                    <div class="underline"></div>
+                    <p>고객님의 피트니스 경험을 <strong style="color: #ff6600;">최적화</strong>하기 위해 <strong style="color: #ff6600;">신속한 서비스</strong>를 제공하며, <strong style="color: #ff6600;">제품 설치</strong>, <strong style="color: #ff6600;">사용 안내</strong>, <strong style="color: #ff6600;">유지 보수</strong>, <strong style="color: #ff6600;">수리</strong>, <strong style="color: #ff6600;">부품 교체</strong>까지 모든 과정을 지원합니다. 또한 기술 전문가의 <strong style="color: #ff6600;">맞춤형 상담</strong>을 통해 각종 문제에 대한 <strong style="color: #ff6600;">심도있는 피드백</strong>으로 저희 고핏코리아는 고객님께 최선을 다해 지원합니다.</p>                        
+                    <button class="btn-close">접기</button>
                 </div>
             </div>
-            <div class="timeline-item right">
-                <div class="timeline-circle"></div>
-                <div class="timeline-content" style="background-image: url('https://gofitkorea.netlify.app/timeline/2.webp');">
-                    <h3 class="year">2021</h3>
-                    <h4 class="event">온/오프라인 판매 개시</h4>
-                    <p class="description">온/오프라인 판매로 보다 편리하게 이용할 수 있는 멀티 서비스를 시작하였습니다.</p>
+            
+            <!-- 서비스 박스 2 -->
+            <div class="service-box">
+                <div class="service-front">
+                    <div class="icon-box">
+                        <i class="fas fa-code"></i>
+                    </div>
+                    <h3 class="service-title">판매 및 유통</h3>
+                    <p class="service-subtitle">Sales & Distribution</p>
+                    <div class="underline"></div>
+                    <button class="btn-details">자세히 보기</button>
+                </div>
+                <div class="service-back">
+                    <div class="icon-box">
+                        <i class="fas fa-code"></i>
+                    </div>
+                    <h3 class="service-title">판매 및 유통</h3>
+                    <p class="service-subtitle">Sales & Distribution</p>
+                    <div class="underline"></div>
+                    <p>다양한 헬스 기구 및 피트니스 용품을 <strong style="color: #ff6600;">합리적인 가격</strong>과 <strong style="color: #ff6600;">최고의 품질</strong>로 제공합니다. 고객님의 요구 또는 환경과 목적에 맞는 전문가의 <strong style="color: #ff6600;">맞춤형 제품 추천</strong>과 <strong style="color: #ff6600;">유통 서비스</strong>를 통해 신속한 배송/설치를 지원하며, 국내 또는 해외의 인기 품목 및 최신 기술을 반영한 <strong style="color: #ff6600;">다양한 브랜드의 제품군</strong>을 지속적으로 공급합니다.</p>                        
+                    <button class="btn-close">접기</button>
                 </div>
             </div>
-            <div class="timeline-item left">
-                <div class="timeline-circle"></div>
-                <div class="timeline-content" style="background-image: url('https://gofitkorea.netlify.app/timeline/3.webp');">
-                    <h3 class="year">2021</h3>
-                    <h4 class="event">디랙스 우수 파트너 업체 선정</h4>
-                    <p class="description">높은 판매량과 서비스 만족도를 인정받아 디랙스의 우수 파트너 업체로 선정되었습니다.</p>
+            
+            <!-- 서비스 박스 3 -->
+            <div class="service-box">
+                <div class="service-front">
+                    <div class="icon-box">
+                        <i class="fas fa-tasks"></i>
+                    </div>
+                    <h3 class="service-title">렌탈 서비스</h3>
+                    <p class="service-subtitle">Rental Services</p>
+                    <div class="underline"></div>
+                    <button class="btn-details">자세히 보기</button>
+                </div>
+                <div class="service-back">
+                    <div class="icon-box">
+                        <i class="fas fa-tasks"></i>
+                    </div>
+                    <h3 class="service-title">렌탈 서비스</h3>
+                    <p class="service-subtitle">Rental Services</p>
+                    <div class="underline"></div>
+                    <p>제품 구매가 부담스러우신 고객님께 필요에 맞춘 <strong style="color: #ff6600;">렌탈 서비스</strong>를 제공합니다. <strong style="color: #ff6600;">군부대, 관공서, 방송국 또는 단기 행사, 이벤트</strong> 등 일시적인 프로젝트를 위해 다양한 <strong style="color: #ff6600;">헬스 기구</strong>를 대여할 수 있으며, 장기적으로 필요한 경우 <strong style="color: #ff6600;">최소 12개월부터 60개월까지</strong> 폭넓은 계약 기간으로 사용이 가능하시며, 고핏코리아의 렌탈 장비는 정기적인 <strong style="color: #ff6600;">점검 및 유지 보수</strong>로 늘 최상의 상태로 제공됩니다.</p>                                                
+                    <button class="btn-close">접기</button>
                 </div>
             </div>
-            <div class="timeline-item right">
-                <div class="timeline-circle"></div>
-                <div class="timeline-content" style="background-image: url('https://gofitkorea.netlify.app/timeline/4.webp');">
-                    <h3 class="year">2022</h3>
-                    <h4 class="event">고핏코리아 2공장 확장</h4>
-                    <p class="description">증가하는 수요에 대응하기 위해 제 2공장을 추가로 설립하였습니다.</p>
+            
+            <!-- 서비스 박스 4 -->
+            <div class="service-box">
+                <div class="service-front">
+                    <div class="icon-box">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <h3 class="service-title">사후 관리</h3>
+                    <p class="service-subtitle">After-Sales Service</p>
+                    <div class="underline"></div>
+                    <button class="btn-details">자세히 보기</button>
+                </div>
+                <div class="service-back">
+                    <div class="icon-box">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <h3 class="service-title">사후 관리</h3>
+                    <p class="service-subtitle">After-Sales Service</p>
+                    <div class="underline"></div>
+                    <p>저희 고핏코리아는 고객님께서 제품 구매 후에도 <strong style="color: #ff6600;">신품 1년, 중고 6개월 등의 무상 서비스(소모품 제외)</strong>를 제공하며, 이후에도 <strong style="color: #ff6600;">지속적인 사후 관리</strong> 서비스를 통해 장비의 최적의 성능을 유지하고, 필요 시 <strong style="color: #ff6600;">부품 교체(유상)</strong>를 지원합니다. 또한, 제품 사용 시 고객님의 다양한 문의에 신속하게 대응하며, 문제 해결을 위한 <strong style="color: #ff6600;">전문가의 지원</strong>으로 고객님과 <strong style="color: #ff6600;">장기적인 관계</strong>를 유지하고자 합니다.</p>
+                    <button class="btn-close">접기</button>
                 </div>
             </div>
-            <div class="timeline-item left">
-                <div class="timeline-circle"></div>
-                <div class="timeline-content" style="background-image: url('https://gofitkorea.netlify.app/timeline/5.webp');">
-                    <h3 class="year">2022</h3>
-                    <h4 class="event">고핏코리아 디자인실 신설</h4>
-                    <p class="description">다양한 디자인과 개발을 위한 전문 디자인실을 설립하여 경쟁력을 강화하였습니다.</p>
+            
+            <!-- 서비스 박스 5 -->
+            <div class="service-box">
+                <div class="service-front">
+                    <div class="icon-box">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <h3 class="service-title">할인 프로모션</h3>
+                    <p class="service-subtitle">Discount Promotions</p>
+                    <div class="underline"></div>
+                    <button class="btn-details">자세히 보기</button>
+                </div>
+                <div class="service-back">
+                    <div class="icon-box">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <h3 class="service-title">할인 프로모션</h3>
+                    <p class="service-subtitle">Discount Promotions</p>
+                    <div class="underline"></div>
+                    <p>전국에 수많은 브랜드와 <strong style="color: #ff6600;">협업</strong>중인 저희 고핏코리아는 단독으로 <strong style="color: #ff6600;">특별 할인 프로모션</strong>을 제공합니다. <strong style="color: #ff6600;">신규 고객을 위한 혜택</strong>, <strong style="color: #ff6600;">대량 구매 고객을 위한 할인</strong>, 브랜드별로 다양한 <strong style="color: #ff6600;">프로모션 이벤트</strong>를 통해 더욱 경제적으로 제품을 구매할 수 있는 기회를 제공합니다. 또한, 저희 고핏코리아가 운영 중인 다양한 소셜 미디어를 통해 <strong style="color: #ff6600;">최신 프로모션 소식</strong>을 빠르게 전달하여 고객님께서 최고의 혜택을 누릴 수 있도록 지원합니다.</p>                        
+                    <button class="btn-close">접기</button>
                 </div>
             </div>
-            <div class="timeline-item right">
-                <div class="timeline-circle"></div>
-                <div class="timeline-content" style="background-image: url('https://gofitkorea.netlify.app/timeline/6.webp');">
-                    <h3 class="year">2023</h3>
-                    <h4 class="event">국내 협력 업체 상생 파트너 TOP 100 선정</h4>
-                    <p class="description">협력사와의 상생협력 노력을 인정받아 파트너 TOP 100 기업으로 선정되었습니다.</p>
+            
+            <!-- 서비스 박스 6 -->
+            <div class="service-box">
+                <div class="service-front">
+                    <div class="icon-box">
+                        <i class="fas fa-headset"></i>
+                    </div>
+                    <h3 class="service-title">창업 솔루션</h3>
+                    <p class="service-subtitle">Business Solutions</p>
+                    <div class="underline"></div>
+                    <button class="btn-details">자세히 보기</button>
                 </div>
-            </div>
-            <div class="timeline-item left">
-                <div class="timeline-circle"></div>
-                <div class="timeline-content" style="background-image: url('https://gofitkorea.netlify.app/timeline/7.webp');">
-                    <h3 class="year">2024</h3>
-                    <h4 class="event">천우 고무블럭 국내 독점 공급</h4>
-                    <p class="description">고품질의 바닥재인 천우 고무블럭의 국내 독점 공급권을 확보하여 제품 라인업을 강화하였습니다.</p>
-                </div>
-            </div>
-            <div class="timeline-item right">
-                <div class="timeline-circle"></div>
-                <div class="timeline-content" style="background-image: url('https://gofitkorea.netlify.app/timeline/8.webp');">
-                    <h3 class="year">2024</h3>
-                    <h4 class="event">국내 피트니스 파트너쉽 300곳 달성</h4>
-                    <p class="description">전국적인 네트워크 확장으로 300개의 피트니스 협력 업체와 파트너십을 구축하였습니다.</p>
-                </div>
-            </div>
-            <div class="timeline-item left">
-                <div class="timeline-circle"></div>
-                <div class="timeline-content" style="background-image: url('https://gofitkorea.netlify.app/timeline/9.webp');">
-                    <h3 class="year">2024</h3>
-                    <h4 class="event">디랙스 파트너 최우수상 수상</h4>
-                    <p class="description">디랙스 파트너스에서 2024년 최우수상을 수상하였습니다.</p>
+                <div class="service-back">
+                    <div class="icon-box">
+                        <i class="fas fa-headset"></i>
+                    </div>
+                    <h3 class="service-title">창업 솔루션</h3>
+                    <p class="service-subtitle">Business Solutions</p>
+                    <div class="underline"></div>
+                    <p>아무 것도 모르셔도 좋습니다. 고객님의 성공적인 피트니스 사업을 위해 저희 고핏코리아의 전문가들은 처음부터 끝까지 <strong style="color: #ff6600;">맞춤형 솔루션</strong>을 제공합니다. <strong style="color: #ff6600;">무료 상담</strong>, <strong style="color: #ff6600;">최저가 견적</strong>, <strong style="color: #ff6600;">인테리어 및 설계</strong> 등 종합적인 서비스로 고객님의 성공적인 창업을 지원하며, <strong style="color: #ff6600;">시작부터 운영까지 전문가의 조언과 노하우</strong>를 통해 최고의 비즈니스 파트너가 되어드립니다.</p>
+                    <button class="btn-close">접기</button>
                 </div>
             </div>
         </div>
-    </section>
+    </div>
+</section>
 
 
-    <section id="scroll-animation-section" class="section">
-        <div class="scroll-indicator1">
-            <div class="scroll-text1">SCROLL DOWN</div>
-        </div>
-
-        <div class="scroll-container">
-            <div id="canvas-container">
-                <canvas id="hero-lightpass"></canvas>
-            </div>
-
-            <div class="content-wrapper">
-                <div id="section1" class="scroll-content">
-                    <h1>나를 위한 최적의 환경</h1>
-                    <p>오직 당신만을 위한 공간을 만들어드립니다.</p>
-                </div>
-
-                <div id="section2" class="scroll-content">
-                    <h1>맞춤형 장비, 최첨단 피트니스</h1>
-                    <p>최고의 제품으로 내게 맞는 운동을 즐겨보세요.</p>
-                </div>
-
-                <div id="section3" class="scroll-content">
-                    <h1>새로운 목표의 실현</h1>
-                    <p>업계 최고 전문가들의 설계로 당신의 목표에 더 빠르게.</p>
-                </div>
-
-                <div id="section4" class="scroll-content special-section">
-                    <h1>도전을 꿈꾸다</h1>
-                    <p>변화의 시작은 작은 한 걸음, 고핏코리아와 <br>함께 새로운 도전을 시작하세요.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-
-    <section id="inquiry-intro" class="section">
-        <canvas id="particles-canvas"></canvas>
-        <div class="scroll-container">
-            <div class="content-wrapper">
-                <div id="inquiry-intro-content" class="scroll-display">
-                    <div class="text-animation-container">
-                        <div class="text-item">고객 만족도 <span class="highlight">1위</span></div>
-                        <div class="text-item"><span class="highlight">365일 </span>고객 지원</div>
-                        <div class="text-item"><span class="highlight">신속</span>한 서비스</div>
-                        <div class="text-item"><span class="highlight">꼼꼼한</span> 솔루션</div>
-                        <div class="text-item"><span class="highlight">정확한</span> 견적과</div>
-                        <div class="text-item"><span class="highlight">전문가</span>의 설계</div>
-                        <div class="text-item">최다 <span class="highlight">프로모션</span></div>
-                        <div class="text-item"><span class="highlight">신뢰</span>할 수 있는 파트너</div>
-                    </div>
-                    <h1 class="main-title">DREAM OF CHALLENGE</h1>
-                    <p class="main-description">도전을 꿈꾸세요!<br class="mobile-break">고핏코리아가 도와드리겠습니다.</p>
-                    <div class="vertical-line"></div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-
-    <section id="our-services" class="section">
-        <div class="container">
-            <h2 class="section-title">
-                Our Services <span class="section-subtitle"></span>
-            </h2>
-
-            <div class="services-content">
-                <div class="service-box">
-                    <div class="service-front">
-                        <div class="icon-box">
-                            <i class="fas fa-laptop-code"></i>
-                        </div>
-                        <h3 class="service-title">기술 지원</h3>
-                        <p class="service-subtitle">Technical Support</p>
-                        <div class="underline"></div>
-                        <button class="btn-details">자세히 보기</button>
-                    </div>
-                    <div class="service-back">
-                        <div class="icon-box">
-                            <i class="fas fa-laptop-code"></i>
-                        </div>
-                        <h3 class="service-title">기술 지원</h3>
-                        <p class="service-subtitle">Technical Support</p>
-                        <div class="underline"></div>
-                        <p>고객님의 피트니스 경험을 <strong style="color: #ff6600;">최적화</strong>하기 위해 <strong style="color: #ff6600;">신속한 서비스</strong>를 제공하며, <strong style="color: #ff6600;">제품 설치</strong>, <strong style="color: #ff6600;">사용 안내</strong>, <strong style="color: #ff6600;">유지 보수</strong>, <strong style="color: #ff6600;">수리</strong>, <strong style="color: #ff6600;">부품 교체</strong>까지 모든 과정을 지원합니다. 또한 기술 전문가의 <strong style="color: #ff6600;">맞춤형 상담</strong>을 통해 각종 문제에 대한 <strong style="color: #ff6600;">심도있는 피드백</strong>으로 저희 고핏코리아는 고객님께 최선을 다해 지원합니다.</p>
-                        <button class="btn-close">접기</button>
-                    </div>
-                </div>
-
-                <div class="service-box">
-                    <div class="service-front">
-                        <div class="icon-box">
-                            <i class="fas fa-code"></i>
-                        </div>
-                        <h3 class="service-title">판매 및 유통</h3>
-                        <p class="service-subtitle">Sales & Distribution</p>
-                        <div class="underline"></div>
-                        <button class="btn-details">자세히 보기</button>
-                    </div>
-                    <div class="service-back">
-                        <div class="icon-box">
-                            <i class="fas fa-code"></i>
-                        </div>
-                        <h3 class="service-title">판매 및 유통</h3>
-                        <p class="service-subtitle">Sales & Distribution</p>
-                        <div class="underline"></div>
-                        <p>다양한 헬스 기구 및 피트니스 용품을 <strong style="color: #ff6600;">합리적인 가격</strong>과 <strong style="color: #ff6600;">최고의 품질</strong>로 제공합니다. 고객님의 요구 또는 환경과 목적에 맞는 전문가의 <strong style="color: #ff6600;">맞춤형 제품 추천</strong>과 <strong style="color: #ff6600;">유통 서비스</strong>를 통해 신속한 배송/설치를 지원하며, 국내 또는 해외의 인기 품목 및 최신 기술을 반영한 <strong style="color: #ff6600;">다양한 브랜드의 제품군</strong>을 지속적으로 공급합니다.</p>
-                        <button class="btn-close">접기</button>
-                    </div>
-                </div>
-
-                <div class="service-box">
-                    <div class="service-front">
-                        <div class="icon-box">
-                            <i class="fas fa-tasks"></i>
-                        </div>
-                        <h3 class="service-title">렌탈 서비스</h3>
-                        <p class="service-subtitle">Rental Services</p>
-                        <div class="underline"></div>
-                        <button class="btn-details">자세히 보기</button>
-                    </div>
-                    <div class="service-back">
-                        <div class="icon-box">
-                            <i class="fas fa-tasks"></i>
-                        </div>
-                        <h3 class="service-title">렌탈 서비스</h3>
-                        <p class="service-subtitle">Rental Services</p>
-                        <div class="underline"></div>
-                        <p>제품 구매가 부담스러우신 고객님께 필요에 맞춘 <strong style="color: #ff6600;">렌탈 서비스</strong>를 제공합니다. <strong style="color: #ff6600;">군부대, 관공서, 방송국 또는 단기 행사, 이벤트</strong> 등 일시적인 프로젝트를 위해 다양한 <strong style="color: #ff6600;">헬스 기구</strong>를 대여할 수 있으며, 장기적으로 필요한 경우 <strong style="color: #ff6600;">최소 12개월부터 60개월까지</strong> 폭넓은 계약 기간으로 사용이 가능하시며, 고핏코리아의 렌탈 장비는 정기적인 <strong style="color: #ff6600;">점검 및 유지 보수</strong>로 늘 최상의 상태로 제공됩니다.</p>
-                        <button class="btn-close">접기</button>
-                    </div>
-                </div>
-
-                <div class="service-box">
-                    <div class="service-front">
-                        <div class="icon-box">
-                            <i class="fas fa-chart-line"></i>
-                        </div>
-                        <h3 class="service-title">사후 관리</h3>
-                        <p class="service-subtitle">After-Sales Service</p>
-                        <div class="underline"></div>
-                        <button class="btn-details">자세히 보기</button>
-                    </div>
-                    <div class="service-back">
-                        <div class="icon-box">
-                            <i class="fas fa-chart-line"></i>
-                        </div>
-                        <h3 class="service-title">사후 관리</h3>
-                        <p class="service-subtitle">After-Sales Service</p>
-                        <div class="underline"></div>
-                        <p>저희 고핏코리아는 고객님께서 제품 구매 후에도 <strong style="color: #ff6600;">신품 1년, 중고 6개월 등의 무상 서비스(소모품 제외)</strong>를 제공하며, 이후에도 <strong style="color: #ff6600;">지속적인 사후 관리</strong> 서비스를 통해 장비의 최적의 성능을 유지하고, 필요 시 <strong style="color: #ff6600;">부품 교체(유상)</strong>를 지원합니다. 또한, 제품 사용 시 고객님의 다양한 문의에 신속하게 대응하며, 문제 해결을 위한 <strong style="color: #ff6600;">전문가의 지원</strong>으로 고객님과 <strong style="color: #ff6600;">장기적인 관계</strong>를 유지하고자 합니다.</p>
-                        <button class="btn-close">접기</button>
-                    </div>
-                </div>
-
-                <div class="service-box">
-                    <div class="service-front">
-                        <div class="icon-box">
-                            <i class="fas fa-users"></i>
-                        </div>
-                        <h3 class="service-title">할인 프로모션</h3>
-                        <p class="service-subtitle">Discount Promotions</p>
-                        <div class="underline"></div>
-                        <button class="btn-details">자세히 보기</button>
-                    </div>
-                    <div class="service-back">
-                        <div class="icon-box">
-                            <i class="fas fa-users"></i>
-                        </div>
-                        <h3 class="service-title">할인 프로모션</h3>
-                        <p class="service-subtitle">Discount Promotions</p>
-                        <div class="underline"></div>
-                        <p>전국에 수많은 브랜드와 <strong style="color: #ff6600;">협업</strong>중인 저희 고핏코리아는 단독으로 <strong style="color: #ff6600;">특별 할인 프로모션</strong>을 제공합니다. <strong style="color: #ff6600;">신규 고객을 위한 혜택</strong>, <strong style="color: #ff6600;">대량 구매 고객을 위한 할인</strong>, 브랜드별로 다양한 <strong style="color: #ff6600;">프로모션 이벤트</strong>를 통해 더욱 경제적으로 제품을 구매할 수 있는 기회를 제공합니다. 또한, 저희 고핏코리아가 운영 중인 다양한 소셜 미디어를 통해 <strong style="color: #ff6600;">최신 프로모션 소식</strong>을 빠르게 전달하여 고객님께서 최고의 혜택을 누릴 수 있도록 지원합니다.</p>
-                        <button class="btn-close">접기</button>
-                    </div>
-                </div>
-
-                <div class="service-box">
-                    <div class="service-front">
-                        <div class="icon-box">
-                            <i class="fas fa-headset"></i>
-                        </div>
-                        <h3 class="service-title">창업 솔루션</h3>
-                        <p class="service-subtitle">Business Solutions</p>
-                        <div class="underline"></div>
-                        <button class="btn-details">자세히 보기</button>
-                    </div>
-                    <div class="service-back">
-                        <div class="icon-box">
-                            <i class="fas fa-headset"></i>
-                        </div>
-                        <h3 class="service-title">창업 솔루션</h3>
-                        <p class="service-subtitle">Business Solutions</p>
-                        <div class="underline"></div>
-                        <p>아무 것도 모르셔도 좋습니다. 고객님의 성공적인 피트니스 사업을 위해 저희 고핏코리아의 전문가들은 처음부터 끝까지 <strong style="color: #ff6600;">맞춤형 솔루션</strong>을 제공합니다. <strong style="color: #ff6600;">무료 상담</strong>, <strong style="color: #ff6600;">최저가 견적</strong>, <strong style="color: #ff6600;">인테리어 및 설계</strong> 등 종합적인 서비스로 고객님의 성공적인 창업을 지원하며, <strong style="color: #ff6600;">시작부터 운영까지 전문가의 조언과 노하우</strong>를 통해 최고의 비즈니스 파트너가 되어드립니다.</p>
-                        <button class="btn-close">접기</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-
+    <!-- 새로운 Counting Content 섹션 -->
     <section id="counting-content" class="section">
         <div class="container">
+            <!-- 텍스트 컨테이너 -->
             <div class="counting-text">
                 <h1 class="counting-title">신뢰로 움직이는 기업</h1>
                 <p class="counting-description">수많은 고객분들에게<br class="mobile-break"> 최상의 서비스를 제공했습니다.</p>
             </div>
-
+            
+            <!-- 카운팅 아이템 컨테이너 -->
             <div class="counting-items">
                 <div class="counting-item">
                     <i class="fas fa-users"></i>
@@ -543,18 +587,20 @@
     </section>
 
 
+    <!-- Results 섹션 시작 -->
     <section id="results" class="section">
         <div class="background-image"></div>
         <div class="container">
             <h2 class="section-title">Results <span class="section-subtitle"></span></h2>
             <div class="projects-categories">
-
+                <!-- 헬스장 카테고리 -->
                 <div class="projects-category">
                     <div class="category-header">
                         <h3 class="category-title">헬스장 <span class="category-title-en">Gym</span></h3>
                         <div class="category-line"></div>
                     </div>
                     <div class="projects-content">
+                        <!-- 프로젝트 박스: 최신 시설 헬스장 -->
                         <div class="project-box" data-category="gym" data-images='["https://gofitkorea.netlify.app/results/1-1.webp", "https://gofitkorea.netlify.app/results/1-2.webp", "https://gofitkorea.netlify.app/results/1-3.webp", "https://gofitkorea.netlify.app/results/1-4.webp", "https://gofitkorea.netlify.app/results/1-5.webp"]'>
                             <img src="https://gofitkorea.netlify.app/results/1-0.webp" alt="Gym Project 1">
                             <div class="project-info">
@@ -562,6 +608,7 @@
                                 <p>납품 및 설치 일자 : 2024.09</p>
                             </div>
                         </div>
+                        <!-- 프로젝트 박스: 요가 스튜디오 -->
                         <div class="project-box" data-category="gym" data-images='["https://gofitkorea.netlify.app/results/2-1.webp", "https://gofitkorea.netlify.app/results/2-2.webp", "https://gofitkorea.netlify.app/results/2-3.webp", "https://gofitkorea.netlify.app/results/2-4.webp", "https://gofitkorea.netlify.app/results/2-5.webp"]'>
                             <img src="https://gofitkorea.netlify.app/results/2-0.webp" alt="Gym Project 2">
                             <div class="project-info">
@@ -569,6 +616,7 @@
                                 <p>납품 및 설치 일자 : 2024.09</p>
                             </div>
                         </div>
+                        <!-- 프로젝트 박스: 수영장 시설 -->
                         <div class="project-box" data-category="gym" data-images='["https://gofitkorea.netlify.app/results/3-1.webp", "https://gofitkorea.netlify.app/results/3-2.webp", "https://gofitkorea.netlify.app/results/3-3.webp", "https://gofitkorea.netlify.app/results/3-4.webp", "https://gofitkorea.netlify.app/results/3-5.webp"]'>
                             <img src="https://gofitkorea.netlify.app/results/3-0.webp" alt="Gym Project 3">
                             <div class="project-info">
@@ -576,6 +624,7 @@
                                 <p>납품 및 설치 일자 : 2024.08</p>
                             </div>
                         </div>
+                        <!-- 프로젝트 박스: 크로스핏 공간 -->
                         <div class="project-box" data-category="gym" data-images='["https://gofitkorea.netlify.app/results/4-1.webp", "https://gofitkorea.netlify.app/results/4-2.webp", "https://gofitkorea.netlify.app/results/4-3.webp", "https://gofitkorea.netlify.app/results/4-4.webp", "https://gofitkorea.netlify.app/results/4-5.webp"]'>
                             <img src="https://gofitkorea.netlify.app/results/4-0.webp" alt="Gym Project 4">
                             <div class="project-info">
@@ -583,6 +632,7 @@
                                 <p>납품 및 설치 일자 : 2024.08</p>
                             </div>
                         </div>
+                        <!-- 프로젝트 박스: 스피닝 클래스 -->
                         <div class="project-box" data-category="gym" data-images='["https://gofitkorea.netlify.app/results/5-1.webp", "https://gofitkorea.netlify.app/results/5-2.webp", "https://gofitkorea.netlify.app/results/5-3.webp", "https://gofitkorea.netlify.app/results/5-4.webp", "https://gofitkorea.netlify.app/results/5-5.webp"]'>
                             <img src="https://gofitkorea.netlify.app/results/5-0.webp" alt="Gym Project 5">
                             <div class="project-info">
@@ -590,6 +640,7 @@
                                 <p>납품 및 설치 일자 : 2024.07</p>
                             </div>
                         </div>
+                        <!-- 프로젝트 박스: 필라테스 스튜디오 -->
                         <div class="project-box" data-category="gym" data-images='["https://gofitkorea.netlify.app/results/6-1.webp", "https://gofitkorea.netlify.app/results/6-2.webp", "https://gofitkorea.netlify.app/results/6-3.webp", "https://gofitkorea.netlify.app/results/6-4.webp", "https://gofitkorea.netlify.app/results/6-5.webp"]'>
                             <img src="https://gofitkorea.netlify.app/results/6-0.webp" alt="Gym Project 6">
                             <div class="project-info">
@@ -599,13 +650,15 @@
                         </div>
                     </div>
                 </div>
-
+                
+                <!-- 기업 카테고리 -->
                 <div class="projects-category">
                     <div class="category-header">
                         <h3 class="category-title">기업 <span class="category-title-en">Corporate</span></h3>
                         <div class="category-line"></div>
                     </div>
                     <div class="projects-content">
+                        <!-- 프로젝트 박스: 현대적 사무실 -->
                         <div class="project-box" data-category="corporate" data-images='["https://gofitkorea.netlify.app/results/7-1.webp", "https://gofitkorea.netlify.app/results/7-2.webp", "https://gofitkorea.netlify.app/results/7-3.webp", "https://gofitkorea.netlify.app/results/7-4.webp", "https://gofitkorea.netlify.app/results/7-5.webp"]'>
                             <img src="https://gofitkorea.netlify.app/results/7-0.webp" alt="Corporate Project 1">
                             <div class="project-info">
@@ -613,6 +666,7 @@
                                 <p>납품 및 설치 일자 : 2024.09</p>
                             </div>
                         </div>
+                        <!-- 프로젝트 박스: 회의실 디자인 -->
                         <div class="project-box" data-category="corporate" data-images='["https://gofitkorea.netlify.app/results/8-1.webp", "https://gofitkorea.netlify.app/results/8-2.webp", "https://gofitkorea.netlify.app/results/8-3.webp", "https://gofitkorea.netlify.app/results/8-4.webp", "https://gofitkorea.netlify.app/results/8-5.webp"]'>
                             <img src="https://gofitkorea.netlify.app/results/8-0.webp" alt="Corporate Project 2">
                             <div class="project-info">
@@ -620,6 +674,7 @@
                                 <p>납품 및 설치 일자 : 2024.09</p>
                             </div>
                         </div>
+                        <!-- 프로젝트 박스: 휴게 공간 -->
                         <div class="project-box" data-category="corporate" data-images='["https://gofitkorea.netlify.app/results/9-1.webp", "https://gofitkorea.netlify.app/results/9-2.webp", "https://gofitkorea.netlify.app/results/9-3.webp", "https://gofitkorea.netlify.app/results/9-4.webp", "https://gofitkorea.netlify.app/results/9-5.webp"]'>
                             <img src="https://gofitkorea.netlify.app/results/9-0.webp" alt="Corporate Project 3">
                             <div class="project-info">
@@ -627,6 +682,7 @@
                                 <p>납품 및 설치 일자 : 2023.10</p>
                             </div>
                         </div>
+                        <!-- 프로젝트 박스: 로비 디자인 -->
                         <div class="project-box" data-category="corporate" data-images='["https://gofitkorea.netlify.app/results/10-1.webp", "https://gofitkorea.netlify.app/results/10-2.webp", "https://gofitkorea.netlify.app/results/10-3.webp", "https://gofitkorea.netlify.app/results/10-4.webp", "https://gofitkorea.netlify.app/results/10-5.webp"]'>
                             <img src="https://gofitkorea.netlify.app/results/10-0.webp" alt="Corporate Project 4">
                             <div class="project-info">
@@ -634,6 +690,7 @@
                                 <p>납품 및 설치 일자 : 2023.08</p>
                             </div>
                         </div>
+                        <!-- 프로젝트 박스: 개방형 사무실 -->
                         <div class="project-box" data-category="corporate" data-images='["https://gofitkorea.netlify.app/results/11-1.webp", "https://gofitkorea.netlify.app/results/11-2.webp", "https://gofitkorea.netlify.app/results/11-3.webp", "https://gofitkorea.netlify.app/results/11-4.webp", "https://gofitkorea.netlify.app/results/11-5.webp"]'>
                             <img src="https://gofitkorea.netlify.app/results/11-0.webp" alt="Corporate Project 5">
                             <div class="project-info">
@@ -641,6 +698,7 @@
                                 <p>납품 및 설치 일자 : 2023.07</p>
                             </div>
                         </div>
+                        <!-- 프로젝트 박스: 임원 사무실 -->
                         <div class="project-box" data-category="corporate" data-images='["https://gofitkorea.netlify.app/results/12-1.webp", "https://gofitkorea.netlify.app/results/12-2.webp", "https://gofitkorea.netlify.app/results/12-3.webp"]'>
                             <img src="https://gofitkorea.netlify.app/results/12-0.webp" alt="Corporate Project 6">
                             <div class="project-info">
@@ -650,13 +708,15 @@
                         </div>
                     </div>
                 </div>
-
+                
+                <!-- 커뮤니티 센터 카테고리 -->
                 <div class="projects-category">
                     <div class="category-header">
                         <h3 class="category-title">커뮤니티 센터 <span class="category-title-en">Community Center</span></h3>
                         <div class="category-line"></div>
                     </div>
                     <div class="projects-content">
+                        <!-- 프로젝트 박스: 훈련장 설계 -->
                         <div class="project-box" data-category="military" data-images='["https://gofitkorea.netlify.app/results/13-1.webp", "https://gofitkorea.netlify.app/results/13-2.webp", "https://gofitkorea.netlify.app/results/13-3.webp", "https://gofitkorea.netlify.app/results/13-4.webp", "https://gofitkorea.netlify.app/results/13-5.webp"]'>
                             <img src="https://gofitkorea.netlify.app/results/13-0.webp" alt="Community Center 1">
                             <div class="project-info">
@@ -664,6 +724,7 @@
                                 <p>납품 및 설치 일자 : 2024.08</p>
                             </div>
                         </div>
+                        <!-- 프로젝트 박스: 병영 시설 -->
                         <div class="project-box" data-category="military" data-images='["https://gofitkorea.netlify.app/results/14-1.webp", "https://gofitkorea.netlify.app/results/14-2.webp", "https://gofitkorea.netlify.app/results/14-3.webp", "https://gofitkorea.netlify.app/results/14-4.webp", "https://gofitkorea.netlify.app/results/14-5.webp"]'>
                             <img src="https://gofitkorea.netlify.app/results/14-0.webp" alt="Community Center 2">
                             <div class="project-info">
@@ -671,6 +732,7 @@
                                 <p>납품 및 설치 일자 : 2024.07</p>
                             </div>
                         </div>
+                        <!-- 프로젝트 박스: 군용 체육관 -->
                         <div class="project-box" data-category="military" data-images='["https://gofitkorea.netlify.app/results/15-1.webp", "https://gofitkorea.netlify.app/results/15-2.webp", "https://gofitkorea.netlify.app/results/15-3.webp", "https://gofitkorea.netlify.app/results/15-4.webp", "https://gofitkorea.netlify.app/results/15-5.webp"]'>
                             <img src="https://gofitkorea.netlify.app/results/15-0.webp" alt="Community Center 3">
                             <div class="project-info">
@@ -678,6 +740,7 @@
                                 <p>납품 및 설치 일자 : 2024.09</p>
                             </div>
                         </div>
+                        <!-- 프로젝트 박스: 지휘 본부 -->
                         <div class="project-box" data-category="military" data-images='["https://gofitkorea.netlify.app/results/16-1.webp", "https://gofitkorea.netlify.app/results/16-2.webp", "https://gofitkorea.netlify.app/results/16-3.webp", "https://gofitkorea.netlify.app/results/16-4.webp", "https://gofitkorea.netlify.app/results/16-5.webp"]'>
                             <img src="https://gofitkorea.netlify.app/results/16-0.webp" alt="Community Center 4">
                             <div class="project-info">
@@ -685,6 +748,7 @@
                                 <p>납품 및 설치 일자 : 2024.06</p>
                             </div>
                         </div>
+                        <!-- 프로젝트 박스: 군 식당 -->
                         <div class="project-box" data-category="military" data-images='["https://gofitkorea.netlify.app/results/17-1.webp", "https://gofitkorea.netlify.app/results/17-2.webp", "https://gofitkorea.netlify.app/results/17-3.webp", "https://gofitkorea.netlify.app/results/17-4.webp", "https://gofitkorea.netlify.app/results/17-5.webp"]'>
                             <img src="https://gofitkorea.netlify.app/results/17-0.webp" alt="Community Center 5">
                             <div class="project-info">
@@ -692,6 +756,7 @@
                                 <p>납품 및 설치 일자 : 2023.09</p>
                             </div>
                         </div>
+                        <!-- 프로젝트 박스: 군사 교육 시설 -->
                         <div class="project-box" data-category="military" data-images='["https://gofitkorea.netlify.app/results/18-1.webp", "https://gofitkorea.netlify.app/results/18-2.webp", "https://gofitkorea.netlify.app/results/18-3.webp", "https://gofitkorea.netlify.app/results/18-4.webp", "https://gofitkorea.netlify.app/results/18-5.webp"]'>
                             <img src="https://gofitkorea.netlify.app/results/18-0.webp" alt="Community Center 6">
                             <div class="project-info">
@@ -704,101 +769,116 @@
             </div>
         </div>
     </section>
+    <!-- Results 섹션 끝 -->
 
+    <!-- 모달 컨테이너 시작 -->
     <div id="image-modal" class="modal">
+        <!-- 닫기 버튼 -->
         <span class="close">&times;</span>
+        <!-- 이전 버튼 -->
         <button class="prev">&#10094;</button>
+        <!-- 다음 버튼 -->
         <button class="next">&#10095;</button>
+        <!-- 모달 콘텐츠 -->
         <div class="modal-content">
+            <!-- 이미지 컨테이너 -->
             <div class="modal-images">
-                </div>
+                <!-- 여기에 이미지들이 동적으로 추가됩니다 -->
+            </div>
         </div>
     </div>
+    <!-- 모달 컨테이너 끝 -->
 
 
-    <section id="best-services" class="section">
-        <div class="scroll-container">
-            <div class="scroll-indicator2">
-                <div class="scroll-text2">SCROLL DOWN</div>
-            </div>
-            <div id="image-container">
-                </div>
+
+<!-- Best Services 섹션 -->
+<section id="best-services" class="section">
+    <div class="scroll-container">
+        <div class="scroll-indicator2">
+            <div class="scroll-text2">SCROLL DOWN</div>
         </div>
-    </section>
+        <div id="image-container">
+            <!-- 이미지들은 JavaScript로 동적 추가됩니다 -->
+        </div>
+    </div>
+</section>
 
 
-    <section id="inquiry-section" class="section">
-        <div class="container">
-            <div id="loading-modal" class="loading-modal">
-                <div class="loading-spinner"></div>
-                <p>이메일 발송 중...</p>
+<section id="inquiry-section" class="section">
+    <div class="container">
+        <div id="loading-modal" class="loading-modal">
+            <div class="loading-spinner"></div>
+            <p>이메일 발송 중...</p>
+        </div>
+
+        <div class="inquiry-form">
+            <h2 class="inquiry-main-title">도움이 필요하세요?</h2>
+            <hr class="inquiry-divider"> <!-- 추가된 가로선 -->
+            <h3 class="inquiry-type-title">문의 유형</h3>
+            <div class="category-buttons">
+                <button type="button" class="category-button active">구입 견적 문의</button>
+                <button type="button" class="category-button">렌탈 견적 문의</button>
+                <button type="button" class="category-button">헬스장 바닥재 문의</button>
+                <button type="button" class="category-button">비즈니스 제휴 문의</button>
+                <button type="button" class="category-button">일반 문의</button>
+                <button type="button" class="category-button">기타 문의</button>
             </div>
 
-            <div class="inquiry-form">
-                <h2 class="inquiry-main-title">도움이 필요하세요?</h2>
-                <hr class="inquiry-divider">
-                <h3 class="inquiry-type-title">문의 유형</h3>
-                <div class="category-buttons">
-                    <button type="button" class="category-button active">구입 견적 문의</button>
-                    <button type="button" class="category-button">렌탈 견적 문의</button>
-                    <button type="button" class="category-button">헬스장 바닥재 문의</button>
-                    <button type="button" class="category-button">비즈니스 제휴 문의</button>
-                    <button type="button" class="category-button">일반 문의</button>
-                    <button type="button" class="category-button">기타 문의</button>
+            <form id="inquiryForm">
+                <input type="hidden" name="inquiry_type" id="inquiry_type" value="구입 견적 문의">
+                <div class="ec-base-table typeWrite">
+                    <table>
+                        <tbody>
+                            <tr>
+                                <th scope="row">이름</th>
+                                <td>
+                                    <input type="text" name="name" id="writer" placeholder="이름을 적어주세요." required>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th scope="row">전화번호</th>
+                                <td>
+                                    <input type="tel" name="phone" id="phone" placeholder="전화번호를 입력해주세요." required>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th scope="row">이메일 주소</th>
+                                <td>
+                                    <input type="email" name="email" id="email" placeholder="이메일주소를 입력해주세요." required>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th scope="row">내용</th>
+                                <td>
+                                    <textarea name="message" id="board_content" placeholder="내용을 입력해주세요." required></textarea>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
 
-                <form id="inquiryForm">
-                    <input type="hidden" name="inquiry_type" id="inquiry_type" value="구입 견적 문의">
-                    <div class="ec-base-table typeWrite">
-                        <table>
-                            <tbody>
-                                <tr>
-                                    <th scope="row">이름</th>
-                                    <td>
-                                        <input type="text" name="name" id="writer" placeholder="이름을 적어주세요." required>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">전화번호</th>
-                                    <td>
-                                        <input type="tel" name="phone" id="phone" placeholder="전화번호를 입력해주세요." required>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">이메일 주소</th>
-                                    <td>
-                                        <input type="email" name="email" id="email" placeholder="이메일주소를 입력해주세요." required>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">내용</th>
-                                    <td>
-                                        <textarea name="message" id="board_content" placeholder="내용을 입력해주세요." required></textarea>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
+                <div class="privacy-agreement">
+                    <div class="checkbox-wrapper">
+                        <input type="checkbox" id="privacy-consent" required>
+                        <label for="privacy-consent">개인정보 수집 및 이용 동의</label>
                     </div>
+                    <ul>
+                        <li><strong>수집 항목:</strong> 이름, 이메일, 연락처, 문의 내용</li>
+                        <li><strong>수집 목적:</strong> 문의 내용 등록, 확인, 답변</li>
+                        <li><strong>보유 기간:</strong> 1년</li>
+                    </ul>
+                </div>
 
-                    <div class="privacy-agreement">
-                        <div class="checkbox-wrapper">
-                            <input type="checkbox" id="privacy-consent" required>
-                            <label for="privacy-consent">개인정보 수집 및 이용 동의</label>
-                        </div>
-                        <ul>
-                            <li><strong>수집 항목:</strong> 이름, 이메일, 연락처, 문의 내용</li>
-                            <li><strong>수집 목적:</strong> 문의 내용 등록, 확인, 답변</li>
-                            <li><strong>보유 기간:</strong> 1년</li>
-                        </ul>
-                    </div>
-
-                    <div class="ec-base-button">
-                        <button type="submit" class="btnSubmitFix sizeM">Send</button>
-                    </div>
-                </form>
-            </div>
+                <div class="ec-base-button">
+                    <button type="submit" class="btnSubmitFix sizeM">Send</button>
+                </div>
+            </form>
         </div>
-    </section>
+    </div>
+</section>
+
+
+
 
 
     <section id="contact-us" class="section">
@@ -807,6 +887,7 @@
             <h2 class="section-title">Contact Us <span class="section-subtitle"></span></h2>
             <div class="contact-content">
                 <div class="contact-info">
+
                     <div class="info-card">
                         <p class="icon-title">Location</p>
                         <div class="icon-box">
@@ -871,30 +952,33 @@
             </div>
         </div>
     </footer>
-
-
-    <div id="event-popup-modal" class="popup-overlay">
+    
+<div id="event-popup-modal" class="popup-overlay">
         <div class="popup-content">
-
+            
             <div class="event-slider-container">
                 <div class="event-slider-wrapper">
+                    
                     <a href="https://blog.naver.com/gofitkorea" target="_blank" class="event-slide">
-                        <img src="/gointro/B_1.jpg" alt="Event Banner 1">
+                        <img src="/gointro/B_1.jpg" alt="Event Banner 1"> <!-- 750 x 1000 -->
                     </a>
+                    
                     <a href="https://blog.naver.com/gofitkorea" target="_blank" class="event-slide">
-                        <img src="/gointro/B_2.jpg" alt="Event Banner 2">
+                        <img src="/gointro/B_2.jpg" alt="Event Banner 2"> <!-- 750 x 1000 -->
                     </a>
+                    
                     <a href="https://blog.naver.com/gofitkorea" target="_blank" class="event-slide">
-                        <img src="/gointro/B_3.jpg" alt="Event Banner 3">
+                        <img src="/gointro/B_3.jpg" alt="Event Banner 3"> <!-- 750 x 1000 -->
                     </a>
-                </div>
 
+                </div>
+                
                 <button class="prev-slide slider-nav-btn">❮</button>
                 <button class="next-slide slider-nav-btn">❯</button>
-
+                
                 <div class="event-dots-container"></div>
             </div>
-
+            
             <div class="popup-footer">
                 <label>
                     <input type="checkbox" id="do-not-show-today"> 오늘 하루 보지 않기
@@ -903,7 +987,8 @@
             </div>
         </div>
     </div>
-
+    </body>
+    
     <script src="script.js"></script>
 </body>
 </html>
