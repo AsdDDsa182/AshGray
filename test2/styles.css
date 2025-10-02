@@ -1668,7 +1668,258 @@ body.no-scroll {
     }
 }
 
+/*
+|--------------------------------------------------------------------------
+| 9. 인쿼리 인트로 섹션 (Inquiry Intro Section)
+|--------------------------------------------------------------------------
+*/
 
+/* 인쿼리 인트로 섹션 스타일 */
+#inquiry-intro {
+    position: relative;
+    width: 100%;
+    height: 300vh; /* 전체 스크롤 높이 */
+    transition: background 0.5s ease;
+    scroll-behavior: smooth;
+    margin-top: 0px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: linear-gradient(to bottom,
+        rgba(0, 0, 0, 1) 0%,
+        rgba(0, 0, 0, 0.6) 50%,
+        rgba(0, 0, 0, 1) 100%),
+        url('https://gofitkorea.netlify.app/inquiry-intro/bg.webp');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+/* 스크롤 컨테이너 (sticky) */
+#inquiry-intro .scroll-container {
+    position: sticky;
+    top: 0;
+    width: 100%;
+    height: 100vh;
+    overflow: hidden;
+}
+
+/* 콘텐츠 래퍼 */
+#inquiry-intro .content-wrapper {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* 스크롤 디스플레이 */
+#inquiry-intro .scroll-display {
+    width: 100%;
+    max-width: 1600px;
+    text-align: center;
+}
+
+/* 텍스트 애니메이션 컨테이너 */
+#inquiry-intro .text-animation-container {
+    margin-bottom: 40px;
+    position: relative;
+    overflow: visible;
+    height: 500px;
+}
+
+/* 텍스트 아이템 */
+#inquiry-intro .text-item {
+    position: absolute;
+    width: 100%;
+    font-size: calc(2rem + 4.5vw);
+    font-weight: 600;
+    opacity: 0;
+    transition: all 0.3s ease, text-shadow 0.3s ease, font-size 0.3s ease;
+    left: 0;
+    top: 60%;
+    transform: translateY(-50%);
+    text-align: center;
+    line-height: 1.1;
+    white-space: nowrap;
+}
+
+/* 하이라이트 텍스트 */
+#inquiry-intro .text-item .highlight {
+    color: #4ECDC4;
+    font-weight: 700;
+}
+
+/* 메인 타이틀과 설명 공통 스타일 */
+#inquiry-intro .main-title,
+#inquiry-intro .main-description {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+/* 메인 타이틀 */
+#inquiry-intro .main-title {
+    font-size: calc(2rem + 3vw);
+    font-weight: 1000;
+    line-height: 1.1;
+    margin-bottom: 20px;
+    position: relative;
+    top: -100px;
+    z-index: 10;
+}
+
+/* 메인 설명 */
+#inquiry-intro .main-description {
+    top: -100px;
+    font-size: calc(0.6rem + 1vw);
+    font-weight: 300;
+    line-height: 1.3;
+    max-width: 1600px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 10;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* 모바일 줄바꿈 클래스 */
+.mobile-break {
+    display: none;
+}
+
+/* 인쿼리 인트로 반응형 디자인 */
+/* 대형 데스크탑 (1200px 이상) */
+@media (min-width: 1200px) {
+    #inquiry-intro .text-item {
+        font-size: calc(2.5rem + 5vw);
+    }
+
+    #inquiry-intro .main-title {
+        font-size: calc(2.5rem + 3.5vw);
+    }
+
+    #inquiry-intro .main-description {
+        font-size: calc(0.8rem + 1.2vw);
+    }
+}
+
+/* 중형 데스크탑 (992px - 1199px) */
+@media (min-width: 992px) and (max-width: 1199px) {
+
+    #inquiry-intro {
+        margin-top: 0px;
+    }
+
+    #inquiry-intro .text-item {
+        font-size: calc(2.2rem + 4.8vw);
+    }
+
+    #inquiry-intro .main-title {
+        font-size: calc(2.2rem + 3.2vw);
+    }
+
+    #inquiry-intro .main-description {
+        font-size: calc(0.7rem + 1.1vw);
+    }
+}
+
+/* 태블릿 (768px - 991px) */
+@media (min-width: 768px) and (max-width: 991px) {
+    #inquiry-intro {
+        margin-top: 0px;
+    }
+    #inquiry-intro .text-item {
+        font-size: calc(2rem + 4.5vw);
+    }
+
+    #inquiry-intro .main-title {
+        font-size: calc(2rem + 3vw);
+        top: -80px;
+    }
+
+    #inquiry-intro .main-description {
+        font-size: calc(0.6rem + 1vw);
+        top: -80px;
+    }
+
+    #inquiry-intro .text-animation-container {
+        height: 400px;
+    }
+}
+
+/* 대형 모바일 (576px - 767px) */
+@media (min-width: 576px) and (max-width: 767px) {
+    #inquiry-intro .text-item {
+        font-size: calc(1.8rem + 3.5vw);
+    }
+
+    #inquiry-intro .main-title {
+        font-size: calc(1.8rem + 2.8vw);
+        top: -60px;
+        transform: scaleY(2);
+    }
+
+    #inquiry-intro .main-description {
+        font-size: calc(0.8rem + 1.2vw);
+        top: -60px;
+        white-space: normal;
+    }
+
+    #inquiry-intro .text-animation-container {
+        height: 300px;
+    }
+}
+
+/* 소형 모바일 (575px 이하) */
+@media (max-width: 575px) {
+    #inquiry-intro {
+        margin-top: 0px;
+    }
+    #inquiry-intro .text-item {
+        font-size: calc(1.5rem + 3vw);
+        letter-spacing: -0.04em;
+    }
+
+    #inquiry-intro .main-title {
+        padding-right: 20px;
+        padding-left: 20px;
+        font-size: calc(1.5rem + 2.5vw);
+        top: -40px;
+        transform: scaleY(1.5);
+    }
+
+    #inquiry-intro .main-description {
+        font-size: calc(0.7rem + 1.1vw);
+        top: -40px;
+        white-space: normal;
+        overflow: visible;
+        text-overflow: clip;
+    }
+
+    #inquiry-intro .text-animation-container {
+        height: 200px;
+    }
+
+    .mobile-break {
+        display: inline;
+    }
+}
+
+/* 모션 감소를 선호하는 사용자 설정 */
+@media (prefers-reduced-motion: reduce) {
+#inquiry-intro {
+    margin-top: 0px;
+    }
+    #inquiry-intro .text-item,
+    #inquiry-intro .main-title,
+    #inquiry-intro .main-description {
+        transition: none;
+    }
+}
 
 /*
 |--------------------------------------------------------------------------

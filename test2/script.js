@@ -909,7 +909,108 @@ gsap.to(particles.rotation, {
 
 
 
+// ====================================================================
+// SECTION 8: inquiry-intro 섹션 코드
+// ====================================================================
+// DOM 요소 선택
+const inquiryIntroSection = document.getElementById('inquiry-intro');
+const textItems = document.querySelectorAll('#inquiry-intro .text-item');
+const mainTitle = document.querySelector('#inquiry-intro .main-title');
+const mainDescription = document.querySelector('#inquiry-intro .main-description');
+const textContainer = document.querySelector('#inquiry-intro .text-animation-container');
 
+// 상수 정의
+const CONSTANTS = {
+    totalItems: textItems.length,
+    visibleItems: 4,
+    // scrollSensitivity: 1.2, <-- 삭제됨
+    throttleDelay: 16 // 약 60fps에 해당하는 값
+};
+
+
+
+// 화면 크기에 따른 아이템 높이 계산 함수
+function updateItemHeight() {
+    if (window.innerWidth <= 430) return 60;
+    if (window.innerWidth <= 768) return 80;
+    if (window.innerWidth <= 1200) return 100;
+    return 160;  // 큰 화면에서 더 큰 간격
+}
+
+// 텍스트 아이템 업데이트 함수
+function updateTextItems(scrollFraction, itemHeight, mainContentVisible) {
+    const currentIndex = Math.floor(scrollFraction * (CONSTANTS.totalItems - 1) * 1.0); // scrollSensitivity 대신 1.0 사용
+    
+    textItems.forEach((item, index) => {
+        const distance = index - currentIndex;
+        const absDistance = Math.abs(distance);
+        
+        if (absDistance < CONSTANTS.visibleItems) {
+            let opacity = absDistance === 0 ? 1 : 0.3;
+            if (mainContentVisible) opacity *= 0.2;
+            
+            const scale = absDistance === 0 ? 1 : 0.8;
+            const translateY = distance * itemHeight * 1.5;
+            
+            item.style.opacity = opacity;
+            item.style.transform = `translateY(${translateY}px) scale(${scale})`;
+            item.style.zIndex = CONSTANTS.visibleItems - absDistance;
+        } else {
+            item.style.opacity = 0;
+            item.style.transform = `translateY(${distance * itemHeight * 1.5}px) scale(0.8)`;
+            item.style.zIndex = 0;
+        }
+    });
+}
+
+// 메인 콘텐츠(타이틀, 설명) 업데이트 함수
+function updateMainContent(scrollFraction) {
+    // scrollSensitivity 대신 1.0 사용
+    const lastItemFullyVisibleFraction = (CONSTANTS.totalItems - 1) / CONSTANTS.totalItems / 1.0; 
+    const contentStartFraction = lastItemFullyVisibleFraction + 0.2;
+
+    let mainContentVisible = false;
+
+    if (scrollFraction > contentStartFraction) {
+        const contentProgress = (scrollFraction - contentStartFraction) / (1 - contentStartFraction);
+        const easedProgress = Math.min(contentProgress, 1);
+
+        mainTitle.style.opacity = easedProgress;
+        mainDescription.style.opacity = easedProgress;
+        mainTitle.style.transform = `translateY(${30 * (1 - easedProgress)}px)`;
+        mainDescription.style.transform = `translateY(${30 * (1 - easedProgress)}px)`;
+
+        mainContentVisible = true;
+    } else {
+        mainTitle.style.opacity = 0;
+        mainDescription.style.opacity = 0;
+        mainTitle.style.transform = 'translateY(30px)';
+        mainDescription.style.transform = 'translateY(30px)';
+    }
+
+    return mainContentVisible;
+}
+
+// 스크롤 이벤트 핸들러
+function handleScroll() {
+    const rect = inquiryIntroSection.getBoundingClientRect();
+    const scrollFraction = Math.max(0, Math.min(1, -rect.top / (rect.height - window.innerHeight)));
+    
+    const currentItemHeight = updateItemHeight();
+    const mainContentVisible = updateMainContent(scrollFraction);
+    updateTextItems(scrollFraction, currentItemHeight, mainContentVisible);
+}
+
+
+
+
+
+// 이벤트 리스너 등록
+window.addEventListener('scroll', handleScroll, { passive: true }); 
+
+// 초기 설정
+handleResize();
+handleScroll();
 
 
 
