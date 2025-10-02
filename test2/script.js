@@ -42,7 +42,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 document.documentElement.style.overflow = '';
             }, 2000); // intro 페이드아웃 시간
         }, 1000); // 로딩 바 페이드아웃 시간
-    }, 5500); // 로고와 로딩 바 애니메이션 완료 후 실행
+    }, 2000); // 로고와 로딩 바 애니메이션 완료 후 실행
     
 
 
@@ -56,9 +56,33 @@ document.addEventListener('DOMContentLoaded', function() {
     const productMenuLink = document.querySelector('.navbar-right .nav-item.has-submenu > a');
     const subMenu = document.querySelector('.navbar-right .nav-item.has-submenu .sub-menu');
 
-    // 스크롤 시 네비게이션 바 배경색 변경
+    let lastScrollY = 0;
+    const scrollThreshold = 100; // 헤더 숨김/보이기 시작 스크롤 값 (100px)
+
+    // 스크롤 방향 감지 및 배경색 변경 (새로운 로직)
     window.addEventListener('scroll', function() {
-        navbar.style.backgroundColor = (window.scrollY > 0) ? 'var(--navbar-bg-color-scrolled)' : 'var(--navbar-bg-color)';
+        const currentScrollY = window.scrollY;
+        const isScrollingDown = currentScrollY > lastScrollY;
+        const isScrolledPastThreshold = currentScrollY > scrollThreshold;
+
+        // 1. 네비게이션 바 배경색 변경 로직 (기존 기능 유지)
+        navbar.style.backgroundColor = (currentScrollY > 0) ? 'var(--navbar-bg-color-scrolled)' : 'var(--navbar-bg-color)';
+
+        // 2. 헤더 숨기기/보이기 로직
+        if (isScrolledPastThreshold) {
+            if (isScrollingDown) {
+                // 아래로 스크롤 시 숨김
+                navbar.classList.add('hidden');
+            } else {
+                // 위로 스크롤 시 표시
+                navbar.classList.remove('hidden');
+            }
+        } else if (currentScrollY <= scrollThreshold) {
+            // 맨 위에 있을 때는 항상 표시
+            navbar.classList.remove('hidden');
+        }
+
+        lastScrollY = currentScrollY; // 현재 스크롤 위치 저장
     });
 
     // 모바일 서브메뉴 토글 함수
@@ -1836,88 +1860,4 @@ document.addEventListener('DOMContentLoaded', function() {
             smoothScroll(href, 1000);
         });
     });
-});
-
-
-
-// Event Banner JavaScript
-document.addEventListener('DOMContentLoaded', function() {
-    const eventBanner = document.querySelector('.gofit-event-banner');
-    const eventToggle = document.querySelector('.gofit-event-banner-toggle');
-    const eventContent = document.querySelector('.gofit-event-banner-content');
-    const eventModal = document.querySelector('.gofit-event-modal');
-    const eventModalContent = document.querySelector('.gofit-event-modal-content');
-    const eventModalImage = document.querySelector('.gofit-event-modal-image');
-    const eventModalClose = document.querySelector('.gofit-event-modal-close');
-
-    function resizeModalImage() {
-        if (eventModal.style.display === 'block') {
-            const windowWidth = window.innerWidth;
-            const windowHeight = window.innerHeight;
-            const imgAspectRatio = eventModalImage.naturalWidth / eventModalImage.naturalHeight;
-            const windowAspectRatio = windowWidth / windowHeight;
-
-            let imgWidth, imgHeight;
-
-            if (imgAspectRatio > windowAspectRatio) {
-                // Image is wider than the window
-                imgWidth = Math.min(windowWidth * 0.9, eventModalImage.naturalWidth);
-                imgHeight = imgWidth / imgAspectRatio;
-            } else {
-                // Image is taller than the window
-                imgHeight = Math.min(windowHeight * 0.9, eventModalImage.naturalHeight);
-                imgWidth = imgHeight * imgAspectRatio;
-            }
-
-            eventModalImage.style.width = `${imgWidth}px`;
-            eventModalImage.style.height = `${imgHeight}px`;
-
-            // Center the image
-            eventModalContent.style.width = `${imgWidth}px`;
-            eventModalContent.style.height = `${imgHeight}px`;
-            eventModalContent.style.top = '50%';
-            eventModalContent.style.left = '50%';
-            eventModalContent.style.transform = 'translate(-50%, -50%)';
-        }
-    }
-
-    eventToggle.addEventListener('click', function(event) {
-        event.stopPropagation();
-        eventBanner.classList.toggle('active');
-    });
-
-    document.addEventListener('click', function(event) {
-        if (!eventBanner.contains(event.target) && eventModal.style.display !== 'block') {
-            eventBanner.classList.remove('active');
-        }
-    });
-
-    eventContent.addEventListener('click', function(event) {
-        event.stopPropagation();
-    });
-
-    eventContent.addEventListener('click', function(event) {
-        if (event.target.classList.contains('gofit-event-btn')) {
-            event.stopPropagation();
-            const eventCard = event.target.closest('.gofit-event-card');
-            const imageUrl = eventCard.getAttribute('data-image');
-            eventModalImage.src = imageUrl;
-            eventModal.style.display = 'block';
-            eventModalImage.onload = resizeModalImage;
-        }
-    });
-
-    eventModalClose.addEventListener('click', function(event) {
-        event.stopPropagation();
-        eventModal.style.display = 'none';
-    });
-
-    eventModal.addEventListener('click', function(event) {
-        if (event.target === eventModal) {
-            event.stopPropagation();
-            eventModal.style.display = 'none';
-        }
-    });
-
-    window.addEventListener('resize', resizeModalImage);
 });

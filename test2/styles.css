@@ -92,7 +92,7 @@ body.no-scroll {
 }
 
 #intro-logo img.fade-in {
-    animation: fadeInOutAndGrow 8s forwards; /* 애니메이션 시간 연장 */
+    animation: fadeInOutAndGrow 3s forwards; /* 애니메이션 시간 연장 */
 }
 
 /* 로딩 바 스타일 */
@@ -111,7 +111,7 @@ body.no-scroll {
     width: 0;
     height: 100%;
     background-color: #00ffcc; /* 진행 바 색상 */
-    animation: loading 5.5s linear forwards; /* 로딩 애니메이션 */
+    animation: loading 2s linear forwards; /* 👈 5.5s를 3s로 변경 */
 }
 
 /* 로딩 애니메이션 */
@@ -158,8 +158,23 @@ body.no-scroll {
     position: fixed;
     width: 100%;
     height: 60px;
+    top: 0; /* 이 부분을 추가하거나 0으로 설정 */
     z-index: 1000;
-    transition: background-color 0.3s ease;
+    /* 트랜지션 속성 수정 및 transform 추가 */
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+/* 스크롤 시 헤더 숨기기/보이기 효과를 위한 클래스 */
+.navbar.hidden {
+    transform: translateY(-100%);
+    box-shadow: none !important;
+}
+
+/* ⭐ 추가: 헤더가 숨겨질 때 말풍선도 숨김 */
+.navbar.hidden .balloon {
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
 }
 
 /* 네비게이션 바 컨테이너 스타일 */
@@ -4180,6 +4195,7 @@ body.no-scroll {
     white-space: nowrap;
     z-index: 1000;
     animation: bounce 0.5s infinite;
+    transition: opacity 0.3s ease, visibility 0.3s ease; /* 👈 이 라인을 추가하세요 */
 }
 
 /* 말풍선 꼬리 추가 */
@@ -4274,321 +4290,7 @@ body.no-scroll {
 
 
 
-/* 이벤트 배너 스타일 */
-.gofit-event-banner {
-    position: fixed;
-    bottom: 0;
-    left: 50%;
-    transform: translateX(-50%);
-    z-index: 888;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
 
-/* 이벤트 배너 토글 버튼 스타일 */
-.gofit-event-banner-toggle-container {
-    display: inline-flex;
-    align-items: center;
-    position: relative;
-}
-
-.gofit-event-banner-toggle {
-    background-color: #1a1a1a;
-    color: #fff;
-    padding: 12px 22px;
-    border-radius: 30px 30px 0 0;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    transition: all 0.3s ease;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
-    position: relative;
-    overflow: hidden;
-    border: none;
-    border: 2px solid rgba(255, 255, 255, 0.3);
-    border-bottom: none;
-}
-
-.gofit-event-banner-toggle::before {
-    content: '';
-    position: absolute;
-    top: -50%;
-    left: -25%;
-    width: 150%;
-    height: 200%;
-    background-color: #1a1a1a;
-    border-radius: 50%;
-    z-index: -1;
-}
-
-.gofit-event-banner-toggle i {
-    margin-right: 8px;
-    animation: shakeEffect 1.5s ease-in-out infinite;
-    color: #fff;
-}
-
-/* 아이콘 흔들림 효과 애니메이션 */
-@keyframes shakeEffect {
-    0% { transform: translateX(0); }
-    1% { transform: translateX(-3px); }
-    2% { transform: translateX(3px); }
-    3% { transform: translateX(-2px); }
-    4% { transform: translateX(2px); }
-    5% { transform: translateX(-2px); }
-    6% { transform: translateX(2px); }
-    7% { transform: translateX(-2px); }
-    8% { transform: translateX(2px); }
-    9% { transform: translateX(-2px); }
-    10% { transform: translateX(1); }
-    20% { transform: translateX(0); }
-    100% { transform: translateX(0); }
-}
-
-.gofit-event-banner-toggle span {
-    font-size: 15px;
-    font-weight: 700;
-    color: #fff;
-}
-
-/* 이벤트 배너 토글 버튼 빛 효과 */
-.gofit-event-banner-toggle::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(90deg, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0));
-    transform: skewX(-30deg);
-    animation: shineEffect 3s infinite;
-}
-
-/* 빛 효과 애니메이션 */
-@keyframes shineEffect {
-    0% { left: -100%; }
-    100% { left: 100%; }
-}
-
-/* 이벤트 배너 토글 버튼 호버 효과 */
-.gofit-event-banner-toggle:hover {
-    background-color: #333;
-}
-
-/* 이벤트 배너 내용 스타일 */
-.gofit-event-banner-content {
-    position: absolute;
-    bottom: 100%;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 90vw;
-    max-width: 400px;
-    max-height: 0;
-    background-color: #f5f5f5;
-    border-radius: 15px;
-    padding: 0 20px;
-    margin-bottom: 10px;
-    opacity: 0;
-    visibility: hidden;
-    transition: all 0.3s ease;
-    overflow: hidden;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.08);
-}
-
-/* 활성화된 이벤트 배너 내용 스타일 */
-.gofit-event-banner.active .gofit-event-banner-content {
-    max-height: 70vh;
-    padding: 20px;
-    opacity: 1;
-    visibility: visible;
-}
-
-/* 이벤트 배너 슬라이드 스타일 */
-.gofit-event-banner-slides {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-}
-
-/* 이벤트 카드 스타일 */
-.gofit-event-card {
-    background-color: #fff;
-    border-radius: 8px;
-    overflow: hidden;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-/* 이벤트 카드 호버 효과 */
-.gofit-event-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-}
-
-/* 이벤트 이미지 스타일 */
-.gofit-event-image {
-    width: 100%;
-    height: 200px;
-    overflow: hidden;
-}
-
-/* 이벤트 이미지 크기 조정 */
-.gofit-event-image img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    transition: transform 0.3s ease;
-}
-
-/* 이벤트 카드 호버 시 이미지 확대 효과 */
-.gofit-event-card:hover .gofit-event-image img {
-    transform: scale(1.05);
-}
-
-/* 이벤트 상세 정보 스타일 */
-.gofit-event-details {
-    padding: 15px;
-}
-
-/* 이벤트 제목 스타일 */
-.gofit-event-title {
-    margin: 0 0 10px;
-    font-size: 1.2em;
-    color: var(--primary-color);
-}
-
-/* 이벤트 설명 스타일 */
-.gofit-event-description {
-    font-size: 0.9em;
-    color: #666;
-    margin-bottom: 15px;
-}
-
-/* 이벤트 버튼 스타일 */
-.gofit-event-btn {
-    background-color: #1a1a1a;
-    color: #fff;
-    border: none;
-    padding: 8px 15px;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-    font-weight: 700;
-}
-
-/* 이벤트 버튼 호버 효과 */
-.gofit-event-btn:hover {
-    background-color: #333;
-}
-
-/* 이벤트 모달 스타일 */
-.gofit-event-modal {
-    display: none;
-    position: fixed;
-    z-index: 1001;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    overflow: auto;
-    background-color: rgba(0, 0, 0, 0.8);
-}
-
-/* 이벤트 모달 내용 스타일 */
-.gofit-event-modal-content {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: auto;
-    height: auto;
-    max-width: 90%;
-    max-height: 90%;
-}
-
-/* 이벤트 모달 이미지 스타일 */
-.gofit-event-modal-image {
-    display: block;
-    width: auto;
-    height: auto;
-    max-width: 100%;
-    max-height: 100%;
-    border-radius: 8px;
-    object-fit: contain;
-}
-
-/* 이벤트 모달 닫기 버튼 스타일 */
-.gofit-event-modal-close {
-    color: #fff;
-    position: absolute;
-    top: 10px;
-    right: 25px;
-    font-size: 35px;
-    font-weight: bold;
-    cursor: pointer;
-    transition: color 0.3s ease;
-}
-
-/* 이벤트 모달 닫기 버튼 호버 효과 */
-.gofit-event-modal-close:hover {
-    color: var(--icon-hover-color);
-}
-
-/* 이벤트 배너 내용 스크롤 스타일 */
-.gofit-event-banner-content {
-    scroll-behavior: smooth;
-    overflow-y: scroll;
-    overscroll-behavior: contain;
-    scrollbar-gutter: stable;
-    padding-right: 10px;
-}
-
-/* 이벤트 배너 내용 스크롤바 스타일 */
-.gofit-event-banner-content::-webkit-scrollbar {
-    width: 4px;
-}
-
-/* 이벤트 배너 내용 스크롤바 트랙 스타일 */
-.gofit-event-banner-content::-webkit-scrollbar-track {
-    background-color: transparent;
-    border-radius: 10px;
-    margin-top: 10px;
-    margin-bottom: 10px;
-}
-
-/* 이벤트 배너 내용 스크롤바 썸네일 스타일 */
-.gofit-event-banner-content::-webkit-scrollbar-thumb {
-    background-color: rgba(0, 0, 0, 0.2);
-    border-radius: 10px;
-}
-
-/* 이벤트 배너 내용 스크롤바 썸네일 호버 효과 */
-.gofit-event-banner-content::-webkit-scrollbar-thumb:hover {
-    background-color: rgba(0, 0, 0, 0.3);
-}
-
-/* 모바일 화면 스타일 */
-@media (max-width: 768px) {
-    /* 모바일 화면에서 이벤트 배너 내용 너비 조정 */
-    .gofit-event-banner-content {
-        width: 85vw;
-        max-width: none;
-    }
-
-    /* 모바일 화면에서 이벤트 이미지 높이 조정 */
-    .gofit-event-image {
-        height: 150px;
-    }
-
-    /* 모바일 화면에서 버튼 크기 조정 */
-    .gofit-event-banner-toggle {
-        padding: 10px 20px;
-    }
-
-    .gofit-event-banner-toggle span {
-        font-size: 14px;
-    }
-}
 
 @media (hover: none) and (pointer: coarse) {
     .nav-item > a:hover,
@@ -4603,29 +4305,6 @@ body.no-scroll {
         color: inherit !important;
         background-color: inherit !important;
         box-shadow: none !important;
-    }
-
-    /* 이벤트 배너 관련 스타일을 별도로 처리 */
-    .gofit-event-banner-toggle:hover,
-    .gofit-event-card:hover,
-    .gofit-event-btn:hover {
-        transform: none !important;
-        box-shadow: none !important;
-    }
-
-    /* 이벤트 배너 토글 버튼의 배경색 유지 */
-    .gofit-event-banner-toggle:hover {
-        background-color: #1a1a1a !important;
-    }
-
-    /* 이벤트 카드의 배경색 유지 */
-    .gofit-event-card:hover {
-        background-color: #fff !important;
-    }
-
-    /* 이벤트 버튼의 배경색 유지 */
-    .gofit-event-btn:hover {
-        background-color: #1a1a1a !important;
     }
 
     .icons a:hover,
@@ -4654,17 +4333,6 @@ body.no-scroll {
 
     #inquiry-section .ec-base-button .btnSubmitFix:hover {
         background-color: var(--icon-hover-color) !important;
-    }
-
-    /* 이벤트 배너 토글 버튼 내의 텍스트 색상 유지 */
-    .gofit-event-banner-toggle:hover span,
-    .gofit-event-banner-toggle:hover i {
-        color: #fff !important;
-    }
-
-    /* 이벤트 카드 내 이미지 확대 효과 제거 */
-    .gofit-event-card:hover .gofit-event-image img {
-        transform: none !important;
     }
 }
 
