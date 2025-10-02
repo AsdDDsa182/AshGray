@@ -1,3 +1,9 @@
+/*
+|--------------------------------------------------------------------------
+| 1. 전역 설정 (Global Settings)
+|--------------------------------------------------------------------------
+*/
+
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap');
 
 :root {
@@ -14,6 +20,7 @@
     --icon-hover-color-v2: #f8a15a;
 }
 
+/* 터치 및 사용자 선택 방지 (Global Reset for Touch/User Select) */
 * {
     -webkit-tap-highlight-color: transparent;
     -webkit-touch-callout: none;
@@ -21,6 +28,7 @@
     user-select: none;
 }
 
+/* 기본 여백 및 박스 모델 초기화 (Box Model Reset) */
 * {
     margin: 0;
     padding: 0;
@@ -28,6 +36,7 @@
     list-style: none;
 }
 
+/* HTML/Body 기본 스타일 (Base Styles) */
 body {
     font-family: 'Roboto', Arial, sans-serif;
     overflow-x: hidden;
@@ -47,12 +56,117 @@ body.no-scroll {
     overflow: hidden;
 }
 
+/* 공통 섹션 타이틀 스타일 (Common Section Title) */
+.section-title {
+    position: relative;
+    padding-top: 20px;
+    margin-bottom: 20px;
+}
 
+/* 섹션 타이틀 밑줄 스타일 (모바일에서만 표시) */
+.section-title::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 50px;
+    height: 3px;
+    background-color: #ffffff;
+    display: none; /* 기본적으로 숨김 */
+}
 
+/* 반응형 조정 */
+@media (max-width: 768px) {
+    .section-title::before {
+        display: block; /* 모바일에서 밑줄 표시 */
+    }
+    .section-title {
+        padding-top: 20px;
+        margin-bottom: 30px;
+    }
 
+    .section-title::before {
+        width: 40px;
+    }
+}
 
+/* About Us 섹션 제목 전용: 밑줄 제거 */
+.about-us-title::before {
+    display: none !important;
+}
 
-/* 인트로 스타일 */
+/* 작은 화면에서 입력 필드 간 간격 조절 */
+@media (max-width: 768px) {
+    #inquiry-section .ec-base-table input[type="text"],
+    #inquiry-section .ec-base-table input[type="email"],
+    #inquiry-section .ec-base-table input[type="tel"],
+    #inquiry-section .ec-base-table textarea {
+        margin-top: 5px;
+        margin-bottom: 5px;
+    }
+}
+
+/* 호버 기능 없는 터치 기기 스타일 조정 (Touch Device Hover Reset) */
+@media (hover: none) and (pointer: coarse) {
+    .nav-item > a:hover,
+    .navbar-container .nav-item > a:hover,
+    .navbar-container .nav-item .sub-menu .sub-item a:hover,
+    .icons a:hover,
+    .footer-links a:hover,
+    .footer-social a:hover,
+    .service-box:hover,
+    .project-box:hover img {
+        transform: none !important;
+        color: inherit !important;
+        background-color: inherit !important;
+        box-shadow: none !important;
+    }
+
+    .icons a:hover,
+    .footer-social a:hover {
+        color: var(--text-color) !important;
+    }
+
+    .service-box.hover-ready:hover {
+        transform: none !important;
+    }
+
+    .counting-item:hover .count {
+        color: var(--icon-hover-color) !important;
+        text-shadow: none !important;
+    }
+
+    #inquiry-section .category-button:hover {
+        background-color: #333333 !important;
+        color: #ffffff !important;
+    }
+
+    #inquiry-section .category-button.active {
+        background-color: var(--icon-hover-color) !important;
+        color: #ffffff !important;
+    }
+
+    #inquiry-section .ec-base-button .btnSubmitFix:hover {
+        background-color: var(--icon-hover-color) !important;
+    }
+}
+
+@media (max-width: 768px) {
+    #inquiry-section .ec-base-table input,
+    #inquiry-section .ec-base-table textarea {
+        pointer-events: auto !important;
+        background-color: #333333;
+    }
+}
+
+/*
+|--------------------------------------------------------------------------
+| 2. 인트로 및 로딩 (Intro and Loading)
+|--------------------------------------------------------------------------
+*/
+
+/* 인트로 섹션 스타일 */
 #intro {
     position: fixed;
     top: 0;
@@ -64,35 +178,35 @@ body.no-scroll {
     align-items: center;
     justify-content: center;
     z-index: 9000;
-    overflow: hidden; /* 스크롤 막기 */
-    opacity: 1; /* 초기 불투명도 */
-    transition: opacity 2s ease; /* 페이드아웃 효과 추가 */
+    overflow: hidden;
+    opacity: 1;
+    transition: opacity 2s ease;
 }
 
 #intro-logo img {
-    width: 350px; /* 로고 크기 조정 */
+    width: 350px;
     opacity: 0;
-    transform: scale(0.4); /* 초기 크기 */
+    transform: scale(0.4);
 }
 
-/* 인트로 애니메이션 */
+/* 인트로 로고 애니메이션 키프레임 */
 @keyframes fadeInOutAndGrow {
     0% {
         opacity: 0;
-        transform: scale(0.4); /* 작게 시작 */
+        transform: scale(0.4);
     }
-    70% { /* 커지는 속도를 늦춤 */
+    70% {
         opacity: 1;
-        transform: scale(0.5); /* 약간만 커짐 */
+        transform: scale(0.5);
     }
     100% {
         opacity: 0;
-        transform: scale(1); /* 최종 크기로 */
+        transform: scale(1);
     }
 }
 
 #intro-logo img.fade-in {
-    animation: fadeInOutAndGrow 2s forwards; /* 애니메이션 시간 연장 */
+    animation: fadeInOutAndGrow 2s forwards;
 }
 
 /* 로딩 바 스타일 */
@@ -101,20 +215,20 @@ body.no-scroll {
     bottom: 10%;
     width: 80%;
     height: 4px;
-    background-color: rgba(255, 255, 255, 0.3); /* 바탕색 */
+    background-color: rgba(255, 255, 255, 0.3);
     overflow: hidden;
-    opacity: 1; /* 초기 투명도 */
-    transition: opacity 1s ease; /* 페이드아웃 효과 */
+    opacity: 1;
+    transition: opacity 1s ease;
 }
 
 #loading-bar .progress {
     width: 0;
     height: 100%;
-    background-color: #00ffcc; /* 진행 바 색상 */
-    animation: loading 1s linear forwards; 
+    background-color: #00ffcc;
+    animation: loading 1s linear forwards;
 }
 
-/* 로딩 애니메이션 */
+/* 로딩 바 애니메이션 키프레임 */
 @keyframes loading {
     0% {
         width: 0;
@@ -124,32 +238,13 @@ body.no-scroll {
     }
 }
 
+/*
+|--------------------------------------------------------------------------
+| 3. 네비게이션 바 (Navigation Bar - PC & Mobile)
+|--------------------------------------------------------------------------
+*/
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/* 네비게이션 바 스타일 */
+/* PC 네비게이션 바 기본 스타일 */
 .navbar {
     background-color: var(--navbar-bg-color);
     padding: 20px 0;
@@ -158,26 +253,25 @@ body.no-scroll {
     position: fixed;
     width: 100%;
     height: 60px;
-    top: 0; /* 이 부분을 추가하거나 0으로 설정 */
+    top: 0;
     z-index: 1000;
-    /* 트랜지션 속성 수정 및 transform 추가 */
     transition: background-color 0.3s ease, transform 0.3s ease;
 }
 
-/* 스크롤 시 헤더 숨기기/보이기 효과를 위한 클래스 */
+/* 스크롤 시 숨김 효과 */
 .navbar.hidden {
     transform: translateY(-100%);
     box-shadow: none !important;
 }
 
-/* ⭐ 추가: 헤더가 숨겨질 때 말풍선도 숨김 */
+/* 헤더 숨김 시 말풍선도 숨김 */
 .navbar.hidden .balloon {
     opacity: 0;
     visibility: hidden;
     transition: opacity 0.3s ease, visibility 0.3s ease;
 }
 
-/* 네비게이션 바 컨테이너 스타일 */
+/* 네비게이션 컨테이너 */
 .navbar-container {
     display: flex;
     align-items: center;
@@ -195,6 +289,7 @@ body.no-scroll {
     position: absolute;
     left: 50%;
     transform: translateX(-50%);
+    transition: opacity 0.3s ease; /* PC 버전 로고 트랜지션 */
 }
 
 .navbar-logo img {
@@ -215,7 +310,6 @@ body.no-scroll {
     margin-left: auto;
 }
 
-
 /* 메뉴 아이템 기본 스타일 */
 .nav-item {
     margin: 0 10px;
@@ -228,7 +322,7 @@ body.no-scroll {
     transition: background 0.3s;
 }
 
-/* PC 버전 스타일 */
+/* PC 버전 스타일 (min-width: 769px) */
 @media (min-width: 769px) {
     .navbar-container .nav-item.has-submenu {
         position: relative;
@@ -256,11 +350,7 @@ body.no-scroll {
         border-radius: 0;
     }
 
-    .navbar-logo {
-        transition: opacity 0.3s ease;
-    }
-
-    /* PC 버전 화살표 아이콘 스타일 수정 */
+    /* PC 버전 화살표 아이콘 스타일 */
     .navbar-container .nav-item > a .chevron-down {
         width: 16px;
         height: 16px;
@@ -268,7 +358,7 @@ body.no-scroll {
         vertical-align: middle;
     }
 
-    /* 서브메뉴 스타일 */
+    /* PC 서브메뉴 스타일 */
     .navbar-container .nav-item .sub-menu {
         display: block !important;
         position: absolute;
@@ -294,7 +384,7 @@ body.no-scroll {
         padding: 8px 20px;
         color: var(--text-color);
         transition: background-color 0.3s, color 0.3s;
-        text-decoration: none; /* 밑줄 제거 */
+        text-decoration: none;
     }
 
     .navbar-container .nav-item .sub-menu .sub-item a:hover {
@@ -303,19 +393,9 @@ body.no-scroll {
     }
 }
 
-
-
-
-
-
-
-
-
-
-
-/* 햄버거 메뉴 스타일 */
+/* 햄버거 메뉴 스타일 (Mobile) */
 .hamburger-menu {
-    display: none;
+    display: none; /* PC에서는 숨김 */
     flex-direction: column;
     justify-content: space-around;
     width: 30px;
@@ -337,7 +417,7 @@ body.no-scroll {
     transform-origin: center;
 }
 
-/* 햄버거 메뉴 열린 상태 스타일 */
+/* 햄버거 메뉴 열린 상태 (X 아이콘) */
 .hamburger-menu.open span:first-child {
     transform: translateY(8.5px) rotate(45deg);
 }
@@ -360,18 +440,18 @@ body.no-scroll {
     left: 0;
     width: 100%;
     height: 100%;
-    overflow-y: auto; /* 스크롤 허용 */
+    overflow-y: auto;
     opacity: 0;
     transform: translateY(-100%);
     z-index: 999;
     transition: transform 0.5s ease, opacity 0.5s ease;
     align-items: stretch;
-    padding: 60px 0 0; /* 상단 여백 조정 */
+    padding: 60px 0 0;
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
 }
 
-/* 모바일 메뉴 열린 상태 스타일 */
+/* 모바일 메뉴 열린 상태 */
 .navbar-mobile.open {
     display: flex;
     opacity: 1;
@@ -382,8 +462,8 @@ body.no-scroll {
 .navbar-mobile-content {
     display: flex;
     flex-direction: column;
-    justify-content: flex-start; /* 상단부터 채우기 시작 */
-    padding: 0; /* 좌우 패딩 제거 */
+    justify-content: flex-start;
+    padding: 0;
 }
 
 /* 모바일 메뉴 아이템 스타일 */
@@ -392,7 +472,7 @@ body.no-scroll {
     justify-content: space-between;
     align-items: center;
     width: 100%;
-    padding: 20px 20px; /* 좌우 패딩 추가 */
+    padding: 20px 20px;
     margin-top:20px;
     margin-bottom: 20px;
     font-size: 18px;
@@ -429,12 +509,12 @@ body.no-scroll {
     overflow: hidden;
     transition: max-height 0.3s ease-out;
     background-color: rgba(255, 255, 255, 0.05);
-    padding-left: 10px; /* 서브메뉴 들여쓰기 */
+    padding-left: 10px;
 }
 
 /* 모바일 서브메뉴 아이템 스타일 */
 .navbar-mobile .sub-menu .sub-item > a {
-    padding: 12px 20px; /* 패딩 조정 */
+    padding: 12px 20px;
     font-size: 16px;
     color: var(--text-color);
     text-decoration: none;
@@ -442,7 +522,7 @@ body.no-scroll {
     text-align: left;
 }
 
-/* 화살표 아이콘 스타일 */
+/* 모바일 화살표 아이콘 스타일 */
 .navbar-mobile .nav-item > a .chevron-down {
     width: 20px;
     height: 20px;
@@ -455,8 +535,8 @@ body.no-scroll {
     flex-direction: column;
     align-items: center;
     width: 100%;
-    padding: 20px 0; /* 패딩 축소 */
-    margin-top: 0px; /* 마진 축소 */
+    padding: 20px 0;
+    margin-top: 0px;
 }
 
 /* 하단 바 스타일 */
@@ -468,7 +548,18 @@ body.no-scroll {
     border-radius: 2px;
 }
 
-/* 반응형 스타일 */
+/* 모바일 메뉴 애니메이션 키프레임 */
+@keyframes slideDown {
+    from { opacity: 0; transform: translateY(-100%); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slideUp {
+    from { opacity: 1; transform: translateY(0); }
+    to { opacity: 0; transform: translateY(-100%); }
+}
+
+/* 반응형 스타일 (max-width: 1200px) */
 @media (max-width: 1200px) {
     .navbar {
         padding: 15.5px 0;
@@ -492,24 +583,24 @@ body.no-scroll {
     }
 
     .navbar-left, .navbar-right {
-        display: none;
+        display: none; /* PC 메뉴 숨김 */
     }
 
     .hamburger-menu {
-        display: flex;
+        display: flex; /* 햄버거 메뉴 표시 */
         position: static;
         margin-left: auto;
     }
 }
 
-/* 작은 화면에 대한 추가 스타일 */
+/* 작은 화면 높이에 대한 추가 스타일 */
 @media (max-height: 600px) {
     .navbar-mobile {
-        padding-top: 40px; /* 상단 여백 줄이기 */
+        padding-top: 40px;
     }
 
     .navbar-mobile .nav-item > a {
-        padding: 10px 20px; /* 아이템 간 간격 줄이기 */
+        padding: 10px 20px;
         font-size: 16px;
     }
 
@@ -519,44 +610,26 @@ body.no-scroll {
     }
 }
 
-/* 추가: 화면 높이에 따른 동적 조정 */
+/* 높은 화면 높이에 대한 동적 조정 */
 @media (min-height: 700px) {
     .navbar-mobile .nav-item > a {
-        padding: 20px 20px; /* 높은 화면에서 패딩 증가 */
+        padding: 20px 20px;
     }
 }
 
-/* 모바일 메뉴 애니메이션 */
-@keyframes slideDown {
-    from { opacity: 0; transform: translateY(-100%); }
-    to { opacity: 1; transform: translateY(0); }
-}
+/*
+|--------------------------------------------------------------------------
+| 4. 메인 비디오 섹션 (Main Video Section)
+|--------------------------------------------------------------------------
+*/
 
-@keyframes slideUp {
-    from { opacity: 1; transform: translateY(0); }
-    to { opacity: 0; transform: translateY(-100%); }
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-/* 비디오 섹션 스타일 */
+/* 비디오 섹션 컨테이너 */
 #video-section {
     position: relative;
     width: 100%;
-    height: 100dvh;;
+    height: 100dvh;
     overflow: hidden;
 }
-
 
 /* 비디오 배경 스타일 */
 .bg_video {
@@ -570,19 +643,21 @@ body.no-scroll {
     animation: fadeIn 1s ease-in forwards 2s;
 }
 
+/* 비디오 페이드 인 애니메이션 */
 @keyframes fadeIn {
     from { opacity: 0; }
     to { opacity: 1; }
 }
 
+/* 비디오 iframe 스타일 (16:9 비율 유지) */
 .bg_video iframe {
     position: absolute;
     top: 50%;
     left: 50%;
     width: 100vw;
-    height: 56.25vw; /* 16:9 비율 유지 */
+    height: 56.25vw;
     min-height: 100vh;
-    min-width: 177.77vh; /* 16:9 비율 유지 */
+    min-width: 177.77vh;
     transform: translate(-50%, -50%);
     object-fit: cover;
     pointer-events: none;
@@ -608,11 +683,7 @@ body.no-scroll {
     margin: 0;
 }
 
-
-
-
-
-/* 아이콘 스타일 */
+/* 소셜 아이콘 스타일 */
 .icons {
     margin-top: 20px;
     opacity: 0;
@@ -625,7 +696,7 @@ body.no-scroll {
     text-decoration: none;
     font-size: 2.5em;
     transition: transform 0.3s ease-in-out, color 0.3s ease-in-out;
-    display: inline-block; /* 추가: 인라인 블록으로 변경 */
+    display: inline-block;
 }
 
 .icons a:hover {
@@ -633,25 +704,68 @@ body.no-scroll {
     transform: scale(1.1);
 }
 
-
-
-
-
-
-/* 애니메이션 */
+/* 타이틀 슬라이드 인 애니메이션 */
 @keyframes slideIn {
     0% { opacity: 0; transform: translate(-50%, 50%); }
     100% { opacity: 1; transform: translate(-50%, -50%); }
 }
 
+/* 아이콘 슬라이드 인 애니메이션 */
 @keyframes slideInIcons {
     0% { opacity: 0; transform: translateY(50%); }
     100% { opacity: 1; transform: translateY(0); }
 }
 
+/* 스크롤 인디케이터 스타일 (Main Video Section) */
+.scroll-indicator1 {
+    position: absolute;
+    top: 6%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60px;
+    height: 120px;
+    border: 4px solid #fff;
+    border-radius: 40px;
+    opacity: 0.7;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    z-index: 3;
+}
 
+.scroll-indicator1::before {
+    content: '';
+    position: absolute;
+    margin-top: 10px;
+    top: 5px;
+    left: 50%;
+    width: 20px;
+    height: 20px;
+    background-color: #fff;
+    border-radius: 50%;
+    transform: translateX(-50%);
+    animation: scrollIndicate 1s infinite;
+}
 
-/* 반응형 스타일 */
+/* 스크롤 인디케이터 숨김 클래스 */
+.scroll-indicator1.hide {
+    opacity: 0;
+    transform: translateX(-50%) translateY(-20px);
+    pointer-events: none;
+}
+
+/* 스크롤 텍스트 스타일 */
+.scroll-text1 {
+    position: absolute;
+    bottom: -30px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: #fff;
+    font-size: 14px;
+    font-weight: bold;
+    text-align: center;
+    white-space: nowrap;
+}
+
+/* 메인 비디오 섹션 반응형 스타일 */
 @media (max-width: 768px) {
     .bg_title {
         text-align: left;
@@ -674,18 +788,12 @@ body.no-scroll {
     }
 }
 
+/*
+|--------------------------------------------------------------------------
+| 5. 파트너 로고 섹션 (Partner Logos Section)
+|--------------------------------------------------------------------------
+*/
 
-
-
-
-
-
-
-
-
-
-
-/* 파트너스 로고 */
 .partner-logos-section {
     padding: 10px 0;
     background-color: #1b1b1b;
@@ -714,6 +822,7 @@ body.no-scroll {
     position: absolute;
     align-items: center;
     animation: scroll 30s linear infinite;
+    will-change: transform;
 }
 
 .logos-track:hover {
@@ -747,6 +856,7 @@ body.no-scroll {
     background: linear-gradient(to left, #1b1b1b, transparent);
 }
 
+/* 로고 스크롤 애니메이션 */
 @keyframes scroll {
     0% {
         transform: translateX(0);
@@ -756,37 +866,36 @@ body.no-scroll {
     }
 }
 
-/* 태블릿 화면 대응 */
+/* 파트너스 로고 반응형 스타일 */
 @media (max-width: 768px) {
     .partner-logos-section {
-        padding: 2vw 0; /* 패딩 증가 */
+        padding: 2vw 0;
     }
 
     .logos-container {
-        height: 10vw; /* 높이 증가 */
-        min-height: 70px; /* 최소 높이 증가 */
-        max-height: 60px; /* 최대 높이 증가 */
+        height: 10vw;
+        min-height: 70px;
+        max-height: 60px;
     }
 
     .logos-track img {
-        height: 65%; /* 높이 약간 증가 */
-        max-height: 45px; /* 최대 높이 증가 */
-        margin: 0 3.5vw; /* 여백 약간 증가 */
+        height: 65%;
+        max-height: 45px;
+        margin: 0 3.5vw;
     }
 
     .gradient-overlay {
-        width: 22%; /* 그라데이션 폭 약간 증가 */
+        width: 22%;
     }
 
     .logos-track {
-        animation-duration: 45s; /* 애니메이션 속도 조정 */
+        animation-duration: 45s;
     }
 }
 
-/* 모바일 화면 대응 */
 @media (max-width: 480px) {
     .partner-logos-section {
-        padding: 1vw 0; /* 패딩 약간 증가 */
+        padding: 1vw 0;
     }
 
     .logos-container {
@@ -810,76 +919,11 @@ body.no-scroll {
     }
 }
 
-.logos-track {
-    will-change: transform;
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/* 섹션 타이틀 스타일 */
-.section-title {
-    position: relative;
-    padding-top: 20px;
-    margin-bottom: 20px;
-}
-
-/* 밑줄 스타일 (기본적으로 숨김) */
-.section-title::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 50px;
-    height: 3px;
-    background-color: #ffffff;
-    display: none; /* 기본적으로 밑줄을 숨김 */
-}
-
-/* 모바일 화면에서만 밑줄 표시 */
-@media (max-width: 768px) {
-    .section-title::before {
-        display: block; /* 모바일에서 밑줄 표시 */
-    }
-}
-
-
-/* 반응형 조정 */
-@media (max-width: 768px) {
-    .section-title {
-        padding-top: 20px;
-        margin-bottom: 30px;
-    }
-
-    .section-title::before {
-        width: 40px;
-    }
-}
-
-
-
-
-
-
-
-
-
-
-
-.about-us-title::before {
-    display: none !important;
-}
+/*
+|--------------------------------------------------------------------------
+| 6. About Us 섹션 (About Us Section)
+|--------------------------------------------------------------------------
+*/
 
 /* About Us 섹션 스타일 */
 #about-us {
@@ -924,7 +968,7 @@ body.no-scroll {
     transition: opacity 0.5s linear, transform 0.5s linear;
 }
 
-/* 텍스트 래퍼 스타일 */
+/* 텍스트 래퍼 (더보기 기능용) */
 .text-wrapper {
     position: relative;
     overflow: hidden;
@@ -933,7 +977,7 @@ body.no-scroll {
     transition: max-height 0.5s ease;
 }
 
-/* 마스크 효과를 적용할 클래스 */
+/* 텍스트 마스크 효과 */
 .text-wrapper.masked {
     -webkit-mask-image: linear-gradient(to bottom, black 70%, transparent 100%);
     mask-image: linear-gradient(to bottom, black 70%, transparent 100%);
@@ -960,7 +1004,7 @@ body.no-scroll {
     margin: 0 auto;
 }
 
-/* 가시성 클래스 적용 */
+/* 가시성 클래스 (스크롤 애니메이션용) */
 .logo-container.visible,
 #about-us .image-content.visible,
 #about-us .text-content.visible,
@@ -990,6 +1034,11 @@ body.no-scroll {
     font-size: 1.1em;
     line-height: 1.6;
     color: #ffffff;
+}
+
+.text-content .highlight {
+    font-weight: 700;
+    color: #f57309;
 }
 
 /* 슬라이드쇼 컨테이너 스타일 */
@@ -1048,7 +1097,7 @@ body.no-scroll {
     right: 10px;
 }
 
-/* 진행 바 스타일 */
+/* 슬라이드 진행 바 스타일 */
 .progress-bar {
     position: absolute;
     bottom: 0;
@@ -1067,7 +1116,7 @@ body.no-scroll {
     transition: width 4s linear;
 }
 
-/* 점 스타일 */
+/* 슬라이드 점(dot) 스타일 */
 .dots-container {
     text-align: center;
     margin-top: 20px;
@@ -1086,11 +1135,6 @@ body.no-scroll {
 
 .dot.active {
     background-color: var(--icon-hover-color);
-}
-
-.text-content .highlight {
-    font-weight: 700;
-    color: #f57309;
 }
 
 /* 스크롤 화살표 애니메이션 */
@@ -1124,7 +1168,7 @@ body.no-scroll {
     50% { opacity: 1; }
 }
 
-/* 더보기 버튼 스타일 */
+/* 더보기 버튼 스타일 (모바일에서만 표시) */
 .read-more-btn {
     display: none;
     background-color: #f57309;
@@ -1143,7 +1187,7 @@ body.no-scroll {
     background-color: #d45a08;
 }
 
-/* 반응형 조정: 최대 1024px */
+/* About Us 반응형 스타일 */
 @media (max-width: 1024px) {
     #about-us .container {
         padding: 0 20px;
@@ -1158,11 +1202,11 @@ body.no-scroll {
     #about-us {
         padding: 0px 20px;
     }
-    
+
     #about-us h2 {
         font-size: 2.2em;
     }
-    
+
     #about-us p {
         font-size: 1em;
     }
@@ -1172,7 +1216,6 @@ body.no-scroll {
     }
 }
 
-/* 반응형 조정: 최대 768px */
 @media (max-width: 768px) {
     .logo-container {
         margin-top: 80px;
@@ -1190,11 +1233,11 @@ body.no-scroll {
         margin-top: 40px;
         padding: 0px 0;
     }
-    
+
     #about-us .container {
         padding: 0 20px;
     }
-    
+
     #about-us h2 {
         font-size: 2em;
     }
@@ -1210,7 +1253,7 @@ body.no-scroll {
         left: 50%;
         transform: translateX(-50%);
     }
-    
+
     .slide-controls button {
         padding: 12px;
         font-size: 16px;
@@ -1236,7 +1279,6 @@ body.no-scroll {
     }
 }
 
-/* 반응형 조정: 최대 480px */
 @media (max-width: 480px) {
     #about-us .image-content {
         width: 110%;
@@ -1266,34 +1308,27 @@ body.no-scroll {
     }
 }
 
-
-
-
-
-
-
-
-
-
-
+/*
+|--------------------------------------------------------------------------
+| 7. 타임라인 섹션 (Timeline Section)
+|--------------------------------------------------------------------------
+*/
 
 /* 타임라인 섹션 스타일 */
 #timeline {
     padding: 20px 0px;
     position: relative;
     overflow: hidden;
-    /* background-color: #000; */
-    /* border: 3px solid #00f7ff; */
 }
 
-/* 타임라인 컨테이너 스타일 */
+/* 타임라인 컨테이너 */
 .timeline-container {
     position: relative;
     max-width: 1600px;
     margin: 0 auto;
 }
 
-/* 타임라인 중앙선 스타일 */
+/* 타임라인 중앙선 */
 .timeline-line {
     position: absolute;
     width: 2px;
@@ -1312,17 +1347,17 @@ body.no-scroll {
     width: 50%;
 }
 
-/* 왼쪽 아이템 스타일 */
+/* 왼쪽 아이템 */
 .timeline-item.left {
     left: 0;
 }
 
-/* 오른쪽 아이템 스타일 */
+/* 오른쪽 아이템 */
 .timeline-item.right {
     left: 50%;
 }
 
-/* 타임라인 아이템 내용 스타일 */
+/* 타임라인 내용 스타일 */
 .timeline-content {
     padding: 20px 30px;
     background-position: center;
@@ -1333,7 +1368,7 @@ body.no-scroll {
     backdrop-filter: blur(5px);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
     overflow: hidden;
-    height: 400px; /* PC와 태블릿을 위한 큰 사이즈 */
+    height: 400px; /* PC/태블릿 기본 높이 */
 }
 
 /* 호버 효과 */
@@ -1368,20 +1403,20 @@ body.no-scroll {
     border-radius: 50%;
     background-color: #000;
     box-shadow: 0 0 10px #00f7ff, 0 0 20px #00f7ff;
-    top: 10%; /* 상위 요소의 중앙으로 이동 */
-    left: 50%; /* 좌우 중앙 정렬 */
-    transform: translate(-50%, -50%); /* 정확한 중앙 정렬을 위한 변환 */
+    top: 10%;
+    left: 50%;
+    transform: translate(-50%, -50%);
     z-index: 2;
 }
 
 /* 왼쪽 아이템 동그라미 위치 조정 */
 .timeline-item.left .timeline-circle {
-    left: 100%; /* 오른쪽 끝으로 이동 */
+    left: 100%;
 }
 
 /* 오른쪽 아이템 동그라미 위치 조정 */
 .timeline-item.right .timeline-circle {
-    left: 0%; /* 왼쪽 끝으로 이동 */
+    left: 0%;
 }
 
 /* 연도 스타일 */
@@ -1415,19 +1450,16 @@ body.no-scroll {
     z-index: 2;
 }
 
-/* 태블릿 화면에 대한 반응형 스타일 */
+/* 타임라인 반응형 스타일 */
 @media screen and (max-width: 1024px) {
     .timeline-content {
-        height: 350px; /* 태블릿을 위한 중간 사이즈 */
+        height: 350px; /* 태블릿 높이 */
     }
 }
 
-/* 모바일 화면에 대한 반응형 스타일 */
 @media screen and (max-width: 768px) {
-
     .timeline-circle {
-        top: 15%; /* 상위 요소의 중앙으로 이동 */
-
+        top: 15%;
     }
 
     .timeline-line {
@@ -1447,32 +1479,32 @@ body.no-scroll {
 
     .timeline-item.left .timeline-circle,
     .timeline-item.right .timeline-circle {
-        left: 31.2px; /* 모바일에서 중앙선에 맞추기 위해 조정 */
+        left: 31.2px; /* 중앙선에 맞추기 */
     }
 
     .timeline-content {
-        height: 250px; /* 모바일을 위한 작은 사이즈 */
+        height: 250px; /* 모바일 높이 */
     }
 }
 
-
-
-
-
-
+/*
+|--------------------------------------------------------------------------
+| 8. 스크롤 애니메이션 섹션 (Scroll Animation Section)
+|--------------------------------------------------------------------------
+*/
 
 /* 스크롤 애니메이션 섹션 스타일 */
 #scroll-animation-section {
     padding: 0px 0px;
     position: relative;
     width: 100%;
-    height: 500vh; /* 전체 스크롤 높이 설정 */
+    height: 500vh; /* 전체 스크롤 높이 */
     display: flex;
     justify-content: center;
     align-items: flex-start;
 }
 
-/* 스크롤 컨테이너 스타일 */
+/* 스크롤 컨테이너 (sticky) */
 .scroll-container {
     position: sticky;
     top: 0;
@@ -1482,7 +1514,7 @@ body.no-scroll {
     z-index: 1;
 }
 
-/* 캔버스 컨테이너 스타일 */
+/* 캔버스 컨테이너 */
 #canvas-container {
     padding-top: 0px;
     position: absolute;
@@ -1497,7 +1529,7 @@ body.no-scroll {
     overflow: hidden;
 }
 
-/* 캔버스 스타일 */
+/* 캔버스 (이미지 시퀀스) 스타일 */
 #hero-lightpass {
     width: 100%;
     height: 100%;
@@ -1511,7 +1543,7 @@ body.no-scroll {
     transition: box-shadow 0.3s ease, border-radius 0.3s ease;
 }
 
-/* 콘텐츠 래퍼 스타일 */
+/* 콘텐츠 래퍼 */
 .content-wrapper {
     position: absolute;
     width: 100%;
@@ -1520,12 +1552,12 @@ body.no-scroll {
     margin-top: 0px;
 }
 
-/* 섹션 공통 스타일 */
+/* 섹션 콘텐츠 공통 스타일 */
 .scroll-content {
     position: absolute;
-    bottom: 20%; /* 하단에서 20% 위치에 배치 */
-    left: 10%; /* 왼쪽에서 10% 위치에 배치 */
-    width: 100%; /* 너비를 90%로 설정하여 여백 확보 */
+    bottom: 20%;
+    left: 10%;
+    width: 100%;
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
@@ -1536,14 +1568,14 @@ body.no-scroll {
     transition: opacity 0.1s linear, transform 0.1s linear;
 }
 
-/* 특별 섹션 스타일 (섹션4) */
+/* 특별 섹션 스타일 (섹션4 - 중앙 정렬) */
 .scroll-content.special-section {
-    top: 45%; /* 중앙에 더 가깝게 위치 */
+    top: 45%;
     justify-content: center;
     align-items: center;
-    bottom: auto; /* bottom 속성 제거 */
+    bottom: auto;
     width: 80%;
-    text-align: center; /* 텍스트 중앙 정렬 */
+    text-align: center;
 }
 
 /* 제목 스타일 */
@@ -1568,7 +1600,7 @@ body.no-scroll {
     text-align: left;
 }
 
-/* 특별 섹션 텍스트 중앙 정렬 */
+/* 특별 섹션 텍스트 중앙 정렬 오버라이드 */
 .special-section {
     text-align: center !important;
     display: flex !important;
@@ -1583,7 +1615,7 @@ body.no-scroll {
     text-align: center !important;
 }
 
-/* 반응형 디자인 */
+/* 스크롤 애니메이션 섹션 반응형 디자인 */
 @media (max-width: 1068px) {
     .scroll-content h1 {
         font-size: 50px;
@@ -1602,302 +1634,47 @@ body.no-scroll {
     }
 
     .scroll-content h1 {
-        font-size: 32px; /* 더 작은 폰트 크기로 수정 */
+        font-size: 32px;
     }
 
     .scroll-content p {
-        font-size: 16px; /* 문단 텍스트 크기도 더 작게 수정 */
+        font-size: 16px;
     }
 
     .scroll-content.special-section {
-        width: 80%; /* 모바일에서 너비 조정 */
+        width: 80%;
     }
 }
 
 @media (max-width: 430px) {
     .scroll-content {
-        bottom: 20%; /* 하단에서의 위치를 더 낮게 조정 */
-        left: 5%; /* 왼쪽 여백 줄임 */
-        width: 90%; /* 너비 증가 */
+        bottom: 20%;
+        left: 5%;
+        width: 90%;
     }
 
     .scroll-content h1 {
-        font-size: 28px; /* 더 작은 폰트 크기로 수정 */
+        font-size: 28px;
     }
 
     .scroll-content p {
-        font-size: 14px; /* 문단 텍스트 크기 더 작게 수정 */
+        font-size: 14px;
     }
 
     .scroll-content.special-section {
-        top: 60%; /* 중앙 정렬 */
+        top: 60%;
         transform: translateY(-50%);
-        width: 90%; /* 너비 증가 */
+        width: 90%;
     }
 }
 
 
 
-
-
-
-
-
-
-/* 인쿼리 인트로 섹션 스타일 */
-#inquiry-intro {
-    position: relative;
-    width: 100%;
-    height: 300vh; /* 전체 스크롤 높이 */
-    transition: background 0.5s ease;
-    scroll-behavior: smooth;
-    margin-top: 0px; /* 상단 마진으로 섹션 위치 조정 */
-    left: 50%;
-    transform: translateX(-50%); /* 가로 중앙 정렬 */
-    background: linear-gradient(to bottom, 
-        rgba(0, 0, 0, 1) 0%, /* 위쪽 끝: 투명도 1 */
-        rgba(0, 0, 0, 0.6) 50%, /* 중앙: 투명도 0.8 */
-        rgba(0, 0, 0, 1) 100%), /* 아래쪽 끝: 투명도 1 */
-        url('https://gofitkorea.netlify.app/inquiry-intro/bg.webp'); /* 배경 이미지 추가 */
-    background-size: cover; /* 배경 이미지 크기 설정 */
-    background-position: center; /* 배경 이미지 위치 설정 */
-    background-repeat: no-repeat; /* 배경 이미지 반복 방지 */
-}
-
-/* 스크롤 컨테이너 스타일 */
-#inquiry-intro .scroll-container {
-    position: sticky;
-    top: 0;
-    width: 100%;
-    height: 100vh;
-    overflow: hidden;
-}
-
-/* 콘텐츠 래퍼 스타일 */
-#inquiry-intro .content-wrapper {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-/* 스크롤 디스플레이 스타일 */
-#inquiry-intro .scroll-display {
-    width: 100%;
-    max-width: 1600px;
-    text-align: center;
-}
-
-/* 텍스트 애니메이션 컨테이너 스타일 */
-#inquiry-intro .text-animation-container {
-    margin-bottom: 40px;
-    position: relative;
-    overflow: visible;
-    height: 500px;
-}
-
-/* 텍스트 아이템 스타일 */
-#inquiry-intro .text-item {
-    position: absolute;
-    width: 100%;
-    font-size: calc(2rem + 4.5vw);
-    font-weight: 600;
-    opacity: 0;
-    transition: all 0.3s ease, text-shadow 0.3s ease, font-size 0.3s ease;
-    left: 0;
-    top: 60%;
-    transform: translateY(-50%);
-    text-align: center;
-    line-height: 1.1;
-    white-space: nowrap;
-    /* overflow: hidden; */
-    /* text-overflow: ellipsis; */
-}
-
-/* 하이라이트 텍스트 스타일 */
-#inquiry-intro .text-item .highlight {
-    color: #4ECDC4;
-    font-weight: 700;
-}
-
-/* 메인 타이틀과 설명 공통 스타일 */
-#inquiry-intro .main-title,
-#inquiry-intro .main-description {
-    opacity: 0;
-    transform: translateY(30px);
-    transition: opacity 0.2s ease, transform 0.2s ease;
-}
-
-/* 메인 타이틀 스타일 */
-#inquiry-intro .main-title {
-    font-size: calc(2rem + 3vw);
-    font-weight: 1000;
-    line-height: 1.1;
-    margin-bottom: 20px;
-    position: relative;
-    top: -100px;
-    z-index: 10;
-}
-
-/* 메인 설명 스타일 */
-#inquiry-intro .main-description {
-    top: -100px;
-    font-size: calc(0.6rem + 1vw);
-    font-weight: 300;
-    line-height: 1.3;
-    max-width: 1600px;
-    margin: 0 auto;
-    position: relative;
-    z-index: 10;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
-
-/* 모바일 줄바꿈 클래스 */
-.mobile-break {
-    display: none;
-}
-
-/* 반응형 디자인을 위한 미디어 쿼리 */
-/* 대형 데스크탑 (1200px 이상) */
-@media (min-width: 1200px) {
-    #inquiry-intro .text-item {
-        font-size: calc(2.5rem + 5vw);
-    }
-
-    #inquiry-intro .main-title {
-        font-size: calc(2.5rem + 3.5vw);
-    }
-
-    #inquiry-intro .main-description {
-        font-size: calc(0.8rem + 1.2vw);
-    }
-}
-
-/* 중형 데스크탑 (992px - 1199px) */
-@media (min-width: 992px) and (max-width: 1199px) {
-
-    #inquiry-intro {
-        margin-top: 0px; /* 상단 마진으로 섹션 위치 조정 */
-    }
-
-    #inquiry-intro .text-item {
-        font-size: calc(2.2rem + 4.8vw);
-    }
-
-    #inquiry-intro .main-title {
-        font-size: calc(2.2rem + 3.2vw);
-    }
-
-    #inquiry-intro .main-description {
-        font-size: calc(0.7rem + 1.1vw);
-    }
-}
-
-/* 태블릿 (768px - 991px) */
-@media (min-width: 768px) and (max-width: 991px) {
-    #inquiry-intro {
-        margin-top: 0px; /* 상단 마진으로 섹션 위치 조정 */
-    }
-    #inquiry-intro .text-item {
-        font-size: calc(2rem + 4.5vw);
-    }
-
-    #inquiry-intro .main-title {
-        font-size: calc(2rem + 3vw);
-        top: -80px;
-    }
-
-    #inquiry-intro .main-description {
-        font-size: calc(0.6rem + 1vw);
-        top: -80px;
-    }
-
-    #inquiry-intro .text-animation-container {
-        height: 400px;
-    }
-}
-
-/* 대형 모바일 (576px - 767px) */
-@media (min-width: 576px) and (max-width: 767px) {
-    #inquiry-intro .text-item {
-        font-size: calc(1.8rem + 3.5vw);
-    }
-
-    #inquiry-intro .main-title {
-        font-size: calc(1.8rem + 2.8vw);
-        top: -60px;
-        transform: scaleY(2);
-    }
-
-    #inquiry-intro .main-description {
-        font-size: calc(0.8rem + 1.2vw);
-        top: -60px;
-        white-space: normal;
-    }
-
-    #inquiry-intro .text-animation-container {
-        height: 300px;
-    }
-}
-
-/* 소형 모바일 (575px 이하) */
-@media (max-width: 575px) {
-    #inquiry-intro {
-        margin-top: 0px; /* 상단 마진으로 섹션 위치 조정 */
-    }
-    #inquiry-intro .text-item {
-        font-size: calc(1.5rem + 3vw);
-        letter-spacing: -0.04em;
-    }
-
-    #inquiry-intro .main-title {
-        padding-right: 20px;
-        padding-left: 20px;
-        font-size: calc(1.5rem + 2.5vw);
-        top: -40px;
-        transform: scaleY(1.5);
-    }
-
-    #inquiry-intro .main-description {
-        font-size: calc(0.7rem + 1.1vw);
-        top: -40px;
-        white-space: normal;
-        overflow: visible;
-        text-overflow: clip;
-    }
-
-    #inquiry-intro .text-animation-container {
-        height: 200px;
-    }
-
-    .mobile-break {
-        display: inline;
-    }
-}
-
-/* 모션 감소를 선호하는 사용자에 대한 설정 */
-@media (prefers-reduced-motion: reduce) {
-#inquiry-intro {
-    margin-top: 0px; /* 상단 마진으로 섹션 위치 조정 */
-    }
-    #inquiry-intro .text-item,
-    #inquiry-intro .main-title,
-    #inquiry-intro .main-description {
-        transition: none;
-    }
-}
-
-
-
-
-
-
+/*
+|--------------------------------------------------------------------------
+| 10. Our Services 섹션 (Our Services Section)
+|--------------------------------------------------------------------------
+*/
 
 /* Our Services 섹션 스타일 */
 #our-services {
@@ -1910,7 +1687,6 @@ body.no-scroll {
     align-items: center;
     justify-content: center;
     text-align: center;
-
 }
 
 /* 컨테이너 스타일 */
@@ -2014,7 +1790,7 @@ body.no-scroll {
 }
 
 /* 서비스 박스 호버 및 플립 효과 */
-.service-box:hover .service-front::before, 
+.service-box:hover .service-front::before,
 .service-box:hover .service-back::before {
     background-color: rgba(255, 255, 255, 0.1);
 }
@@ -2055,7 +1831,7 @@ body.no-scroll {
 /* 서비스 서브타이틀 스타일 */
 #our-services .service-box .service-subtitle {
     font-size: 0.8em;
-    color: #999999 !important; /* !important를 사용하여 강제 적용 */
+    color: #999999 !important;
     margin-bottom: 10px;
 }
 
@@ -2076,7 +1852,7 @@ body.no-scroll {
     transform: translateX(-50%);
     z-index: 2;
     white-space: nowrap;
-    bottom: 40px; /* 버튼 위치 조정 */
+    bottom: 40px;
 }
 
 .btn-details:hover, .btn-close:hover {
@@ -2096,7 +1872,7 @@ body.no-scroll {
     width: 60px;
     height: 2px;
     background-color: var(--icon-hover-color);
-    margin: 20px auto 10px; /* 하단 마진 증가 */
+    margin: 20px auto 10px;
 }
 
 /* 서비스 박스 내 텍스트 스타일 */
@@ -2110,7 +1886,7 @@ body.no-scroll {
     color: #ffffff;
 }
 
-/* 새로운 스타일: 내용 페이드 인 효과 */
+/* 내용 페이드 인 효과 */
 .service-back .content {
     opacity: 0;
     transform: translateY(20px);
@@ -2124,10 +1900,10 @@ body.no-scroll {
 }
 
 .service-back p {
-    margin-top: 20px; /* 원하는 간격으로 조절하세요 */
+    margin-top: 20px;
 }
 
-/* 반응형 디자인: 태블릿 */
+/* Our Services 반응형 디자인 */
 @media (max-width: 1024px) {
     #our-services {
         padding: 60px 15px;
@@ -2138,7 +1914,6 @@ body.no-scroll {
     }
 }
 
-/* 반응형 디자인: 모바일 */
 @media (max-width: 768px) {
     .underline {
         margin: 10px auto 20px;
@@ -2182,11 +1957,10 @@ body.no-scroll {
     }
 }
 
-/* 작은 모바일 화면 */
 @media (max-width: 480px) {
 
     .service-back p {
-        margin-top: 0px; /* 원하는 간격으로 조절하세요 */
+        margin-top: 0px;
     }
 
     #our-services h2 {
@@ -2224,40 +1998,32 @@ body.no-scroll {
     }
 }
 
+/*
+|--------------------------------------------------------------------------
+| 11. Counting Content 섹션 (Counting Content Section)
+|--------------------------------------------------------------------------
+*/
 
-
-
-
-
-
-
-/* Counting Content 섹션 전체 스타일 */
+/* Counting Content 섹션 스타일 */
 #counting-content {
     position: relative;
     width: 100%;
-    height: 100dvh;; /* 섹션의 높이를 뷰포트 높이로 설정 */
-    padding: 100px 0; /* 상하 패딩 */
-    display: flex; /* 수평 정렬 */
-    justify-content: center; /* 중앙 정렬 */
-    align-items: center; /* 수직 가운데 정렬 */
+    height: 100dvh;
+    padding: 100px 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     margin-bottom: -0px;
-    /* border: solid #00f7ff; */
-    /* 배경 이미지와 투명도 추가 */
-    background: linear-gradient(to bottom, 
-                rgba(0, 0, 0, 1) 0%, /* 위쪽 끝: 투명도 1 */
-                rgba(0, 0, 0, 0.8) 50%, /* 중앙: 투명도 0.8 */
-                rgba(0, 0, 0, 1) 100%), /* 아래쪽 끝: 투명도 1 */
-                url('https://gofitkorea.netlify.app/counting/bg-1.webp'); /* 배경 이미지 추가 */
-    background-size: cover; /* 배경 이미지 크기 설정 */
-    background-position: center; /* 배경 이미지 위치 설정 */
-    background-repeat: no-repeat; /* 배경 이미지 반복 방지 */
-    /* background-attachment: fixed; 배경 이미지 고정 설정 */
+    background: linear-gradient(to bottom,
+                rgba(0, 0, 0, 1) 0%,
+                rgba(0, 0, 0, 0.8) 50%,
+                rgba(0, 0, 0, 1) 100%),
+                url('https://gofitkorea.netlify.app/counting/bg-1.webp');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
     z-index: -2;
-
 }
-
-
-
 
 /* 컨테이너 스타일 */
 #counting-content .container {
@@ -2266,10 +2032,10 @@ body.no-scroll {
     margin: 0 auto;
     padding: 0 15px;
     display: flex;
-    flex-direction: row; /* 요소들을 수평 정렬 */
-    justify-content: space-between; /* 요소 간 간격을 자동으로 균등 분배 */
-    align-items: center; /* 수직 가운데 정렬 */
-    gap: 60px; /* 텍스트와 아이템 사이의 간격 */
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    gap: 60px;
 }
 
 /* 텍스트 컨테이너 스타일 */
@@ -2277,7 +2043,6 @@ body.no-scroll {
     width: 100%;
     text-align: left;
     max-width: 400px;
-    /* 초기 상태: 투명하고 아래로 이동 */
     opacity: 0;
     transform: translateY(50px);
 }
@@ -2287,39 +2052,38 @@ body.no-scroll {
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: 20px; /* 카운팅 박스들 사이의 간격 */
-    flex-wrap: nowrap; /* 줄 바꿈 방지하여 1줄로 유지 */
+    gap: 20px;
+    flex-wrap: nowrap;
     width: 100%;
 }
 
 /* 카운팅 제목 및 설명 스타일 */
 #counting-content .counting-title {
     padding-left: 30px;
-    font-size: clamp(1.5rem, 3vw, 2.1rem); /* 최소 1.5rem, 최대 2.1rem, 뷰포트 기반 크기 */
-    color: #ffffff; /* 타이틀 색상 */
-    margin-bottom: 10px; /* 아래 여백 */
-    font-weight: bold; /* 굵은 글씨 */
-    white-space: nowrap; /* 텍스트 줄바꿈 방지 */
+    font-size: clamp(1.5rem, 3vw, 2.1rem);
+    color: #ffffff;
+    margin-bottom: 10px;
+    font-weight: bold;
+    white-space: nowrap;
 }
 
 #counting-content .counting-description {
     padding-left: 30px;
-    font-size: clamp(1rem, 2vw, 1.2rem); /* 최소 1rem, 최대 1.2rem, 뷰포트 기반 크기 */
-    color: #ffffff; /* 설명 색상 */
-    margin-bottom: 20px; /* 아래 여백 */
-    line-height: 1.5; /* 줄 간격 */
-    white-space: nowrap; /* 텍스트 줄바꿈 방지 */
+    font-size: clamp(1rem, 2vw, 1.2rem);
+    color: #ffffff;
+    margin-bottom: 20px;
+    line-height: 1.5;
+    white-space: nowrap;
 }
 
 
 /* 개별 카운팅 아이템 스타일 */
 .counting-item {
-    flex: 0 1 calc(25% - 20px); /* PC에서 1줄에 4개 배치 */
+    flex: 0 1 calc(25% - 20px);
     max-width: calc(25% - 20px);
     text-align: center;
     padding: 40px 20px;
     position: relative;
-    /* background-color: #6e6e6e; */
     border-radius: 10px;
     overflow: hidden;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
@@ -2328,11 +2092,20 @@ body.no-scroll {
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    opacity: 0; /* 애니메이션 초기 상태 */
+    transform: translateY(50px) scale(0.9); /* 애니메이션 초기 상태 */
 }
+
+/* 카운팅 아이템 애니메이션 활성화 상태 */
+.counting-item.animate {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+}
+
 
 /* 카운팅 아이템 호버 효과 */
 .counting-item:hover {
-    transform: translateY(-5px) scale(1.05); /* 호버 시 박스 살짝 확대 및 위로 이동 */
+    transform: translateY(-5px) scale(1.05);
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
 }
 
@@ -2430,36 +2203,34 @@ body.no-scroll {
 }
 
 
-/* 반응형 디자인: 태블릿 */
+/* Counting Content 반응형 디자인 */
 @media (max-width: 1025px) {
 
-    /* Counting Content 섹션 전체 스타일 */
-#counting-content {
-    height: 100vh; /* 섹션의 높이를 뷰포트 높이로 설정 */
-}
+    #counting-content {
+    height: 100vh;
+    }
 
-    /* 카운팅 제목 및 설명 스타일 */
-#counting-content .counting-title {
+    #counting-content .counting-title {
     padding-left: 0px;
     }
 
-#counting-content .counting-description {
+    #counting-content .counting-description {
     padding-left: 0px;
     }
 
     #counting-content .container {
-        flex-direction: column; /* 태블릿에서 수직 정렬 */
-        align-items: center; /* 텍스트와 아이템 모두 가운데 정렬 */
-        gap: 20px; /* 요소 간 간격 */
-        text-align: center; /* 텍스트 가운데 정렬 */
+        flex-direction: column;
+        align-items: center;
+        gap: 20px;
+        text-align: center;
     }
 
     .counting-text {
-        text-align: center; /* 텍스트 가운데 정렬 */
+        text-align: center;
     }
 
     .counting-item {
-        flex: 0 1 calc(50% - 20px); /* 태블릿에서 1줄에 2개 배치 */
+        flex: 0 1 calc(50% - 20px);
         max-width: calc(50% - 20px);
     }
 
@@ -2477,18 +2248,17 @@ body.no-scroll {
     }
 }
 
-/* 반응형 디자인: 모바일 */
 @media (max-width: 768px) {
     #counting-content .container {
-        flex-direction: column; /* 모바일에서 수직 정렬 */
-        align-items: center; /* 텍스트와 아이템 모두 가운데 정렬 */
-        gap: 20px; /* 요소 간 간격 */
-        padding: 0px 10px; /* 패딩 축소 */
-        text-align: center; /* 텍스트 가운데 정렬 */
+        flex-direction: column;
+        align-items: center;
+        gap: 20px;
+        padding: 0px 10px;
+        text-align: center;
     }
 
     .counting-text {
-        text-align: center; /* 텍스트 가운데 정렬 */
+        text-align: center;
     }
 
     .counting-item i {
@@ -2521,18 +2291,16 @@ body.no-scroll {
     }
 }
 
-/* 반응형 디자인: 작은 모바일 */
 @media (max-width: 480px) {
     #counting-content {
         height: 100vh;
-        padding: 0px 0px; /* 패딩 더 축소 */
+        padding: 0px 0px;
 
-
-        text-align: center; /* 텍스트 가운데 정렬 */
+        text-align: center;
     }
 
     .counting-text {
-        text-align: center; /* 텍스트 가운데 정렬 */
+        text-align: center;
         width: 100%;
     }
 
@@ -2563,9 +2331,11 @@ body.no-scroll {
 }
 
 
-
-
-
+/*
+|--------------------------------------------------------------------------
+| 12. Results 섹션 (Projects/Results Section)
+|--------------------------------------------------------------------------
+*/
 
 /* Results 섹션 스타일 */
 #results {
@@ -2678,6 +2448,8 @@ body.no-scroll {
     border-radius: 10px;
     overflow: hidden;
     transition: transform 0.3s ease;
+    opacity: 0; /* 애니메이션 초기 상태 */
+    transform: translateY(50px) scale(0.9); /* 애니메이션 초기 상태 */
 }
 
 /* 프로젝트 이미지 스타일 */
@@ -2702,6 +2474,7 @@ body.no-scroll {
     background-color: rgba(0, 0, 0, 0.7);
     padding: 15px;
     text-align: center;
+    pointer-events: none; /* 클릭 방지 */
 }
 
 /* 프로젝트 제목 스타일 */
@@ -2717,21 +2490,8 @@ body.no-scroll {
     font-size: 0.9em;
 }
 
-/* 애니메이션 요소 초기 상태 */
-#results h2,
-.counting-item,
-.project-box,
-.projects-category .category-header {
-    opacity: 0;
-    transform: translateY(50px) scale(0.9);
-    transition: opacity 0.5s ease, transform 0.5s ease;
-}
-
 /* 애니메이션 요소 활성화 상태 */
-#results h2.animate,
-.counting-item.animate,
-.project-box.animate,
-.projects-category .category-header.animate {
+.project-box.animate {
     opacity: 1;
     transform: translateY(0) scale(1);
 }
@@ -2851,22 +2611,17 @@ body.no-scroll {
     to { transform: translate(-50%, -50%) scale(1); }
 }
 
-/* 프로젝트 정보 클릭 방지 */
-.project-info {
-    pointer-events: none;
-}
-
-/* 반응형 디자인: 태블릿 */
+/* Results 반응형 디자인 */
 @media (max-width: 1024px) {
     .project-box {
         flex: 0 1 calc(50% - 20px);
         max-width: calc(50% - 20px);
     }
-    
+
     .project-info h3 {
         font-size: 1.1em;
     }
-    
+
     .project-info p {
         font-size: 0.8em;
     }
@@ -2891,12 +2646,11 @@ body.no-scroll {
     }
 }
 
-/* 반응형 디자인: 모바일 */
 @media (max-width: 768px) {
     #results {
         margin-top: -80px;
     }
-    
+
     .projects-categories {
         padding: 0 0px;
     }
@@ -2907,11 +2661,11 @@ body.no-scroll {
         flex: 0 1 calc(50% - 12px);
         max-width: calc(50% - 12px);
     }
-    
+
     .project-info h3 {
         font-size: 1em;
     }
-    
+
     .project-info p {
         font-size: 0.7em;
     }
@@ -2941,7 +2695,7 @@ body.no-scroll {
         height: 40px;
         font-size: 20px;
     }
-    
+
     .close {
         top: auto;
         bottom: 100px;
@@ -2953,7 +2707,6 @@ body.no-scroll {
     }
 }
 
-/* 모바일 환경 (아이폰 14 프로 맥스 기준: 428px) */
 @media (max-width: 428px) {
     #results .container {
         padding: 0px 10px;
@@ -2992,31 +2745,30 @@ body.no-scroll {
     }
 }
 
+/*
+|--------------------------------------------------------------------------
+| 13. Best Services 섹션 (Best Services Section - 3D Scroll)
+|--------------------------------------------------------------------------
+*/
 
-
-
-
-
-
-
-/* Best Services 섹션의 전체 스타일 */
+/* Best Services 섹션 스타일 */
 #best-services {
     position: relative;
     width: 100%;
     height: 300vh;
     z-index: -1;
-    background: linear-gradient(to bottom, 
-            rgba(0, 0, 0, 1) 0%, /* 위쪽 끝: 투명도 1 */
-            rgba(0, 0, 0, 0.8) 50%, /* 중앙: 투명도 0.8 */
-            rgba(0, 0, 0, 1) 100%), /* 아래쪽 끝: 투명도 1 */
-            url('https://gofitkorea.netlify.app/best/bg.webp'); /* 배경 이미지 추가 */
+    background: linear-gradient(to bottom,
+            rgba(0, 0, 0, 1) 0%,
+            rgba(0, 0, 0, 0.8) 50%,
+            rgba(0, 0, 0, 1) 100%),
+            url('https://gofitkorea.netlify.app/best/bg.webp');
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
     background-attachment: sticky;
 }
 
-/* 스크롤 컨테이너 스타일 */
+/* 스크롤 컨테이너 (sticky) */
 #best-services .scroll-container {
     position: sticky;
     top: 0;
@@ -3025,7 +2777,7 @@ body.no-scroll {
     overflow: hidden;
 }
 
-/* 이미지 컨테이너 스타일 */
+/* 이미지 컨테이너 (3D 효과를 위한 부모 요소) */
 #image-container {
     padding-left: 1.2%;
     position: absolute;
@@ -3041,13 +2793,13 @@ body.no-scroll {
 #image-container img {
     position: absolute;
     margin-left: 15px;
-    width: 26%; /* 기본 너비 */
+    width: 26%;
     height: auto;
     transition: all 0.5s ease;
     transform-origin: center center -300px;
 }
 
-/* 스크롤 인디케이터 스타일 */
+/* 스크롤 인디케이터 (Section 2) */
 .scroll-indicator2 {
     position: absolute;
     top: 12%;
@@ -3060,7 +2812,7 @@ body.no-scroll {
     opacity: 0.7;
     transition: opacity 0.3s ease, transform 0.3s ease;
     z-index: 10;
-    display: none; /* 필요에 따라 display 설정 */
+    display: none;
 }
 
 /* 스크롤 인디케이터 내부 원 스타일 */
@@ -3078,10 +2830,11 @@ body.no-scroll {
     animation: scrollIndicate 1s infinite;
 }
 
-/* 스크롤 인디케이터 애니메이션 정의 */
-@keyframes scrollIndicate {
-    0% { top: 5px; opacity: 1; }
-    100% { top: 25px; opacity: 0; }
+/* 스크롤 인디케이터 숨김 클래스 */
+.scroll-indicator2.hide {
+    opacity: 0;
+    transform: translateX(-50%) translateY(-20px);
+    pointer-events: none;
 }
 
 /* 스크롤 텍스트 스타일 */
@@ -3097,21 +2850,13 @@ body.no-scroll {
     white-space: nowrap;
 }
 
-/* 스크롤 인디케이터 숨김 클래스 */
-.scroll-indicator2.hide {
-    opacity: 0;
-    transform: translateX(-50%) translateY(-20px);
-    pointer-events: none;
-}
-
-/* 반응형 디자인: 큰 화면 (1024px 이하) */
+/* Best Services 반응형 디자인 */
 @media (max-width: 1024px) {
     #image-container img {
-        width: 80%; /* 이미지 너비 조정 */
+        width: 80%;
     }
 }
 
-/* 반응형 디자인: 중간 화면 (768px 이하) */
 @media (max-width: 768px) {
     #best-services {
         margin-top: -200px;
@@ -3119,7 +2864,7 @@ body.no-scroll {
 
     #image-container img {
         margin-left: 14px;
-        width: 70%; /* 이미지 너비 증가 */
+        width: 70%;
     }
 
     .scroll-indicator2 {
@@ -3136,11 +2881,10 @@ body.no-scroll {
     }
 }
 
-/* 반응형 디자인: 작은 화면 (480px 이하) */
 @media (max-width: 480px) {
     #image-container img {
         margin-left: 0;
-        width: 90%; /* 이미지 너비 최대화 */
+        width: 90%;
     }
 
     .scroll-indicator2 {
@@ -3157,10 +2901,9 @@ body.no-scroll {
     }
 }
 
-/* 반응형 디자인: 초소형 화면 (380px 이하, 예: iPhone SE) */
 @media (max-width: 380px) {
     #image-container img {
-        width: 100%; /* 이미지 너비 최대화 */
+        width: 100%;
     }
 
     .scroll-indicator2 {
@@ -3177,7 +2920,7 @@ body.no-scroll {
     }
 }
 
-/* 모션 감소를 선호하는 사용자에 대한 설정 */
+/* 모션 감소를 선호하는 사용자 설정 */
 @media (prefers-reduced-motion: reduce) {
     #image-container img {
         transition: none;
@@ -3189,16 +2932,15 @@ body.no-scroll {
 }
 
 
+/*
+|--------------------------------------------------------------------------
+| 14. 이메일 인쿼리 섹션 (Email Inquiry Section)
+|--------------------------------------------------------------------------
+*/
 
-
-
-
-
-
-
-/* 이메일 인쿼리 섹션 */
+/* 이메일 인쿼리 섹션 스타일 */
 #inquiry-section {
-    height: 200%;
+    height: 100%;
     margin-top: -50px;
     margin-bottom: 100px;
     padding: 40px 20px;
@@ -3207,123 +2949,12 @@ body.no-scroll {
     transition: opacity 0.5s ease, transform 0.5s ease;
 }
 
-/* 모바일 화면에서 입력 필드 간 간격 조절 */
-@media (max-width: 768px) {
-    #inquiry-section .ec-base-table input[type="text"],
-    #inquiry-section .ec-base-table input[type="email"],
-    #inquiry-section .ec-base-table input[type="tel"],
-    #inquiry-section .ec-base-table textarea {
-        margin-top: 5px; /* 간격을 조절할 값 */
-        margin-bottom: 5px; /* 간격을 조절할 값 */
-    }
-}
 
-
-
-@media (min-width: 344px) {
-    #inquiry-section {
-        margin-top: -280px;
-    }
-}
-
-@media (min-width: 365px) {
-    #inquiry-section {
-        margin-top: -200px;
-    }
-}
-
-@media (min-width: 360px) {
-    #inquiry-section {
-        margin-top: -200px;
-    }
-}
-
-@media (min-width: 375px) {
-    #inquiry-section {
-        margin-top: -150px;
-    }
-}
-
-@media (min-width: 390px) {
-    #inquiry-section {
-        margin-top: -260px;
-    }
-}
-
-@media (min-width: 412px) {
-    #inquiry-section {
-        margin-top: -280px;
-    }
-}
-
-@media (min-width: 414px) {
-    #inquiry-section {
-        margin-top: -260px;
-    }
-}
-
-@media (min-width: 430px) {
-    #inquiry-section {
-        margin-top: -280px;
-    }
-}
-
-@media (min-width: 540px) {
-    #inquiry-section {
-        margin-top: -180px;
-    }
-}
-
-@media (min-width: 768px) {
-    #inquiry-section {
-        margin-top: -250px;
-    }
-}
-
-@media (min-width: 820px) {
-    #inquiry-section {
-        margin-top: -260px;
-    }
-}
-
-@media (min-width: 853px) {
-    #inquiry-section {
-        margin-top: -280px;
-    }
-}
-
-@media (min-width: 912px) {
-    #inquiry-section {
-        margin-top: -300px;
-    }
-}
-
-@media (min-width: 1024px) {
-    #inquiry-section {
-        margin-top: -280px;
-    }
-}
-
-@media (min-width: 1280px) {
-    #inquiry-section {
-        margin-top: -200px;
-    }
-}
-
-@media (min-width: 1281px) {
-    #inquiry-section {
-        margin-top: -100px;
-    }
-}
-
-
-
-
-
+/* 메인 타이틀 스타일 */
 #inquiry-section .inquiry-main-title {
     font-size: 2.5em;
     color: #ffffff;
-    margin-bottom: 30px;
+    margin-bottom: 10px; /* 수정된 값 */
     text-align: left;
     font-weight: bold;
 }
@@ -3343,8 +2974,7 @@ body.no-scroll {
     }
 }
 
-
-
+/* 구분선 스타일 */
 .inquiry-divider {
     border: 0;
     height: 1px;
@@ -3352,17 +2982,11 @@ body.no-scroll {
     margin: 20px 0;
 }
 
-#inquiry-section .inquiry-main-title {
-    margin-bottom: 10px;  /* 기존 margin-bottom 값을 줄임 */
-}
-
 #inquiry-section .inquiry-type-title {
-    margin-top: 10px;  /* 상단 여백 추가 */
+    margin-top: 10px;
 }
 
-
-
-
+/* 애니메이션 클래스 */
 #inquiry-section.animate-init {
     opacity: 0;
     transform: translateY(50px);
@@ -3373,6 +2997,7 @@ body.no-scroll {
     transform: translateY(0);
 }
 
+/* 컨테이너 스타일 */
 #inquiry-section .container {
     background-color: #1b1b1b;
     max-width: 1550px;
@@ -3382,13 +3007,14 @@ body.no-scroll {
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.08);
 }
 
-
+/* 정보 그리드 레이아웃 */
 #inquiry-section .info-grid {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     gap: 20px;
 }
 
+/* 정보 아이템 카드 */
 #inquiry-section .info-item {
     background-color: #222222;
     padding: 30px;
@@ -3415,7 +3041,7 @@ body.no-scroll {
 }
 
 #inquiry-section .info-item p {
-    font-size: 1.2em; /* 1.5em에서 1.2em으로 줄임 */
+    font-size: 1.2em;
     color: #cccccc;
     line-height: 1.5;
     max-width: 800px;
@@ -3436,7 +3062,7 @@ body.no-scroll {
     text-align: left;
 }
 
-/* 카테고리 버튼 컨테이너 스타일 수정 */
+/* 카테고리 버튼 컨테이너 */
 #inquiry-section .category-buttons {
     display: flex;
     flex-wrap: wrap;
@@ -3465,6 +3091,7 @@ body.no-scroll {
     color: #000000;
 }
 
+/* 테이블 스타일 */
 #inquiry-section .ec-base-table {
     width: 100%;
     background-color: #222222;
@@ -3488,11 +3115,10 @@ body.no-scroll {
     text-align: left;
     font-weight: 500;
     color: #999999;
-    padding-left: 30px; /* 왼쪽 간격 추가 */
+    padding-left: 30px;
 }
 
-
-
+/* 입력 필드/텍스트 영역 스타일 */
 #inquiry-section .ec-base-table input[type="text"],
 #inquiry-section .ec-base-table input[type="email"],
 #inquiry-section .ec-base-table input[type="tel"],
@@ -3511,7 +3137,7 @@ body.no-scroll {
     resize: vertical;
 }
 
-/* 개인정보 수집 동의 스타일 수정 */
+/* 개인정보 수집 동의 스타일 */
 #inquiry-section .privacy-agreement {
     margin-top: 20px;
     font-size: 16px;
@@ -3571,29 +3197,12 @@ body.no-scroll {
     background-color: #ff8c00;
 }
 
+/* 이메일 인쿼리 반응형 스타일 */
 @media (max-width: 1200px) {
     #inquiry-section .info-item p {
-        font-size: 1.1em; /* 1.3em에서 1.1em으로 줄임 */
+        font-size: 1.1em;
     }
-}
 
-@media (max-width: 768px) {
-    #inquiry-section .container {
-        margin: 0px;
-    }
-    #inquiry-section .info-item p {
-        font-size: 1em; /* 1.2em에서 1em으로 줄임 */
-    }
-}
-
-@media (max-width: 480px) {
-    #inquiry-section .info-item p {
-        font-size: 0.9em; /* 1em에서 0.9em으로 줄임 */
-    }
-}
-
-/* 반응형 스타일 */
-@media (max-width: 1200px) {
     #inquiry-section .container {
         padding: 20px 40px;
     }
@@ -3624,6 +3233,9 @@ body.no-scroll {
         padding: 40px 10px;
     }
 
+    #inquiry-section .container {
+        margin: 0px;
+    }
 
     #inquiry-section .info-item h3,
     #inquiry-section .info-item p {
@@ -3662,11 +3274,9 @@ body.no-scroll {
 }
 
 @media (max-width: 480px) {
-
     #inquiry-section .ec-base-button {
         margin-bottom: 10px;
         margin-top: 30px;
-
     }
 
     #inquiry-section .inquiry-form {
@@ -3743,8 +3353,6 @@ body.no-scroll {
     }
 }
 
-
-
 /* 메일 발송 로딩 모달 */
 .loading-modal {
     display: none;
@@ -3779,13 +3387,11 @@ body.no-scroll {
     margin-left: 20px;
 }
 
-
-
-
-
-
-
-
+/*
+|--------------------------------------------------------------------------
+| 15. Contact Us 섹션 (Contact Us Section)
+|--------------------------------------------------------------------------
+*/
 
 /* Contact Us 섹션 전체 스타일 */
 #contact-us {
@@ -3797,16 +3403,17 @@ body.no-scroll {
     align-items: center;
     justify-content: center;
     color: #fff;
-    background: linear-gradient(to bottom, 
-            rgba(0, 0, 0, 1) 0%, /* 위쪽 끝: 투명도 1 */
-            rgba(0, 0, 0, 0) 50%, /* 중앙: 투명도 0.8 */
-            rgba(0, 0, 0, 1) 100%), /* 아래쪽 끝: 투명도 1 */
-            url('https://gofitkorea.netlify.app/contact-us/bg.webp'); /* 배경 이미지 추가 */
+    background: linear-gradient(to bottom,
+            rgba(0, 0, 0, 1) 0%,
+            rgba(0, 0, 0, 0) 50%,
+            rgba(0, 0, 0, 1) 100%),
+            url('https://gofitkorea.netlify.app/contact-us/bg.webp');
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
 }
 
+/* 오버레이 */
 #contact-us::before {
     content: '';
     position: absolute;
@@ -3814,7 +3421,7 @@ body.no-scroll {
     left: 0;
     right: 0;
     bottom: 0;
-    background: rgba(0, 0, 0, 0.8); /* 어두운 오버레이 추가 */
+    background: rgba(0, 0, 0, 0.8);
     z-index: 1;
 }
 
@@ -3864,7 +3471,7 @@ body.no-scroll {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: 20px;
-    max-width: 1600px; /* 👈 800px 대신 1200px로 변경하여 PC에서 폭 확장 */
+    max-width: 1600px;
     width: 100%;
 }
 
@@ -3882,7 +3489,7 @@ body.no-scroll {
     opacity: 0;
     transform: translateY(20px);
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    backdrop-filter: blur(5px); /* 배경 흐림 효과 추가 */
+    backdrop-filter: blur(5px);
 }
 
 .info-card:hover {
@@ -3919,14 +3526,17 @@ body.no-scroll {
     word-break: break-all;
 }
 
+.info-card p a {
+    color: #fff;
+    text-decoration: none;
+}
 
 
-
-/* 작은 태블릿 및 큰 모바일 화면 대응 */
+/* Contact Us 반응형 스타일 */
 @media (max-width: 900px) {
     .contact-info {
         grid-template-columns: 1fr;
-        width: 100%; /* 👈 이 라인을 추가하여 폭을 최대로 확장 */
+        width: 100%;
     }
     .info-card {
         padding: 20px;
@@ -3945,7 +3555,6 @@ body.no-scroll {
     }
 }
 
-/* 모바일 대응 */
 @media (max-width: 768px) {
     #contact-us {
         padding: 60px 0;
@@ -3977,7 +3586,6 @@ body.no-scroll {
     }
 }
 
-/* 작은 모바일 화면 대응 */
 @media (max-width: 480px) {
     .info-card {
         padding: 12px;
@@ -3996,17 +3604,11 @@ body.no-scroll {
     }
 }
 
-.info-card p a {
-    color: #fff;
-    text-decoration: none;
-}
-
-
-
-
-
-
-
+/*
+|--------------------------------------------------------------------------
+| 16. 푸터 (Footer)
+|--------------------------------------------------------------------------
+*/
 
 /* 푸터 전체 스타일 */
 .footer {
@@ -4103,7 +3705,7 @@ body.no-scroll {
     color: #aaa;
 }
 
-/* 반응형 스타일 */
+/* 푸터 반응형 스타일 */
 @media (max-width: 768px) {
     .footer {
         padding: 40px 0 30px;
@@ -4141,15 +3743,14 @@ body.no-scroll {
         font-size: 0.7em;
     }
     .footer-logo img {
-        text-align: center; /* 모바일 화면에서 로고 중앙 배치 */
+        text-align: center;
     }
 }
 
-/* 작은 화면에 대한 추가 스타일 */
 @media (max-width: 480px) {
 
     .footer-logo img {
-        text-align: center; /* 모바일 화면에서 로고 중앙 배치 */
+        text-align: center;
         width: 80px;
     }
 
@@ -4172,25 +3773,22 @@ body.no-scroll {
     }
 }
 
-
-
-
-
-
-
-
+/*
+|--------------------------------------------------------------------------
+| 17. 기타 UI 요소 (Balloon, Scroll Indicator)
+|--------------------------------------------------------------------------
+*/
 
 /* 온라인 견적 말풍선 */
 .estimate-item {
     position: relative;
 }
 
-/* 말풍선 본체 스타일 약간 수정 */
 .balloon {
     position: absolute;
     top: calc(100% + 15px);
-    right: 88px; /* 오른쪽에서의 거리를 픽셀로 지정 */
-    transform: none; /* translateX 제거 */
+    right: 88px;
+    transform: none;
     background-color: #4CAF50;
     color: #fff;
     padding: 5px 10px;
@@ -4199,14 +3797,14 @@ body.no-scroll {
     white-space: nowrap;
     z-index: 1000;
     animation: bounce 0.5s infinite;
-    transition: opacity 0.3s ease, visibility 0.3s ease; /* 👈 이 라인을 추가하세요 */
+    transition: opacity 0.3s ease, visibility 0.3s ease;
 }
 
-/* 말풍선 꼬리 추가 */
+/* 말풍선 꼬리 */
 .balloon::before {
     content: '';
     position: absolute;
-    top: -6px; /* 꼬리의 높이 */
+    top: -6px;
     left: 50%;
     transform: translateX(-50%);
     border-width: 0 6px 10px 6px;
@@ -4233,126 +3831,12 @@ body.no-scroll {
 }
 
 
+/*
+|--------------------------------------------------------------------------
+| 18. 이벤트 팝업 (Event Popup)
+|--------------------------------------------------------------------------
+*/
 
-/* 스크롤 인디케이터 스타일 */
-.scroll-indicator1 {
-    position: absolute;
-    top: 6%;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 60px;
-    height: 120px;
-    border: 4px solid #fff;
-    border-radius: 40px;
-    opacity: 0.7;
-    transition: opacity 0.3s ease, transform 0.3s ease;
-    z-index: 3;
-}
-
-/* 스크롤 인디케이터 애니메이션 */
-.scroll-indicator1::before {
-    content: '';
-    position: absolute;
-    margin-top: 10px;
-    top: 5px;
-    left: 50%;
-    width: 20px;
-    height: 20px;
-    background-color: #fff;
-    border-radius: 50%;
-    transform: translateX(-50%);
-    animation: scrollIndicate 1s infinite;
-}
-
-@keyframes scrollIndicate {
-    0% { top: 5px; opacity: 1; }
-    100% { top: 25px; opacity: 0; }
-}
-
-/* 스크롤 인디케이터 숨김 클래스 */
-.scroll-indicator1.hide {
-    opacity: 0;
-    transform: translateX(-50%) translateY(-20px);
-    pointer-events: none;
-}
-
-/* 스크롤 텍스트 스타일 */
-.scroll-text1 {
-    position: absolute;
-    bottom: -30px;
-    left: 50%;
-    transform: translateX(-50%);
-    color: #fff;
-    font-size: 14px;
-    font-weight: bold;
-    text-align: center;
-    white-space: nowrap;
-}
-
-
-
-
-
-
-
-
-@media (hover: none) and (pointer: coarse) {
-    .nav-item > a:hover,
-    .navbar-container .nav-item > a:hover,
-    .navbar-container .nav-item .sub-menu .sub-item a:hover,
-    .icons a:hover,
-    .footer-links a:hover,
-    .footer-social a:hover,
-    .service-box:hover,
-    .project-box:hover img {
-        transform: none !important;
-        color: inherit !important;
-        background-color: inherit !important;
-        box-shadow: none !important;
-    }
-
-    .icons a:hover,
-    .footer-social a:hover {
-        color: var(--text-color) !important;
-    }
-
-    .service-box.hover-ready:hover {
-        transform: none !important;
-    }
-
-    .counting-item:hover .count {
-        color: var(--icon-hover-color) !important;
-        text-shadow: none !important;
-    }
-
-    #inquiry-section .category-button:hover {
-        background-color: #333333 !important;
-        color: #ffffff !important;
-    }
-
-    #inquiry-section .category-button.active {
-        background-color: var(--icon-hover-color) !important;
-        color: #ffffff !important;
-    }
-
-    #inquiry-section .ec-base-button .btnSubmitFix:hover {
-        background-color: var(--icon-hover-color) !important;
-    }
-}
-
-@media (max-width: 768px) {
-    #inquiry-section .ec-base-table input,
-    #inquiry-section .ec-base-table textarea {
-        pointer-events: auto !important; /* 강제로 활성화 */
-        background-color: #333333; /* 배경색 기본 유지 */
-    }
-}
-
-
-
-
-
-/* ==================== 이벤트 팝업 스타일 시작 (최종 수정본: PC 크기 대폭 축소) ==================== */
 /* 팝업 오버레이 */
 .popup-overlay {
     display: none;
@@ -4374,23 +3858,22 @@ body.no-scroll {
     opacity: 1;
 }
 
-/* 팝업 내용 컨테이너 - PC 최대 크기 550px로 최종 축소 */
+/* 팝업 내용 컨테이너 */
 .popup-content {
     background-color: #111111;
     padding: 0;
     border-radius: 10px;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
-    
-    /* ⭐⭐ 수정: PC 최대 너비를 550px로 축소하고, width를 50vw로 줄여 중앙에 작게 표시 ⭐⭐ */
-    width: 50vw; 
-    max-width: 550px; 
-    
+
+    width: 50vw;
+    max-width: 550px;
+
     height: auto;
-    max-height: 98vh; 
-    
-    display: flex; 
+    max-height: 98vh;
+
+    display: flex;
     flex-direction: column;
-    overflow: hidden; 
+    overflow: hidden;
     transform: scale(0.9);
     transition: transform 0.3s ease;
 }
@@ -4399,24 +3882,23 @@ body.no-scroll {
     transform: scale(1);
 }
 
-/* 슬라이더 전체 컨테이너: 이미지 비율을 강제하는 핵심 영역 */
+/* 슬라이더 전체 컨테이너 (3:4 비율 강제) */
 .event-slider-container {
     position: relative;
     overflow: hidden;
-    
-    /* 3:4 비율 강제 확보 */
+
     width: 100%;
-    padding-bottom: 133.33%; /* 4/3 * 100% = 133.33% (3:4 비율) */
+    padding-bottom: 133.33%; /* 3:4 비율 (4/3 * 100%) */
     height: 0;
-    
+
     flex-grow: 1;
     flex-shrink: 0;
     background-color: #111111;
 }
 
-/* 슬라이더 래퍼: 컨테이너의 3:4 공간을 채움 */
+/* 슬라이더 래퍼 */
 .event-slider-wrapper {
-    position: absolute; 
+    position: absolute;
     top: 0;
     left: 0;
     width: 100%;
@@ -4425,7 +3907,7 @@ body.no-scroll {
     transition: transform 0.5s ease-in-out;
 }
 
-/* 각 슬라이드 (링크 태그) */
+/* 각 슬라이드 */
 .event-slide {
     display: flex;
     justify-content: center;
@@ -4436,11 +3918,10 @@ body.no-scroll {
 }
 
 .event-slide img {
-    /* 3:4 공간을 3:4 이미지가 덮으므로 잘림/여백 없음 */
-    width: 100%; 
-    height: 100%; 
+    width: 100%;
+    height: 100%;
     display: block;
-    object-fit: cover; 
+    object-fit: cover;
 }
 
 
@@ -4511,10 +3992,10 @@ body.no-scroll {
     justify-content: space-between;
     align-items: center;
     padding: 10px 15px;
-    background-color: #f1f1f1; 
+    background-color: #f1f1f1;
     font-size: 14px;
     color: #333;
-    flex-shrink: 0; 
+    flex-shrink: 0;
 }
 
 .popup-footer label {
@@ -4545,29 +4026,26 @@ body.no-scroll {
     }
 }
 .popup-footer .close-btn:active {
-    background: #333; 
+    background: #333;
     transition: none;
 }
 @media (hover: none) and (pointer: coarse) {
     .popup-footer .close-btn:active {
-        background: #555; 
+        background: #555;
     }
 }
 
-
-/* 모바일 반응형 */
+/* 이벤트 팝업 모바일 반응형 */
 @media (max-width: 480px) {
     .popup-content {
-        /* 모바일에서는 화면의 90%를 채우도록 다시 설정 (작은 화면에서 충분히 커야 함) */
-        width: 90%; 
+        width: 90%;
         max-height: 98vh;
     }
-    
-    /* 모바일에서도 PC와 동일한 3:4 비율로 강제 적용 */
+
     .event-slider-container {
         padding-bottom: 133.33%;
     }
-    
+
     .slider-nav-btn {
         padding: 8px 10px;
         font-size: 16px;
@@ -4576,4 +4054,3 @@ body.no-scroll {
         font-size: 12px;
     }
 }
-/* ==================== 이벤트 팝업 스타일 끝 (최종 문제 해결: PC 크기 대폭 축소) ==================== */
