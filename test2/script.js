@@ -1677,19 +1677,6 @@ function handleModalSwipe() {
     loadingModal.style.display = 'none';
 
 
-        const inquiryInputs = document.querySelectorAll('#inquiry-section .ec-base-table input, #inquiry-section .ec-base-table textarea');
-        const isTouchDevice = 'ontouchstart' in document.documentElement; // 터치 디바이스 감지
-    
-        if (isTouchDevice) {
-            inquiryInputs.forEach(input => {
-                input.addEventListener('touchend', (e) => {
-                    e.preventDefault(); // 기본 터치 이벤트 방지
-                    input.focus(); // 첫 터치 시 포커스 강제 설정
-                });
-            });
-        }
-
-
 // Contact Us 섹션 애니메이션
 const contactSection = document.querySelector('#contact-us');
 if (contactSection) {
@@ -1830,17 +1817,6 @@ window.addEventListener('scroll', () => {
     }
 });
 
-
-// 더블 탭 확대 방지
-let lastTouchEnd = 0;
-document.addEventListener('touchend', function(e) {
-    const now = (new Date()).getTime();
-    if (now - lastTouchEnd <= 300) {
-        e.preventDefault();
-    }
-    lastTouchEnd = now;
-}, false);
-
 });
 
 
@@ -1863,7 +1839,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
 
-// ⭐⭐⭐ 1. 이벤트 팝업 슬라이더 기능 시작 (타이밍 개선) ⭐⭐⭐
+// ⭐⭐⭐ 1. 이벤트 팝업 슬라이더 기능 시작 (인디케이터 버그 수정) ⭐⭐⭐
 
 function initializeEventSlider() {
     const modal = document.getElementById('event-popup-modal');
@@ -1883,6 +1859,11 @@ function initializeEventSlider() {
     const closeButton = modal.querySelector('#close-popup-btn');
     const doNotShowCheckbox = modal.querySelector('#do-not-show-today');
     const dotsContainer = modal.querySelector('.event-dots-container');
+    
+    // ⭐⭐ 인디케이터 버그 수정: 기존 내용을 비워서 중복 생성을 막습니다. ⭐⭐
+    if (dotsContainer) {
+        dotsContainer.innerHTML = ''; 
+    }
 
     if (slides.length === 0) {
         return; 
@@ -1890,7 +1871,7 @@ function initializeEventSlider() {
 
     let currentIndex = 0;
     let slideInterval;
-    const slideDuration = 6000; // ⭐ 4초에서 6초로 늘려 타이밍을 여유롭게 조정
+    const slideDuration = 6000; 
     const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
 
     // 인디케이터(점) 생성
@@ -1900,7 +1881,7 @@ function initializeEventSlider() {
         if (index === 0) dot.classList.add('active');
         dot.addEventListener('click', () => {
             goToSlide(index);
-            resetSlideInterval(); // ⭐ 수동 조작 시 타이머 리셋
+            resetSlideInterval(); 
         });
         dotsContainer.appendChild(dot);
     });
@@ -1931,7 +1912,7 @@ function initializeEventSlider() {
         clearInterval(slideInterval);
     }
 
-    // ⭐ 자동 슬라이드 재시작 (핵심 로직)
+    // 자동 슬라이드 재시작 (핵심 로직)
     function resetSlideInterval() {
         stopSlideShow(); // 기존 타이머 멈춤
         startSlideShow(); // 새 타이머 시작
@@ -1940,12 +1921,12 @@ function initializeEventSlider() {
     // 네비게이션 버튼 이벤트
     prevButton.addEventListener('click', () => {
         goToSlide(currentIndex - 1);
-        resetSlideInterval(); // ⭐ 버튼 클릭 시 타이머 리셋
+        resetSlideInterval(); 
     });
 
     nextButton.addEventListener('click', () => {
         goToSlide(currentIndex + 1);
-        resetSlideInterval(); // ⭐ 버튼 클릭 시 타이머 리셋
+        resetSlideInterval(); 
     });
 
     // 팝업 닫기 함수
@@ -1962,7 +1943,7 @@ function initializeEventSlider() {
         }, 300);
     }
 
-    // 팝업 닫기 이벤트 등... (나머지 코드는 이전과 동일)
+    // 팝업 닫기 이벤트 등...
     closeButton.addEventListener('click', closePopup);
 
     modal.addEventListener('click', function(e) {
@@ -1997,13 +1978,13 @@ function initializeEventSlider() {
                 goToSlide(currentIndex - 1);
             }
         }
-        resetSlideInterval(); // ⭐ 스와이프 종료 시 타이머 리셋
+        resetSlideInterval(); // 스와이프 종료 시 타이머 리셋
     });
 
     // PC 환경 (터치 디바이스가 아닐 때)에서 마우스 호버 시 자동 슬라이드 중지
     if (!isTouchDevice) {
         content.addEventListener('mouseenter', stopSlideShow);
-        content.addEventListener('mouseleave', resetSlideInterval); // ⭐ 호버 해제 시 타이머 리셋
+        content.addEventListener('mouseleave', resetSlideInterval); // 호버 해제 시 타이머 리셋
     }
 
 
@@ -2017,9 +1998,4 @@ function initializeEventSlider() {
     startSlideShow(); // 최초 시작
 }
 
-// 기존 코드를 보면, 인트로 애니메이션 끝에 다음 코드가 있습니다.
-// 이 부분은 이미 이전 단계에서 수정했으므로, 이 함수 정의만 교체하면 됩니다.
-// document.addEventListener('DOMContentLoaded', function() {
-// ...
-// }, 2000); // 로고와 로딩 바 애니메이션 완료 후 실행
-// 이 부분은 그대로 두세요.
+// ⭐⭐⭐ 이벤트 팝업 슬라이더 기능 끝 ⭐⭐⭐
