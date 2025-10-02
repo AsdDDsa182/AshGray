@@ -199,35 +199,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
-    // 모바일 메뉴 터치 이벤트 처리
-    let startY = 0;
-    let moveY = 0;
 
-    navbarMobile.addEventListener('touchstart', function(e) {
-        startY = e.touches[0].clientY;
-        moveY = startY;
-    });
-
-    navbarMobile.addEventListener('touchmove', function(e) {
-        if (navbarMobile.classList.contains('open')) {
-            moveY = e.touches[0].clientY;
-            const translateY = moveY - startY;
-            if (translateY < 0) {
-                navbarMobile.style.transform = `translateY(${translateY}px)`;
-            }
-        }
-    });
-
-    navbarMobile.addEventListener('touchend', function(e) {
-        if (navbarMobile.classList.contains('open')) {
-            const touchDistance = startY - moveY;
-            if (touchDistance > window.innerHeight * 0.6) {
-                toggleMobileMenu();
-            } else {
-                navbarMobile.style.transform = '';
-            }
-        }
-    });
 
     // Vimeo 플레이어 초기화
     const iframe = document.querySelector('#vimeo-player');
@@ -1239,11 +1211,13 @@ window.addEventListener('resize', handleResize);
         });
     }
 
+    // requestAnimationFrame 무한 루프 대신 이벤트 기반으로 변경
     function handleScroll() {
         const rect = bestServicesSection.getBoundingClientRect();
         const viewportHeight = window.innerHeight;
         const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
 
+        // Best Services 섹션에 대한 스크롤 처리 로직 (이전 handleScroll 내용 유지)
         if (rect.top <= 0 && rect.bottom >= 0) {
             const sectionProgress = Math.abs(rect.top) / (rect.height - viewportHeight);
             const newImageIndex = Math.min(Math.floor(sectionProgress * totalImages), totalImages - 1);
@@ -1273,26 +1247,33 @@ window.addEventListener('resize', handleResize);
 
         lastScrollTop = scrollTop;
     }
-
-    function animate() {
-        handleScroll();
-        animationFrameId = requestAnimationFrame(animate);
-    }
-
+    
+    // 리사이즈 이벤트 핸들러는 단순화
     function handleResize() {
-        cancelAnimationFrame(animationFrameId);
         updateImagePositions(currentProgress);
         handleScroll();
-        animationFrameId = requestAnimationFrame(animate);
     }
-
+    
     function init() {
         createImageElements();
         updateImagePositions(0);
         handleScroll();
-        animate();
+        
+        // 스크롤과 리사이즈 이벤트에만 의존하도록 변경
+        window.addEventListener('scroll', handleScroll, { passive: true }); 
         window.addEventListener('resize', handleResize);
     }
+
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', init);
+    } else {
+        init();
+    }
+
+    window.addEventListener('unload', () => {
+        window.removeEventListener('scroll', handleScroll);
+        window.removeEventListener('resize', handleResize);
+    });
 
     if (document.readyState === 'loading') {
         document.addEventListener('DOMContentLoaded', init);
@@ -1675,7 +1656,6 @@ function handleModalSwipe() {
 
     // 페이지 로드 시 로딩 모달 숨기기
     loadingModal.style.display = 'none';
-
 
 // Contact Us 섹션 애니메이션
 const contactSection = document.querySelector('#contact-us');
