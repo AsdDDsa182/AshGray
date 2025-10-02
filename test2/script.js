@@ -113,7 +113,7 @@ document.addEventListener('DOMContentLoaded', function() {
             navbarMobile.style.animation = 'slideUp 0.5s forwards';
             setTimeout(() => {
                 navbarMobile.classList.remove('open');
-                document.body.classList.remove('no-scroll');
+
                 navbarMobile.style.transform = '';
                 navbarMobile.innerHTML = '';
             }, 500);
@@ -191,7 +191,7 @@ document.addEventListener('DOMContentLoaded', function() {
         if (window.innerWidth >= 768) {
             navbarMobile.classList.remove('open');
             hamburgerMenu.classList.remove('open');
-            document.body.classList.remove('no-scroll');
+
             navbarMobile.style.animation = 'none';
             navbarMobile.innerHTML = '';
             
@@ -1741,38 +1741,7 @@ function updateScrollIndicator(indicator, scrollFraction) {
     }
 }
 
-// 스크롤 애니메이션 섹션 (scroll-indicator1)
-window.addEventListener('scroll', () => {
-    const scrollAnimationSection = document.getElementById('scroll-animation-section');
-    const scrollIndicator1 = document.querySelector('.scroll-indicator1');
-    if (scrollAnimationSection && scrollIndicator1) {
-        const rect = scrollAnimationSection.getBoundingClientRect();
-        const scrollFraction = Math.max(0, Math.min(1, -rect.top / (rect.height - window.innerHeight)));
-        updateScrollIndicator(scrollIndicator1, scrollFraction);
-    }
-});
 
-// Best Services 섹션 (scroll-indicator2)
-window.addEventListener('scroll', () => {
-    const bestServicesSection = document.getElementById('best-services');
-    const scrollIndicator2 = document.querySelector('.scroll-indicator2');
-    if (bestServicesSection && scrollIndicator2) {
-        const rect = bestServicesSection.getBoundingClientRect();
-        const scrollFraction = Math.max(0, Math.min(1, -rect.top / (rect.height - window.innerHeight)));
-        updateScrollIndicator(scrollIndicator2, scrollFraction);
-    }
-});
-
-// Inquiry Intro 섹션 (scroll-indicator3)
-window.addEventListener('scroll', () => {
-    const inquiryIntroSection = document.getElementById('inquiry-intro');
-    const scrollIndicator3 = document.querySelector('.scroll-indicator3');
-    if (inquiryIntroSection && scrollIndicator3) {
-        const rect = inquiryIntroSection.getBoundingClientRect();
-        const scrollFraction = Math.max(0, Math.min(1, -rect.top / (rect.height - window.innerHeight)));
-        updateScrollIndicator(scrollIndicator3, scrollFraction);
-    }
-});
 
 });
 
