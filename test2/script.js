@@ -1826,15 +1826,6 @@ window.addEventListener('scroll', () => {
     }
 });
 
-// 입력 필드에 대한 확대 방지
-document.addEventListener('focus', function(e) {
-    if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') {
-        e.target.setAttribute('readonly', '');
-        setTimeout(function() {
-            e.target.removeAttribute('readonly');
-        }, 100);
-    }
-}, true);
 
 // 더블 탭 확대 방지
 let lastTouchEnd = 0;
