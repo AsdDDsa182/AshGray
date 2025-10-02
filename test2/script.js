@@ -933,18 +933,7 @@ const CONSTANTS = {
     throttleDelay: 16 // 약 60fps에 해당하는 값
 };
 
-// Throttle 함수 정의
-function throttle(func, delay) {
-    let lastCall = 0;
-    return function(...args) {
-        const now = new Date().getTime();
-        if (now - lastCall < delay) {
-            return;
-        }
-        lastCall = now;
-        return func(...args);
-    }
-}
+
 
 // 화면 크기에 따른 아이템 높이 계산 함수
 function updateItemHeight() {
@@ -1019,8 +1008,7 @@ function handleScroll() {
     updateTextItems(scrollFraction, currentItemHeight, mainContentVisible);
 }
 
-// Throttled 스크롤 핸들러
-const throttledScrollHandler = throttle(handleScroll, CONSTANTS.throttleDelay);
+
 
 // 리사이즈 이벤트 핸들러
 function handleResize() {
@@ -1030,7 +1018,7 @@ function handleResize() {
 }
 
 // 이벤트 리스너 등록
-window.addEventListener('scroll', throttledScrollHandler, { passive: true });
+window.addEventListener('scroll', handleScroll, { passive: true }); 
 window.addEventListener('resize', handleResize);
 
 // 초기 설정
