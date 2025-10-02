@@ -1,38 +1,32 @@
 <!DOCTYPE html>
 <html lang="ko">
-<head>
-    <meta name="naver-site-verification" content="bd0e970459c1ca36ecd01a25e1b8b3adc150dca8" />
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-    <title>GOFITKOREA - 고핏코리아</title>
-
-    <!-- 사이트 설명 추가 -->
-    <meta name="description" content="고핏코리아는 최고의 피트니스 장비를 제공하며, 전문가 지원을 통해 고객님께 무한한 신뢰를 드리고자 합니다.">
-
-    <!-- Open Graph 메타 태그 추가 -->
-    <meta property="og:type" content="website">
-    <meta property="og:title" content="GOFITKOREA - 최고의 피트니스 업체">
-    <meta property="og:description" content="피트니스 장비 전문 업체 고핏코리아는 신뢰를 중심으로 고객님과 소통합니다!">
-    <meta property="og:image" content="http://www.gofitkorea.com/images/fitness_equipment.jpg"> <!-- 적절한 이미지 경로로 교체 -->
-    <meta property="og:url" content="http://www.gofitkorea.com">
-
-    <!-- 기본 스타일시트 -->
-    <link rel="stylesheet" href="styles.css">
-    <!-- 아이콘 폰트 -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-
-    <!-- Vimeo 플레이어 API (defer: 문서 파싱 뒤 실행) -->
-    <script src="https://player.vimeo.com/api/player.js" defer></script>
-    <!-- GSAP 최신 버전만 로드 (중복 제거) -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/gsap.min.js" defer></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/ScrollTrigger.min.js" defer></script>
-    <!-- Three.js 배경 애니메이션 (defer) -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js" defer></script>
+    <head>
+        <meta name="naver-site-verification" content="bd0e970459c1ca36ecd01a25e1b8b3adc150dca8" />
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+        <title>GOFITKOREA - 고핏코리아</title>
     
+        <!-- 사이트 설명 추가 -->
+        <meta name="description" content="고핏코리아는 최고의 피트니스 장비를 제공하며, 전문가 지원을 통해 고객님께 무한한 신뢰를 드리고자 합니다.">
+    
+        <!-- Open Graph 메타 태그 추가 -->
+        <meta property="og:type" content="website">
+        <meta property="og:title" content="GOFITKOREA - 최고의 피트니스 업체">
+        <meta property="og:description" content="피트니스 장비 전문 업체 고핏코리아는 신뢰를 중심으로 고객님과 소통합니다!">
+        <meta property="og:image" content="http://www.gofitkorea.com/images/fitness_equipment.jpg"> <!-- 적절한 이미지 경로로 교체 -->
+        <meta property="og:url" content="http://www.gofitkorea.com">
+    
+        <link rel="stylesheet" href="styles.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+        <script src="https://player.vimeo.com/api/player.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/gsap.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/ScrollTrigger.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/gsap.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/ScrollTrigger.min.js"></script>
 
-    <meta name="google-site-verification" content="O8h3s23CQZtk9yACW_BLt-_D58a4FD-raLoXqbqVbaE" />
-</head>
-
+        <meta name="google-site-verification" content="O8h3s23CQZtk9yACW_BLt-_D58a4FD-raLoXqbqVbaE" />
+    </head>
     
 <body>
 <!-- 인트로 섹션 -->
@@ -44,76 +38,136 @@
         <div class="progress"></div>
     </div>
 </div>
-<div id="main-content"></div>
-<!-- 헤더 -->
+<div id="main-content" style="display: none;"></div>
 <header>
     <nav class="navbar">
         <div class="navbar-container">
-            <!-- 로고 영역 -->
             <div class="navbar-logo">
                 <a href="/"><img src="https://gofitkorea.netlify.app/gofit.webp" alt="Logo"></a>
             </div>
-
-            <!-- 왼쪽 메뉴 -->
             <ul class="navbar-left">
                 <li class="nav-item"><a href="#about-us" class="nav-item">About Us</a></li>
                 <li class="nav-item"><a href="#our-services" class="nav-item">Our Services</a></li>
                 <li class="nav-item"><a href="#results" class="nav-item">Results</a></li>
                 <li class="nav-item"><a href="#contact-us" class="nav-item">Contact Us</a></li>
             </ul>
-
-            <!-- 햄버거 아이콘 (모바일 메뉴용) -->
             <div class="hamburger-menu" id="hamburger-menu">
                 <span></span>
                 <span></span>
                 <span></span>
             </div>
-
-            <!-- 오른쪽 메뉴 (데스크탑) -->
             <ul class="navbar-right">
-                <!-- 소셜&미디어 드롭다운 -->
                 <li class="nav-item has-submenu">
+                    <!-- 클릭해도 반응하지 않도록 href 속성을 제거 -->
                     <a href="javascript:void(0);" class="product-menu-link">소셜&미디어
                         <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld2JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9IndoaXRlIiBzdHJva2Utd2lkdGg9IjIiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIgY2xhc3M9ImNoZXZyb24tZG93biI+PHBhdGggZD0ibTYgOSA2IDYgNi02Ij48L3BhdGg+PC9zdmc+" class="chevron-down">
                     </a>
                     <ul class="sub-menu">
                         <li class="sub-item"><a href="https://www.youtube.com/@gofitkorea1">유튜브</a></li>
                         <li class="sub-item"><a href="https://www.instagram.com/gofitkorea/">인스타그램</a></li>
-                        <li class="sub-item"><a href="https://blog.naver.com/gofitkorea">네이버블로그</a></li>
-                        <li class="sub-item"><a href="/layout/basic/main.html">쇼핑몰(구)</a></li>
+                        <li class="sub-item"><a href="https://blog.naver.com/gofitkorea">네이버 블로그</a></li>
                     </ul>
                 </li>
-
-                <!-- 온라인 견적 메뉴 + 말풍선 -->
-                <li class="nav-item estimate-item">
-                    <a href="#inquiry-section" class="nav-item">온라인 견적</a>
-                    <span class="balloon">최저가 견적 진행 중</span>
-                </li>
-
-                <!-- 자체 쇼핑몰(구) 링크 -->
-                <li class="nav-item"><a href="https://smartstore.naver.com/gofitkorea" class="nav-item">스마트스토어</a></li>
+                <li class="nav-item"><a href="https://smartstore.naver.com/gofitkorea">스마트 스토어</a></li>
                 
-                <!-- 고핏 이큅먼트 이미지 메뉴 -->
-                <li class="nav-item rainbow-store-item">
-                    <div class="rainbow-mask-container">
-                        <div class="rainbow-bg-layer"></div>
-                        <a href="https://gofitequipment.netlify.app/" target="_blank">
-                            <img src="https://gofitkorea.netlify.app/GE.webp" alt="고핏 이큅먼트 로고" class="logo-img">
-                        </a>
-                    </div>
+                <!-- "온라인 견적" 항목과 "최저가 견적 진행 중" -->
+                <li class="nav-item estimate-item">
+                    <li class="nav-item">
+                        <a href="#inquiry-section" class="nav-item">온라인 견적</a>
+                        <span class="balloon">최저가 견적 진행 중</span>
+                    </li>
+            
+                    <!-- "자체 쇼핑몰(구)" 항목 추가 -->
+                    <li class="nav-item"><a href="/layout/basic/main.html" class="nav-item">쇼핑몰(구)</a></li>
                 </li>
-
             </ul>
+            
         </div>
-
-<!-- 모바일 전용 메뉴 (JS에서 innerHTML로 동적 생성) -->
-        <div class="navbar-mobile" id="navbar-mobile"></div>
+        <div class="navbar-mobile" id="navbar-mobile">
+            <div class="navbar-mobile-content">
+                <ul>
+                    <li class="nav-item"><a href="#about-us">About Us</a></li>
+                    <li class="nav-item"><a href="#our-services">Our Services</a></li>
+                    <li class="nav-item"><a href="#results">results</a></li>
+                    <li class="nav-item"><a href="#contact-us">Contact Us</a></li>
+                    <li class="nav-item has-submenu">
+                        <!-- 모바일 메뉴에서도 "소셜 & 미디어" 클릭 무반응 처리 -->
+                        <a href="javascript:void(0);">소셜&미디어
+                            <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld2JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9IndoaXRlIiBzdHJva2Utd2lkdGg9IjIiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIgY2xhc3M9ImNoZXZyb24tZG93biI+PHBhdGggZD0ibTYgOSA2IDYgNi02Ij48L3BhdGg+PC9zdmc+" class="chevron-down">
+                        </a>
+                        <ul class="sub-menu">
+                            <li class="sub-item"><a href="https://www.youtube.com/@gofitkorea1">유튜브</a></li>
+                            <li class="sub-item"><a href="https://www.instagram.com/gofitkorea/">인스타그램</a></li>
+                            <li class="sub-item"><a href="https://blog.naver.com/gofitkorea">네이버 블로그</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item"><a href="https://smartstore.naver.com/gofitkorea">스마트 스토어</a></li>
+                    <li class="nav-item"><a href="#inquiry-section">온라인 견적</a></li>
+                    <!-- "자체 사이트" 추가 -->
+                    <li class="nav-item"><a href="https://gofitkorea.com/">쇼핑몰(구)</a></li>
+                </ul>
+            </div>
+            <div class="bottom-bar-container">
+                <div class="bottom-bar"></div>
+                <div class="bottom-bar"></div>
+            </div>
+        </div>
     </nav>
 </header>
 
 
 
 
+
+    <!-- Event Banner -->
+    <div class="gofit-event-banner">
+        <div class="gofit-event-banner-toggle">
+            <i class="fas fa-bullhorn"></i>
+            <span>고핏코리아 소식</span>
+        </div>
+        <div class="gofit-event-banner-content">
+            <div class="gofit-event-banner-slides">
+                <div class="gofit-event-card" data-image="https://gofitkorea.netlify.app/event/v8.webp">
+                    <div class="gofit-event-image">
+                        <img src="https://gofitkorea.netlify.app/event/v8.webp" alt="Event 3">
+                    </div>
+                    <div class="gofit-event-details">
+                        <h3 class="gofit-event-title">디랙스 뉴레돈(NR20X) 프로모션 종료</h3>
+                        <p class="gofit-event-description">디랙스 뉴레돈 NR20X 프로모션이 종료됩니다.</p>
+                        <button class="gofit-event-btn">자세히 보기</button>
+                    </div>
+                </div>
+                <div class="gofit-event-card" data-image="https://gofitkorea.netlify.app/event/v7.webp">
+                    <div class="gofit-event-image">
+                        <img src="https://gofitkorea.netlify.app/event/v7.webp" alt="Event 2">
+                    </div>
+                    <div class="gofit-event-details">
+                        <h2 class="gofit-event-title">고무블럭 할인 프로모션</h2>
+                        <p class="gofit-event-description">고무블럭 대량 구매 할인해요!</p>
+                        <button class="gofit-event-btn">자세히 보기</button>
+                    </div>
+                </div>
+                <div class="gofit-event-card" data-image="https://gofitkorea.netlify.app/event/v6.webp">
+                    <div class="gofit-event-image">
+                        <img src="https://gofitkorea.netlify.app/event/v6.webp" alt="Event 1">
+                    </div>
+                    <div class="gofit-event-details">
+                        <h1 class="gofit-event-title">무료 견적 서비스</h1>
+                        <p class="gofit-event-description">무료 상담을 해드려요!</p>
+                        <button class="gofit-event-btn">자세히 보기</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Event Modal -->
+    <div class="gofit-event-modal">
+        <div class="gofit-event-modal-content">
+            <img src="" alt="Event Image" class="gofit-event-modal-image">
+            <span class="gofit-event-modal-close">&times;</span>
+        </div>
+    </div>
 
 
 
@@ -167,8 +221,7 @@
 
 
 
-
-<!-- About Us 섹션 (이미지 lazy-loading 적용) -->
+<!-- About Us 섹션 -->
 <section id="about-us" class="section">
     <div class="container">
         <div class="section-content">
@@ -176,31 +229,32 @@
                 <div class="slideshow-container">
                     <div class="slide-wrapper">
                         <div class="slide">
-                            <img loading="lazy" src="https://gofitkorea.netlify.app/aboutus/1.webp" alt="About Us Image 1">
+                            <img src="https://gofitkorea.netlify.app/aboutus/1.webp" alt="About Us Image 1">
                         </div>
                         <div class="slide">
-                            <img loading="lazy" src="https://gofitkorea.netlify.app/aboutus/2.webp" alt="About Us Image 2">
+                            <img src="https://gofitkorea.netlify.app/aboutus/2.webp" alt="About Us Image 2">
                         </div>
                         <div class="slide">
-                            <img loading="lazy" src="https://gofitkorea.netlify.app/aboutus/3.webp" alt="About Us Image 3">
+                            <img src="https://gofitkorea.netlify.app/aboutus/3.webp" alt="About Us Image 3">
                         </div>
                         <div class="slide">
-                            <img loading="lazy" src="https://gofitkorea.netlify.app/aboutus/4.webp" alt="About Us Image 4">
+                            <img src="https://gofitkorea.netlify.app/aboutus/4.webp" alt="About Us Image 4">
                         </div>
                         <div class="slide">
-                            <img loading="lazy" src="https://gofitkorea.netlify.app/aboutus/5.webp" alt="About Us Image 5">
+                            <img src="https://gofitkorea.netlify.app/aboutus/5.webp" alt="About Us Image 5">
                         </div>
                         <div class="slide">
-                            <img loading="lazy" src="https://gofitkorea.netlify.app/aboutus/6.webp" alt="About Us Image 6">
+                            <img src="https://gofitkorea.netlify.app/aboutus/6.webp" alt="About Us Image 6">
                         </div>
                         <div class="slide">
-                            <img loading="lazy" src="https://gofitkorea.netlify.app/aboutus/7.webp" alt="About Us Image 7">
+                            <img src="https://gofitkorea.netlify.app/aboutus/7.webp" alt="About Us Image 7">
                         </div>
                         <div class="slide">
-                            <img loading="lazy" src="https://gofitkorea.netlify.app/aboutus/8.webp" alt="About Us Image 8">
+                            <img src="https://gofitkorea.netlify.app/aboutus/8.webp" alt="About Us Image 8">
                         </div>
                         <div class="slide">
-                            <img loading="lazy" src="https://gofitkorea.netlify.app/aboutus/9.webp" alt="About Us Image 9">
+                            <img src="https://gofitkorea.netlify.app/aboutus/9.webp" alt="About Us Image 9" 
+                            >
                         </div>
                     </div>
                     <div class="slide-controls">
@@ -233,7 +287,6 @@
         </div>
     </div>
 </section>
-
 
 
     
@@ -884,50 +937,49 @@
 
 
 
-<!-- ==================== Contact Us 섹션 시작 ==================== -->
-<section id="contact-us" class="section">
-    <div class="background-image"></div>
-    <div class="container">
-        <h2 class="section-title">Contact Us <span class="section-subtitle"></span></h2>
-        <div class="contact-content">
-            <div class="contact-info">
-                <div class="info-card">
-                    <p class="icon-title">Location</p>
-                    <div class="icon-box">
-                        <i class="fas fa-map-marker-alt"></i>
+    <section id="contact-us" class="section">
+        <div class="background-image"></div>
+        <div class="container">
+            <h2 class="section-title">Contact Us <span class="section-subtitle"></span></h2>
+            <div class="contact-content">
+                <div class="contact-info">
+
+                    <div class="info-card">
+                        <p class="icon-title">Location</p>
+                        <div class="icon-box">
+                            <i class="fas fa-map-marker-alt"></i>
+                        </div>
+                        <h3>찾아오시는 길</h3>
+                        <p>경기 양주시 봉양동 450-1 고핏코리아</p>
                     </div>
-                    <h3>찾아오시는 길</h3>
-                    <p>경기 양주시 봉양동 450-1 고핏코리아</p>
-                </div>
-                <div class="info-card">
-                    <p class="icon-title">Phone</p>
-                    <div class="icon-box">
-                        <i class="fas fa-phone"></i>
+                    <div class="info-card">
+                        <p class="icon-title">Phone</p>
+                        <div class="icon-box">
+                            <i class="fas fa-phone"></i>
+                        </div>
+                        <h3>문의 고객 센터</h3>
+                        <p><a href="tel:18333745">1833-3745</a></p>
                     </div>
-                    <h3>문의 고객 센터</h3>
-                    <p><a href="tel:18333745">1833-3745</a></p>
-                </div>
-                <div class="info-card">
-                    <p class="icon-title">E-mail</p>
-                    <div class="icon-box">
-                        <i class="fas fa-envelope"></i>
+                    <div class="info-card">
+                        <p class="icon-title">E-mail</p>
+                        <div class="icon-box">
+                            <i class="fas fa-envelope"></i>
+                        </div>
+                        <h3>이메일 문의</h3>
+                        <p>gofitkorea@naver.com</p>
                     </div>
-                    <h3>이메일 문의</h3>
-                    <p>gofitkorea@naver.com</p>
-                </div>
-                <div class="info-card">
-                    <p class="icon-title">Hours</p>
-                    <div class="icon-box">
-                        <i class="fas fa-clock"></i>
+                    <div class="info-card">
+                        <p class="icon-title">Hours</p>
+                        <div class="icon-box">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                        <h3>업무 시간</h3>
+                        <p>평일 : 오전 9시 ~ 오후 6시</p>
                     </div>
-                    <h3>업무 시간</h3>
-                    <p>평일 : 오전 9시 ~ 오후 6시</p>
                 </div>
             </div>
         </div>
-    </div>
-</section>
-<!-- ==================== Contact Us 섹션 끝 ==================== -->
+    </section>
 
 
     <footer class="footer">
@@ -956,45 +1008,7 @@
             </div>
         </div>
     </footer>
-<div id="event-popup" class="popup-overlay popup-disabled">
-    <!-- <div id="event-popup" class="popup-overlay popup-enble"> -->
-        <div class="popup-content">
-            <div class="popup-slider-container">
-                <div class="popup-slides">
-                    <div class="popup-slide">
-                        <a href="https://www.naver.com" target="_blank">
-                            <img src="https://gofitkorea.netlify.app/popup_image.webp" alt="이벤트 팝업 이미지 1">
-                        </a>
-                    </div>
-                    <div class="popup-slide">
-                        <a href="https://www.google.com" target="_blank">
-                            <img src="https://gofitkorea.netlify.app/aboutus/1.webp" alt="이벤트 팝업 이미지 2">
-                        </a>
-                    </div>
-                    <div class="popup-slide">
-                        <a href="https://www.daum.net" target="_blank">
-                            <img src="https://gofitkorea.netlify.app/aboutus/2.webp" alt="이벤트 팝업 이미지 3">
-                        </a>
-                    </div>
-                </div>
-            </div>
-
-            <button class="popup-arrow prev">&#10094;</button>
-            <button class="popup-arrow next">&#10095;</button>
-
-            <div class="popup-indicators"></div>
-
-            <div class="popup-footer">
-                <label>
-                    <input type="checkbox" id="popup-dont-show-today">
-                    오늘 하루 보지 않기
-                </label>
-                <button id="popup-close-btn" class="close-btn">닫기</button>
-            </div>
-        </div>
-    </div>
-    </body>
-</html>
+    
     <script src="script.js"></script>
 </body>
 </html>

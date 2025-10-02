@@ -1,74 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap');
 
-/* ========== 카페24 전용 CSS 리셋 시작 ========== */
-
-
-/* 이 코드를 기존 CSS 최상단에 추가하세요 */
-
-/* 카페24 기본 링크 스타일 완전 제거 */
-#wrap a,
-#container a,
-.xans-layout a,
-.navbar a,
-.nav-menu a,
-.navbar-container a {
-    text-decoration: none !important;
-    border: 0 !important;
-    border-bottom: 0 !important;
-    outline: none !important;
-    background-image: none !important; /* 배경 이미지로 된 밑줄도 제거 */
-}
-
-/* 카페24 레이아웃 중앙 정렬 문제 해결 */
-.navbar {
-    margin-left: 0 !important;
-    margin-right: 0 !important;
-    padding-left: 0 !important;
-    padding-right: 0 !important;
-    width: 100% !important;
-    max-width: 100% !important;
-    box-sizing: border-box !important;
-}
-
-/* 카페24 컨테이너 영향 제거 */
-#wrap .navbar,
-#container .navbar {
-    position: relative !important;
-    left: 0 !important;
-    right: 0 !important;
-    margin: 0 !important;
-}
-
-/* 링크 상태별 스타일 강제 적용 */
-a:link,
-a:visited,
-a:hover,
-a:active,
-a:focus,
-.navbar a:link,
-.navbar a:visited,
-.navbar a:hover,
-.navbar a:active,
-.navbar a:focus {
-    text-decoration: none !important;
-    border-bottom: none !important;
-}
-
-/* 이미지 링크 보정 */
-.logo-image {
-    border: none !important;
-    vertical-align: middle !important;
-    display: inline-block !important;
-}
-
-/* li 태그 기본 스타일 제거 */
-.nav-menu li {
-    list-style: none !important;
-    margin: 0 !important;
-    padding: 0 !important;
-}
-/* ========== 카페24 전용 CSS 리셋 끝 ========== */
-
 :root {
     --primary-color: #000000;
     --secondary-color: #444444;
@@ -83,27 +14,19 @@ a:focus,
     --icon-hover-color-v2: #f8a15a;
 }
 
-/* 전체 요소 초기화 & 터치·선택 방지 */
 * {
-  -webkit-tap-highlight-color: transparent;
-  -webkit-touch-callout: none;
-  -webkit-user-select: none;
-  user-select: none;
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  list-style: none;
+    -webkit-tap-highlight-color: transparent;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    user-select: none;
 }
 
-/* ⬅️ ⭐️ 여기에 코드를 추가해야 합니다! ⭐️ ➡️ */
-/* 입력 계열은 선택/포커스 허용 (iOS 키보드 호출 보장) */
-input, textarea, select, button, label {
-  -webkit-user-select: text;
-  user-select: text;
-  -webkit-touch-callout: default;
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    list-style: none;
 }
-/* ⬅️ ⭐️ 여기에 코드를 추가해야 합니다! ⭐️ ➡️ */
-
 
 body {
     font-family: 'Roboto', Arial, sans-serif;
@@ -126,10 +49,6 @@ body.no-scroll {
 
 
 
-/* index.html 의 #main-content 숨기기 */
-#main-content {
-  display: none;
-}
 
 
 
@@ -173,7 +92,7 @@ body.no-scroll {
 }
 
 #intro-logo img.fade-in {
-    animation: fadeInOutAndGrow 2s forwards; /* 애니메이션 시간 연장 */
+    animation: fadeInOutAndGrow 8s forwards; /* 애니메이션 시간 연장 */
 }
 
 /* 로딩 바 스타일 */
@@ -185,14 +104,14 @@ body.no-scroll {
     background-color: rgba(255, 255, 255, 0.3); /* 바탕색 */
     overflow: hidden;
     opacity: 1; /* 초기 투명도 */
-    transition: opacity 1.5s ease; /* 페이드아웃 효과 8 */
+    transition: opacity 1s ease; /* 페이드아웃 효과 */
 }
 
 #loading-bar .progress {
     width: 0;
     height: 100%;
     background-color: #00ffcc; /* 진행 바 색상 */
-    animation: loading 1.5s linear forwards; /* 로딩 애니메이션 5.5 */
+    animation: loading 5.5s linear forwards; /* 로딩 애니메이션 */
 }
 
 /* 로딩 애니메이션 */
@@ -215,67 +134,7 @@ body.no-scroll {
 
 
 
-/* 바깥 감싸는 박스 */
-.rainbow-mask-container {
-    position: relative;
-    display: inline-block;
-    border-radius: 8px;
-    overflow: hidden;
-    padding-top: 0px;
-    padding-bottom: 0px;
-    transition: transform 0.25s ease;
-}
 
-/* 마우스를 올렸을 때 확대 */
-.rainbow-mask-container:hover {
-    transform: scale(1.1);
-}
-
-/* 배경 무지개 레이어 */
-.rainbow-bg-layer {
-   margin-top: 0px;
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(45deg, red, orange, yellow, green, cyan, blue, purple); /* 무지개 색 그라디언트 */
-    animation: hueRotateRainbow 4s linear infinite;
-    filter: hue-rotate(0deg);
-    z-index: 0;
-    
-        /* 중앙 정렬 추가 */
-    -webkit-mask-position: center;
-    mask-position: center;
-    
-    mix-blend-mode: screen;
-    
-    -webkit-mask-image: radial-gradient(ellipse at center, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 100%);
-    mask-image: radial-gradient(ellipse at center, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 70%);
-    -webkit-mask-repeat: no-repeat;
-    mask-repeat: no-repeat;
-    -webkit-mask-size: 100% 100%;
-    mask-size: 100% 100%;
-}
-
-/* 로고 이미지 (흐려지지 않음) */
-.logo-img {
-    position: relative;
-    margin-top: 4px;
-    z-index: 1;
-    height: 18px; /* 로고 크기 조정 */
-    display: block;
-    border-radius: 4px;
-}
-
-/* 색조 흐름 애니메이션 */
-@keyframes hueRotateRainbow {
-    0%   { filter: hue-rotate(0deg); }
-    25%  { filter: hue-rotate(90deg); }
-    50%  { filter: hue-rotate(180deg); }
-    75%  { filter: hue-rotate(270deg); }
-    100% { filter: hue-rotate(360deg); }
-}
 
 
 
@@ -300,11 +159,7 @@ body.no-scroll {
     width: 100%;
     height: 60px;
     z-index: 1000;
-    transition: background-color 0.3s ease, transform 0.4s ease-out;
-}
-
-.navbar--hidden {
-    transform: translateY(-100%);
+    transition: background-color 0.3s ease;
 }
 
 /* 네비게이션 바 컨테이너 스타일 */
@@ -3917,7 +3772,6 @@ body.no-scroll {
 
 
 
-/* ==================== Contact Us 섹션 스타일 시작 ==================== */
 /* Contact Us 섹션 전체 스타일 */
 #contact-us {
     position: relative;
@@ -3982,21 +3836,18 @@ body.no-scroll {
     margin-left: 15px;
 }
 
-/* 컨택트 콘텐츠 레이아웃 - 지도 삭제 후 중앙 정렬 */
+/* 컨택트 콘텐츠 레이아웃 */
 .contact-content {
     display: flex;
     justify-content: center;
-    align-items: center;
-    width: 100%;
 }
 
-/* 컨택트 정보 영역 스타일 - 지도 삭제 후 조정 */
+/* 컨택트 정보 영역 스타일 */
 .contact-info {
+    max-width: 800px;
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: 20px;
-    max-width: 800px; /* 최대 너비 설정으로 중앙 정렬 효과 */
-    width: 100%;
 }
 
 .info-card {
@@ -4050,39 +3901,13 @@ body.no-scroll {
     word-break: break-all;
 }
 
-.info-card p a {
-    color: #fff;
-    text-decoration: none;
-}
 
-/* 태블릿 및 중간 크기 화면 대응 */
-@media (max-width: 1200px) {
-    .contact-info {
-        max-width: 700px;
-    }
-    
-    .info-card {
-        padding: 25px;
-    }
-    .info-card h3 {
-        font-size: 17px;
-        margin: 12px 0;
-    }
-    .info-card p {
-        font-size: 14px;
-        margin-top: 8px;
-    }
-    .icon-box {
-        font-size: 32px;
-        margin: 12px 0;
-    }
-}
+
 
 /* 작은 태블릿 및 큰 모바일 화면 대응 */
 @media (max-width: 900px) {
     .contact-info {
         grid-template-columns: 1fr;
-        max-width: 500px;
     }
     .info-card {
         padding: 20px;
@@ -4106,12 +3931,15 @@ body.no-scroll {
     #contact-us {
         padding: 60px 0;
     }
+    .contact-content {
+        gap: 20px;
+    }
+    .map-container {
+        margin-top: 20px;
+    }
     #contact-us h2 {
         font-size: 2em;
         margin-bottom: 30px;
-    }
-    .contact-info {
-        max-width: 400px;
     }
     .info-card {
         padding: 15px;
@@ -4132,9 +3960,6 @@ body.no-scroll {
 
 /* 작은 모바일 화면 대응 */
 @media (max-width: 480px) {
-    .contact-info {
-        max-width: 350px;
-    }
     .info-card {
         padding: 12px;
     }
@@ -4151,7 +3976,11 @@ body.no-scroll {
         margin-top: 4px;
     }
 }
-/* ==================== Contact Us 섹션 스타일 끝 ==================== */
+
+.info-card p a {
+    color: #fff;
+    text-decoration: none;
+}
 
 
 
@@ -4329,17 +4158,20 @@ body.no-scroll {
 
 
 
-/* 온라인 견적 말풍선 기준점 */
+
+
+
+/* 온라인 견적 말풍선 */
 .estimate-item {
     position: relative;
 }
 
-/* 말풍선 본체 스타일 */
+/* 말풍선 본체 스타일 약간 수정 */
 .balloon {
     position: absolute;
-    top: calc(100% + 10px);
-    left: 50%; /* 중앙 기준 */
-    transform: translateX(-50%); /* 정확한 중앙 정렬 */
+    top: calc(100% + 15px);
+    right: 100px; /* 오른쪽에서의 거리를 픽셀로 지정 */
+    transform: none; /* translateX 제거 */
     background-color: #4CAF50;
     color: #fff;
     padding: 5px 10px;
@@ -4348,19 +4180,13 @@ body.no-scroll {
     white-space: nowrap;
     z-index: 1000;
     animation: bounce 0.5s infinite;
-    transition: opacity 0.2s ease-out; /* 부드러운 효과를 위해 이 줄을 추가하세요 */
 }
 
-/* 헤더가 숨겨질 때 말풍선도 함께 숨기기 (이 부분을 새로 추가하세요) */
-.navbar--hidden .balloon {
-    opacity: 0;
-}
-
-/* 말풍선 꼬리 */
+/* 말풍선 꼬리 추가 */
 .balloon::before {
     content: '';
     position: absolute;
-    top: -6px;
+    top: -6px; /* 꼬리의 높이 */
     left: 50%;
     transform: translateX(-50%);
     border-width: 0 6px 10px 6px;
@@ -4368,7 +4194,6 @@ body.no-scroll {
     border-color: transparent transparent #4CAF50 transparent;
 }
 
-/* 말풍선 점프 애니메이션 */
 @keyframes bounce {
     0%, 100% {
         transform: translateX(-50%) translateY(0);
@@ -4378,16 +4203,14 @@ body.no-scroll {
     }
 }
 
-/* 화면이 작아지면 숨김 */
 @media (max-width: 1200px) {
     .balloon {
         display: none;
     }
+    .balloon {
+        left: 60%;
+    }
 }
-
-
-
-
 
 
 
@@ -4776,7 +4599,7 @@ body.no-scroll {
     .footer-social a:hover,
     .service-box:hover,
     .project-box:hover img {
-        transform: none;
+        transform: none !important;
         color: inherit !important;
         background-color: inherit !important;
         box-shadow: none !important;
@@ -4852,161 +4675,3 @@ body.no-scroll {
         background-color: #333333; /* 배경색 기본 유지 */
     }
 }
-
-
-
-
-/* ==================== 이벤트 팝업 (슬라이더 타입) 스타일 시작 ==================== */
-.popup-overlay {
-    display: none;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.8);
-    z-index: 9999;
-    justify-content: center;
-    align-items: center;
-    opacity: 0;
-    transition: opacity 0.3s ease;
-}
-
-.popup-overlay.show {
-    display: flex;
-    opacity: 1;
-}
-
-.popup-content {
-    position: relative;
-    background-color: #fff;
-    border-radius: 10px;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-    width: 90%;
-    max-width: 500px;
-    overflow: hidden;
-    transform: scale(0.9);
-    transition: transform 0.3s ease;
-}
-
-.popup-overlay.show .popup-content {
-    transform: scale(1);
-}
-
-.popup-slider-container {
-    overflow: hidden;
-    position: relative;
-}
-
-.popup-slides {
-    display: flex;
-    transition: transform 0.4s ease-in-out;
-}
-
-.popup-slide {
-    min-width: 100%;
-    box-sizing: border-box;
-}
-
-.popup-slide a {
-    display: block;
-    text-decoration: none;
-    aspect-ratio: 1 / 1.2; /* 이미지 비율 (가로 1: 세로 1.2) */
-}
-
-.popup-slide img {
-    width: 100%;
-    height: 100%;
-    display: block;
-    object-fit: cover; /* 이미지가 잘리더라도 꽉 차게 표시 */
-}
-
-/* 화살표 버튼 */
-.popup-arrow {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    background-color: rgba(0, 0, 0, 0.4);
-    color: white;
-    border: none;
-    cursor: pointer;
-    padding: 10px;
-    font-size: 24px;
-    z-index: 10;
-    transition: background-color 0.2s;
-}
-
-.popup-arrow:hover {
-    background-color: rgba(0, 0, 0, 0.7);
-}
-
-.popup-arrow.prev {
-    left: 10px;
-    border-radius: 50%;
-}
-
-.popup-arrow.next {
-    right: 10px;
-    border-radius: 50%;
-}
-
-/* 인디케이터 (점) */
-.popup-indicators {
-    position: absolute;
-    bottom: 60px; /* 푸터 높이 고려 */
-    left: 50%;
-    transform: translateX(-50%);
-    display: flex;
-    gap: 8px;
-}
-
-.popup-indicator {
-    width: 10px;
-    height: 10px;
-    border-radius: 50%;
-    background-color: rgba(255, 255, 255, 0.5);
-    cursor: pointer;
-    transition: background-color 0.2s;
-}
-
-.popup-indicator.active {
-    background-color: white;
-}
-
-/* 팝업 푸터 */
-.popup-footer {
-    position: relative;
-    z-index: 5;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 10px 15px;
-    background-color: #f1f1f1;
-    font-size: 14px;
-    color: #333;
-}
-
-.popup-footer label {
-    display: flex;
-    align-items: center;
-    cursor: pointer;
-}
-
-.popup-footer input[type="checkbox"] {
-    margin-right: 5px;
-}
-
-.popup-footer .close-btn {
-    background: #555;
-    color: white;
-    border: none;
-    padding: 5px 12px;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.2s;
-}
-
-.popup-footer .close-btn:hover {
-    background: #333;
-}
-/* ==================== 이벤트 팝업 (슬라이더 타입) 스타일 끝 ==================== */
