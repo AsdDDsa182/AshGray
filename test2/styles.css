@@ -4352,11 +4352,10 @@ body.no-scroll {
 
 
 
-
-/* ==================== 이벤트 팝업 스타일 시작 (PC 전용 호버 적용) ==================== */
+/* ==================== 이벤트 팝업 스타일 시작 (최종 수정본: PC 크기 대폭 축소) ==================== */
 /* 팝업 오버레이 */
 .popup-overlay {
-    display: none; /* 처음에는 숨겨 둠 */
+    display: none;
     position: fixed;
     top: 0;
     left: 0;
@@ -4375,44 +4374,55 @@ body.no-scroll {
     opacity: 1;
 }
 
-/* 팝업 내용 컨테이너 - PC 최대 크기 750px로 조정 */
+/* 팝업 내용 컨테이너 - PC 최대 크기 550px로 최종 축소 */
 .popup-content {
-    background-color: #fff;
+    background-color: #111111;
     padding: 0;
     border-radius: 10px;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.5);
-    width: 90%; 
-    max-width: 750px; /* PC 최대 너비를 750px로 조정 */
-    max-height: 90vh; 
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+    
+    /* ⭐⭐ 수정: PC 최대 너비를 550px로 축소하고, width를 50vw로 줄여 중앙에 작게 표시 ⭐⭐ */
+    width: 50vw; 
+    max-width: 550px; 
+    
+    height: auto;
+    max-height: 98vh; 
+    
     display: flex; 
     flex-direction: column;
-    overflow: hidden;
+    overflow: hidden; 
     transform: scale(0.9);
     transition: transform 0.3s ease;
-    
-    /* 세로 비율 3:4 강제 적용 (가로 750px일 때 세로 1000px 확보) */
-    aspect-ratio: 3 / 4; 
 }
 
 .popup-overlay.show .popup-content {
     transform: scale(1);
 }
 
-/* 슬라이더 전체 컨테이너 */
+/* 슬라이더 전체 컨테이너: 이미지 비율을 강제하는 핵심 영역 */
 .event-slider-container {
     position: relative;
     overflow: hidden;
-    flex-grow: 1; 
-    display: flex; 
-    align-items: center;
+    
+    /* 3:4 비율 강제 확보 */
+    width: 100%;
+    padding-bottom: 133.33%; /* 4/3 * 100% = 133.33% (3:4 비율) */
+    height: 0;
+    
+    flex-grow: 1;
+    flex-shrink: 0;
+    background-color: #111111;
 }
 
-/* 슬라이드 래퍼 */
+/* 슬라이더 래퍼: 컨테이너의 3:4 공간을 채움 */
 .event-slider-wrapper {
-    display: flex;
-    transition: transform 0.5s ease-in-out;
+    position: absolute; 
+    top: 0;
+    left: 0;
     width: 100%;
     height: 100%;
+    display: flex;
+    transition: transform 0.5s ease-in-out;
 }
 
 /* 각 슬라이드 (링크 태그) */
@@ -4426,11 +4436,11 @@ body.no-scroll {
 }
 
 .event-slide img {
-    /* 이미지가 팝업창 크기에 맞게 비율 유지하며 들어감 */
+    /* 3:4 공간을 3:4 이미지가 덮으므로 잘림/여백 없음 */
     width: 100%; 
     height: 100%; 
     display: block;
-    object-fit: contain; 
+    object-fit: cover; 
 }
 
 
@@ -4449,7 +4459,7 @@ body.no-scroll {
     transition: background-color 0.3s, transform 0.3s;
 }
 
-/* ⭐ PC 전용 호버 효과: 마우스 포인터가 있는 환경에서만 작동 */
+/* PC 전용 호버 효과 */
 @media (hover: hover) and (pointer: fine) {
     .slider-nav-btn:hover {
         background-color: rgba(0, 0, 0, 0.7);
@@ -4501,10 +4511,10 @@ body.no-scroll {
     justify-content: space-between;
     align-items: center;
     padding: 10px 15px;
-    background-color: #f1f1f1;
+    background-color: #f1f1f1; 
     font-size: 14px;
     color: #333;
-    flex-shrink: 0;
+    flex-shrink: 0; 
 }
 
 .popup-footer label {
@@ -4528,32 +4538,36 @@ body.no-scroll {
     transition: background-color 0.2s;
 }
 
-/* ⭐ PC 전용 호버/액티브 효과: 마우스 포인터가 있는 환경에서만 작동 */
+/* PC 전용 호버 효과 */
 @media (hover: hover) and (pointer: fine) {
     .popup-footer .close-btn:hover {
         background: #333;
     }
 }
-/* 모바일에서 터치 시 배경색이 남는 것을 방지 */
 .popup-footer .close-btn:active {
-    background: #333; /* 누르는 순간 잠시 색상 변경 */
+    background: #333; 
     transition: none;
 }
 @media (hover: none) and (pointer: coarse) {
     .popup-footer .close-btn:active {
-        background: #555; /* 터치 기기에서는 클릭/터치 시 색상 변경을 방지 */
+        background: #555; 
     }
 }
 
 
-/* 모바일 반응형 - 세로 비율 9:16 강제 적용 */
+/* 모바일 반응형 */
 @media (max-width: 480px) {
     .popup-content {
-        max-width: 95%;
-        max-height: 90vh;
-        /* 모바일에서는 세로 비율 9:16으로 강제 적용 */
-        aspect-ratio: 9 / 16; 
+        /* 모바일에서는 화면의 90%를 채우도록 다시 설정 (작은 화면에서 충분히 커야 함) */
+        width: 90%; 
+        max-height: 98vh;
     }
+    
+    /* 모바일에서도 PC와 동일한 3:4 비율로 강제 적용 */
+    .event-slider-container {
+        padding-bottom: 133.33%;
+    }
+    
     .slider-nav-btn {
         padding: 8px 10px;
         font-size: 16px;
@@ -4562,4 +4576,4 @@ body.no-scroll {
         font-size: 12px;
     }
 }
-/* ==================== 이벤트 팝업 스타일 끝 (PC 전용 호버 적용) ==================== */
+/* ==================== 이벤트 팝업 스타일 끝 (최종 문제 해결: PC 크기 대폭 축소) ==================== */
