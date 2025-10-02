@@ -56,9 +56,9 @@ document.addEventListener('DOMContentLoaded', function() {
                 initializeEventSlider(); 
 
                 
-            }, 2000); // intro 페이드아웃 시간
+            }, 1000); // intro 페이드아웃 시간
         }, 1000); // 로딩 바 페이드아웃 시간
-    }, 2000); // 로고와 로딩 바 애니메이션 완료 후 실행
+    }, 1000); // 로고와 로딩 바 애니메이션 완료 후 실행
     
 
 

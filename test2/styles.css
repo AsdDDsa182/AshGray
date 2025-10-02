@@ -92,7 +92,7 @@ body.no-scroll {
 }
 
 #intro-logo img.fade-in {
-    animation: fadeInOutAndGrow 3s forwards; /* 애니메이션 시간 연장 */
+    animation: fadeInOutAndGrow 2s forwards; /* 애니메이션 시간 연장 */
 }
 
 /* 로딩 바 스타일 */
@@ -111,7 +111,7 @@ body.no-scroll {
     width: 0;
     height: 100%;
     background-color: #00ffcc; /* 진행 바 색상 */
-    animation: loading 2s linear forwards; /* 👈 5.5s를 3s로 변경 */
+    animation: loading 1s linear forwards; 
 }
 
 /* 로딩 애니메이션 */
