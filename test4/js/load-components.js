@@ -262,7 +262,7 @@ const headerHTML = `
                     background: rgba(255,255,255,0.05); 
                     border-radius: 4px;">
         </div>
-        <img src="images/logo/logo_small_w.png" 
+        <img src="/images/logo/logo_small_w.png" 
              alt="PEACH BUILDER" 
              class="gf-header-logo-img"
              style="position: relative; z-index: 1;"
@@ -274,31 +274,31 @@ const headerHTML = `
     <nav class="gf-header-nav-desktop">
       <ul class="gf-header-nav-list">
         <li class="gf-header-nav-item">
-          <a href="index.html" class="gf-header-nav-link">
+          <a href="/index.html" class="gf-header-nav-link">
             <span class="gf-header-nav-text">Home</span>
             <span class="gf-header-nav-underline"></span>
           </a>
         </li>
         <li class="gf-header-nav-item">
-          <a href="about/about.html" class="gf-header-nav-link">
+          <a href="/about/about.html" class="gf-header-nav-link">
             <span class="gf-header-nav-text">About</span>
             <span class="gf-header-nav-underline"></span>
           </a>
         </li>
         <li class="gf-header-nav-item">
-          <a href="features/features.html" class="gf-header-nav-link">
+          <a href="/features/features.html" class="gf-header-nav-link">
             <span class="gf-header-nav-text">Features</span>
             <span class="gf-header-nav-underline"></span>
           </a>
         </li>
         <li class="gf-header-nav-item">
-          <a href="products/products.html" class="gf-header-nav-link">
+          <a href="/products/products.html" class="gf-header-nav-link">
             <span class="gf-header-nav-text">Products</span>
             <span class="gf-header-nav-underline"></span>
           </a>
         </li>
         <li class="gf-header-nav-item">
-          <a href="contact/contact.html" class="gf-header-nav-link">
+          <a href="/contact/contact.html" class="gf-header-nav-link">
             <span class="gf-header-nav-text">Contact</span>
             <span class="gf-header-nav-underline"></span>
           </a>
@@ -308,7 +308,7 @@ const headerHTML = `
 
     <!-- CTA 버튼 & 햄버거 메뉴 -->
     <div class="gf-header-actions">
-      <a href="PB-brochure/PB-brochure.pdf" class="gf-header-cta-button" target="_blank" rel="noopener noreferrer">
+      <a href="/PB-brochure/PB-brochure.pdf" class="gf-header-cta-button" target="_blank" rel="noopener noreferrer">
         <span>카탈로그</span>
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
           <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
@@ -344,35 +344,35 @@ const headerHTML = `
       <nav class="gf-header-mobile-nav">
         <ul class="gf-header-mobile-nav-list">
           <li class="gf-header-mobile-nav-item">
-            <a href="index.html" class="gf-header-mobile-nav-link">
+            <a href="/index.html" class="gf-header-mobile-nav-link">
               <span class="gf-header-link-number">01</span>
               <span class="gf-header-link-text">Home</span>
               <span class="gf-header-link-arrow">&rarr;</span>
             </a>
           </li>
           <li class="gf-header-mobile-nav-item">
-            <a href="about/about.html" class="gf-header-mobile-nav-link">
+            <a href="/about/about.html" class="gf-header-mobile-nav-link">
               <span class="gf-header-link-number">02</span>
               <span class="gf-header-link-text">About</span>
               <span class="gf-header-link-arrow">&rarr;</span>
             </a>
           </li>
           <li class="gf-header-mobile-nav-item">
-            <a href="features/features.html" class="gf-header-mobile-nav-link">
+            <a href="/features/features.html" class="gf-header-mobile-nav-link">
               <span class="gf-header-link-number">03</span>
               <span class="gf-header-link-text">Features</span>
               <span class="gf-header-link-arrow">&rarr;</span>
             </a>
           </li>
           <li class="gf-header-mobile-nav-item">
-            <a href="products/products.html" class="gf-header-mobile-nav-link">
+            <a href="/products/products.html" class="gf-header-mobile-nav-link">
               <span class="gf-header-link-number">04</span>
               <span class="gf-header-link-text">Products</span>
               <span class="gf-header-link-arrow">&rarr;</span>
             </a>
           </li>
           <li class="gf-header-mobile-nav-item">
-            <a href="contact/contact.html" class="gf-header-mobile-nav-link">
+            <a href="/contact/contact.html" class="gf-header-mobile-nav-link">
               <span class="gf-header-link-number">05</span>
               <span class="gf-header-link-text">Contact</span>
               <span class="gf-header-link-arrow">&rarr;</span>
@@ -383,7 +383,7 @@ const headerHTML = `
 
       <!-- 모바일 CTA -->
       <div class="gf-header-mobile-cta">
-        <a href="PB-brochure/PB-brochure.pdf" class="gf-header-mobile-cta-button" target="_blank" rel="noopener noreferrer">
+        <a href="/PB-brochure/PB-brochure.pdf" class="gf-header-mobile-cta-button" target="_blank" rel="noopener noreferrer">
           <span>카탈로그 다운로드</span>
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
