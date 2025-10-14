@@ -1,0 +1,3283 @@
+/* ████████████████████████████████████████████████████████████████████████████████
+██                              BASIC SETUP                                  ██
+██                              기본 설정                                      ██
+████████████████████████████████████████████████████████████████████████████████
+*/
+
+/* ─── CSS 변수 정의 (보라색 테마로 변경) ─── */
+:root {
+  /* 🎨 피치빌더 테마 색상 */
+  --primary-color: #8600dd;   /* 시선을 끄는 메인 보라색 */
+  --accent-color: #5e3b8a;    /* 차분한 보조 보라색 */
+  --accent-color-dark: #4a2f6c; /* accent-color의 어두운 버전 (호버용) */
+
+  /* 그라데이션 및 그림자 */
+  --gradient: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+  --shadow-color-light: rgba(134, 0, 221, 0.15);
+  --shadow-color-medium: rgba(134, 0, 221, 0.3);
+  --shadow-color-strong: rgba(134, 0, 221, 0.5);
+  --highlight-bg: rgba(134, 0, 221, 0.1);
+
+  /* 배경 및 텍스트 컬러 */
+  --gf-dark: #000;
+  --gf-dark-light: #0a0a0a;
+  --gf-gray: #2a2a2a;
+  --gf-text: #ffffff;
+  --gf-text-dim: rgba(255, 255, 255, 0.7);
+  --gf-text-muted: rgba(255, 255, 255, 0.5);
+  
+  /* 🔥 제품 메인 영역용 새로운 변수들 🔥 */
+  --gf-white: #ffffff;
+  --gf-white_background: #f0f0f0;
+  --gf-light-gray: #f8f9fa;
+  --gf-border-light: rgba(0, 0, 0, 0.1);
+  --gf-text-dark: #333333;
+  --gf-text-dark-dim: rgba(51, 51, 51, 0.7);
+  --gf-text-dark-muted: rgba(51, 51, 51, 0.5);
+  
+  /* 테두리 및 효과 (기존 유지) */
+  --gf-border: rgba(255, 255, 255, 0.1);
+  --gf-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+  --gf-shadow-light: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+
+/* ─── 기본 body 설정 ─── */
+body {
+  padding-top: 0px;
+  background: var(--gf-dark);
+  color: var(--gf-text);
+}
+
+/* ─── 공통 컨테이너 ─── */
+.gf-prod-container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 0 6rem;
+  position: relative;
+}
+
+/* ████████████████████████████████████████████████████████████████████████████████
+██                            BASIC SETUP 끝                                ██
+████████████████████████████████████████████████████████████████████████████████
+*/
+
+/* ████████████████████████████████████████████████████████████████████████████████
+██                            HERO SECTION                                   ██
+██                    메인 배너 (로고만 표시 + 배경 이미지)                     ██
+████████████████████████████████████████████████████████████████████████████████
+*/
+
+/* ─── 히어로 메인 컨테이너 ─── */
+.gf-prod-hero {
+  position: relative;
+  width: 100%;
+  height: 50vh; 
+  min-height: 340px; 
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  /* 🆕 배경 이미지는 HTML 인라인 스타일로 이동 */
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+/* 🆕 어두운 오버레이 (로고가 잘 보이도록) */
+.gf-prod-hero-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.8);
+  z-index: 1;
+}
+
+/* 🆕 하단 그라데이션 효과 (다음 섹션과 자연스럽게 연결) */
+.gf-prod-hero-gradient {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 150px;
+  background: linear-gradient(to bottom, 
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0.3) 30%,
+    rgba(255, 255, 255, 0.7) 70%,
+    rgba(255, 255, 255, 1) 100%
+  );
+  z-index: 2;
+  pointer-events: none;
+}
+
+/* ─── 히어로 콘텐츠 (로고 컨테이너) ─── */
+.gf-prod-hero-content {
+  position: relative;
+  z-index: 3;
+  text-align: center;
+  max-width: 800px;
+  padding: 0 2rem;
+}
+
+/* ─── 로고 이미지 스타일 ─── */
+.gf-prod-hero-logo {
+  width: 100%;
+  max-width: 400px;
+  height: auto;
+  opacity: 0;
+  animation: logoFadeIn 1s ease-out 0.3s forwards;
+  margin: 5rem 0 0;
+}
+
+/* ─── 로고 등장 애니메이션 ─── */
+@keyframes logoFadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* ─── 히어로 반응형 디자인 ─── */
+@media (max-width: 1024px) {
+  .gf-prod-hero {
+    height: 45vh; 
+    min-height: 310px; 
+  }
+  
+  /* 🆕 태블릿에서 그라데이션 높이 조정 */
+  .gf-prod-hero-gradient {
+    height: 120px;
+  }
+}
+
+@media (max-width: 768px) {
+  .gf-prod-hero {
+    height: 40vh; 
+    min-height: 280px; 
+  }
+  
+  .gf-prod-hero-logo {
+    max-width: 300px;
+  }
+  
+  /* 🆕 모바일에서 그라데이션 높이 조정 */
+  .gf-prod-hero-gradient {
+    height: 100px;
+  }
+}
+
+@media (max-width: 480px) {
+  .gf-prod-hero {
+    height: 30vh; 
+    min-height: 240px; 
+  }
+  
+  .gf-prod-hero-content {
+    padding: 0 1.5rem;
+  }
+  
+  .gf-prod-hero-logo {
+    max-width: 200px;
+  }
+  
+  /* 🆕 작은 모바일에서 그라데이션 높이 조정 */
+  .gf-prod-hero-gradient {
+    height: 80px;
+  }
+}
+
+@media (max-width: 360px) {
+  .gf-prod-hero {
+    height: 27vh; 
+    min-height: 210px; 
+  }
+  
+  .gf-prod-hero-logo {
+    max-width: 180px;
+  }
+  
+  /* 🆕 초소형 모바일에서 그라데이션 높이 조정 */
+  .gf-prod-hero-gradient {
+    height: 60px;
+  }
+}
+
+/* ████████████████████████████████████████████████████████████████████████████████
+██                          HERO SECTION 끝                                 ██
+████████████████████████████████████████████████████████████████████████████████
+*/
+
+/* ████████████████████████████████████████████████████████████████████████████████
+██                       PRODUCTS MAIN SECTION                               ██
+██                         제품 메인 섹션                                      ██
+████████████████████████████████████████████████████████████████████████████████
+*/
+
+/* ─── 제품 메인 섹션 컨테이너 ─── */
+.gf-prod-main {
+  padding: 0px 0;
+  background: var(--gf-white);
+  position: relative;
+}
+
+/* ─── 섹션 하단 구분선 ─── */
+.gf-prod-main::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--shadow-color-strong), transparent);
+}
+
+/* ████████████████████████████████████████████████████████████████████████████████
+██                     PRODUCTS MAIN SECTION 끝                             ██
+████████████████████████████████████████████████████████████████████████████████
+*/
+
+/* ████████████████████████████████████████████████████████████████████████████████
+██                        CATEGORY FILTERS                                   ██
+██                         카테고리 필터 탭                                     ██
+████████████████████████████████████████████████████████████████████████████████
+*/
+
+/* ─── 카테고리 탭 컨테이너 ─── */
+.gf-prod-categories {
+  display: flex;
+  justify-content: center;
+  padding: 4rem 2rem 2rem;
+  gap: 1rem;
+  flex-wrap: wrap;
+  
+  /* 🔥 PC 드래그 이슈 해결을 위한 속성들 🔥 */
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  
+  -webkit-user-drag: none;
+  -moz-user-drag: none;
+  
+  -webkit-touch-callout: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* ─── 카테고리 버튼 스타일 ─── */
+.gf-prod-category-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.8rem 1.8rem;
+  background: transparent;
+  border: 1px solid var(--gf-border-light);
+  border-radius: 50px;
+  color: var(--gf-text-dark-dim);
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+  
+  /* 🔥 개별 버튼 드래그 방지 🔥 */
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  
+  -webkit-user-drag: none;
+  -moz-user-drag: none;
+  
+  -webkit-touch-callout: none;
+  -webkit-tap-highlight-color: transparent;
+  outline: none;
+  
+  -webkit-touch-action: manipulation;
+  touch-action: manipulation;
+}
+
+/* ─── 카테고리 버튼 내부 요소 드래그 방지 ─── */
+.gf-prod-category-btn span,
+.gf-prod-category-btn svg,
+.gf-prod-category-btn .gf-prod-category-count {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  
+  -webkit-user-drag: none;
+  -moz-user-drag: none;
+  
+  pointer-events: none;
+}
+
+/* ─── 카테고리 버튼 배경 애니메이션 ─── */
+.gf-prod-category-btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: var(--gradient);
+  transition: left 0.5s ease;
+  z-index: -1;
+  
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+/* 🔥 PC에서만 호버 효과 적용 🔥 */
+@media (hover: hover) and (pointer: fine) {
+  .gf-prod-category-btn:hover {
+    color: var(--gf-text-dark);
+    border-color: var(--primary-color);
+  }
+}
+
+.gf-prod-category-btn.active {
+  background: var(--primary-color);
+  border-color: var(--primary-color);
+  color: var(--gf-text);
+}
+
+.gf-prod-category-btn.active::before {
+  left: 0;
+}
+
+/* ★ 프로모션 카테고리 특별 스타일 ★ */
+.gf-promotion-category {
+  border: 1px solid var(--gf-border-light) !important;
+  background: transparent !important;
+  position: relative;
+  transition: all 0.3s ease !important;
+}
+
+/* 🔥 프로모션 버튼도 일반 버튼과 동일한 ::before 애니메이션 사용 🔥 */
+.gf-promotion-category::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: var(--gradient);
+  transition: left 0.5s ease;
+  z-index: -1;
+  
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+/* 🔥 PC에서만 프로모션 카테고리 호버 효과 🔥 */
+@media (hover: hover) and (pointer: fine) {
+  .gf-promotion-category:hover {
+    border-color: var(--primary-color) !important;
+    color: var(--primary-color) !important;
+  }
+  
+  .gf-promotion-category:hover svg,
+  .gf-promotion-category.active svg {
+    transform: rotate(180deg);
+  }
+}
+
+.gf-promotion-category.active {
+  background: var(--primary-color) !important;
+  border-color: var(--primary-color) !important;
+  color: #fff !important;
+}
+
+.gf-promotion-category svg {
+  flex-shrink: 0;
+  transition: transform 0.3s ease;
+  fill: var(--primary-color) !important;
+  
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  
+  -webkit-user-drag: none;
+  -moz-user-drag: none;
+  
+  pointer-events: none;
+}
+
+.gf-promotion-category.active svg {
+  fill: #fff !important;
+}
+
+/* ─── 카테고리 제품 개수 표시 ─── */
+.gf-prod-category-count {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 24px;
+  height: 24px;
+  padding: 0 6px;
+  background: rgba(0, 0, 0, 0.1);
+  border-radius: 12px;
+  font-size: 0.875rem;
+}
+
+.gf-prod-category-btn.active .gf-prod-category-count {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.gf-promotion-category .gf-prod-category-count {
+  background: rgba(0, 0, 0, 0.1);
+  font-weight: 700;
+}
+
+.gf-promotion-category.active .gf-prod-category-count {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+/* ─── 모바일에서 가로 스크롤 (네이티브 복구) ─── */
+@media (max-width: 768px) {
+  .gf-prod-categories {
+    justify-content: flex-start;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    overflow-y: hidden;
+    overscroll-behavior-x: contain; /* 스크롤 끝에서 튀는 현상 방지 */
+    scroll-behavior: smooth; /* 부드러운 스크롤 */
+    scrollbar-width: none; /* Firefox 스크롤바 숨기기 */
+    -ms-overflow-style: none; /* IE 스크롤바 숨기기 */
+    padding: 4rem 1rem 2rem;
+    gap: 0.75rem;
+  }
+  
+  /* Chrome, Safari 스크롤바 숨기기 */
+  .gf-prod-categories::-webkit-scrollbar {
+    display: none;
+  }
+  
+  .gf-prod-category-btn {
+    flex-shrink: 0; /* 버튼 크기 고정 */
+    white-space: nowrap; /* 텍스트 줄바꿈 방지 */
+  }
+
+  .gf-prod-categories:active {
+    cursor: grabbing;
+  }
+
+  .gf-prod-category-count {
+    min-width: 20px;
+    height: 20px;
+    padding: 0 4px;
+    font-size: 0.75rem;
+    border-radius: 10px;
+  }
+}
+
+@media (max-width: 480px) {
+  .gf-prod-categories {
+    padding: 2rem 1rem 2rem;
+
+  }
+
+  .gf-prod-category-btn {
+    padding: 0.5rem 1rem;
+    font-size: 0.8125rem;
+    gap: 0.4rem;
+  }
+  
+  .gf-prod-category-count {
+    min-width: 18px;
+    height: 18px;
+    font-size: 0.6875rem;
+    border-radius: 9px;
+  }
+}
+
+/* ████████████████████████████████████████████████████████████████████████████████
+██                       CATEGORY FILTERS 끝                                ██
+████████████████████████████████████████████████████████████████████████████████
+*/
+
+/* ████████████████████████████████████████████████████████████████████████████████
+██                          PRODUCT GRID                                     ██
+██                          제품 그리드 및 카드                                 ██
+████████████████████████████████████████████████████████████████████████████████
+*/
+
+/* ─── 제품 그리드 컨테이너 ─── */
+.gf-prod-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1rem;
+  margin: 1rem;
+}
+
+/* ─── 제품 카드 기본 스타일 ─── */
+.gf-prod-card {
+  background: var(--gf-white);
+  border: 1px solid var(--gf-border-light);
+  border-radius: 20px;
+  overflow: hidden;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  cursor: pointer;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-height: 420px;
+  box-shadow: var(--gf-shadow-light);
+  
+  /* 🔥 모바일 터치 최적화 🔥 */
+  -webkit-tap-highlight-color: transparent;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+/* 🔥 PC에서만 제품 카드 호버 효과 적용 🔥 */
+@media (hover: hover) and (pointer: fine) {
+  .gf-prod-card:hover {
+    transform: translateY(-10px);
+    background: var(--gf-light-gray);
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+    border-color: var(--shadow-color-medium);
+  }
+  
+  .gf-prod-card:hover .gf-prod-card-image img {
+    transform: scale(1.1);
+  }
+  
+  .gf-prod-card:hover .gf-prod-card-overlay {
+    opacity: 1;
+  }
+  
+  .gf-prod-card:hover .gf-prod-quick-view {
+    transform: translateY(0);
+  }
+  
+  .gf-prod-card:hover .gf-prod-card-category {
+    color: var(--gf-text-dark);
+    background: rgba(0, 0, 0, 0.05);
+  }
+  
+  .gf-prod-card:hover .gf-prod-card-title {
+    color: var(--primary-color);
+  }
+}
+
+/* 🔥 모바일/터치 디바이스에서 호버 효과 완전 차단 🔥 */
+@media (hover: none) and (pointer: coarse) {
+  .gf-prod-card:hover {
+    transform: none !important;
+    background: var(--gf-white) !important;
+    box-shadow: var(--gf-shadow-light) !important;
+    border-color: var(--gf-border-light) !important;
+  }
+  
+  .gf-prod-card:hover .gf-prod-card-image img {
+    transform: none !important;
+  }
+  
+  .gf-prod-card:hover .gf-prod-card-overlay {
+    opacity: 0 !important;
+  }
+  
+  .gf-prod-card:hover .gf-prod-card-category {
+    color: var(--gf-text-dark-muted) !important;
+    background: var(--gf-light-gray) !important;
+  }
+  
+  .gf-prod-card:hover .gf-prod-card-title {
+    color: var(--gf-text-dark) !important;
+  }
+  
+  /* 🔥 모바일에서 오버레이 완전 숨김 🔥 */
+  .gf-prod-card-overlay {
+    display: none !important;
+  }
+}
+
+/* ─── 제품 이미지 영역 ─── */
+.gf-prod-card-image {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1;
+  overflow: hidden;
+  flex-shrink: 0;
+  background: #f8f9fa;
+}
+
+.gf-prod-card-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: center;
+  transition: transform 0.6s ease;
+}
+
+/* ─── 제품 뱃지 컨테이너 ─── */
+.gf-prod-badges-container {
+  position: absolute;
+  top: 1rem;
+  left: 1rem;
+  display: flex;
+  gap: 0.4rem;
+  flex-wrap: wrap;
+  max-width: calc(100% - 1.5rem);
+  z-index: 2;
+}
+
+.gf-prod-card-badge {
+  position: relative;
+  padding: 0.4rem 0.8rem;
+  color: var(--gf-text);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  border-radius: 15px;
+  text-transform: uppercase;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+}
+
+/* ─── 제품 카드 프로모션 뱃지 별 아이콘 정렬 ─── */
+.gf-prod-card-badge.badge-promotion svg {
+  transform: translateY(2px) !important;
+}
+
+/* ─── 뱃지 색상 설정 ─── */
+.gf-prod-card-badge.badge-new {
+  background: linear-gradient(135deg, #00d963, #00a83f);
+}
+
+.gf-prod-card-badge.badge-best {
+  background: linear-gradient(135deg, #00b4d8, #0077b6);
+}
+
+.gf-prod-card-badge.badge-promotion {
+  background: var(--gradient);
+}
+
+/* ─── 카드 오버레이 (퀵뷰 버튼) ─── */
+.gf-prod-card-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.gf-prod-quick-view {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  background: var(--primary-color);
+  border: none;
+  border-radius: 25px;
+  color: var(--gf-text);
+  font-weight: 600;
+  font-size: 0.875rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  transform: translateY(20px);
+}
+
+/* 🔥 PC에서만 퀵뷰 버튼 호버 효과 🔥 */
+@media (hover: hover) and (pointer: fine) {
+  /* .gf-prod-quick-view:hover {
+    background: var(--accent-color);
+    transform: scale(1.05);
+  } */
+}
+
+/* ─── 제품 정보 영역 ─── */
+.gf-prod-card-info {
+  padding: 1rem;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ─── 카테고리 표시 ─── */
+.gf-prod-card-category {
+  display: inline-flex;
+  width: fit-content;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--gf-text-dark-muted);
+  margin-bottom: 1rem;
+  padding: 0.4rem 1rem;
+  background: var(--gf-light-gray);
+  border: none;
+  border-radius: 50px;
+  white-space: nowrap;
+  font-weight: 600;
+  box-shadow: 2px 4px 6px rgba(0, 0, 0, 0.12);
+  transition: all 0.3s ease;
+}
+
+/* ─── 제품명 ─── */
+.gf-prod-card-title {
+  font-size: 1.5rem;
+  font-weight: 800;
+  margin: 0 0 0rem;
+  transition: color 0.3s ease;
+  line-height: 1.2;
+  color: var(--gf-text-dark);
+}
+
+/* ─── 제품 코드 ─── */
+.gf-prod-card-code {
+  font-size: 0.875rem;
+  color: var(--gf-text-dark-muted);
+  margin: 0 0 1rem;
+  font-weight: 600;
+}
+
+/* ─── 가격 영역 ─── */
+.gf-prod-card-price {
+  display: flex;
+  flex-direction: column;
+  gap: 0rem;
+  margin-top: auto;
+}
+
+.gf-prod-original-price {
+  font-size: 1rem;
+  color: var(--gf-text-dark-muted);
+  text-decoration: line-through;
+  opacity: 0.7;
+}
+
+.gf-prod-current-price {
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+}
+
+.gf-prod-price-main {
+  display: flex;
+  align-items: baseline;
+  gap: 0.5rem;
+}
+
+.gf-prod-price-label {
+  font-size: 1rem;
+  color: var(--gf-text-dark-dim);
+  display: none;
+}
+
+.gf-prod-price-value {
+  font-size: 1.5rem;
+  font-weight: 900;
+  color: var(--gf-text-dark);
+  line-height: 1.2;
+}
+
+/* ─── 할인가 특별 스타일 ─── */
+.gf-prod-price-discount-card {
+  font-size: 1.5rem;
+  font-weight: 900;
+  color: var(--primary-color);
+  background: var(--gradient);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  position: relative;
+}
+
+/* ─── VAT 별도 표시 (제품 카드용) ─── */
+.gf-prod-vat-notice {
+  font-size: 0.8rem;
+  color: var(--gf-text-dark-muted);
+  font-weight: 500;
+  opacity: 0.8;
+  line-height: 1.2;
+  margin-top: 0.2rem;
+}
+
+/* ─── 더보기 버튼 ─── */
+.gf-prod-load-more {
+  text-align: center;
+  padding: 2rem 0 4rem;
+  animation: fadeInUp 0.6s ease;
+}
+
+.gf-prod-load-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 1.25rem 3rem;
+  background: transparent;
+  border: 2px solid var(--gf-border-light);
+  border-radius: 50px;
+  color: var(--gf-text-dark);
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+/* 🔥 PC에서만 더보기 버튼 호버 효과 🔥 */
+@media (hover: hover) and (pointer: fine) {
+  .gf-prod-load-btn:hover {
+    background: var(--gf-light-gray);
+    border-color: var(--primary-color);
+    color: var(--primary-color);
+  }
+  
+  .gf-prod-load-btn:hover i {
+    transform: translateY(3px);
+  }
+}
+
+.gf-prod-load-btn i {
+  transition: transform 0.3s ease;
+}
+
+/* ─── 제품 그리드 반응형 ─── */
+@media (min-width: 1400px) {
+  .gf-prod-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+@media (max-width: 1399px) {
+  .gf-prod-load-more {
+  padding: 1rem 0 6rem;
+  }
+  .gf-prod-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 1199px) {
+  .gf-prod-load-more {
+  padding: 1rem 0 6rem;
+  }
+  .gf-prod-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.25rem;
+  }
+  
+  .gf-prod-card {
+    min-height: 400px;
+  }
+}
+
+@media (max-width: 767px) {
+  .gf-prod-container {
+    padding: 0 0 2rem;
+  }
+  
+  .gf-prod-main {
+    padding: 0px 0;
+  }
+  
+  .gf-prod-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+  }
+  
+  .gf-prod-card {
+    min-height: 350px;
+    border-radius: 16px;
+  }
+  
+  .gf-prod-badges-container {
+    top: 1rem;
+    left: 1rem;
+  }
+  
+  .gf-prod-card-badge {
+    padding: 0.3rem 0.6rem;
+    font-size: 0.625rem;
+    border-radius: 12px;
+  }
+  
+  .gf-prod-card-info {
+    padding: 1rem;
+  }
+  
+  .gf-prod-card-title {
+    font-size: 1.2rem;
+    margin-bottom: 0.125rem;
+  }
+  
+  .gf-prod-card-category {
+    font-size: 0.625rem;
+    padding: 0.25rem 0.6rem;
+    margin-bottom: 0.8rem;
+    border-radius: 50px;
+    box-shadow: 2px 4px 6px rgba(0, 0, 0, 0.12);
+  }
+  
+  .gf-prod-card-code {
+    font-size: 0.75rem;
+    margin-bottom: 0.75rem;
+    font-weight: 600;
+  }
+  
+  .gf-prod-price-label {
+    font-size: 0.8rem;
+  }
+  
+  .gf-prod-price-value {
+    font-size: 1.2rem;
+  }
+  
+  .gf-prod-price-discount-card {
+    font-size: 1.2rem;
+  }
+  
+  .gf-prod-original-price {
+    font-size: 0.75rem;
+  }
+  
+  /* VAT 문구 태블릿/모바일 크기 조정 */
+  .gf-prod-vat-notice {
+    font-size: 0.6875rem;
+  }
+  
+  .gf-prod-load-more {
+  padding: 1rem 0 4rem;
+  }
+  
+  .gf-prod-load-btn {
+    padding: 1rem 2rem;
+    font-size: 0.875rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .gf-prod-badges-container {
+    top: 0.7rem;
+    left: 0rem;
+    scale: 0.8;
+  }
+
+  .gf-prod-card-badge.badge-promotion svg {
+    transform: translateY(2px) !important;
+  }
+
+  .gf-prod-price-label{
+    display: none;
+  }
+  
+  .gf-prod-main {
+    padding: 0px 0;
+  }
+  
+  .gf-prod-grid {
+    gap: 0.5rem;
+  }
+  
+  .gf-prod-card {
+    min-height: 320px;
+    border-radius: 12px;
+  }
+  
+  .gf-prod-card-info {
+    padding: 0.875rem;
+  }
+  
+  .gf-prod-card-category {
+    font-size: 0.5625rem;
+    padding: 0.2rem 0.6rem;
+    border-radius: 50px;
+    box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.12);
+  }
+  
+  .gf-prod-card-title {
+    font-size: 1.2rem;
+  }
+  
+  .gf-prod-card-code {
+    font-size: 0.6875rem;
+    margin-bottom: 0.625rem;
+    font-weight: 600;
+  }
+  
+  .gf-prod-price-label {
+    font-size: 1rem;
+  }
+  
+  .gf-prod-price-value {
+    font-size: 1.2rem;
+  }
+  
+  .gf-prod-price-discount-card {
+    font-size: 1.2rem;
+  }
+  
+  /* VAT 문구 작은 모바일 크기 조정 */
+  .gf-prod-vat-notice {
+    font-size: 0.625rem;
+  }
+}
+
+@media (max-width: 360px) {
+  .gf-prod-container {
+    padding: 0 0 2rem;
+  }
+
+  .gf-prod-price-label{
+    display: none;
+  }
+  
+  .gf-prod-grid {
+    gap: 0.5rem;
+  }
+  
+  .gf-prod-card {
+    min-height: 300px;
+  }
+  
+  .gf-prod-card-info {
+    padding: 0.75rem;
+  }
+  
+  .gf-prod-card-title {
+    font-size: 1rem;
+  }
+
+    .gf-prod-card-code {
+    font-size: 0.6rem;
+    margin-bottom: 0.625rem;
+    font-weight: 600;
+  }
+  
+  /* VAT 문구 초소형 모바일 크기 조정 */
+  .gf-prod-vat-notice {
+    font-size: 0.5625rem;
+  }
+}
+
+/* ████████████████████████████████████████████████████████████████████████████████
+██                    🛒 제품 카드 카트 버튼 스타일                              ██
+████████████████████████████████████████████████████████████████████████████████
+*/
+
+/* ─── 제품 카드 견적 담기 버튼 ─── */
+.gf-prod-cart-btn {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  width: 44px;
+  height: 44px;
+  background: rgba(128, 128, 128, 0.2);
+  border: none;
+  border-radius: 50%;
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 1.125rem;
+  cursor: pointer;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(1px);
+  
+  -webkit-tap-highlight-color: transparent;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  outline: none;
+}
+
+.gf-prod-cart-btn i {
+  transform: translateX(-1px);
+}
+
+.gf-prod-cart-btn.active {
+  color: var(--primary-color);
+}
+
+@media (min-width: 769px) and (max-width: 1024px) {
+  .gf-prod-cart-btn {
+    width: 46px;
+    height: 46px;
+    font-size: 1.1875rem;
+    top: 1rem;
+    right: 1rem;
+    background: rgba(128, 128, 128, 0.25);
+    backdrop-filter: blur(6px);
+  }
+  
+  .gf-prod-cart-btn i {
+    transform: translateX(-1px) scale(1.05);
+  }
+}
+
+@media (max-width: 768px) {
+  .gf-prod-cart-btn {
+    width: 40px;
+    height: 40px;
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .gf-prod-cart-btn {
+    top: 0.75rem;
+    right: 0.75rem;
+    width: 36px;
+    height: 36px;
+    font-size: 0.875rem;
+  }
+}
+
+/* ████████████████████████████████████████████████████████████████████████████████
+██                    🛒 제품 카드 카트 버튼 스타일 끝                           ██
+████████████████████████████████████████████████████████████████████████████████
+*/
+
+/* ████████████████████████████████████████████████████████████████████████████████
+██                         빈 카테고리 상태 스타일                              ██
+████████████████████████████████████████████████████████████████████████████████
+*/
+
+.gf-prod-empty-state {
+  grid-column: 1 / -1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 4rem 2rem;
+  min-height: 400px;
+  background: var(--gf-white);
+  border: 2px dashed var(--gf-border-light);
+  border-radius: 20px;
+  margin: 2rem 0;
+  opacity: 0;
+  transform: translateY(30px);
+  transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.gf-prod-empty-state.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.gf-prod-empty-icon {
+  width: 120px;
+  height: 120px;
+  background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 2.5rem;
+  position: relative;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  margin-top: 2rem;
+}
+
+.gf-prod-empty-icon::before {
+  content: '';
+  position: absolute;
+  inset: -2px;
+  background: var(--gradient);
+  border-radius: 50%;
+  z-index: -1;
+  opacity: 0.1;
+}
+
+.gf-prod-empty-icon i {
+  font-size: 3rem;
+  color: #6c757d;
+  animation: floatIcon 3s ease-in-out infinite;
+}
+
+@keyframes floatIcon {
+  0%, 100% { transform: translateY(8px); }
+  50% { transform: translateY(-2px); }
+}
+
+.gf-prod-empty-title {
+  font-size: 2rem;
+  font-weight: 800;
+  color: var(--gf-text-dark);
+  margin: 0 0 1rem;
+  line-height: 1.2;
+}
+
+.gf-prod-empty-description {
+  font-size: 1.125rem;
+  color: var(--gf-text-dark-dim);
+  line-height: 1.6;
+  margin: 0 0 2.5rem;
+  max-width: 500px;
+}
+
+.gf-prod-empty-actions {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+.gf-prod-empty-btn {
+  display: inline-block;
+  padding: 1rem 2.5rem;
+  background: var(--gradient);
+  border: none;
+  border-radius: 50px;
+  color: var(--gf-text);
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 4px 20px var(--shadow-color-medium);
+  text-align: center;
+  min-width: 200px;
+}
+
+/* 🔥 PC에서만 빈 상태 버튼 호버 효과 🔥 */
+@media (hover: hover) and (pointer: fine) {
+  .gf-prod-empty-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 30px var(--shadow-color-strong);
+  }
+  
+  .gf-prod-empty-btn:active {
+    transform: translateY(-1px);
+  }
+}
+
+/* 🔥 모바일에서는 호버 효과 제거 🔥 */
+@media (hover: none) and (pointer: coarse) {
+  .gf-prod-empty-btn:hover {
+    transform: none !important;
+    box-shadow: 0 4px 20px var(--shadow-color-medium) !important;
+  }
+  
+  .gf-prod-empty-btn:active {
+    transform: scale(0.98);
+  }
+}
+
+@media (max-width: 768px) {
+  .gf-prod-empty-state {
+    padding: 3rem 1.5rem;
+    min-height: 350px;
+    margin: 1.5rem 0;
+    border-radius: 16px;
+  }
+  
+  .gf-prod-empty-icon {
+    width: 100px;
+    height: 100px;
+    margin-bottom: 1.5rem;
+  }
+  
+  .gf-prod-empty-icon i {
+    font-size: 2.5rem;
+  }
+  
+  .gf-prod-empty-title {
+    font-size: 1.5rem;
+    margin-bottom: 0.75rem;
+  }
+  
+  .gf-prod-empty-description {
+    font-size: 1rem;
+    margin-bottom: 2rem;
+  }
+  
+  .gf-prod-empty-btn {
+    padding: 0.875rem 1.5rem;
+    font-size: 0.875rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .gf-prod-empty-state {
+    padding: 2.5rem 1rem;
+    min-height: 300px;
+    margin: 1rem 0;
+    border-radius: 12px;
+  }
+  
+  .gf-prod-empty-icon {
+    width: 80px;
+    height: 80px;
+    margin-bottom: 1rem;
+  }
+  
+  .gf-prod-empty-icon i {
+    font-size: 2rem;
+  }
+  
+  .gf-prod-empty-title {
+    font-size: 1.25rem;
+    margin-bottom: 0.5rem;
+  }
+  
+  .gf-prod-empty-description {
+    font-size: 0.875rem;
+    margin-bottom: 1.5rem;
+  }
+  
+  .gf-prod-empty-btn {
+    padding: 0.75rem 1.25rem;
+    font-size: 0.8125rem;
+    border-radius: 25px;
+  }
+}
+
+/* ████████████████████████████████████████████████████████████████████████████████
+██                       빈 카테고리 상태 스타일 끝                             ██
+████████████████████████████████████████████████████████████████████████████████
+*/
+
+/* ████████████████████████████████████████████████████████████████████████████████
+██                         ANIMATIONS                                         ██
+██                         애니메이션 정의                                      ██
+████████████████████████████████████████████████████████████████████████████████
+*/
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeInScale {
+  from { 
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to { 
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* ████████████████████████████████████████████████████████████████████████████████
+██                        ANIMATIONS 끝                                     ██
+████████████████████████████████████████████████████████████████████████████████
+*/
+
+/* ████████████████████████████████████████████████████████████████████████████████
+██                          PRODUCT MODAL                                    ██
+██                         제품 상세 모달창                                     ██
+████████████████████████████████████████████████████████████████████████████████
+*/
+
+/* ─── 모달 컨테이너 ─── */
+.gf-prod-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 9999;
+  display: none;
+  animation: modalFadeIn 0.3s ease;
+  /* Safe area 대응 */
+  padding-top: env(safe-area-inset-top);
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
+.gf-prod-modal.active {
+  display: block;
+  /* 모바일에서 UI 숨기기 및 고정 */
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  height: 100dvh;
+  overflow: hidden;
+  touch-action: none;
+  -webkit-overflow-scrolling: auto;
+}
+
+@keyframes modalFadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* ─── 모달 배경 오버레이 ─── */
+.gf-prod-modal-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(10px);
+}
+
+/* ─── 모달 본체 ─── */
+.gf-prod-modal-content {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 90%;
+  max-width: 1200px;
+  max-height: 90dvh;
+  background: var(--gf-white);
+  border: 1px solid var(--gf-border-light);
+  border-radius: 24px;
+  overflow: hidden;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+  animation: modalSlideInPC 0.4s ease;
+}
+
+/* ─── PC용 애니메이션 ─── */
+@keyframes modalSlideInPC {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -60%) scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+}
+
+/* ─── 모바일용 애니메이션 ─── */
+@keyframes modalSlideInMobile {
+  from {
+    opacity: 0;
+    transform: translateY(100%);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes modalSlideOutMobile {
+  from {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(100%);
+  }
+}
+
+/* ─── 모달 헤더 ─── */
+.gf-prod-modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 2rem;
+  border-bottom: 1px solid var(--gf-border-light);
+  background: var(--gf-white);
+}
+
+.gf-prod-modal-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin: 0;
+  color: var(--gf-text-dark);
+}
+
+.gf-prod-modal-close {
+  width: 50px;
+  height: 50px;
+  background: var(--gf-light-gray);
+  border: none;
+  border-radius: 50%;
+  color: var(--gf-text-dark-dim);
+  font-size: 1.5rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* 🔥 PC에서만 모달 닫기 버튼 호버 효과 🔥 */
+@media (hover: hover) and (pointer: fine) {
+  .gf-prod-modal-close:hover {
+    background: var(--primary-color);
+    color: var(--gf-text);
+    transform: rotate(90deg);
+  }
+}
+
+/* ─── 모달 바디 및 스크롤바 ─── */
+.gf-prod-modal-body {
+  padding: 2rem;
+  overflow-y: auto;
+  max-height: calc(90dvh - 100px);
+  background: var(--gf-white);
+}
+
+.gf-prod-modal-body::-webkit-scrollbar {
+  width: 10px;
+}
+
+.gf-prod-modal-body::-webkit-scrollbar-track {
+  background: var(--gf-light-gray);
+  border-radius: 5px;
+}
+
+.gf-prod-modal-body::-webkit-scrollbar-thumb {
+  background: var(--shadow-color-strong);
+  border-radius: 5px;
+  transition: background 0.3s ease;
+}
+
+/* 🔥 PC에서만 스크롤바 호버 효과 🔥 */
+@media (hover: hover) and (pointer: fine) {
+  .gf-prod-modal-body::-webkit-scrollbar-thumb:hover {
+    background: var(--primary-color);
+  }
+}
+
+/* Firefox 지원 */
+.gf-prod-modal-body {
+  scrollbar-width: thin;
+  scrollbar-color: var(--shadow-color-strong) var(--gf-light-gray);
+}
+
+/* ─── 모달 그리드 레이아웃 ─── */
+.gf-prod-modal-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 3rem;
+  margin-bottom: 3rem;
+}
+
+/* ─── 이미지 갤러리 ─── */
+.gf-prod-modal-gallery {
+  position: sticky;
+  top: 0;
+  height: fit-content;
+}
+
+.gf-prod-gallery-main {
+  position: relative;
+  width: 100%;
+  height: 0;
+  padding-bottom: 100%;
+  background: var(--gf-light-gray);
+  border-radius: 20px;
+  overflow: hidden;
+  margin-bottom: 1rem;
+  border: 1px solid var(--gf-border-light);
+}
+
+.gf-prod-gallery-main img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: center;
+  border-radius: 20px;
+}
+
+.gf-prod-gallery-placeholder {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: var(--gf-light-gray);
+  border: 2px dashed var(--gf-border-light);
+  border-radius: 20px;
+}
+
+.gf-prod-gallery-placeholder i {
+  font-size: 4rem;
+  color: var(--gf-text-dark-muted);
+  margin-bottom: 1rem;
+}
+
+.gf-prod-gallery-placeholder p {
+  color: var(--gf-text-dark-dim);
+  font-size: 1.125rem;
+}
+
+/* ─── 모달 제품 정보 ─── */
+.gf-prod-info-badge {
+  display: inline-flex;
+  width: fit-content;
+  align-items: center;
+  justify-content: center;
+  padding: 0.5rem 1rem;
+  background: var(--gf-light-gray);
+  border: 1px solid var(--gf-border-light);
+  border-radius: 20px;
+  font-size: 0.875rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--gf-text-dark);
+  margin-bottom: 0.5rem;
+  white-space: nowrap;
+  font-weight: 600;
+}
+
+.gf-prod-info-name {
+  font-size: 2.5rem;
+  font-weight: 900;
+  margin: 0 0 0rem;
+  line-height: 1.2;
+  color: var(--gf-text-dark);
+}
+
+.gf-prod-info-code {
+  font-size: 1rem;
+  color: var(--gf-text-dark-muted);
+  margin: 0 0 1.5rem;
+  font-weight: 600;
+}
+
+/* ─── 모달 가격 정보 ─── */
+.gf-prod-info-price {
+  display: flex;
+  flex-direction: column;
+  gap: 0rem;
+  padding: 1.5rem 0;
+  border-radius: 12px;
+  margin-bottom: 0rem;
+}
+
+.gf-prod-info-original-price {
+  font-size: 1.25rem;
+  color: var(--gf-text-dark-muted);
+  text-decoration: line-through;
+  opacity: 0.7;
+  margin-bottom: -0.6rem;
+}
+
+.gf-prod-info-current-price {
+  display: flex;
+  flex-direction: column;
+  gap: 0rem;
+}
+
+.gf-prod-info-price-main {
+  display: flex;
+  align-items: baseline;
+  gap: 1rem;
+}
+
+.gf-prod-price-discount {
+  font-size: 2.75rem;
+  font-weight: 900;
+  color: var(--primary-color);
+  background: var(--gradient);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.gf-prod-price-regular {
+  font-size: 2.5rem;
+  font-weight: 900;
+  color: var(--gf-text-dark);
+}
+
+/* ─── VAT 별도 표시 (모달용) ─── */
+.gf-prod-modal-vat-notice {
+  font-size: 0.875rem;
+  color: var(--gf-text-dark-muted);
+  font-weight: 500;
+  opacity: 0.8;
+  line-height: 1.2;
+  margin-top: 0rem;
+}
+
+/* ─── 모달 뱃지 ─── */
+.gf-prod-modal-badges {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  margin: 0.5rem 0 1.25rem 0;
+}
+
+.gf-prod-modal-badge {
+  padding: 0.5rem 1rem;
+  color: var(--gf-text);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+  border-radius: 20px;
+  text-transform: uppercase;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+  transition: all 0.3s ease;
+}
+
+.gf-prod-modal-badge.badge-new {
+  background: linear-gradient(135deg, #00d963, #00a83f);
+}
+
+.gf-prod-modal-badge.badge-best {
+  background: linear-gradient(135deg, #00b4d8, #0077b6);
+}
+
+.gf-prod-modal-badge.badge-promotion {
+  background: var(--gradient);
+}
+
+/* ─── 제품 상세 모달의 프로모션 뱃지 별 아이콘 정렬 ─── */
+.gf-prod-modal-badge.badge-promotion svg {
+  transform: translateY(1px) !important;
+}
+
+/* 🔥 PC에서만 모달 뱃지 호버 효과 🔥 */
+@media (hover: hover) and (pointer: fine) {
+  .gf-prod-modal-badge:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+  }
+}
+
+/* ─── 제품 사양 ─── */
+.gf-prod-info-specs {
+  margin-bottom: 2rem;
+}
+
+.gf-prod-info-specs h4 {
+  font-size: 1.25rem;
+  margin: 0 0 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--gf-text-dark);
+}
+
+.gf-prod-info-specs h4::before {
+  content: '';
+  width: 4px;
+  height: 20px;
+  background: var(--primary-color);
+  border-radius: 2px;
+}
+
+.gf-prod-specs-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: var(--gf-white);
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid var(--gf-border-light);
+}
+
+.gf-prod-specs-table tr {
+  border-bottom: 1px solid var(--gf-border-light);
+}
+
+.gf-prod-specs-table tr:last-child {
+  border-bottom: none;
+}
+
+.gf-prod-specs-table th,
+.gf-prod-specs-table td {
+  padding: 1rem;
+  text-align: left;
+}
+
+.gf-prod-specs-table th {
+  color: var(--gf-text-dark-dim);
+  font-weight: 600;
+  width: 40%;
+  background: var(--gf-light-gray);
+}
+
+.gf-prod-specs-table td {
+  color: var(--gf-text-dark);
+  font-weight: 500;
+}
+
+/* ─── 제품 특징 ─── */
+.gf-prod-info-features h4 {
+  font-size: 1.25rem;
+  margin: 0 0 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--gf-text-dark);
+}
+
+.gf-prod-info-features h4::before {
+  content: '';
+  width: 4px;
+  height: 20px;
+  background: var(--primary-color);
+  border-radius: 2px;
+}
+
+.gf-prod-info-features ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.gf-prod-info-features li {
+  position: relative;
+  padding-left: 2rem;
+  margin-bottom: 0.75rem;
+  color: var(--gf-text-dark-dim);
+  line-height: 1.6;
+}
+
+.gf-prod-info-features li::before {
+  content: '✓';
+  position: absolute;
+  left: 0;
+  color: var(--primary-color);
+  font-weight: bold;
+}
+
+/* ─── 영상 섹션 ─── */
+.gf-prod-modal-video {
+  margin-bottom: 2rem;
+}
+
+.gf-prod-modal-video h4 {
+  font-size: 1.25rem;
+  margin: 0 0 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--gf-text-dark);
+}
+
+.gf-prod-modal-video h4::before {
+  content: '';
+  width: 4px;
+  height: 20px;
+  background: var(--primary-color);
+  border-radius: 2px;
+}
+
+.gf-prod-video-container {
+  position: relative;
+  width: 100%;
+  padding-top: 56.25%; /* 16:9 비율 */
+  background: var(--gf-light-gray);
+  border-radius: 16px;
+  overflow: hidden;
+  border: 1px solid var(--gf-border-light);
+}
+
+.gf-prod-video-placeholder {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border: 2px dashed var(--gf-border-light);
+  border-radius: 16px;
+}
+
+.gf-prod-video-placeholder i {
+  font-size: 4rem;
+  color: var(--gf-text-dark-muted);
+  margin-bottom: 1rem;
+}
+
+.gf-prod-video-placeholder p {
+  color: var(--gf-text-dark-dim);
+  font-size: 1.125rem;
+}
+
+.gf-prod-video-container iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+/* ─── CTA 버튼 ─── */
+.gf-prod-modal-cta {
+  display: flex;
+  gap: 1rem;
+  padding-top: 2rem;
+  padding-bottom: 2rem;
+  border-top: 1px solid var(--gf-border-light);
+}
+
+.gf-prod-cta-inquiry,
+.gf-prod-cta-catalog {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  padding: 1.25rem 2rem;
+  border-radius: 12px;
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: none;
+}
+
+.gf-prod-cta-inquiry {
+  background: var(--gradient);
+  color: var(--gf-text);
+}
+
+/* 🔥 PC에서만 문의하기 버튼 호버 효과 🔥 */
+@media (hover: hover) and (pointer: fine) {
+  .gf-prod-cta-inquiry:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 30px var(--shadow-color-medium);
+  }
+}
+
+.gf-prod-cta-catalog {
+  background: transparent;
+  color: var(--gf-text-dark);
+  border: 2px solid var(--gf-border-light);
+}
+
+/* 🔥 PC에서만 카탈로그 버튼 호버 효과 🔥 */
+@media (hover: hover) and (pointer: fine) {
+  .gf-prod-cta-catalog:hover {
+    background: var(--gf-light-gray);
+    border-color: var(--primary-color);
+    color: var(--primary-color);
+  }
+}
+
+/* ─── 추가 미디어 섹션 ─── */
+.gf-prod-additional-media {
+  margin-top: 3rem;
+}
+
+.gf-prod-additional-images,
+.gf-prod-additional-videos,
+.gf-prod-download-links {
+  margin-bottom: 2rem;
+}
+
+.gf-prod-additional-images h4,
+.gf-prod-additional-videos h4,
+.gf-prod-download-links h4 {
+  font-size: 1.25rem;
+  margin: 0 0 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--gf-text-dark);
+}
+
+.gf-prod-additional-images h4::before,
+.gf-prod-additional-videos h4::before,
+.gf-prod-download-links h4::before {
+  content: '';
+  width: 4px;
+  height: 20px;
+  background: var(--primary-color);
+  border-radius: 2px;
+}
+
+.gf-prod-image-list {
+  display: grid;
+  gap: 1.5rem;
+}
+
+.gf-prod-image-item img {
+  width: 100%;
+  height: auto;
+  display: block;
+  border-radius: 12px;
+  border: 1px solid var(--gf-border-light);
+}
+
+.gf-prod-video-list {
+  display: grid;
+  gap: 1.5rem;
+}
+
+.gf-prod-video-item h5 {
+  font-size: 1rem;
+  margin: 0 0 0.75rem;
+  color: var(--gf-text-dark-dim);
+}
+
+.gf-prod-video-item iframe {
+  width: 100%;
+  height: 315px;
+  border-radius: 12px;
+  border: 1px solid var(--gf-border-light);
+}
+
+.gf-prod-link-list {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.gf-prod-download-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 1rem 1.5rem;
+  background: var(--gf-light-gray);
+  border: 1px solid var(--gf-border-light);
+  border-radius: 12px;
+  color: var(--gf-text-dark);
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+
+/* 🔥 PC에서만 다운로드 링크 호버 효과 🔥 */
+@media (hover: hover) and (pointer: fine) {
+  .gf-prod-download-link:hover {
+    background: var(--highlight-bg);
+    border-color: var(--shadow-color-medium);
+    color: var(--primary-color);
+    transform: translateX(5px);
+  }
+}
+
+.gf-prod-download-link i {
+  font-size: 1.25rem;
+}
+
+/* ─── 모바일 반응형 ─── */
+@media (max-width: 1024px) {
+  .gf-prod-modal-grid {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+  
+  .gf-prod-modal-gallery {
+    position: static;
+  }
+}
+
+/* 태블릿 및 모바일 */
+@media (max-width: 768px) {
+  /* 완전 전체화면 모달 */
+  .gf-prod-modal-content {
+    width: 100vw;
+    height: 100vh;
+    height: 100dvh;
+    max-height: none;
+    top: 0;
+    left: 0;
+    transform: none;
+    border-radius: 0;
+    border: none;
+    box-shadow: none;
+    animation: modalSlideInMobile 0.3s ease;
+    padding-top: env(safe-area-inset-top);
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+  
+  .gf-prod-modal:not(.active) .gf-prod-modal-content {
+    animation: modalSlideOutMobile 0.3s ease forwards;
+  }
+  
+  .gf-prod-modal-header {
+    padding: 1rem;
+    background: var(--gf-white);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--gf-border-light);
+    padding-top: calc(1rem + env(safe-area-inset-top));
+  }
+  
+  .gf-prod-modal-title {
+    font-size: 1rem;
+  }
+  
+  .gf-prod-modal-close {
+    width: 44px;
+    height: 44px;
+    font-size: 1.25rem;
+  }
+  
+  .gf-prod-modal-body {
+    padding: 2rem;
+    height: calc(100vh - 70px - env(safe-area-inset-top) - env(safe-area-inset-bottom));
+    height: calc(100dvh - 70px - env(safe-area-inset-top) - env(safe-area-inset-bottom));
+    max-height: none;
+  }
+  
+  .gf-prod-gallery-main {
+    height: 0;
+    padding-bottom: 100%;
+  }
+  
+  .gf-prod-info-name {
+    font-size: 1.5rem;
+  }
+  
+  .gf-prod-info-code {
+    font-size: 0.875rem;
+    margin-bottom: 1rem;
+  }
+  
+  .gf-prod-info-price {
+    padding: 1rem 0;
+    margin-bottom: 1.5rem;
+  }
+  
+  .gf-prod-price-discount,
+  .gf-prod-price-regular {
+    font-size: 2rem;
+  }
+  
+  .gf-prod-specs-table th,
+  .gf-prod-specs-table td {
+    padding: 0.75rem;
+    font-size: 0.875rem;
+  }
+  
+  .gf-prod-info-features li {
+    margin-bottom: 0.5rem;
+    font-size: 0.875rem;
+  }
+  
+  .gf-prod-modal-cta {
+    flex-direction: column;
+    padding: 1rem;
+    padding-bottom: calc(1rem + env(safe-area-inset-bottom));
+  }
+  
+  .gf-prod-cta-inquiry,
+  .gf-prod-cta-catalog {
+    padding: 1rem;
+    font-size: 0.875rem;
+  }
+  
+  .gf-prod-video-item iframe {
+    height: 200px;
+  }
+}
+
+@media (max-width: 480px) {
+  .gf-prod-modal-header {
+    padding: 0.75rem;
+    padding-top: calc(0.75rem + env(safe-area-inset-top));
+  }
+  
+  .gf-prod-modal-body {
+    padding: 1.25rem;
+    height: calc(100vh - 60px - env(safe-area-inset-top) - env(safe-area-inset-bottom));
+    height: calc(100dvh - 60px - env(safe-area-inset-top) - env(safe-area-inset-bottom));
+  }
+  
+  .gf-prod-gallery-main {
+    height: 0;
+    padding-bottom: 100%;
+  }
+  
+  .gf-prod-info-name {
+    font-size: 1.25rem;
+  }
+  
+  .gf-prod-specs-table th,
+  .gf-prod-specs-table td {
+    padding: 0.5rem;
+    font-size: 0.8125rem;
+  }
+}
+
+/* ████████████████████████████████████████████████████████████████████████████████
+██                         PRODUCT MODAL 끝                                 ██
+████████████████████████████████████████████████████████████████████████████████
+*/
+
+/* ████████████████████████████████████████████████████████████████████████████████
+██                    모달 헤더 견적 담기 버튼 스타일                            ██
+████████████████████████████████████████████████████████████████████████████████
+*/
+
+/* ─── 모달 헤더 견적 담기 버튼 ─── */
+.gf-prod-modal-cart-btn {
+  width: 50px;
+  height: 50px;
+  background: var(--gf-light-gray);
+  border: none;
+  border-radius: 50%;
+  color: var(--gf-text-dark-dim);
+  font-size: 1.25rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: auto;
+  margin-right: 1rem;
+  
+  -webkit-tap-highlight-color: transparent;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  outline: none;
+}
+
+.gf-prod-modal-cart-btn i {
+  transform: translateX(-1px);
+}
+
+/* 🔥 PC에서만 모달 카트 버튼 호버 효과 🔥 */
+@media (hover: hover) and (pointer: fine) {
+  .gf-prod-modal-cart-btn:hover {
+    background: var(--primary-color);
+    color: var(--gf-text);
+  }
+}
+
+/* 🔥 모바일에서는 호버 효과 제거 🔥 */
+@media (hover: none) and (pointer: coarse) {
+  .gf-prod-modal-cart-btn:hover {
+    background: var(--gf-light-gray) !important;
+    color: var(--gf-text-dark-dim) !important;
+  }
+  
+  .gf-prod-modal-cart-btn:active {
+    transform: scale(0.95);
+  }
+}
+
+.gf-prod-modal-cart-btn.active {
+  background: var(--primary-color);
+  color: var(--gf-text);
+}
+
+/* 🔥 PC에서만 담긴 상태 호버 효과 🔥 */
+@media (hover: hover) and (pointer: fine) {
+  .gf-prod-modal-cart-btn.active:hover {
+    background: var(--accent-color);
+    color: var(--gf-text);
+  }
+}
+
+/* 🔥 모바일에서 담긴 상태 터치 효과 🔥 */
+@media (hover: none) and (pointer: coarse) {
+  .gf-prod-modal-cart-btn.active:hover {
+    background: var(--primary-color) !important;
+    color: var(--gf-text) !important;
+  }
+  
+  .gf-prod-modal-cart-btn.active:active {
+    transform: scale(0.95);
+  }
+}
+
+@media (max-width: 768px) {
+  .gf-prod-modal-cart-btn {
+    width: 44px;
+    height: 44px;
+    font-size: 1.125rem;
+    margin-right: 0.75rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .gf-prod-modal-cart-btn {
+    width: 40px;
+    height: 40px;
+    font-size: 1rem;
+    margin-right: 0.5rem;
+  }
+}
+
+/* ████████████████████████████████████████████████████████████████████████████████
+██                    모달 헤더 견적 담기 버튼 스타일 끝                          ██
+████████████████████████████████████████████████████████████████████████████████
+*/
+
+/* ████████████████████████████████████████████████████████████████████████████████
+██                    플로팅 견적함 버튼                                        ██
+████████████████████████████████████████████████████████████████████████████████
+*/
+
+.gf-floating-cart {
+  position: fixed;
+  bottom: 100px;
+  right: 30px;
+  z-index: 999;
+  transition: transform 0.3s ease;
+}
+
+.gf-floating-cart-btn {
+  width: auto;
+  min-width: 50px;
+  height: 50px;
+  padding: 0 20px;
+  background: #666;
+  border: 2px dashed rgba(255, 255, 255, 0.3);
+  border-radius: 30px;
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 1.25rem;
+  cursor: pointer;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.gf-floating-cart.has-items .gf-floating-cart-btn {
+  background: var(--gradient);
+  border: none;
+  color: #fff;
+  box-shadow: 0 4px 20px var(--shadow-color-strong);
+}
+
+.gf-floating-cart-btn i {
+  flex-shrink: 0;
+}
+
+.gf-floating-cart-btn span.cart-label {
+  font-size: 0.875rem;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  flex-shrink: 0;
+  display: inline-block;
+}
+
+/* 🔥 PC에서만 호버 효과 적용 🔥 */
+@media (hover: hover) and (pointer: fine) and (min-width: 1025px) {
+  .gf-floating-cart-btn {
+    min-width: 120px;
+    height: 56px; /* 높이를 태블릿과 유사하게 조정 */
+    padding: 0 18px; /* 처음부터 텍스트가 보일 공간 확보 */
+    gap: 10px;      /* 아이콘과 텍스트 사이 간격 */
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  
+  .gf-floating-cart-btn span.cart-label {
+    /* 텍스트를 숨기는 코드를 모두 제거하여 항상 보이게 함 */
+    font-size: 0.875rem;
+    font-weight: 600;
+  }
+  
+  .gf-floating-cart-btn:hover {
+    /* 버튼이 넓어지는 효과는 제거하고, 살짝 커지는 효과만 남김 */
+    transform: scale(1.05);
+  }
+  
+  .gf-floating-cart-btn:hover span.cart-label {
+    max-width: 100px;
+    opacity: 1;
+  }
+}
+
+/* 🔥 아이패드 전용 스타일 🔥 */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .gf-floating-cart {
+    bottom: 90px;
+    right: 25px;
+  }
+  
+  .gf-floating-cart-btn {
+    width: auto;
+    min-width: 120px;
+    height: 56px;
+    padding: 0 18px;
+    gap: 10px;
+    font-size: 1.125rem;
+  }
+  
+  .gf-floating-cart-btn span.cart-label {
+    display: inline-block !important;
+    max-width: none !important;
+    opacity: 1 !important;
+    overflow: visible !important;
+    font-size: 0.875rem;
+    margin-left: 0;
+  }
+  
+  .gf-floating-cart-btn:hover {
+    padding: 0 18px !important;
+    gap: 10px !important;
+    transform: scale(1.05);
+  }
+  
+  .gf-floating-cart-btn:hover span.cart-label {
+    max-width: none !important;
+    opacity: 1 !important;
+  }
+}
+
+@media (max-width: 768px) {
+  .gf-floating-cart-btn {
+    padding: 0;
+    gap: 0;
+  }
+  
+  .gf-floating-cart-btn span.cart-label {
+    display: none;
+  }
+}
+
+.gf-floating-cart.empty .gf-floating-cart-btn {
+  animation: emptyPulse 3s ease-in-out infinite;
+}
+
+@keyframes emptyPulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+}
+
+.gf-floating-cart-btn.pulse {
+  animation: cartPulse 0.6s ease;
+}
+
+@keyframes cartPulse {
+  0% { transform: scale(1); }
+  25% { transform: scale(1.15) rotate(5deg); }
+  50% { transform: scale(0.95) rotate(-5deg); }
+  75% { transform: scale(1.1) rotate(3deg); }
+  100% { transform: scale(1); }
+}
+
+/* ████████████████████████████████████████████████████████████████████████████████
+██                    플로팅 견적함 버튼 끝                                      ██
+████████████████████████████████████████████████████████████████████████████████
+*/
+
+/* ████████████████████████████████████████████████████████████████████████████████
+██                    견적함 숫자 카운트                                        ██
+████████████████████████████████████████████████████████████████████████████████
+*/
+
+.gf-cart-count {
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  background: var(--primary-color);
+  color: #fff;
+  font-size: 0.875rem;
+  font-weight: 700;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  transition: transform 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+.gf-cart-count.zero {
+  display: none;
+}
+
+.gf-cart-count.bounce {
+  animation: countBounce 0.5s ease;
+}
+
+@keyframes countBounce {
+  0% { transform: scale(1); }
+  30% { transform: scale(1.3); }
+  60% { transform: scale(0.9); }
+  80% { transform: scale(1.1); }
+  100% { transform: scale(1); }
+}
+
+/* ████████████████████████████████████████████████████████████████████████████████
+██                    견적함 숫자 카운트 끝                                      ██
+████████████████████████████████████████████████████████████████████████████████
+*/
+
+/* ████████████████████████████████████████████████████████████████████████████████
+██                    가이드 말풍선                                             ██
+████████████████████████████████████████████████████████████████████████████████
+*/
+
+.gf-cart-guide {
+  position: absolute;
+  bottom: 75px;
+  right: -10px;
+  background: #fff;
+  color: #333;
+  padding: 12px 16px;
+  border-radius: 12px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  white-space: nowrap;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(10px);
+  transition: all 0.4s ease;
+}
+
+.gf-cart-guide::after {
+  content: '';
+  position: absolute;
+  bottom: -8px;
+  right: 30px;
+  width: 0;
+  height: 0;
+  border-left: 8px solid transparent;
+  border-right: 8px solid transparent;
+  border-top: 8px solid #fff;
+}
+
+.gf-cart-guide.show {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+  animation: guideFloat 2s ease-in-out infinite;
+}
+
+@keyframes guideFloat {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-5px); }
+}
+
+.gf-cart-guide .emoji {
+  font-size: 1.1em;
+  margin-right: 4px;
+}
+
+.gf-cart-guide-close {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  width: 20px;
+  height: 20px;
+  background: transparent;
+  border: none;
+  color: #666;
+  font-size: 14px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: all 0.3s ease;
+  padding: 0;
+  line-height: 1;
+}
+
+/* 🔥 PC에서만 가이드 닫기 버튼 호버 효과 🔥 */
+@media (hover: hover) and (pointer: fine) {
+  .gf-cart-guide-close:hover {
+    background: rgba(0, 0, 0, 0.1);
+    color: #333;
+    transform: rotate(90deg);
+  }
+}
+
+.gf-cart-guide {
+  padding-right: 36px;
+}
+
+/* ████████████████████████████████████████████████████████████████████████████████
+██                    가이드 말풍선 끝                                          ██
+████████████████████████████████████████████████████████████████████████████████
+*/
+
+/* ████████████████████████████████████████████████████████████████████████████████
+██                    견적함 모달                                              ██
+████████████████████████████████████████████████████████████████████████████████
+*/
+
+.gf-cart-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0);
+  z-index: -1;
+  opacity: 0;
+  transition: all 0.3s ease;
+  pointer-events: none;
+}
+
+.gf-cart-overlay.show {
+  background: rgba(0, 0, 0, 0.7);
+  opacity: 1;
+  z-index: 999;
+  pointer-events: auto;
+}
+
+/* ─── 견적함 미리보기 ─── */
+.gf-cart-preview {
+  position: fixed;
+  bottom: 110px;
+  right: 30px;
+  width: 420px;
+  background: var(--gf-dark);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 16px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(20px) scale(0.95);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  overflow: hidden;
+  z-index: 1001;
+}
+
+.gf-cart-preview.show {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0) scale(1);
+}
+
+.gf-cart-preview-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.25rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.gf-cart-preview-header h3 {
+  margin: 0;
+  font-size: 1.25rem;
+  color: #fff;
+}
+
+.gf-cart-close {
+  width: 32px;
+  height: 32px;
+  background: transparent;
+  border: none;
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 1.25rem;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+}
+
+/* 🔥 PC에서만 견적함 닫기 버튼 호버 효과 🔥 */
+@media (hover: hover) and (pointer: fine) {
+  .gf-cart-close:hover {
+    background: rgba(255, 255, 255, 0.1);
+    color: #fff;
+    transform: rotate(90deg);
+  }
+}
+
+.gf-cart-preview-body {
+  max-height: 300px;
+  overflow-y: auto;
+  padding: 1rem;
+}
+
+.gf-cart-preview-body::-webkit-scrollbar {
+  width: 6px;
+}
+
+.gf-cart-preview-body::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.gf-cart-preview-body::-webkit-scrollbar-thumb {
+  background: var(--shadow-color-strong);
+  border-radius: 3px;
+  transition: background 0.3s ease;
+}
+
+/* 🔥 PC에서만 견적함 스크롤바 호버 효과 🔥 */
+@media (hover: hover) and (pointer: fine) {
+  .gf-cart-preview-body::-webkit-scrollbar-thumb:hover {
+    background: var(--accent-color);
+  }
+}
+
+.gf-cart-empty {
+  text-align: center;
+  color: rgba(255, 255, 255, 0.5);
+  padding: 2rem;
+  margin: 0;
+  animation: fadeIn 0.5s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ─── 견적함 아이템 ─── */
+.gf-cart-item {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.75rem;
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 8px;
+  margin-bottom: 0.5rem;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  animation: slideInItem 0.4s ease backwards;
+}
+
+@keyframes slideInItem {
+  from {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.gf-cart-item:nth-child(1) { animation-delay: 0.1s; }
+.gf-cart-item:nth-child(2) { animation-delay: 0.2s; }
+.gf-cart-item:nth-child(3) { animation-delay: 0.3s; }
+.gf-cart-item:nth-child(4) { animation-delay: 0.4s; }
+.gf-cart-item:nth-child(5) { animation-delay: 0.5s; }
+
+/* 🔥 PC에서만 견적함 아이템 호버 효과 🔥 */
+@media (hover: hover) and (pointer: fine) {
+  .gf-cart-item:hover {
+    background: rgba(255, 255, 255, 0.05);
+    transform: translateX(5px);
+  }
+}
+
+.gf-cart-item-image {
+  width: 50px;
+  height: 50px;
+  object-fit: cover;
+  border-radius: 6px;
+  flex-shrink: 0;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.gf-cart-item-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.gf-cart-item-info h4 {
+  margin: 0 0 0.25rem;
+  font-size: 0.9375rem;
+  color: #fff;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.gf-cart-item-info p {
+  margin: 0;
+  font-size: 0.8125rem;
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.gf-cart-item-remove {
+  width: 28px;
+  height: 28px;
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: rgba(255, 255, 255, 0.5);
+  font-size: 0.875rem;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 6px;
+}
+
+/* 🔥 PC에서만 견적함 아이템 제거 버튼 호버 효과 🔥 */
+@media (hover: hover) and (pointer: fine) {
+  .gf-cart-item-remove:hover {
+    background: var(--highlight-bg);
+    border-color: var(--primary-color);
+    color: var(--primary-color);
+    transform: scale(1.1) rotate(90deg);
+  }
+}
+
+/* ─── 견적함 푸터 ─── */
+.gf-cart-preview-footer {
+  display: flex;
+  gap: 0.75rem;
+  padding: 1rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.gf-cart-goto-buttons {
+  display: flex;
+  gap: 0.5rem;
+  flex: 2;
+  order: 1;
+}
+
+.gf-cart-goto {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.75rem;
+  background: var(--primary-color);
+  border: none;
+  border-radius: 8px;
+  color: #fff;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  white-space: nowrap;
+}
+
+.gf-cart-goto i {
+  font-size: 0.875rem;
+  flex-shrink: 0;
+}
+
+.gf-cart-goto-purchase {
+  background: var(--accent-color);
+}
+
+/* 🔥 PC에서만 구입 견적서 버튼 호버 효과 🔥 */
+@media (hover: hover) and (pointer: fine) {
+  .gf-cart-goto-purchase:hover {
+    background: var(--primary-color);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px var(--shadow-color-strong);
+  }
+}
+
+.gf-cart-goto-rental {
+  background: var(--accent-color);
+}
+
+/* 🔥 PC에서만 렌탈 견적서 버튼 호버 효과 🔥 */
+@media (hover: hover) and (pointer: fine) {
+  .gf-cart-goto-rental:hover {
+    background: var(--primary-color);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px var(--shadow-color-strong);
+  }
+}
+
+.gf-cart-clear {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.75rem;
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 8px;
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 0.875rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  order: 2;
+}
+
+/* 🔥 PC에서만 비우기 버튼 호버 효과 🔥 */
+@media (hover: hover) and (pointer: fine) {
+  .gf-cart-clear:hover {
+    background: rgba(255, 255, 255, 0.05);
+    border-color: rgba(255, 255, 255, 0.3);
+    color: #fff;
+    transform: translateY(-2px);
+  }
+}
+
+.gf-cart-clear i {
+  font-size: 1.125rem;
+}
+
+/* ─── 알림 메시지 ─── */
+.gf-notification {
+  position: fixed;
+  top: 100px;
+  left: 50%;
+  transform: translateX(-50%) translateY(0);
+  background: linear-gradient(135deg, #00d963, #00a83f);
+  color: #fff;
+  padding: 1rem 2rem;
+  border-radius: 50px;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  box-shadow: 0 8px 32px rgba(0, 213, 99, 0.3);
+  font-size: 0.875rem;
+  font-weight: 600;
+  z-index: 10000;
+  opacity: 0;
+  backdrop-filter: blur(10px);
+  min-width: 300px;
+  text-align: center;
+}
+
+.gf-notification.show {
+  opacity: 1;
+  animation: notificationFadeIn 0.4s ease forwards;
+}
+
+@keyframes notificationFadeIn {
+  0% { 
+    opacity: 0;
+    transform: translateX(-50%) translateY(0) scale(0.8);
+  }
+  40% { 
+    opacity: 0.9;
+    transform: translateX(-50%) translateY(0) scale(1.08);
+  }
+  70% { 
+    opacity: 1;
+    transform: translateX(-50%) translateY(0) scale(0.96);
+  }
+  85% { 
+    transform: translateX(-50%) translateY(0) scale(1.02);
+  }
+  100% { 
+    opacity: 1;
+    transform: translateX(-50%) translateY(0) scale(1);
+  }
+}
+
+/* ─── 견적함 반응형 디자인 ─── */
+@media (max-width: 768px) {
+  .gf-floating-cart {
+    bottom: 90px;
+    right: 20px;
+  }
+  
+  .gf-floating-cart-btn {
+    width: auto;
+    height: 56px;
+    font-size: 1.125rem;
+    padding: 0 16px;
+    gap: 8px;
+  }
+  
+  .gf-cart-preview {
+    width: calc(100vw - 32px);
+    max-width: 450px;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    right: auto;
+    bottom: auto;
+    transform: translate(-50%, -50%) translateY(20px);
+  }
+
+  .gf-cart-goto-buttons {
+    flex-direction: row;
+  }
+  
+  .gf-cart-preview.show {
+    transform: translate(-50%, -50%);
+  }
+  
+  .gf-cart-guide {
+    right: -5px;
+    bottom: 65px;
+    font-size: 0.8125rem;
+    padding: 10px 36px 10px 14px;
+  }
+
+  .gf-cart-guide-close {
+    top: 6px;
+    right: 6px;
+    width: 18px;
+    height: 18px;
+    font-size: 12px;
+  }
+  
+  .gf-notification {
+    width: calc(100vw - 40px);
+    max-width: 400px;
+  }
+  
+  .gf-cart-clear i {
+    font-size: 1.25rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .gf-floating-cart {
+    bottom: 85px;
+    right: 16px;
+  }
+  
+  .gf-floating-cart-btn {
+    width: auto;
+    height: 52px;
+    font-size: 1rem;
+    padding: 0 14px;
+    gap: 8px;
+  }
+  
+  .gf-cart-preview {
+    width: calc(100vw - 32px);
+    max-width: 400px;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    right: auto;
+    bottom: auto;
+    transform: translate(-50%, -50%) translateY(20px);
+  }
+  
+  .gf-cart-preview.show {
+    transform: translate(-50%, -50%);
+  }
+  
+  .gf-cart-preview-footer {
+    flex-direction: column;
+    gap: 0.75rem;
+    padding: 1rem;
+  }
+  
+  .gf-cart-goto-buttons {
+    flex-direction: row;
+    order: 1;
+    gap: 0.75rem;
+  }
+  
+  .gf-cart-goto {
+    flex: 1;
+    padding: 1rem 0.75rem;
+    font-size: 0.875rem;
+  }
+  
+  .gf-cart-clear {
+    order: 2;
+    width: 100%;
+    padding: 1.125rem;
+    font-size: 1rem;
+    min-height: 52px;
+    border-radius: 12px;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+  }
+
+  .gf-cart-item-image {
+    width: 45px;
+    height: 45px;
+  }
+  
+  .gf-cart-guide {
+    font-size: 0.75rem;
+    padding: 10px 32px 10px 14px;
+  }
+
+  .gf-cart-guide-close {
+    top: 5px;
+    right: 5px;
+    width: 16px;
+    height: 16px;
+    font-size: 11px;
+  }
+  
+  .gf-notification {
+    width: calc(100vw - 32px);
+    max-width: 400px;
+  }
+}
+
+@media (max-width: 480px) {
+  .gf-cart-clear i {
+    margin: 0;
+    font-size: 1.25rem;
+  }
+  
+  .gf-cart-clear span {
+    display: inline !important;
+    margin-left: 0.5rem;
+    font-size: 1rem;
+    font-weight: 700;
+  }
+}
+
+@media (max-width: 600px) {
+  .gf-cart-clear i {
+    font-size: 1.25rem;
+  }
+  
+  .gf-cart-clear span {
+    display: inline !important;
+  }
+  
+  .gf-cart-clear {
+    padding: 1rem;
+    min-width: auto;
+  }
+}
+
+@media (max-width: 375px) {
+  .gf-cart-preview {
+    width: calc(100vw - 24px);
+  }
+  
+  .gf-notification {
+    width: calc(100vw - 24px);
+  }
+  
+  .gf-cart-clear {
+    padding: 1rem;
+    min-height: 50px;
+  }
+  
+  .gf-cart-clear i {
+    font-size: 1.125rem;
+  }
+  
+  .gf-cart-clear span {
+    display: inline !important;
+    font-size: 0.875rem;
+  }
+}
+
+@media (max-width: 320px) {
+  .gf-cart-preview {
+    width: calc(100vw - 20px);
+  }
+  
+  .gf-notification {
+    width: calc(100vw - 20px);
+  }
+  
+  .gf-cart-clear i {
+    font-size: 1rem;
+  }
+  
+  .gf-cart-clear span {
+    display: inline !important;
+    font-size: 0.8125rem;
+  }
+}
+
+/* 🔥 모바일/터치 디바이스에서 견적함 관련 호버 효과 완전 차단 🔥 */
+@media (hover: none) and (pointer: coarse) {
+  /* 플로팅 카트 버튼 호버 차단 */
+  .gf-floating-cart-btn:hover {
+    transform: none !important;
+    padding: 0 16px !important;
+    gap: 8px !important;
+  }
+  
+  .gf-floating-cart-btn:hover span.cart-label {
+    max-width: none !important;
+    opacity: 1 !important;
+  }
+  
+  /* 견적함 아이템 호버 차단 */
+  .gf-cart-item:hover {
+    background: rgba(255, 255, 255, 0.03) !important;
+    transform: none !important;
+  }
+  
+  /* 견적함 아이템 제거 버튼 호버 차단 */
+  .gf-cart-item-remove:hover {
+    background: transparent !important;
+    border-color: rgba(255, 255, 255, 0.1) !important;
+    color: rgba(255, 255, 255, 0.5) !important;
+    transform: none !important;
+  }
+  
+  /* 견적함 미리보기 닫기 버튼 호버 차단 */
+  .gf-cart-close:hover {
+    background: transparent !important;
+    color: rgba(255, 255, 255, 0.6) !important;
+    transform: none !important;
+  }
+  
+  /* 구입/렌탈 버튼 호버 차단 */
+  .gf-cart-goto-purchase:hover {
+    background: var(--primary-color) !important;
+    transform: none !important;
+    box-shadow: none !important;
+  }
+  
+  .gf-cart-goto-rental:hover {
+    background: var(--accent-color) !important;
+    transform: none !important;
+    box-shadow: none !important;
+  }
+  
+  /* 비우기 버튼 호버 차단 */
+  .gf-cart-clear:hover {
+    background: transparent !important;
+    border-color: rgba(255, 255, 255, 0.2) !important;
+    color: rgba(255, 255, 255, 0.7) !important;
+    transform: none !important;
+  }
+  
+  /* 가이드 닫기 버튼 호버 차단 */
+  .gf-cart-guide-close:hover {
+    background: transparent !important;
+    color: #666 !important;
+    transform: none !important;
+  }
+  
+  /* 모달 관련 호버 차단 */
+  .gf-prod-modal-close:hover {
+    background: var(--gf-light-gray) !important;
+    color: var(--gf-text-dark-dim) !important;
+    transform: none !important;
+  }
+  
+  .gf-prod-modal-badge:hover {
+    transform: none !important;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3) !important;
+  }
+  
+  .gf-prod-cta-inquiry:hover {
+    transform: none !important;
+    box-shadow: none !important;
+  }
+  
+  .gf-prod-cta-catalog:hover {
+    background: transparent !important;
+    border-color: var(--gf-border-light) !important;
+    color: var(--gf-text-dark) !important;
+  }
+  
+  .gf-prod-download-link:hover {
+    background: var(--gf-light-gray) !important;
+    border-color: var(--gf-border-light) !important;
+    color: var(--gf-text-dark) !important;
+    transform: none !important;
+  }
+  
+  .gf-prod-modal-body::-webkit-scrollbar-thumb:hover {
+    background: var(--shadow-color-strong) !important;
+  }
+}
+
+/* ████████████████████████████████████████████████████████████████████████████████
+██                    견적함 모달 끝                                            ██
+████████████████████████████████████████████████████████████████████████████████
+*/

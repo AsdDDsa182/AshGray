@@ -1,0 +1,379 @@
+<html lang="ko">
+<head>
+   <!-- ═══════════════════════════════════════════════════════════════════════
+     Google Analytics - 쿠키 연동 대기
+═══════════════════════════════════════════════════════════════════════ -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-73J6EXJPQ0"></script>
+<script>
+  // 기본적으로 추적 비활성화
+  window['ga-disable-G-73J6EXJPQ0'] = true;
+  
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  
+  // 저장된 쿠키 설정 확인
+  const savedPreferences = localStorage.getItem('gf_cookie_preferences');
+  if (savedPreferences) {
+    const preferences = JSON.parse(savedPreferences);
+    if (preferences.analytics) {
+      // 분석 쿠키를 허용한 경우에만 추적 활성화
+      window['ga-disable-G-73J6EXJPQ0'] = false;
+      gtag('config', 'G-73J6EXJPQ0');
+    }
+  }
+</script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="format-detection" content="telephone=no, email=no">
+  <title>피치빌더 - PEACH BUILDER</title>
+
+   <!-- 로고 이미지 미리 로드 추가 -->
+  <link rel="preload" href="/images/logo/logo_small.png" as="image">
+  <!-- Pretendard 웹폰트 -->
+  <link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css" rel="stylesheet">
+  <!-- CSS 연결 -->
+  <link rel="stylesheet" href="styles.css">
+  <!-- Font Awesome CDN -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+</head>
+
+
+
+<!-- ═══════════════════════════════════════════════════════════════════════
+     쿠키 동의 팝업 시작
+═══════════════════════════════════════════════════════════════════════ -->
+<div id="gfCookiePopup" class="gf-cookie-popup">
+  <div class="gf-cookie-backdrop"></div>
+  <div class="gf-cookie-container">
+    <!-- 헤더 -->
+    <div class="gf-cookie-header">
+      <div class="gf-cookie-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="10"></circle>
+          <path d="M12 2a10 10 0 0 0 0 20 10 10 0 0 0 0-20"></path>
+          <circle cx="12" cy="8" r="1" fill="currentColor"></circle>
+          <circle cx="7" cy="12" r="1" fill="currentColor"></circle>
+          <circle cx="17" cy="12" r="1" fill="currentColor"></circle>
+          <circle cx="9" cy="17" r="1" fill="currentColor"></circle>
+          <circle cx="15" cy="17" r="1" fill="currentColor"></circle>
+        </svg>
+      </div>
+      <h3 class="gf-cookie-title">쿠키 사용 안내</h3>
+    </div>
+    
+    <!-- 본문 -->
+    <div class="gf-cookie-body">
+      <p class="gf-cookie-description">
+        PEACH BUILDER는 더 나은 서비스 제공을 위해 쿠키를 사용합니다.
+        쿠키는 웹사이트 기능 향상과 사용자 경험 개선에 도움을 줍니다.
+      </p>
+      
+      <!-- 쿠키 설정 -->
+      <div class="gf-cookie-settings">
+        <!-- 필수 쿠키 -->
+        <div class="gf-cookie-item">
+          <div class="gf-cookie-item-header">
+            <div class="gf-cookie-item-info">
+              <h4>필수 쿠키</h4>
+              <p>웹사이트 정상 작동에 필요</p>
+            </div>
+            <div class="gf-cookie-toggle disabled">
+              <input type="checkbox" id="gfEssentialCookies" checked disabled>
+              <label for="gfEssentialCookies">
+                <span class="gf-toggle-slider"></span>
+              </label>
+            </div>
+          </div>
+        </div>
+        
+        <!-- 분석 쿠키 -->
+        <div class="gf-cookie-item">
+          <div class="gf-cookie-item-header">
+            <div class="gf-cookie-item-info">
+              <h4>분석 쿠키</h4>
+              <p>방문자 통계 및 사이트 개선</p>
+            </div>
+            <div class="gf-cookie-toggle">
+              <input type="checkbox" id="gfAnalyticsCookies">
+              <label for="gfAnalyticsCookies">
+                <span class="gf-toggle-slider"></span>
+              </label>
+            </div>
+          </div>
+        </div>
+        
+        <!-- 마케팅 쿠키 -->
+        <div class="gf-cookie-item">
+          <div class="gf-cookie-item-header">
+            <div class="gf-cookie-item-info">
+              <h4>마케팅 쿠키</h4>
+              <p>맞춤형 광고 및 콘텐츠 제공</p>
+            </div>
+            <div class="gf-cookie-toggle">
+              <input type="checkbox" id="gfMarketingCookies">
+              <label for="gfMarketingCookies">
+                <span class="gf-toggle-slider"></span>
+              </label>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- 쿠키 정책 링크 -->
+      <p class="gf-cookie-policy-link">
+        자세한 내용은 
+      <a href="#" onclick="openCookieModal(); return false;">
+        쿠키 정책
+      </a>을 확인해주세요.
+      </p>
+    </div>
+    
+    <!-- 버튼 -->
+    <div class="gf-cookie-footer">
+      <button class="gf-cookie-btn gf-cookie-btn-secondary" onclick="gfAcceptSelectedCookies()">
+        선택한 항목만 허용
+      </button>
+      <button class="gf-cookie-btn gf-cookie-btn-primary" onclick="gfAcceptAllCookies()">
+        모두 허용
+      </button>
+    </div>
+  </div>
+</div>
+
+<body>
+<div id="header-container"></div>
+<!-- ═══════════════════════════════════════════════════════════════════════
+     쿠키 동의 팝업 끝
+═══════════════════════════════════════════════════════════════════════ -->
+
+<!-- ═══════════════════════════════════════════════════════════════════════
+     히어로(비디오) + 3줄 임팩트 문구 통합 섹션 시작 - Vimeo 버전
+═══════════════════════════════════════════════════════════════════════ -->
+<section id="gf-hero-section" class="gf-hero-main">
+  <div class="gf-hero-bg-video gf-fade-in">
+    <video
+      autoplay
+      loop
+      muted
+      playsinline
+      src="https://res.cloudinary.com/dpxjvtbss/video/upload/v1760405135/peach_builder_nue7iy.mp4"
+      title="Peach Builder Video">
+    </video>
+  </div>
+  
+  <!-- 메인 콘텐츠 -->
+  <div class="gf-hero-content">
+    <!-- 3줄 임팩트 문구 -->
+    <h1 class="gf-three-lines">
+      <div class="gf-line-1 gf-fade-in" data-text="BUILD">
+        <span class="gf-scramble-text">BUILD</span>
+      </div>
+      <div class="gf-line-2 gf-fade-in" data-text="THE PERFECT PEACH">
+        <span class="gf-scramble-text">THE PERFECT PEACH</span>
+      </div>
+      <div class="gf-line-3 gf-fade-in" data-text="NOW">
+        <span class="gf-scramble-text">NOW</span>
+      </div>
+    </h1>
+    
+    <!-- ABOUT 버튼 추가 -->
+    <div class="gf-hero-cta-wrapper gf-fade-in">
+      <a href="/about/about.html" class="gf-hero-about-btn">
+        <span>ABOUT</span>
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M5 12h14M12 5l7 7-7 7"/>
+        </svg>
+      </a>
+    </div>
+    
+    <!-- 카피라이트 문구 추가 -->
+    <div class="gf-hero-copyright gf-fade-in">
+      <p>© PEACH BUILDER</p>
+    </div>
+  </div>
+</section>
+<!-- ═══════════════════════════════════════════════════════════════════════
+     히어로(비디오) + 3줄 임팩트 문구 통합 섹션 끝 - Vimeo 버전
+═══════════════════════════════════════════════════════════════════════ -->
+
+<!-- ═══════════════════════════════════════════════════════════════════════
+     제품 정보 섹션 시작
+═══════════════════════════════════════════════════════════════════════ -->
+<section id="gf-products-section" class="gf-products-info">
+  
+  <div class="gf-products-container">
+    <!-- 섹션 헤더 -->
+    <div class="gf-products-header">
+      <!-- 로고 추가 -->
+      <div class="gf-products-logo gf-fade-in">
+        <img src="/images/logo/logo_w.png" alt="PEACH BUILDER Logo">
+      </div>
+    </div>
+
+    <!-- 슬라이드쇼 컨테이너 -->
+    <div class="gf-products-slideshow-wrapper gf-fade-in">
+      <div class="gf-products-slideshow">
+        <div class="gf-products-slides-track">
+          <!-- 무한 루프를 위한 복제 슬라이드 (마지막 2개) -->
+          <div class="gf-products-slide clone">
+            <img src="images/4.png" alt="PEACH BUILDER 4">
+          </div>
+          <div class="gf-products-slide clone">
+            <img src="images/5.png" alt="PEACH BUILDER 5">
+          </div>
+          
+          <!-- 원본 슬라이드들 -->
+          <div class="gf-products-slide">
+            <img src="images/1.png" alt="PEACH BUILDER 1">
+          </div>
+          <div class="gf-products-slide">
+            <img src="images/2.png" alt="PEACH BUILDER 2">
+          </div>
+          <div class="gf-products-slide">
+            <img src="images/3.png" alt="PEACH BUILDER 3">
+          </div>
+          <div class="gf-products-slide">
+            <img src="images/4.png" alt="PEACH BUILDER 4">
+          </div>
+          <div class="gf-products-slide">
+            <img src="images/5.png" alt="PEACH BUILDER 5">
+          </div>
+          
+          <!-- 무한 루프를 위한 복제 슬라이드 (처음 2개) -->
+          <div class="gf-products-slide clone">
+            <img src="images/1.png" alt="PEACH BUILDER 1">
+          </div>
+          <div class="gf-products-slide clone">
+            <img src="images/2.png" alt="PEACH BUILDER 2">
+          </div>
+        </div>
+      </div>
+      
+      <!-- 좌우 화살표 버튼 -->
+      <button class="gf-products-nav-btn gf-products-nav-prev" onclick="changeProductSlide(-1)">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M15 18l-6-6 6-6"/>
+        </svg>
+      </button>
+      <button class="gf-products-nav-btn gf-products-nav-next" onclick="changeProductSlide(1)">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M9 18l6-6-6-6"/>
+        </svg>
+      </button>
+    </div>
+
+    <!-- 버튼들 (화살표 추가) -->
+    <div class="gf-products-cta-wrapper">
+      <!-- 상세 스펙 보러가기 버튼 (화살표 추가) -->
+      <a href="/features/features.html" class="gf-products-specs-btn gf-fade-in">
+        <span>DETAILED</span>
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M5 12h14M12 5l7 7-7 7"/>
+        </svg>
+      </a>
+      
+      <!-- 제품 보러가기 버튼 (화살표 추가) -->
+      <a href="/products/products.html" class="gf-products-view-btn gf-fade-in">
+        <span>PRODUCTS</span>
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M5 12h14M12 5l7 7-7 7"/>
+        </svg>
+      </a>
+    </div>
+  </div>
+</section>
+<!-- ═══════════════════════════════════════════════════════════════════════
+     제품 정보 섹션 끝
+═══════════════════════════════════════════════════════════════════════ -->
+
+
+<!-- ═══════════════════════════════════════════════════════════════════════
+   문의 정보 섹션 시작 (심플 버전)
+═══════════════════════════════════════════════════════════════════════ -->
+<section class="gfnew-contact" id="gfnew-contact">
+  <div class="gfnew-container">
+    <!-- 빠른 연락처 정보 -->
+    <div class="gfnew-quick-contact gf-fade-in">
+      <div class="gfnew-contact-card">
+        <div class="gfnew-contact-icon">
+          <i class="fas fa-phone"></i>
+        </div>
+        <div class="gfnew-contact-info">
+          <h3>Main Number</h3>
+          <p>1833-3745</p>
+        </div>
+      </div>
+
+      <div class="gfnew-contact-card">
+        <div class="gfnew-contact-icon">
+          <i class="fas fa-phone-volume"></i>
+        </div>
+        <div class="gfnew-contact-info">
+          <h3>Sales Team 1</h3>
+          <p>010-7135-3745</p>
+        </div>
+      </div>
+
+      <div class="gfnew-contact-card">
+        <div class="gfnew-contact-icon">
+          <i class="fas fa-phone-square"></i>
+        </div>
+        <div class="gfnew-contact-info">
+          <h3>Sales Team 2</h3>
+          <p>010-9012-2599</p>
+        </div>
+      </div>
+
+      <div class="gfnew-contact-card">
+        <div class="gfnew-contact-icon">
+          <i class="fas fa-envelope"></i>
+        </div>
+        <div class="gfnew-contact-info">
+          <h3>Email</h3>
+          <p>gofitkorea@naver.com</p>
+        </div>
+      </div>
+
+      <div class="gfnew-contact-card">
+        <div class="gfnew-contact-icon">
+          <i class="fas fa-clock"></i>
+        </div>
+        <div class="gfnew-contact-info">
+          <h3>Hours</h3>
+          <p>평일 09:00 - 18:00</p>
+        </div>
+      </div>
+    </div>
+    
+    <!-- 온라인 견적 문의 박스 -->
+    <div class="gfnew-online-inquiry-wrapper gf-fade-in">
+      <div class="gfnew-inquiry-card">
+        <h3 class="gfnew-online-inquiry-title">온라인으로 간편하게 문의하세요.</h3>
+        <p class="gfnew-online-inquiry-desc">
+          일반 문의, 구입 견적, 렌탈 견적까지<br>
+          간편하게 진행하실 수 있습니다.
+        </p>
+        <a href="/contact/contact.html" class="gfnew-online-inquiry-btn">
+          <span>온라인 문의 바로가기</span>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M5 12h14M12 5l7 7-7 7"/>
+          </svg>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- ═══════════════════════════════════════════════════════════════════════
+   문의 정보 섹션 끝
+═══════════════════════════════════════════════════════════════════════ -->
+
+  <!-- 푸터 컨테이너 -->
+  <div id="modal-container"></div>
+  <div id="footer-container"></div>
+
+  <!-- JavaScript 연결 -->
+  <script src="js/load-components.js"></script>
+  <script src="script.js" defer></script>
+</body>
+</html>
