@@ -1,0 +1,1290 @@
+/*
+████████████████████████████████████████████████████████████████████████████████
+██                              BASIC SETUP                                  ██
+██                              기본 설정                                      ██
+████████████████████████████████████████████████████████████████████████████████
+*/
+
+/* 기본 리셋 */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  /* 기본 폰트 크기 설정 - about 페이지와 통일 */
+  font-size: 16px;
+}
+
+/* 반응형 폰트 크기 조정 - about 페이지와 동일 */
+@media (max-width: 1200px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+@media (max-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+@media (max-width: 480px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+body {
+  font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, sans-serif;
+  background: #000;
+  color: #fff;
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+/* 메인 컨텐츠 래퍼 */
+main {
+  position: relative;
+}
+
+/* 공통 컨테이너 */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 2rem;
+  width: 100%;
+}
+
+/* 페이드인 애니메이션 */
+.fade-in {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.8s ease, transform 0.8s ease;
+}
+
+.fade-in.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/*
+████████████████████████████████████████████████████████████████████████████████
+██                        1. HERO SECTION                                    ██
+██                     브랜드 섹션을 히어로로 변경                              ██
+████████████████████████████████████████████████████████████████████████████████
+*/
+
+.hero-section {
+  padding: 120px 0 100px; /* 상단 패딩 증가로 히어로 느낌 강화 */
+  background: #000;
+  position: relative;
+  overflow: hidden;
+  min-height: 100vh; /* 최소 뷰포트 높이 설정 */
+  display: flex;
+  align-items: center;
+}
+
+/* 히어로 콘텐츠 중앙 정렬 */
+.hero-content {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+/* 로고 스타일 */
+.hero-logo {
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.hero-logo img {
+  height: 80px;
+  width: auto;
+  object-fit: contain;
+  /* filter: brightness(0) invert(1); 이미지를 흰색으로 변환 */
+  transform: scale(0.6); /* 로고 크기 40%로 축소 */
+  transition: transform 0.3s ease;
+}
+
+/* 텍스트 영역 */
+.hero-text {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* 히어로 타이틀 - 2줄로 분리, 크기 증가 */
+.hero-title {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  margin-bottom: 0.8rem;
+}
+
+.title-line-1 {
+  font-size: clamp(2.5rem, 5vw, 4rem); /* 히어로용 크기 */
+  font-weight: 400;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 1);
+  line-height: 1.2;
+}
+
+.title-line-2 {
+  font-size: clamp(3rem, 6vw, 5rem); /* 히어로용 크기 */
+  font-weight: 900;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: #A78BFA; /* 추천 보라색으로 변경 */
+  line-height: 1;
+}
+
+/* 한글 부제목 - 크기 증가 */
+.hero-subtitle {
+  font-size: clamp(1.25rem, 2vw, 1.5rem);
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.9);
+  line-height: 1.6;
+  margin-bottom: 2rem;
+  letter-spacing: -0.02em;
+}
+
+/* 구분선 스타일 */
+.divider-line {
+  width: 60px;
+  height: 2px;
+  background: linear-gradient(to right, 
+    transparent,
+    rgba(255, 255, 255, 0.3) 20%,
+    rgba(255, 255, 255, 0.6) 50%,
+    rgba(255, 255, 255, 0.3) 80%,
+    transparent
+  );
+  margin: 0 auto 0rem;
+  position: relative;
+  overflow: hidden;
+}
+
+/* 구분선 글로우 애니메이션 효과 */
+.divider-line::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: -100%;
+  width: 30px;
+  height: 20px;
+  transform: translateY(-50%);
+  background: radial-gradient(ellipse at center, 
+    rgba(255, 255, 255, 1) 0%,
+    rgba(255, 255, 255, 0.8) 20%,
+    rgba(255, 255, 255, 0.4) 40%,
+    transparent 70%
+  );
+  filter: blur(4px);
+  animation: shimmer 3s infinite;
+}
+
+/* 추가 글로우 레이어 */
+.divider-line::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: -100%;
+  width: 40px;
+  height: 30px;
+  transform: translateY(-50%);
+  background: radial-gradient(ellipse at center, 
+    rgba(255, 255, 255, 0.6) 0%,
+    rgba(255, 255, 255, 0.3) 30%,
+    transparent 60%
+  );
+  filter: blur(8px);
+  animation: shimmer 3s infinite;
+}
+
+@keyframes shimmer {
+  0% { 
+    left: -100%;
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 1;
+  }
+  100% { 
+    left: 200%;
+    opacity: 0;
+  }
+}
+
+/* 첫 번째 캐러셀 래퍼 (기존) */
+.carousel-wrapper {
+  position: relative;
+  width: 100vw;
+  margin-left: calc(-50vw + 50%);
+  margin-bottom: 0px; /* 캐러셀 간 간격 */
+  overflow: hidden;
+}
+
+/* 두 번째 캐러셀 래퍼 (새로 추가) */
+.carousel-wrapper-small {
+  position: relative;
+  width: 100vw;
+  margin-left: calc(-50vw + 50%);
+  margin-bottom: 60px; /* 캐러셀과 텍스트 사이 간격 */
+  overflow: hidden;
+}
+
+/* Scroller 컨테이너 - 예제 코드 기반 */
+.scroller {
+  overflow: visible;
+}
+
+.scroller__inner {
+  display: flex;
+  gap: 20px;
+  padding-block: 1rem;
+}
+
+/* 애니메이션이 적용될 때 */
+.scroller[data-animated="true"] {
+  overflow: hidden;
+  -webkit-mask: linear-gradient(
+    90deg,
+    transparent,
+    white 20%,
+    white 80%,
+    transparent
+  );
+  mask: linear-gradient(90deg, transparent, white 20%, white 80%, transparent);
+}
+
+.scroller[data-animated="true"] .scroller__inner {
+  width: max-content;
+  flex-wrap: nowrap;
+  animation: scroll var(--_animation-duration, 40s)
+    var(--_animation-direction, forwards) linear infinite;
+}
+
+/* 방향 설정 */
+.scroller[data-direction="right"] {
+  --_animation-direction: reverse;
+}
+
+.scroller[data-direction="left"] {
+  --_animation-direction: forwards;
+}
+
+/* 속도 설정 */
+.scroller[data-speed="fast"] {
+  --_animation-duration: 20s;
+}
+
+.scroller[data-speed="slow"] {
+  --_animation-duration: 60s;
+}
+
+/* 스크롤 애니메이션 */
+@keyframes scroll {
+  to {
+    transform: translate(calc(-50% - 0.5rem));
+  }
+}
+
+/* 첫 번째 캐러셀 슬라이드 (기존) */
+.carousel-slide {
+  flex: 0 0 auto;
+  width: 400px;
+  height: 300px;
+  border-radius: 20px;
+  overflow: hidden;
+  position: relative;
+}
+
+.carousel-slide img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+/* 두 번째 캐러셀 슬라이드 (새로 추가 - 작은 크기) */
+.carousel-slide-small {
+  flex: 0 0 auto;
+  width: 280px; /* 기존 400px에서 280px로 축소 */
+  height: 210px; /* 기존 300px에서 210px로 축소 */
+  border-radius: 15px;
+  overflow: hidden;
+  position: relative;
+}
+
+.carousel-slide-small img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+/* 호버 효과 - PC에서만 작동 */
+@media (hover: hover) and (pointer: fine) {
+  .carousel-slide:hover img {
+    transform: scale(1.05);
+  }
+  
+  .carousel-slide-small:hover img {
+    transform: scale(1.05);
+  }
+}
+
+/* 설명 텍스트 스타일 */
+.hero-description {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* 설명 섹션 소제목 - 크기 증가 */
+.description-subtitle {
+  font-size: clamp(4rem, 6vw, 4rem);
+  font-weight: 600;
+  color: #fff;
+  margin-bottom: 1.5rem;
+  letter-spacing: -0.02em;
+  text-align: left;
+}
+
+.hero-description p {
+  font-size: clamp(1rem, 1.5vw, 1.25rem);
+  font-weight: 400;
+  color: rgba(255, 255, 255, 0.8);
+  line-height: 1.8;
+  letter-spacing: -0.01em;
+  text-align: left;
+}
+
+/* 히어로 섹션 반응형 */
+/* 태블릿 (1024px) */
+@media (max-width: 1024px) {
+  .hero-section {
+    padding: 100px 0 80px;
+    min-height: 90vh;
+  }
+  
+  .hero-content {
+    margin-bottom: 60px;
+  }
+  
+  .hero-logo img {
+    height: 70px;
+  }
+  
+  .title-line-1 {
+    font-size: clamp(2rem, 4.5vw, 3.5rem);
+  }
+  
+  .title-line-2 {
+    font-size: clamp(2.5rem, 5.5vw, 4.5rem);
+  }
+  
+  .hero-subtitle {
+    font-size: clamp(1.125rem, 1.8vw, 1.375rem);
+    margin-bottom: 1.5rem;
+  }
+  
+  .description-subtitle {
+    font-size: clamp(1.375rem, 2.2vw, 1.75rem);
+    margin-bottom: 1.25rem;
+  }
+  
+  .hero-description p {
+    font-size: clamp(0.95rem, 1.4vw, 1.125rem);
+  }
+  
+  .carousel-slide {
+    width: 350px;
+    height: 250px;
+  }
+  
+  .carousel-slide-small {
+    width: 240px;
+    height: 180px;
+  }
+  
+  .carousel-wrapper {
+    margin-bottom: 30px;
+  }
+  
+  .carousel-wrapper-small {
+    margin-bottom: 50px;
+  }
+}
+
+/* 태블릿 (768px) */
+@media (max-width: 768px) {
+  .hero-section {
+    padding: 80px 0 60px;
+    min-height: 80vh;
+  }
+  
+  .hero-content {
+    margin-bottom: 30px;
+  }
+  
+  .hero-logo {
+    margin-bottom: 20px;
+  }
+  
+  .hero-logo img {
+    height: 60px;
+  }
+  
+  .title-line-1 {
+    font-size: 2rem;
+    letter-spacing: 0.05em;
+  }
+  
+  .title-line-2 {
+    font-size: 2.75rem;
+    letter-spacing: 0.02em;
+  }
+  
+  .hero-subtitle {
+    font-size: 1.125rem;
+    margin-bottom: 1.25rem;
+  }
+  
+  .carousel-wrapper {
+    margin-bottom: 25px;
+  }
+  
+  .carousel-wrapper-small {
+    margin-bottom: 40px;
+  }
+  
+  .description-subtitle {
+    font-size: 1.25rem;
+    margin-bottom: 1rem;
+  }
+  
+  .hero-description p {
+    font-size: 1rem;
+    line-height: 1.8;
+  }
+  
+  .carousel-slide {
+    width: 280px;
+    height: 200px;
+  }
+  
+  .carousel-slide-small {
+    width: 200px;
+    height: 150px;
+  }
+  
+  .scroller[data-speed="slow"] {
+    --_animation-duration: 40s;
+  }
+}
+
+/* 모바일 (480px) */
+@media (max-width: 480px) {
+  .hero-section {
+    padding: 60px 0 50px;
+    min-height: 100vh;
+  }
+  
+  .hero-logo img {
+    height: 50px;
+  }
+  
+  .title-line-1 {
+    font-size: 1.75rem;
+    letter-spacing: 0.03em;
+  }
+  
+  .title-line-2 {
+    font-size: 2.25rem;
+    letter-spacing: 0.02em;
+  }
+  
+  .hero-subtitle {
+    font-size: 1rem;
+    margin-bottom: 1rem;
+  }
+  
+  .divider-line {
+    width: 40px;
+    height: 1.5px;
+    margin-bottom: 0rem;
+  }
+  
+  .carousel-wrapper {
+    margin-bottom: 20px;
+  }
+  
+  .carousel-wrapper-small {
+    margin-bottom: 20px;
+  }
+  
+  .description-subtitle {
+    font-size: 1.5rem;
+    margin-bottom: 0.75rem;
+  }
+  
+  .hero-description p {
+    font-size: 0.95rem;
+    line-height: 1.8;
+  }
+  
+  .carousel-slide {
+    width: 240px;
+    height: 180px;
+    border-radius: 15px;
+  }
+  
+  .carousel-slide-small {
+    width: 170px;
+    height: 127px;
+    border-radius: 12px;
+  }
+  
+  .scroller__inner {
+    gap: 15px;
+    padding: 0 15px;
+  }
+  
+  .scroller[data-speed="slow"] {
+    --_animation-duration: 35s;
+  }
+}
+
+/*
+████████████████████████████████████████████████████████████████████████████████
+██                        2. TITLE SECTION                                   ██
+██                     새로운 기준 타이틀 섹션                                  ██
+████████████████████████████████████████████████████████████████████████████████
+*/
+
+.title-section {
+  position: relative;
+  padding: 120px 0;
+  overflow: hidden;
+  min-height: 60vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* 배경 이미지 컨테이너 */
+.title-background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+}
+
+.title-background img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
+/* 배경 오버레이 */
+.title-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    135deg,
+    rgba(0, 0, 0, 0.7) 0%,
+    rgba(0, 0, 0, 0.5) 50%,
+    rgba(0, 0, 0, 0.8) 100%
+  );
+}
+
+/* 타이틀 콘텐츠 */
+.title-content {
+  position: relative;
+  z-index: 10;
+  text-align: center;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.title-main {
+  font-size: clamp(6rem, 8vw, 6rem);
+  font-weight: 700;
+  color: #fff;
+  margin-bottom: 1rem;
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+}
+
+/* ▼▼▼ 이 부분을 추가하세요 ▼▼▼ */
+.title-main .title-highlight {
+  color: #A78BFA; /* 추천 보라색 */
+}
+
+.title-subtitle {
+  font-size: clamp(1.25rem, 2vw, 1.75rem);
+  font-weight: 400;
+  color: rgba(255, 255, 255, 0.9);
+  letter-spacing: -0.01em;
+  margin: 0;
+  line-height: 1.6;
+  word-break: keep-all;
+  white-space: normal;
+}
+
+/* 타이틀 섹션 반응형 */
+/* 태블릿 (1024px) */
+@media (max-width: 1024px) {
+  .title-section {
+    padding: 100px 0;
+    min-height: 50vh;
+  }
+  
+  .title-main {
+    font-size: clamp(4rem, 6vw, 4rem);
+    margin-bottom: 0.75rem;
+  }
+  
+  .title-subtitle {
+    font-size: clamp(1.125rem, 1.8vw, 1.5rem);
+  }
+}
+
+/* 태블릿 (768px) */
+@media (max-width: 768px) {
+  .title-section {
+    padding: 80px 0;
+    min-height: 40vh;
+  }
+  
+  .title-main {  
+    font-size: clamp(4rem, 6vw, 4rem);
+    margin-bottom: 0.75rem;
+  }
+  
+  .title-subtitle {
+    font-size: 1.125rem;
+  }
+}
+
+/* 모바일 (480px) */
+@media (max-width: 480px) {
+  .title-section {
+    padding: 60px 0;
+    min-height: 30vh;
+  }
+  
+  .title-main {
+    font-size: clamp(3.5rem, 5.5vw, 3.5rem);
+    margin-bottom: 0.5rem;
+  }
+  
+  .title-subtitle {
+    font-size: 1rem;
+  }
+}
+
+/*
+████████████████████████████████████████████████████████████████████████████████
+██                      3. DESCRIPTION-1 SECTION                             ██
+██                          설명1 섹션 - 3.5t 프레임                          ██
+████████████████████████████████████████████████████████████████████████████████
+*/
+
+.gf-desc1-section {
+  padding: 100px 0;
+  background: #0a0a0a;
+  position: relative;
+}
+
+.gf-desc1-section .container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+
+/* 와이드 이미지 컨테이너 스타일 */
+.gf-desc1-image-container {
+  width: 100%;
+  margin-bottom: 1rem;
+  overflow: hidden;
+  position: relative;
+}
+
+.gf-desc1-image-container img {
+  width: 100%;
+  height: 500px;
+  object-fit: cover;
+  object-position: center;
+  border-radius: 20px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+}
+
+/* 3.5t 텍스트 오버레이 - 왼쪽 중앙 배치 */
+.weight-overlay {
+  position: absolute;
+  left: 60px;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 10;
+  text-align: left;
+}
+
+.weight-text {
+  display: block;
+  font-size: clamp(2rem, 4vw, 4rem);
+  font-weight: 900;
+  color: #fff;
+  line-height: 0.8;
+  text-shadow: 
+    0 0 20px rgba(255, 255, 255, 0.5),
+    0 0 40px rgba(255, 255, 255, 0.3),
+    2px 2px 10px rgba(0, 0, 0, 0.8);
+  letter-spacing: -0.05em;
+}
+
+.weight-label {
+  display: block;
+  font-size: clamp(1rem, 2vw, 1.5rem);
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.9);
+  letter-spacing: 0.2em;
+  margin-top: 0.5rem;
+  text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.8);
+}
+
+/* 텍스트 콘텐츠 스타일 */
+.gf-desc1-content {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.gf-desc1-description-title {
+  font-size: clamp(4rem, 6vw, 4rem);
+  font-weight: 600;
+  color: #fff;
+  margin-bottom: 1.5rem;
+  letter-spacing: -0.02em;
+  text-align: left;
+}
+
+.gf-desc1-content p {
+  font-size: clamp(1rem, 1.5vw, 1.25rem);
+  font-weight: 400;
+  color: rgba(255, 255, 255, 0.8);
+  line-height: 1.8;
+  letter-spacing: -0.01em;
+  text-align: left;
+}
+
+/* DESCRIPTION-1 섹션 반응형 */
+/* 태블릿 (1024px) */
+@media (max-width: 1024px) {
+  .gf-desc1-section {
+    padding: 80px 0;
+  }
+  
+  .gf-desc1-section .container {
+    padding: 0 1.5rem;
+  }
+  
+  .gf-desc1-image-container img {
+    height: 350px;
+    border-radius: 15px;
+  }
+  
+  .gf-desc1-image-container {
+    margin-bottom: 1rem;
+  }
+  
+  .gf-desc1-description-title {
+    margin-bottom: 1rem;
+  }
+  
+  .gf-desc1-content p {
+    font-size: clamp(0.95rem, 1.4vw, 1.125rem);
+  }
+}
+
+/* 태블릿 (768px) */
+@media (max-width: 768px) {
+  .gf-desc1-section {
+    padding: 60px 0;
+  }
+  
+  .gf-desc1-image-container {
+    margin-bottom: 1rem;
+  }
+  
+  .gf-desc1-image-container img {
+    height: 250px;
+    border-radius: 12px;
+  }
+  
+  .gf-desc1-description-title {
+    font-size: 1.25rem;
+    margin-bottom: 1rem;
+  }
+  
+  .gf-desc1-content p {
+    font-size: 1rem;
+    line-height: 1.8;
+  }
+}
+
+/* 모바일 (480px) */
+@media (max-width: 480px) {
+  .gf-desc1-section {
+    padding: 50px 0;
+  }
+  
+  .gf-desc1-image-container {
+    margin-bottom: 1rem;
+  }
+  
+  .gf-desc1-image-container img {
+    height: 200px;
+    border-radius: 10px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+  }
+  
+  .gf-desc1-description-title {
+    font-size: 1.5rem;
+    margin-bottom: 0.75rem;
+  }
+  
+  .gf-desc1-content p {
+    font-size: 0.95rem;
+    line-height: 1.8;
+  }
+  
+  .weight-overlay {
+    left: 30px;
+  }
+  .weight-text {
+  font-size: clamp(4rem, 6vw, 4rem);
+}
+}
+
+/*
+████████████████████████████████████████████████████████████████████████████████
+██                      4. DESCRIPTION-2 SECTION                             ██
+██                      설명2 섹션 - 해머톤 코팅                               ██
+████████████████████████████████████████████████████████████████████████████████
+*/
+
+.gf-desc2-section {
+  padding: 100px 0;
+  background: #000;
+  position: relative;
+}
+
+.gf-desc2-section .container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+
+/* 와이드 이미지 컨테이너 스타일 */
+.gf-desc2-image-container {
+  width: 100%;
+  margin-bottom: 1rem;
+  overflow: hidden;
+  position: relative;
+}
+
+.gf-desc2-image-container img {
+  width: 100%;
+  height: 500px;
+  object-fit: cover;
+  object-position: center;
+  border-radius: 20px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+}
+
+/* 해머톤 텍스트 오버레이 - 왼쪽 중앙 배치 */
+.coating-overlay {
+  position: absolute;
+  left: 60px;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 10;
+  text-align: left;
+}
+
+.coating-text {
+  display: block;
+  font-size: clamp(2rem, 4vw, 4rem);
+  font-weight: 900;
+  color: #fff;
+  line-height: 0.8;
+  text-shadow: 
+    0 0 20px rgba(255, 255, 255, 0.5),
+    0 0 40px rgba(255, 255, 255, 0.3),
+    2px 2px 10px rgba(0, 0, 0, 0.8);
+  letter-spacing: -0.05em;
+}
+
+.coating-label {
+  display: block;
+  font-size: clamp(1rem, 2vw, 1.5rem);
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.9);
+  letter-spacing: 0.2em;
+  margin-top: 0.5rem;
+  text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.8);
+}
+
+/* 텍스트 콘텐츠 스타일 */
+.gf-desc2-content {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.gf-desc2-description-title {
+  font-size: clamp(4rem, 6vw, 4rem);
+  font-weight: 600;
+  color: #fff;
+  margin-bottom: 1.5rem;
+  letter-spacing: -0.02em;
+  text-align: left;
+}
+
+.gf-desc2-content p {
+  font-size: clamp(1rem, 1.5vw, 1.25rem);
+  font-weight: 400;
+  color: rgba(255, 255, 255, 0.8);
+  line-height: 1.8;
+  letter-spacing: -0.01em;
+  text-align: left;
+}
+
+/* DESCRIPTION-2 섹션 반응형 */
+/* 태블릿 (1024px) */
+@media (max-width: 1024px) {
+  .gf-desc2-section {
+    padding: 80px 0;
+  }
+  
+  .gf-desc2-section .container {
+    padding: 0 1.5rem;
+  }
+  
+  .gf-desc2-image-container img {
+    height: 350px;
+    border-radius: 15px;
+  }
+  
+  .gf-desc2-image-container {
+    margin-bottom: 1rem;
+  }
+  
+  .gf-desc2-description-title {
+    margin-bottom: 1rem;
+  }
+  
+  .gf-desc2-content p {
+    font-size: clamp(0.95rem, 1.4vw, 1.125rem);
+  }
+}
+
+/* 태블릿 (768px) */
+@media (max-width: 768px) {
+  .gf-desc2-section {
+    padding: 60px 0;
+  }
+  
+  .gf-desc2-image-container {
+    margin-bottom: 1rem;
+  }
+  
+  .gf-desc2-image-container img {
+    height: 250px;
+    border-radius: 12px;
+  }
+  
+  .gf-desc2-description-title {
+    font-size: 1.25rem;
+    margin-bottom: 1rem;
+  }
+  
+  .gf-desc2-content p {
+    font-size: 1rem;
+    line-height: 1.8;
+  }
+}
+
+/* 모바일 (480px) */
+@media (max-width: 480px) {
+  .gf-desc2-section {
+    padding: 50px 0;
+  }
+  
+  .gf-desc2-image-container {
+    margin-bottom: 1rem;
+  }
+  
+  .gf-desc2-image-container img {
+    height: 200px;
+    border-radius: 10px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+  }
+  
+  .gf-desc2-description-title {
+    font-size: 1.5rem;
+    margin-bottom: 0.75rem;
+  }
+  
+  .gf-desc2-content p {
+    font-size: 0.95rem;
+    line-height: 1.8;
+  }
+  
+  .coating-overlay {
+    left: 30px;
+  }
+  
+  .coating-text {
+    font-size: clamp(2rem, 6vw, 2rem);
+  }
+}
+
+/*
+████████████████████████████████████████████████████████████████████████████████
+██                      5. DESCRIPTION-3 SECTION                             ██
+██                      설명3 섹션 - 인체공학설계                              ██
+████████████████████████████████████████████████████████████████████████████████
+*/
+
+.gf-desc3-section {
+  padding: 100px 0 200px;
+  background: #0a0a0a;
+  position: relative;
+}
+
+.gf-desc3-section .container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+
+/* 와이드 이미지 컨테이너 스타일 */
+.gf-desc3-image-container {
+  width: 100%;
+  margin-bottom: 1rem;
+  overflow: hidden;
+  position: relative;
+}
+
+.gf-desc3-image-container img {
+  width: 100%;
+  height: 500px;
+  object-fit: cover;
+  object-position: center;
+  border-radius: 20px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+}
+
+/* 인체공학 텍스트 오버레이 - 왼쪽 중앙 배치 */
+.ergonomic-overlay {
+  position: absolute;
+  left: 60px;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 10;
+  text-align: left;
+}
+
+.ergonomic-text {
+  display: block;
+  font-size: clamp(2rem, 4vw, 4rem);
+  font-weight: 900;
+  color: #fff;
+  line-height: 0.8;
+  text-shadow: 
+    0 0 20px rgba(255, 255, 255, 0.5),
+    0 0 40px rgba(255, 255, 255, 0.3),
+    2px 2px 10px rgba(0, 0, 0, 0.8);
+  letter-spacing: -0.05em;
+}
+
+.ergonomic-label {
+  display: block;
+  font-size: clamp(1rem, 2vw, 1.5rem);
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.9);
+  letter-spacing: 0.2em;
+  margin-top: 0.5rem;
+  text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.8);
+}
+
+/* 텍스트 콘텐츠 스타일 */
+.gf-desc3-content {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.gf-desc3-description-title {
+  font-size: clamp(4rem, 6vw, 4rem);
+  font-weight: 600;
+  color: #fff;
+  margin-bottom: 1.5rem;
+  letter-spacing: -0.02em;
+  text-align: left;
+}
+
+.gf-desc3-content p {
+  font-size: clamp(1rem, 1.5vw, 1.25rem);
+  font-weight: 400;
+  color: rgba(255, 255, 255, 0.8);
+  line-height: 1.8;
+  letter-spacing: -0.01em;
+  text-align: left;
+}
+
+/* DESCRIPTION-3 섹션 반응형 */
+/* 태블릿 (1024px) */
+@media (max-width: 1024px) {
+  .gf-desc3-section {
+    padding: 80px 0 180px;
+  }
+  
+  .gf-desc3-section .container {
+    padding: 0 1.5rem;
+  }
+  
+  .gf-desc3-image-container img {
+    height: 350px;
+    border-radius: 15px;
+  }
+  
+  .gf-desc3-image-container {
+    margin-bottom: 1rem;
+  }
+  
+  .gf-desc3-description-title {
+    margin-bottom: 1rem;
+  }
+  
+  .gf-desc3-content p {
+    font-size: clamp(0.95rem, 1.4vw, 1.125rem);
+  }
+}
+
+/* 태블릿 (768px) */
+@media (max-width: 768px) {
+  .gf-desc3-section {
+    padding: 60px 0 100px;
+  }
+  
+  .gf-desc3-image-container {
+    margin-bottom: 1rem;
+  }
+  
+  .gf-desc3-image-container img {
+    height: 250px;
+    border-radius: 12px;
+  }
+  
+  .gf-desc3-description-title {
+    font-size: 1.25rem;
+    margin-bottom: 1rem;
+  }
+  
+  .gf-desc3-content p {
+    font-size: 1rem;
+    line-height: 1.8;
+  }
+}
+
+/* 모바일 (480px) */
+@media (max-width: 480px) {
+  .gf-desc3-section {
+    padding: 50px 0 100px;
+  }
+  
+  .gf-desc3-image-container {
+    margin-bottom: 1rem;
+  }
+  
+  .gf-desc3-image-container img {
+    height: 200px;
+    border-radius: 10px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+  }
+  
+  .gf-desc3-description-title {
+    font-size: 1.5rem;
+    margin-bottom: 0.75rem;
+  }
+  
+  .gf-desc3-content p {
+    font-size: 0.95rem;
+    line-height: 1.8;
+  }
+  
+  .ergonomic-overlay {
+    left: 30px;
+  }
+  
+  .ergonomic-text {
+    font-size: clamp(2rem, 6vw, 2rem);
+  }
+}
+
+/*
+████████████████████████████████████████████████████████████████████████████████
+██                        GLOBAL RESPONSIVE                                  ██
+██                            전역 반응형                                      ██
+████████████████████████████████████████████████████████████████████████████████
+*/
+
+/* 전역 컨테이너 패딩 조정 */
+@media (max-width: 1024px) {
+  .container {
+    padding: 0 1.5rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .container {
+    padding: 0 1.5rem;
+  }
+}
+
+/*
+████████████████████████████████████████████████████████████████████████████████
+██                        ACCESSIBILITY                                      ██
+██                            접근성                                          ██
+████████████████████████████████████████████████████████████████████████████████
+*/
+
+/* 모션 감소 설정 */
+@media (prefers-reduced-motion: reduce) {
+  .fade-in {
+    transition: none !important;
+  }
+  
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/*
+████████████████████████████████████████████████████████████████████████████████
+██                          END OF CSS                                       ██
+████████████████████████████████████████████████████████████████████████████████
+*/

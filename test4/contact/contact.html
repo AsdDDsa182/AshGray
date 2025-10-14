@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>온라인 견적 문의 - PEACH BUILDER</title>
+  
+  <!-- Pretendard 웹폰트 -->
+  <link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css" rel="stylesheet">
+  <!-- CSS 연결 -->
+  <link rel="stylesheet" href="../styles.css">
+  <link rel="stylesheet" href="contact-page.css">
+  <!-- Font Awesome CDN -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+</head>
+
+<body>
+<!--
+████████████████████████████████████████████████████████████████████████████████
+██                                HEADER                                      ██
+████████████████████████████████████████████████████████████████████████████████
+-->
+<div id="header-container"></div>
+
+<!--
+████████████████████████████████████████████████████████████████████████████████
+██                         CONTACT PAGE MAIN                                 ██
+██                        온라인 문의 메인 섹션                                 ██
+████████████████████████████████████████████████████████████████████████████████
+-->
+<section class="gf-contact-page">
+  <div class="gf-contact-page-container">
+    
+    <!-- 페이지 헤더 -->
+    <div class="gf-contact-page-header gf-scroll-animate">
+      <h1 class="gf-contact-page-title">온라인 <span class="gf-contact-title-accent">견적 문의</span></h1>
+      <p class="gf-contact-page-subtitle">
+        Contact Us Online
+      </p>
+    </div>
+
+    <!--
+    ═══════════════════════════════════════════════════════════════════════
+    FORM SECTION - 탭과 폼 영역
+    ═══════════════════════════════════════════════════════════════════════
+    -->
+    <div class="gfnew-form-section gf-scroll-animate">
+      
+      <!-- 탭 버튼 -->
+      <div class="gfnew-tab-container">
+        <button class="gfnew-tab active" onclick="showTab('general', event)">일반 문의</button>
+        <button class="gfnew-tab" onclick="showTab('purchase', event)">구입 견적서</button>
+        <button class="gfnew-tab" onclick="showTab('rental', event)">렌탈 견적서</button>
+      </div>
+
+      <!--
+      ═══════════════════════════════════════════════════════════════════════
+      FORM PANELS - 각 탭의 폼 패널들
+      ═══════════════════════════════════════════════════════════════════════
+      -->
+      <div class="gfnew-form-wrapper">
+        
+      <!--
+      ████████████████████████████████████████████████████████████████████████████████
+      ██        1. GENERAL INQUIRY FORM - 일반 문의 폼 (검증 필드 추가)              ██
+      ████████████████████████████████████████████████████████████████████████████████
+      -->
+      <form class="gfnew-form-panel active" id="general-form">
+        <!-- 허니팟 필드 (봇 차단용 - 사람 눈에는 보이지 않음) -->
+        <input type="text" name="honeypot" id="honeypot" style="position: absolute; left: -9999px; opacity: 0; pointer-events: none;" tabindex="-1">
+        
+        <!-- 기본 정보 그리드 -->
+        <div class="gfnew-form-grid gf-form-animate">
+          <div class="gfnew-form-group">
+            <label class="gfnew-label">이름<span class="req">*</span></label>
+            <input type="text" class="gfnew-input" name="name" placeholder="홍길동" required>
+            <span class="gfnew-error-message" id="general-name-error"></span>
+          </div>
+          
+          <div class="gfnew-form-group">
+            <label class="gfnew-label">이메일<span class="req">*</span></label>
+            <input type="email" class="gfnew-input" name="email" placeholder="example@email.com" required>
+            <span class="gfnew-error-message" id="general-email-error"></span>
+          </div>
+          
+          <div class="gfnew-form-group">
+            <label class="gfnew-label">전화번호<span class="req">*</span></label>
+            <input type="tel" class="gfnew-input" name="phone" placeholder="010-0000-0000">
+            <span class="gfnew-error-message" id="general-phone-error"></span>
+          </div>
+          
+          <div class="gfnew-form-group">
+            <label class="gfnew-label">회사/센터명(선택)</label>
+            <input type="text" class="gfnew-input" name="company" placeholder="회사명 (선택)">
+            <span class="gfnew-error-message" id="general-company-error"></span>
+          </div>
+        </div>
+
+        <!-- 문의 유형 -->
+        <div class="gfnew-form-group gf-form-animate">
+          <label class="gfnew-label">문의 유형<span class="req">*</span></label>
+          <select class="gfnew-select" name="inquiry-type" required>
+            <option value="">선택하세요</option>
+            <option value="product">제품 문의</option>
+            <option value="price">가격 문의</option>
+            <option value="as">AS 문의</option>
+            <option value="other">기타 문의</option>
+          </select>
+          <span class="gfnew-error-message" id="general-inquiry-type-error"></span>
+        </div>
+
+        <!-- 문의 내용 -->
+        <div class="gfnew-form-group gf-form-animate">
+          <label class="gfnew-label">문의 내용<span class="req">*</span></label>
+          <textarea class="gfnew-textarea" name="message" placeholder="문의하실 내용을 자세히 적어주세요" required></textarea>
+          <span class="gfnew-error-message" id="general-message-error"></span>
+        </div>
+
+        <!-- 개인정보 동의 -->
+        <div class="gfnew-privacy-agree gf-form-animate">
+          <label class="gfnew-checkbox-label">
+            <input type="checkbox" class="gfnew-checkbox" name="privacy-agree" required>
+            <span class="gfnew-check-custom"></span>
+            <span class="gfnew-check-text">개인정보 수집 및 이용에 동의합니다. <span class="req">*</span></span>
+          </label>
+          <button type="button" class="gfnew-privacy-link" onclick="openGofitLegalModal(event, 'privacy')">자세히 보기</button>
+        </div>
+
+        <!-- 제출 버튼 -->
+        <div class="gfnew-submit-wrapper gf-form-animate">
+          <button type="submit" class="gfnew-submit" id="general-submit" disabled>
+            <span>문의하기</span>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M5 12h14M12 5l7 7-7 7"/>
+            </svg>
+          </button>
+        </div>
+      </form>
+
+        <!--
+        ████████████████████████████████████████████████████████████████████████████████
+        ██        2. PURCHASE FORM - 구입 견적서 폼 (검증 필드 추가)                   ██
+        ████████████████████████████████████████████████████████████████████████████████
+        -->
+        <form class="gfnew-form-panel" id="purchase-form">
+          <!-- 허니팟 필드 (봇 차단용 - 사람 눈에는 보이지 않음) -->
+          <input type="text" name="honeypot" id="honeypot" style="position: absolute; left: -9999px; opacity: 0; pointer-events: none;" tabindex="-1">
+          
+          <!-- 기본 정보 그리드 -->
+          <div class="gfnew-form-grid gf-form-animate">
+            <div class="gfnew-form-group">
+              <label class="gfnew-label">이름<span class="req">*</span></label>
+              <input type="text" class="gfnew-input" name="name" placeholder="홍길동" required>
+              <span class="gfnew-error-message" id="purchase-name-error"></span>
+            </div>
+            
+            <div class="gfnew-form-group">
+              <label class="gfnew-label">이메일<span class="req">*</span></label>
+              <input type="email" class="gfnew-input" name="email" placeholder="example@email.com" required>
+              <span class="gfnew-error-message" id="purchase-email-error"></span>
+            </div>
+            
+            <div class="gfnew-form-group">
+              <label class="gfnew-label">전화번호<span class="req">*</span></label>
+              <input type="tel" class="gfnew-input" name="phone" placeholder="010-0000-0000" required>
+              <span class="gfnew-error-message" id="purchase-phone-error"></span>
+            </div>
+            
+            <div class="gfnew-form-group">
+              <label class="gfnew-label">회사/센터명(선택)</label>
+              <input type="text" class="gfnew-input" name="company" placeholder="회사명 (선택)">
+              <span class="gfnew-error-message" id="purchase-company-error"></span>
+            </div>
+          </div>
+
+          <!-- 예상 예산 -->
+          <div class="gfnew-form-group gf-form-animate">
+            <label class="gfnew-label">예상 예산 (선택)</label>
+            <input type="text" class="gfnew-input gfnew-budget-input" id="purchase-budget" placeholder="예: 10,000,000원" onkeyup="updateBudgetComparison()">
+            <span class="gfnew-helper-text">예산을 입력하시면 더 정확한 견적을 제안해드릴 수 있습니다.</span>
+          </div>
+
+          <!-- 제품 선택 섹션 -->
+          <div class="gfnew-product-section gf-form-animate">
+            <h3 class="gfnew-section-title">제품 선택<span class="req">*</span></h3>
+            <div class="gfnew-product-add-box" onclick="openProductModal('purchase')">
+              <i class="fas fa-plus-circle"></i>
+              <span>제품 추가하기</span>
+            </div>
+            <div class="gfnew-selected-list" id="purchase-products">
+              <!-- 선택된 제품이 여기에 표시됩니다 -->
+            </div>
+            <span class="gfnew-error-message" id="purchase-products-error"></span>
+          </div>
+
+          <!-- 구매 견적서의 예상 견적서 비교 섹션 -->
+          <div class="gfnew-budget-compare gf-form-animate" id="purchase-budget-compare" style="display: none;">
+            <!-- JavaScript로 동적 생성됨 -->
+          </div>
+
+          <!-- 추가 요청사항 -->
+          <div class="gfnew-form-group gf-form-animate">
+            <label class="gfnew-label">추가 요청사항</label>
+            <textarea class="gfnew-textarea" name="additional-requests" placeholder="추가로 요청하실 사항이 있다면 적어주세요"></textarea>
+          </div>
+
+          <!-- 개인정보 동의 -->
+          <div class="gfnew-privacy-agree gf-form-animate">
+            <label class="gfnew-checkbox-label">
+              <input type="checkbox" class="gfnew-checkbox" name="privacy-agree" required>
+              <span class="gfnew-check-custom"></span>
+              <span class="gfnew-check-text">개인정보 수집 및 이용에 동의합니다. <span class="req">*</span></span>
+            </label>
+            <button type="button" class="gfnew-privacy-link" onclick="openGofitLegalModal(event, 'privacy')">자세히 보기</button>
+          </div>
+
+          <!-- 제출 버튼 -->
+          <div class="gfnew-submit-wrapper gf-form-animate">
+            <button type="submit" class="gfnew-submit" id="purchase-submit" disabled>
+              <span>견적 요청하기</span>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M5 12h14M12 5l7 7-7 7"/>
+              </svg>
+            </button>
+          </div>
+        </form>
+
+
+<!--
+████████████████████████████████████████████████████████████████████████████████
+██        3. RENTAL FORM - 렌탈 견적서 폼 (파일 업로드 기능 추가 및 구조 변경)    ██
+████████████████████████████████████████████████████████████████████████████████
+-->
+<form class="gfnew-form-panel" id="rental-form">
+  <!-- 허니팟 필드 (봇 차단용 - 사람 눈에는 보이지 않음) -->
+  <input type="text" name="honeypot" id="honeypot" style="position: absolute; left: -9999px; opacity: 0; pointer-events: none;" tabindex="-1">
+  
+  <!-- 기본 정보 그리드 (렌탈 기간 포함) -->
+  <div class="gfnew-form-grid gf-form-animate">
+    <div class="gfnew-form-group">
+      <label class="gfnew-label">이름<span class="req">*</span></label>
+      <input type="text" class="gfnew-input" name="name" placeholder="홍길동" required>
+      <span class="gfnew-error-message" id="rental-name-error"></span>
+    </div>
+    
+    <div class="gfnew-form-group">
+      <label class="gfnew-label">이메일<span class="req">*</span></label>
+      <input type="email" class="gfnew-input" name="email" placeholder="example@email.com" required>
+      <span class="gfnew-error-message" id="rental-email-error"></span>
+    </div>
+    
+    <div class="gfnew-form-group">
+      <label class="gfnew-label">전화번호<span class="req">*</span></label>
+      <input type="tel" class="gfnew-input" name="phone" placeholder="010-0000-0000" required>
+      <span class="gfnew-error-message" id="rental-phone-error"></span>
+    </div>
+    
+    <div class="gfnew-form-group">
+      <label class="gfnew-label">렌탈 기간<span class="req">*</span></label>
+      <select class="gfnew-select" name="rental-period" required>
+        <option value="">선택하세요</option>
+        <option value="12">12개월</option>
+        <option value="24">24개월</option>
+        <option value="36">36개월</option>
+        <option value="48">48개월</option>
+        <option value="60">60개월</option>
+      </select>
+      <span class="gfnew-error-message" id="rental-period-error"></span>
+    </div>
+  </div>
+
+    <!-- 월 렌탈 예산 -->
+  <div class="gfnew-form-group gf-form-animate">
+    <label class="gfnew-label">월 렌탈 예산 (선택)</label>
+    <input type="text" class="gfnew-input gfnew-budget-input" id="rental-budget" placeholder="예: 500,000원" onkeyup="updateRentalBudgetComparison()">
+    <span class="gfnew-helper-text">월 렌탈 예산을 입력하시면 더 정확한 견적을 제안해드릴 수 있습니다.</span>
+  </div>
+
+  <!-- 파일 첨부 영역 (신분증/사업자등록증) -->
+  <div class="gfnew-form-group gf-form-animate">
+    <label class="gfnew-label">서류 첨부 (선택)</label>
+    
+    <!-- 숨겨진 파일 input -->
+    <input type="file" id="rental-file-input" accept="image/*,.pdf" multiple style="display: none;">
+    
+    <!-- 드래그 앤 드롭 영역 -->
+    <div class="gfnew-file-drop-zone" onclick="document.getElementById('rental-file-input').click()">
+      <div class="gfnew-file-drop-content">
+        <i class="fas fa-cloud-upload-alt"></i>
+        <h4>파일을 드래그하거나 클릭하여 업로드</h4>
+        <p>신분증, 사업자등록증 등의 서류를 첨부해주세요</p>
+        <p>JPG, PNG, GIF, PDF 파일 (최대 10MB, 5개까지)</p>
+      </div>
+    </div>
+    
+    <!-- 선택된 파일 목록 -->
+    <div class="gfnew-file-list" id="rental-file-list">
+      <!-- 선택된 파일들이 여기에 표시됩니다 -->
+    </div>
+    
+    <!-- 파일 업로드 안내 -->
+    <div class="gfnew-file-guide">
+      <p class="gfnew-file-note">
+        <i class="fas fa-info-circle"></i>
+        사업자 등록증 혹은 신분증 사본을 첨부해주시면 정확한 금액대의 렌탈 금액을 빠른 시일내에 회신드립니다.
+      </p>
+    </div>
+  </div>
+
+  <!-- 제품 선택 섹션 -->
+  <div class="gfnew-product-section gf-form-animate">
+    <h3 class="gfnew-section-title">제품 선택<span class="req">*</span></h3>
+    <div class="gfnew-product-add-box" onclick="openProductModal('rental')">
+      <i class="fas fa-plus-circle"></i>
+      <span>제품 추가하기 (최소 5개)</span>
+    </div>
+    <!-- 렌탈 안내 문구 (5개 미만일 때만 표시) -->
+    <div class="gfnew-rental-guide" id="rental-guide">
+      <div class="gfnew-rental-guide-content">
+        <i class="fas fa-info-circle"></i>
+        <div class="gfnew-rental-guide-text">
+          <p><strong>렌탈 서비스 안내</strong></p>
+          <p>렌탈 서비스는 <span class="gfnew-highlight">5개 이상</span>의 제품 선택이 필요합니다.</p>
+          <p>현재 선택된 수량: <span class="gfnew-current-count" id="rental-current-count">0</span>개</p>
+        </div>
+      </div>
+    </div>
+    <div class="gfnew-selected-list" id="rental-products">
+      <!-- 선택된 제품이 여기에 표시됩니다 -->
+    </div>
+  </div>
+
+  <!-- 렌탈 견적서의 예상 견적서 비교 섹션 -->
+  <div class="gfnew-budget-compare gf-form-animate" id="rental-budget-compare" style="display: none;">
+    <!-- JavaScript로 동적 생성됨 -->
+  </div>
+
+  <!-- 추가 요청사항 -->
+  <div class="gfnew-form-group gf-form-animate">
+    <label class="gfnew-label">추가 요청사항</label>
+    <textarea class="gfnew-textarea" name="additional-requests" placeholder="추가로 요청하실 사항이 있다면 적어주세요"></textarea>
+  </div>
+
+  <!-- 개인정보 동의 -->
+  <div class="gfnew-privacy-agree gf-form-animate">
+    <label class="gfnew-checkbox-label">
+      <input type="checkbox" class="gfnew-checkbox" name="privacy-agree" required>
+      <span class="gfnew-check-custom"></span>
+      <span class="gfnew-check-text">개인정보 수집 및 이용에 동의합니다. <span class="req">*</span></span>
+    </label>
+    <button type="button" class="gfnew-privacy-link" onclick="openGofitLegalModal(event, 'privacy')">자세히 보기</button>
+  </div>
+
+  <!-- 제출 버튼 -->
+  <div class="gfnew-submit-wrapper gf-form-animate">
+    <button type="submit" class="gfnew-submit" id="rental-submit" disabled>
+      <span>렌탈 견적 요청하기</span>
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M5 12h14M12 5l7 7-7 7"/>
+      </svg>
+    </button>
+  </div>
+</form>
+      </div>
+    </div>
+  </div>
+</section>
+<!--
+████████████████████████████████████████████████████████████████████████████████
+██                      CONTACT PAGE MAIN 끝                                 ██
+████████████████████████████████████████████████████████████████████████████████
+-->
+
+<!--
+████████████████████████████████████████████████████████████████████████████████
+██                    PRODUCT SELECTION MODAL                                ██
+██                        제품 선택 모달                                       ██
+████████████████████████████████████████████████████████████████████████████████
+-->
+<div class="gfnew-modal-overlay" id="productModal">
+  <div class="gfnew-modal">
+    <!-- 모달 헤더 -->
+    <div class="gfnew-modal-header">
+      <h3 class="gfnew-modal-title">제품 선택</h3>
+      <button class="gfnew-modal-close" onclick="closeProductModal()">
+        <i class="fas fa-times"></i>
+      </button>
+    </div>
+
+    <!-- 카테고리 필터 -->
+    <div class="gfnew-filter-wrapper">
+      <div class="gfnew-filter-tabs">
+        <button class="gfnew-filter-tab active" onclick="filterProducts('all', event)">All</button>
+        <button class="gfnew-filter-tab" onclick="filterProducts('Promotion', event)">
+          <svg style="width: 16px; height: 16px; fill: #e63946; margin-right: 4px;" viewBox="0 0 24 26">
+            <path d="M12 2l4 8 8 4-8 4-4 8-4-8-8-4 8-4z"/>
+          </svg>
+          Promotion
+        </button>
+        <button class="gfnew-filter-tab" onclick="filterProducts('Weight', event)">Weight</button>
+        <button class="gfnew-filter-tab" onclick="filterProducts('Free weights', event)">Free weights</button>
+        <button class="gfnew-filter-tab" onclick="filterProducts('Cardio', event)">Cardio</button>
+      </div>
+    </div>
+
+    <!-- 제품 목록 -->
+    <div class="gfnew-modal-body">
+      <div class="gfnew-product-grid" id="productGrid">
+        <!-- 제품들이 여기에 JavaScript로 추가됩니다 -->
+      </div>
+    </div>
+
+    <!-- 모달 푸터 -->
+    <div class="gfnew-modal-footer">
+      <div class="gfnew-selection-info">
+        선택된 제품: <span class="gfnew-selection-count" id="selectionCount">0</span>개
+      </div>
+      <button class="gfnew-confirm-btn" onclick="confirmSelection()">선택 완료</button>
+    </div>
+  </div>
+</div>
+<!--
+████████████████████████████████████████████████████████████████████████████████
+██                    PRODUCT SELECTION MODAL 끝                             ██
+████████████████████████████████████████████████████████████████████████████████
+-->
+
+<!--
+████████████████████████████████████████████████████████████████████████████████
+██                         FOOTER & MODAL                                    ██
+████████████████████████████████████████████████████████████████████████████████
+-->
+<div id="modal-container"></div>
+<div id="footer-container"></div>
+
+<!-- JavaScript 연결 - 로드 순서 중요! -->
+<script src="../js/products-data.js"></script>
+<script src="../js/load-components.js"></script>
+<script src="../script.js" defer></script>
+<script src="../contact/contact-form.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,287 @@
+<!-- ═══════════════════════════════════════════════════════════════════════
+     GOFIT 로딩 컴포넌트 시작
+     - 다른 페이지에서 재사용 가능한 로딩 화면
+     - 네온 클래식 테마, 빠른 속도 설정
+═══════════════════════════════════════════════════════════════════════ -->
+<div id="gf-loading-screen" class="gf-loading-screen">
+  <div class="gf-loading-container">
+    <!-- 로딩 스피너 -->
+    <div class="gf-loading-spinner">
+      <!-- Background static SVG -->
+      <svg width="200px" height="160px" viewBox="0 0 187.3 93.7">
+        <path d="M93.9,46.4c9.3,9.5,13.8,17.9,23.5,17.9s17.5-7.8,17.5-17.5s-7.8-17.6-17.5-17.5c-9.7,0.1-13.3,7.2-22.1,17.1 c-8.9,8.8-15.7,17.9-25.4,17.9s-17.5-7.8-17.5-17.5s7.8-17.5,17.5-17.5S86.2,38.6,93.9,46.4z" />
+      </svg>
+      
+      <!-- Main animated SVG -->
+      <svg width="200px" height="160px" viewBox="0 0 187.3 93.7">
+        <defs>
+          <linearGradient id="gf-loading-gradient" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" stop-color="#ff0066" />
+            <stop offset="25%" stop-color="lime" />
+            <stop offset="50%" stop-color="cyan" />
+            <stop offset="75%" stop-color="magenta" />
+            <stop offset="100%" stop-color="orange" />
+          </linearGradient>
+        </defs>
+        <path d="M93.9,46.4c9.3,9.5,13.8,17.9,23.5,17.9s17.5-7.8,17.5-17.5s-7.8-17.6-17.5-17.5c-9.7,0.1-13.3,7.2-22.1,17.1 c-8.9,8.8-15.7,17.9-25.4,17.9s-17.5-7.8-17.5-17.5s7.8-17.5,17.5-17.5S86.2,38.6,93.9,46.4z" />
+      </svg>
+      
+      <!-- Blurred overlay SVG -->
+      <svg width="200px" height="160px" viewBox="0 0 187.3 93.7">
+        <defs>
+          <linearGradient id="gf-loading-gradient-blur" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" stop-color="#ff0066" />
+            <stop offset="25%" stop-color="lime" />
+            <stop offset="50%" stop-color="cyan" />
+            <stop offset="75%" stop-color="magenta" />
+            <stop offset="100%" stop-color="orange" />
+          </linearGradient>
+        </defs>
+        <path d="M93.9,46.4c9.3,9.5,13.8,17.9,23.5,17.9s17.5-7.8,17.5-17.5s-7.8-17.6-17.5-17.5c-9.7,0.1-13.3,7.2-22.1,17.1 c-8.9,8.8-15.7,17.9-25.4,17.9s-17.5-7.8-17.5-17.5s7.8-17.5,17.5-17.5S86.2,38.6,93.9,46.4z" />
+      </svg>
+    </div>
+    
+    <!-- 로딩 텍스트 → 로고 이미지로 변경 -->
+    <div class="gf-loading-content">
+      <img src="/images/logo/logo_small_w.png" alt="PEACH BUILDER" class="gf-loading-logo">
+      <div class="gf-loading-dots">
+        <span>.</span>
+        <span>.</span>
+        <span>.</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 로딩 컴포넌트 전용 스타일 -->
+<style>
+/* ═══════════════════════════════════════════════════════════════════════
+   로딩 컴포넌트 스타일 시작
+═══════════════════════════════════════════════════════════════════════ */
+
+/* 로딩 스크린 메인 컨테이너 */
+.gf-loading-screen {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  background: #111;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999999;
+  transition: opacity 0.5s ease, visibility 0.5s ease;
+}
+
+/* 로딩 화면 숨김 상태 */
+.gf-loading-screen.gf-loading-hidden {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+/* 로딩 컨테이너 */
+.gf-loading-container {
+  text-align: center;
+  position: relative;
+}
+
+/* 로딩 스피너 컨테이너 */
+.gf-loading-spinner {
+  position: relative;
+  margin-bottom: 6rem;
+}
+
+/* SVG 기본 스타일 */
+.gf-loading-spinner svg {
+  fill: none;
+  stroke-width: 10;
+  stroke-linecap: round;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+/* 첫 번째 SVG - 배경 (정적) */
+.gf-loading-spinner svg:nth-child(1) {
+  stroke: #222;
+  animation: none;
+  stroke-dasharray: none;
+}
+
+/* 두 번째 SVG - 메인 애니메이션 (속도 2s → 1.5s로 변경) */
+.gf-loading-spinner svg:nth-child(2) {
+  stroke: url(#gf-loading-gradient);
+  stroke-dasharray: 60 172;
+  animation: gfLoadingAnimate 0.5s linear infinite;
+}
+
+/* 세 번째 SVG - 블러 효과 (속도 2s → 1.5s로 변경) */
+.gf-loading-spinner svg:nth-child(3) {
+  stroke: url(#gf-loading-gradient-blur);
+  stroke-dasharray: 60 172;
+  filter: blur(5px);
+  animation: gfLoadingAnimate 1s linear infinite;
+}
+
+/* 로딩 애니메이션 */
+@keyframes gfLoadingAnimate {
+  0% {
+    stroke-dashoffset: 0;
+  }
+  100% {
+    stroke-dashoffset: 232;
+  }
+}
+
+/* 로딩 콘텐츠 (기존 gf-loading-text를 gf-loading-content로 변경) */
+.gf-loading-content {
+  color: #fff;
+  font-family: 'Pretendard', sans-serif;
+}
+
+/* 로고 이미지 스타일 (새로 추가) */
+.gf-loading-logo {
+  max-width: 200px;
+  height: auto;
+  margin-bottom: 1rem;
+  opacity: 0.9;
+  transition: opacity 0.3s ease;
+}
+
+/* 로딩 점들 애니메이션 */
+.gf-loading-dots {
+  display: flex;
+  justify-content: center;
+  gap: 0.3rem;
+}
+
+.gf-loading-dots span {
+  color: #e63946 !important;
+  font-size: 2rem !important;
+  font-weight: bold !important;
+  margin-bottom: 0 !important;
+  animation: gfLoadingDots 1.5s ease-in-out infinite;
+}
+
+.gf-loading-dots span:nth-child(1) {
+  animation-delay: 0s;
+}
+
+.gf-loading-dots span:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+.gf-loading-dots span:nth-child(3) {
+  animation-delay: 0.4s;
+}
+
+@keyframes gfLoadingDots {
+  0%, 80%, 100% {
+    opacity: 0.3;
+    transform: scale(0.8);
+  }
+  40% {
+    opacity: 1;
+    transform: scale(1.2);
+  }
+}
+
+/* 반응형 디자인 */
+@media (max-width: 768px) {
+  .gf-loading-spinner svg {
+    width: 150px;
+    height: 120px;
+  }
+  
+  .gf-loading-logo {
+    max-width: 150px;
+  }
+  
+  .gf-loading-dots span {
+    font-size: 1.5rem !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .gf-loading-spinner svg {
+    width: 120px;
+    height: 96px;
+  }
+  
+  .gf-loading-logo {
+    max-width: 120px;
+  }
+  
+  .gf-loading-dots span {
+    font-size: 1.2rem !important;
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════════════
+   로딩 컴포넌트 스타일 끝
+═══════════════════════════════════════════════════════════════════════ */
+</style>
+
+<!-- 로딩 컴포넌트 전용 스크립트 -->
+<script>
+/* ═══════════════════════════════════════════════════════════════════════
+   로딩 컴포넌트 제어 시작
+═══════════════════════════════════════════════════════════════════════ */
+
+// 로딩 페이지 관리
+(function() {
+  'use strict';
+  
+  // 페이지 로딩 완료 확인
+  function hideLoadingScreen() {
+    const loadingScreen = document.getElementById('gf-loading-screen');
+    
+    if (loadingScreen) {
+      // 부드럽게 사라지게 하기
+      loadingScreen.classList.add('gf-loading-hidden');
+      
+      // 완전히 제거 (성능 최적화)
+      setTimeout(() => {
+        if (loadingScreen.parentNode) {
+          loadingScreen.parentNode.removeChild(loadingScreen);
+        }
+      }, 500);
+    }
+  }
+  
+  // 페이지 완전 로딩 확인
+  function checkPageLoad() {
+    // DOM 로딩 완료 + 모든 리소스 로딩 완료 확인
+    if (document.readyState === 'complete') {
+      // 최소 1초는 로딩 화면 보여주기 (너무 빨리 사라지지 않도록)
+      setTimeout(hideLoadingScreen, 1000);
+    } else {
+      // 아직 로딩 중이면 계속 확인
+      setTimeout(checkPageLoad, 100);
+    }
+  }
+  
+  // 페이지 로딩 상태에 따라 처리
+  if (document.readyState === 'loading') {
+    // 아직 로딩 중인 경우
+    document.addEventListener('DOMContentLoaded', checkPageLoad);
+  } else {
+    // 이미 로딩 완료된 경우
+    checkPageLoad();
+  }
+  
+  // 추가 안전장치: 최대 5초 후 강제로 숨김
+  setTimeout(hideLoadingScreen, 5000);
+  
+})();
+
+/* ═══════════════════════════════════════════════════════════════════════
+   로딩 컴포넌트 제어 끝
+═══════════════════════════════════════════════════════════════════════ */
+</script>
+<!-- ═══════════════════════════════════════════════════════════════════════
+     GOFIT 로딩 컴포넌트 끝
+═══════════════════════════════════════════════════════════════════════ -->
