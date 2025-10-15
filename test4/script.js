@@ -540,7 +540,7 @@ document.addEventListener('DOMContentLoaded', function() {
     initFadeInAnimations();
     
     // Vimeo 플레이어 초기화
-    initVimeoPlayer();
+    //initVimeoPlayer();
     
     // 번역 효과 초기화
     initTranslationEffect();
@@ -1089,39 +1089,42 @@ document.addEventListener('DOMContentLoaded', function() {
    푸터 시작
 ═══════════════════════════════════════════════════════════════════════ */
 document.addEventListener('DOMContentLoaded', function() {
-  // 스크롤 투 탑 버튼
+// 스크롤 투 탑 버튼
   const gfScrollTopBtn = document.getElementById('gfFooterScrollTop');
-  
-  // 스크롤 이벤트
-  let scrolling = false;
-  window.addEventListener('scroll', function() {
-    if (!scrolling) {
-      window.requestAnimationFrame(function() {
-        if (window.scrollY > 300) {
-          gfScrollTopBtn.classList.add('gf-footer-visible');
-        } else {
-          gfScrollTopBtn.classList.remove('gf-footer-visible');
-        }
-        scrolling = false;
-      });
-      scrolling = true;
-    }
-  });
-  
-  // 스크롤 투 탑 클릭
-  gfScrollTopBtn.addEventListener('click', function() {
-    // 부드러운 스크롤
-    window.scrollTo({
-      top: 0,
-      behavior: 'smooth'
+
+  // gfScrollTopBtn이 페이지에 존재하는 경우에만 아래 코드 실행
+  if (gfScrollTopBtn) {
+    // 스크롤 이벤트
+    let scrolling = false;
+    window.addEventListener('scroll', function() {
+      if (!scrolling) {
+        window.requestAnimationFrame(function() {
+          if (window.scrollY > 300) {
+            gfScrollTopBtn.classList.add('gf-footer-visible');
+          } else {
+            gfScrollTopBtn.classList.remove('gf-footer-visible');
+          }
+          scrolling = false;
+        });
+        scrolling = true;
+      }
     });
-    
-    // 버튼 회전 애니메이션
-    this.style.transform = 'rotate(360deg)';
-    setTimeout(() => {
-      this.style.transform = '';
-    }, 600);
-  });
+
+    // 스크롤 투 탑 클릭
+    gfScrollTopBtn.addEventListener('click', function() {
+      // 부드러운 스크롤
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      });
+
+      // 버튼 회전 애니메이션
+      this.style.transform = 'rotate(360deg)';
+      setTimeout(() => {
+        this.style.transform = '';
+      }, 600);
+    });
+  }
   
   // 푸터 네비게이션 링크 부드러운 스크롤
   const gfFooterNavLinks = document.querySelectorAll('.gf-footer-nav a');
